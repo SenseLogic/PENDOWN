@@ -4,10 +4,10 @@ Client-side Markdown alternative for note taking.
 
 ## Features
 
-* Emulates handwritten notes.
 * Edition directly inside the HTML document, using a simple, concise and consistent syntax.
+* Handwritten note emulation.
 * Fast and easy parsing without ambiguity.
-* No collision with HTML tags and C-like code snippets.
+* No collision with HTML tags and C-like code.
 * Complete : styles, colors, alignments, breaks, links, lists, code blocks, tables, quotes, frames and images.
 
 ## Getting Started
