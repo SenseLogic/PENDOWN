@@ -1,0 +1,136 @@
+<meta charset="utf8"/>
+<link rel="stylesheet" href="../pendown.css">
+<xmp>
+! Quick reference
+
+Pendown tags are automatically converted into HTML tags when the file is opened in a web browser.
+
+---
+
+!! Line break
+
+Manual line break§
+inside a paragraph.
+
+Another paragraph.
+
+!! Styling
+
+**bold**
+
+%%italics%%
+
+__underlined__
+
+~~strikethrough~~
+
+^^superscript^^
+
+,,subscript,,
+
+`gray`
+
+°orange°
+
+¹magenta¹
+
+²red²
+
+³blue³
+
+##highlighted##
+
+!! Alignment
+
+<<left<<
+
+$$center$$
+
+>>right>>
+
+!! Escape
+
+\_\_
+
+``** <b>not bold</b> **``
+
+!! Link
+
+@@http://www.github.com This is a link@@
+
+@@http://www.github.com [[image.jpg]]@@
+
+@@http://www.github.com@@
+
+!! List
+
+Two spaces per level.
+
+# List
+# List
+  # Sub-list
+  # Sub-list
+    @ Numbered sub-list
+    @ Numbered sub-list
+      @ Numbered sub-list
+      @ Numbered sub-list
+    @ Numbered sub-list
+# List§
+  ...
+
+!! Code
+
+%%%
+##// ²Colored source code²##
+
+²if² ³(³ ... ³)³
+³{³
+    ...
+³}³
+²else²
+³{³
+    ...
+³}³
+%%%
+
+!! Table
+
+###
+          |**Monday**|**Tuesday**|**Wednesday**
+%%Apple%% |1         |2          |3
+%%Orange%%|1         |2          |3
+%%Banana%%|1         |3          |3
+###
+
+!! Quote
+
+>>>
+Quoted text.
+>>>
+
+!! Frame
+
+***
+Framed text.
+***
+
+!! Image
+
+Small :
+
+[[image.jpg]][[image_2.jpg]]§
+[[image_3.jpg]][[image_4.jpg]][[image_5.jpg]]
+
+Medium :
+
+[[[image_3.jpg]]][[[image_4.jpg]]]
+
+Large :
+
+[[[[image_5.jpg]]]]
+
+!! HTML
+
+²Pendown tags² can be mixed with <span style="color:green">HTML tags</span>.
+</xmp>
+<script src="../pendown.js"></script>

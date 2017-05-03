@@ -1,0 +1,221 @@
+/*
+    This file is part of the Pendown distribution.
+
+    https://github.com/senselogic/PENDOWN
+
+    Copyright (C) 2017 Eric Pelzer (ecstatic.coder@gmail.com)
+
+    Pendown is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    Pendown is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+*
+{
+    margin : 0;
+    padding : 0;
+}
+
+p
+{
+    margin : 1rem 0;
+}
+
+article
+{
+    margin : 1rem;
+    color : darkblue;
+    font-family : "Comic Sans MS", "Ubuntu", sans-serif;
+}
+
+pre
+{
+    font-family : "Consolas", "Ubuntu Mono", monospace;
+}
+
+h1
+{
+    font-size : 2.75rem;
+}
+
+h2
+{
+    font-size : 2.25rem;
+}
+
+h3
+{
+    font-size : 1.75rem;
+}
+
+h4
+{
+    font-size : 1.5rem;
+}
+
+h5
+{
+    font-size : 1.25rem;
+}
+
+h6
+{
+    font-size : 1rem;
+}
+
+p, pre
+{
+    font-size : 1rem;
+}
+
+img + img
+{
+    margin-left: 1vw;
+}
+
+img
+{
+    height : 21vw;
+    margin-top : 0.5vw;
+    margin-bottom : 0.5vw;
+}
+
+img.medium
+{
+    height : 42vw;
+}
+
+img.large
+{
+    height : auto;
+    width : 100%;
+}
+
+ul
+{
+    list-style-type : disc;
+}
+
+ul, ol
+{
+    margin-left : 1rem;
+}
+
+article > ul, article > ol
+{
+    margin-left : 0.75rem;
+}
+
+li > ul, li > ol
+{
+    margin-left : 0.5rem;
+}
+
+li
+{
+    margin-left: 0.5rem;
+    padding-left: 0.35rem;
+}
+
+td
+{
+    padding : 0 0.35rem;
+}
+
+tr > td:first-child 
+{
+    padding-left : 0;
+}
+
+tr > td:last-child 
+{
+    padding-right : 0;
+}
+
+u
+{
+    text-decoration-color : red;
+}
+
+hr
+{
+    border : 0;
+    border-bottom : 0.125rem dashed #ccc;
+}
+
+blockquote
+{
+    box-sizing : border-box;
+    border-left : 0.25rem solid #ccc;
+    padding-left : 0.5rem;
+}
+
+.frame
+{
+    box-sizing : border-box;
+    border : 0.25rem solid #ccc;
+    padding : 0.5rem;
+}
+
+.black
+{
+    color : black;
+}
+
+.gray
+{
+    color : gray;
+}
+
+.darkorange
+{
+    color : darkorange;
+}
+
+.magenta
+{
+    color : magenta;
+}
+
+.green
+{
+    color : green;
+}
+
+.red
+{
+    color : red;
+}
+
+.blue
+{
+    color : blue;
+}
+
+.darkblue
+{
+    color : darkblue;
+}
+
+.left
+{
+    text-align : left;
+}
+
+.center
+{
+    text-align : center;
+}
+
+.right
+{
+    text-align : right;
+}

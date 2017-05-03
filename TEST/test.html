@@ -1,0 +1,328 @@
+<meta charset="utf8"/>
+<link rel="stylesheet" href="../pendown.css">
+<xmp>  
+! TITLE 1
+<h1>TITLE 1</h1>
+
+!! TITLE 2
+<h2>TITLE 2</h2>
+
+!!! TITLE 3
+<h3>TITLE 3</h3>
+
+!!!! TITLE 4
+<h4>TITLE 4</h4>
+
+!!!!! TITLE 5
+<h5>TITLE 5</h5>
+
+!!!!!! TITLE 6
+<h6>TITLE 6</h6>
+
+---
+<hr/>
+
+This is **a text in bold**.§
+This is <b>a text in bold</b>.
+
+This is %%a text in italics%%.§
+This is <i>a text in italics</i>.
+
+This is __an underlined text__.§
+This is <u>an underlined text</u>.
+
+This is ~~a strikethrough text~~.§
+This is <strike>a strikethrough text</strike>.
+
+This is ^^a superscript text^^.§
+This is <sup>a superscript text</sup>.
+
+This is ,,a subscript text,,.§
+This is <sub>a subscript text</sub>.
+
+This is `a gray text`.§
+This is <span class="gray">a gray text</span>.
+
+This is °an orange text°.§
+This is <span class="darkorange">an orange text</span>.
+
+This is ¹a magenta text¹.§
+This is <span class="magenta">a magenta text</span>.
+
+This is ²a red text².§
+This is <span class="red">a red text</span>.
+
+This is ³a blue text³.§
+This is <span class="blue">a blue text</span>.
+
+This is ##a highlighted text##.§
+This is <mark>a highlighted text</mark>.
+
+This is an escaped text : \_\_ ``** <b>not bold</b> **``.
+
+---
+
+<<This is a left-aligned text.<<
+<div class="left">This is a left-aligned text.</div>
+
+$$This is a centered text.$$
+<div class="center">This is a centered text.</div>
+
+>>This is a right-aligned text.>>
+<div class="right">This is a right-aligned text.</div>
+
+---
+
+This is the first line of the paragraph.§
+This is the second line of the paragraph.
+
+This is the first line of the paragraph.<br/>
+This is the second line of the paragraph.
+
+---
+
+This is @@http://www.senselogic.be a link@@§
+This is <a href="http://www.senselogic.be">a link</a>
+
+This is a link : @@http://www.senselogic.be [[../SAMPLE/image.jpg]]@@§
+This is a link : <a href="http://www.senselogic.be"><img src="../SAMPLE/image.jpg"/></a>
+
+This is a link : @@http://www.senselogic.be@@§
+This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
+
+---
+
+# List
+# List
+  # Sub-list§
+    ...
+  # Sub-list§
+    ...
+    @ Numbered sub-list§
+      ...
+    @ Numbered sub-list§
+      ...
+# List
+
+<ul>
+    <li>
+        List
+    </li>
+    <li>
+        List
+        <ul>
+            <li>
+                Sub-list<br/>
+                ...
+            </li>
+            <li>
+                Sub-list<br/>
+                ...                        
+                <ol>
+                    <li>
+                        Numbered sub-list<br/>
+                        ...
+                    </li>
+                    <li>
+                        Numbered sub-list<br/>
+                        ...
+                    </li>
+                </ol>
+            </li>
+        </ul>
+    </li>
+    <li>
+        List
+    </li>
+</ul>
+
+---
+
+@ Numbered list
+@ Numbered list
+  @ Numbered sub-list§
+    ...
+  @ Numbered sub-list§
+    ...
+    # Sub-list§
+      ...
+    # Sub-list§
+      ...
+@ Numbered list
+
+<ol>
+    <li>
+        Numbered list
+    </li>
+    <li>
+        Numbered list
+        <ol>
+            <li>
+                Numbered sub-list<br/>
+                ...
+            </li>
+            <li>
+                Numbered sub-list<br/>
+                ...                        
+                <ul>
+                    <li>
+                        Sub-list<br/>
+                        ...
+                    </li>
+                    <li>
+                        Sub-list<br/>
+                        ...
+                    </li>
+                </ul>
+            </li>
+        </ol>
+    </li>
+    <li>
+        Numbered list
+    </li>
+</ol>
+          
+---
+
+%%%
+##// ²This is source code²##
+
+²if² ³(³ ... ³)³
+³{³
+    ...
+³}³
+²else²
+³{³
+    ...
+³}³
+%%%
+
+<pre>
+<mark>// <span class="red">This is source code</span></mark>
+
+<span class="red">if</span> <span class="blue">(</span> ... <span class="blue">)</span>
+<span class="blue">{</span>
+    ...
+<span class="blue">}</span>
+<span class="red">else</span>
+<span class="blue">{</span>
+    ...
+<span class="blue">}</span>
+</pre>
+          
+---
+
+###
+                  |<<**First§Column**<<|$$**Second§Column**$$|>>**Third§Column**>>
+<<%%First Row%%<< |1                   |2                    |3        
+$$%%Second Row%%$$|1                   |2                    |3        
+>>%%Third Row%%>> |1                   |2                    |3       
+###
+
+<table>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <div class="left"><b>First<br/>Column</b></div>
+        </td>
+        <td>
+            <div class="center"><b>Second<br/>Column</b></div>
+        </td>
+        <td>
+            <div class="right"><b>Third<br/>Column</b></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="left"><i>First Row</i></div>
+        </td>
+        <td>
+            1
+        </td>
+        <td>
+            2
+        </td>
+        <td>
+            3
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="center"><i>Second Row</i></div>
+        </td>
+        <td>
+            1
+        </td>
+        <td>
+            2
+        </td>
+        <td>
+            3
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="right"><i>Third Row</i></div>
+        </td>
+        <td>
+            1
+        </td>
+        <td>
+            2
+        </td>
+        <td>
+            3
+        </td>
+    </tr>
+</table>
+
+---
+
+>>>
+This is a quoted text.
+>>>
+
+<blockquote>
+This is a quoted text.
+</blockquote>
+
+---
+
+***
+This is a framed text.
+***
+
+<div class="frame">
+This is a framed text.
+</div>
+
+---
+
+These are small images :
+
+[[../SAMPLE/image.jpg]][[../SAMPLE/image_2.jpg]]§
+[[../SAMPLE/image_3.jpg]][[../SAMPLE/image_4.jpg]][[../SAMPLE/image_5.jpg]]
+
+These are medium images :
+
+[[[../SAMPLE/image_3.jpg]]][[[../SAMPLE/image_4.jpg]]]
+
+This is a large image :
+
+[[[[../SAMPLE/image_5.jpg]]]]
+
+These are small images :
+
+<img src="../SAMPLE/image.jpg"/><img src="../SAMPLE/image_2.jpg"/><br/>
+<img src="../SAMPLE/image_3.jpg"/><img src="../SAMPLE/image_4.jpg"/><img src="../SAMPLE/image_5.jpg"/>
+
+These are medium images :
+
+<img src="../SAMPLE/image_3.jpg" class="medium"/><img src="../SAMPLE/image_4.jpg" class="medium"/>
+
+This is a large image :
+
+<img src="../SAMPLE/image_5.jpg" class="large"/>
+</xmp>
+<script src="../pendown.js"></script>
