@@ -1,6 +1,6 @@
 # Pendown
 
-Client-side Markdown alternative for note taking.
+Client-side lightweight markup for note taking.
 
 ## Features
 
