@@ -228,7 +228,7 @@ Replace `<xmp>` by `<xmp style="display:none">`.
 
 ## Author
 
-Eric Pelzer (exstatic.coder@gmail.com).
+Eric Pelzer (ecstatic.coder@gmail.com).
 
 ## License
 
