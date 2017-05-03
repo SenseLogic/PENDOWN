@@ -5,11 +5,12 @@ Lightweight markup for note taking.
 ## Features
 
 * Edited and compiled directly inside the HTML document.
-* Simple and consistent syntax for styles, colors, alignments, breaks, links, lists, code blocks, tables, quotes, frames and images.
+* Simple and consistent syntax.
 * Fast and easy parsing without ambiguity.
 * No collision with standard HTML and C-like code.
 * Tags usable in code snippets.
 * Handwritten note emulation.
+* Complete : styles, colors, alignments, breaks, links, lists, code blocks, tables, quotes, frames and images.
 
 ## Getting Started
 
