@@ -2,13 +2,9 @@
 
 Client-side Markdown alternative for note taking.
 
-## Motivation
-
-Edit colorful notes inside a HTML document without using HTML tags.
-
 ## Features
 
-* Note are edited directly inside the HTML document, using a simple, concise and consistent syntax.
+* Colorful notes can be edited directly inside the HTML document, using a simple, concise and consistent syntax.
 * Fast and easy parsing without ambiguity.
 * No collision with standard HTML and C-like code.
 * Tags usable in code snippets.
