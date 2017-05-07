@@ -32,11 +32,25 @@ function TOKEN()
 
 // -- FUNCTIONS
 
+function IsAlphaNumericCharacter(
+    character
+    )
+{
+    return (
+        ( character >= '0' && character <= '9' )
+        || ( character >= 'a' && character <= 'z' )
+        || ( character >= 'A' && character <= 'Z' )
+        );
+}
+
+// ~~
+
 function GetTokenArray(
     text
     )
 {
     var
+        color,
         character_index,
         closing_tag,
         closing_token,
@@ -44,11 +58,11 @@ function GetTokenArray(
         it_is_in_b,
         it_is_in_blockquote,
         it_is_in_blue_span,
+        it_is_in_box_div,
         it_is_in_center_div,
         it_is_in_frame_div,
         it_is_in_gray_span,
         it_is_in_i,
-        it_is_in_magenta_span,
         it_is_in_left_div,
         it_is_in_mark,
         it_is_in_orange_span,
@@ -74,6 +88,7 @@ function GetTokenArray(
     it_is_in_table = false;
     it_is_in_blockquote = false;
     it_is_in_frame_div = false;
+    it_is_in_box_div = false;
     it_is_in_left_div = false;
     it_is_in_center_div = false;
     it_is_in_right_div = false;
@@ -83,9 +98,8 @@ function GetTokenArray(
     it_is_in_strike = false;
     it_is_in_sup = false;
     it_is_in_sub = false;
-    it_is_in_gray_span = false;
     it_is_in_orange_span = false;
-    it_is_in_magenta_span = false;
+    it_is_in_gray_span = false;
     it_is_in_red_span = false;
     it_is_in_blue_span = false;
     it_is_in_mark = false;
@@ -251,12 +265,98 @@ function GetTokenArray(
             token.Text = it_is_in_blockquote ? "<blockquote>" : "</blockquote>";
 
             character_index += 3;
+            
+            if ( it_is_in_blockquote )
+            {
+                color = "";
+                
+                while ( character_index < text.length
+                        && IsAlphaNumericCharacter( text.charAt( character_index ) ) )
+                {
+                    color += text.charAt( character_index );
+                    
+                    ++character_index;
+                }
+                
+                if ( color !== "" )
+                {
+                    token.Text = "<blockquote style=\"border-color:#" + color + "\">";
+                }
+            }
         }
         else if ( text.slice( character_index, character_index + 3 ) === "***" )
         {
             it_is_in_frame_div = !it_is_in_frame_div;
 
             token.Text = it_is_in_frame_div ? "<div class=\"frame\">" : "</div>";
+
+            character_index += 3;
+            
+            if ( it_is_in_frame_div )
+            {
+                color = "";
+                
+                while ( character_index < text.length
+                        && IsAlphaNumericCharacter( text.charAt( character_index ) ) )
+                {
+                    color += text.charAt( character_index );
+                    
+                    ++character_index;
+                }
+                
+                if ( color !== "" )
+                {
+                    token.Text = "<div class=\"frame\" style=\"border-color:#" + color + "\">";
+                }
+            }
+        }
+        else if ( text.slice( character_index, character_index + 3 ) === "+++" )
+        {
+            it_is_in_box_div = !it_is_in_box_div;
+
+            token.Text = it_is_in_box_div ? "<div class=\"box\">" : "</div>";
+
+            character_index += 3;
+            
+            if ( it_is_in_box_div )
+            {
+                color = "";
+                
+                while ( character_index < text.length
+                        && IsAlphaNumericCharacter( text.charAt( character_index ) ) )
+                {
+                    color += text.charAt( character_index );
+                    
+                    ++character_index;
+                }
+                
+                if ( color !== "" )
+                {
+                    token.Text = "<div class=\"box\" style=\"background-color:#" + color + "\">";
+                }
+            }
+        }
+        else if ( text.slice( character_index, character_index + 3 ) === "{{{" )
+        {
+            character_index += 3;
+            
+            color = "";
+            
+            while ( character_index < text.length
+                    && text.charAt( character_index ) != ":" )
+            {
+                color += text.charAt( character_index );
+                
+                ++character_index;
+            }
+                    
+            token.Text = "<div style=\"background-color:" + color + "\">";
+            
+            ++character_index;       
+        }
+        else if ( text.slice( character_index, character_index + 3 ) === "}}}" )
+        {
+            token.Text = "</div>";
 
             character_index += 3;
         }
@@ -332,27 +432,51 @@ function GetTokenArray(
 
             character_index += 2;
         }
-        else if ( text.charAt( character_index ) === "`" )
+        else if ( text.slice( character_index, character_index + 2 ) === "##" )
         {
-            it_is_in_gray_span = !it_is_in_gray_span;
+            it_is_in_mark = !it_is_in_mark;
 
-            token.Text = it_is_in_gray_span ? "<span class=\"gray\">" : "</span>";
+            token.Text = it_is_in_mark ? "<mark>" : "</mark>";
 
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) === "{{" )
+        {
+            character_index += 2;
+            
+            color = "";
+            
+            while ( character_index < text.length
+                    && text.charAt( character_index ) != ":" )
+            {
+                color += text.charAt( character_index );
+                
+                ++character_index;
+            }
+                    
+            token.Text = "<span style=\"background-color:" + color + "\">";
+            
             ++character_index;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) === "}}" )
+        {
+            token.Text = "</span>";
+
+            character_index += 2;
         }
         else if ( text.charAt( character_index ) === "°" )
         {
             it_is_in_orange_span = !it_is_in_orange_span;
 
-            token.Text = it_is_in_orange_span ? "<span class=\"darkorange\">" : "</span>";
+            token.Text = it_is_in_orange_span ? "<span style=\"color:darkorange\">" : "</span>";
 
             ++character_index;
         }
         else if ( text.charAt( character_index ) === "¹" )
         {
-            it_is_in_magenta_span = !it_is_in_magenta_span;
+            it_is_in_gray_span = !it_is_in_gray_span;
 
-            token.Text = it_is_in_magenta_span ? "<span class=\"magenta\">" : "</span>";
+            token.Text = it_is_in_gray_span ? "<span style=\"color:gray\">" : "</span>";
 
             ++character_index;
         }
@@ -360,7 +484,7 @@ function GetTokenArray(
         {
             it_is_in_red_span = !it_is_in_red_span;
 
-            token.Text = it_is_in_red_span ? "<span class=\"red\">" : "</span>";
+            token.Text = it_is_in_red_span ? "<span style=\"color:red\">" : "</span>";
 
             ++character_index;
         }
@@ -368,15 +492,33 @@ function GetTokenArray(
         {
             it_is_in_blue_span = !it_is_in_blue_span;
 
-            token.Text = it_is_in_blue_span ? "<span class=\"blue\">" : "</span>";
+            token.Text = it_is_in_blue_span ? "<span style=\"color:blue\">" : "</span>";
 
             ++character_index;
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "##" )
+        else if ( text.charAt( character_index ) === "{"
+                  && character_index + 1 < text.length
+                  && IsAlphaNumericCharacter( text.charAt( character_index + 1 ) ) )
         {
-            it_is_in_mark = !it_is_in_mark;
-
-            token.Text = it_is_in_mark ? "<mark>" : "</mark>";
+            ++character_index;
+            
+            color = "";
+            
+            while ( character_index < text.length
+                    && text.charAt( character_index ) != "}" )
+            {
+                color += text.charAt( character_index );
+                
+                ++character_index;
+            }
+                    
+            token.Text = "<span style=\"color:#" + color + "\">";
+            
+            ++character_index;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) === "{}" )
+        {
+            token.Text = "</span>";
 
             character_index += 2;
         }

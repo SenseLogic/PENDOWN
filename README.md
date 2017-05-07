@@ -1,6 +1,6 @@
 # Pendown
 
-Client-side lightweight markup for note taking.
+A lightweight markup for colored documents.
 
 ## Features
 
@@ -44,9 +44,7 @@ For instance :
 <script src="../PENDOWN/pendown.js"></script>
 ```
 
-## Syntax
-
-The "sample.html" file contains a list of all available Pendown tags.
+## Sample
 
 ```html
 <meta charset="utf8"/>
@@ -79,17 +77,21 @@ __underlined__
 
 ,,subscript,,
 
-`gray`
-
 °orange°
 
-¹magenta¹
+¹gray¹
 
 ²red²
 
 ³blue³
 
+{080}green{}
+
 ##highlighted##
+
+{{fce:highlighted}}
+
+{{{cfe:blocked}}}
 
 !! Alignment
 
@@ -98,6 +100,36 @@ __underlined__
 $$center$$
 
 >>right>>
+
+!! Quote
+
+>>>
+Quoted text.
+>>>
+
+>>>f00
+Quoted text.
+>>>
+
+!! Frame
+
+***
+Framed text.
+***
+
+***f00
+Framed text.
+***
+
+!! Box
+
++++
+Boxed text.
++++
+
++++cfe
+Boxed text.
++++
 
 !! Escape
 
@@ -152,18 +184,6 @@ Two spaces per level.
 %%Orange%%|1         |2          |3
 %%Banana%%|1         |3          |3
 ###
-
-!! Quote
-
->>>
-Quoted text.
->>>
-
-!! Frame
-
-***
-Framed text.
-***
 
 !! Image
 

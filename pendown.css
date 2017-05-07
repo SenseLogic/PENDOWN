@@ -33,12 +33,12 @@ article
 {
     margin : 1rem;
     color : darkblue;
-    font-family : "Comic Sans MS", "Ubuntu", sans-serif;
+    font-family : "Comic Sans MS", sans-serif;
 }
 
 pre
 {
-    font-family : "Consolas", "Ubuntu Mono", monospace;
+    font-family : "Consolas", monospace;
 }
 
 h1
@@ -165,44 +165,11 @@ blockquote
     padding : 0.5rem;
 }
 
-.black
+.box
 {
-    color : black;
-}
-
-.gray
-{
-    color : gray;
-}
-
-.darkorange
-{
-    color : darkorange;
-}
-
-.magenta
-{
-    color : magenta;
-}
-
-.green
-{
-    color : green;
-}
-
-.red
-{
-    color : red;
-}
-
-.blue
-{
-    color : blue;
-}
-
-.darkblue
-{
-    color : darkblue;
+    box-sizing : border-box;
+    padding : 0.75rem;
+    background-color : #eee;
 }
 
 .left
@@ -218,4 +185,9 @@ blockquote
 .right
 {
     text-align : right;
+}
+
+.black
+{
+    color : black;
 }
