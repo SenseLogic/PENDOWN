@@ -91,7 +91,7 @@ __underlined__
 
 {{fce:highlighted}}
 
-{{{cfe:blocked}}}
+{{{cfe:emphasized}}}
 
 !! Alignment
 
@@ -111,6 +111,12 @@ Quoted text.
 Quoted text.
 >>>
 
+{{{ffd
+>>>f00
+Quoted text.
+>>>
+}}}
+
 !! Frame
 
 ***
@@ -121,13 +127,19 @@ Framed text.
 Framed text.
 ***
 
+{{{ffd
+***f00
+Framed text.
+***
+}}}
+
 !! Box
 
 +++
 Boxed text.
 +++
 
-+++cfe
++++ffd
 Boxed text.
 +++
 

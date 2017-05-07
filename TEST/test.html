@@ -58,8 +58,11 @@ This is <span style="color:#080">a green text</span>.
 This is ##a highlighted text##.§
 This is <mark>a highlighted text</mark>.
 
-This is {{fce:a pink-highlighted text}}.§
-This is <span style="background-color:#fce">a pink-highlighted text</span>.
+This is {{fce:a highlighted text}}.§
+This is <span style="background-color:#fce">a highlighted text</span>.
+
+{{{cfe:This is an emphasized text.}}}
+<div style="background-color:#cfe">This is an emphasized text.</div>
 
 ---
 
@@ -68,6 +71,14 @@ This is a quoted text.
 >>>
 
 <blockquote>
+This is a quoted text.
+</blockquote>
+
+>>>f00
+This is a quoted text.
+>>>
+
+<blockquote style="border-color:#f00">
 This is a quoted text.
 </blockquote>
 
@@ -81,6 +92,14 @@ This is a framed text.
 This is a framed text.
 </div>
 
+***f00
+This is a framed text.
+***
+
+<div class="frame" style="border-color:#f00">
+This is a framed text.
+</div>
+
 ---
 
 +++
@@ -91,14 +110,12 @@ This is a boxed text.
 This is a boxed text.
 </div>
 
----
++++ffd
+This is a boxed text.
++++
 
-{{{cfe:
-This is a colored boxed text.
-}}}
-
-<div class="box" style="background-color:#cfe">
-This is a colored boxed text.
+<div class="box" style="background-color:#ffd">
+This is a boxed text.
 </div>
 
 ---

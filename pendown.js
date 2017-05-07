@@ -78,6 +78,30 @@ function GetTokenArray(
         token_array,
         token_starts_line,
         url;
+        
+    // ~~ 
+    
+    function ParseColor(
+        )
+    {
+        color = "";
+        
+        while ( character_index < text.length
+                && IsAlphaNumericCharacter( text.charAt( character_index ) ) )
+        {
+            color += text.charAt( character_index );
+            
+            ++character_index;
+        }
+
+        if ( character_index < text.length
+             && text.charAt( character_index ) === ':' )
+        {
+            ++character_index;
+        }
+    }
+    
+    // ~~
 
     token_array = [];
     token_starts_line = true;
@@ -121,8 +145,7 @@ function GetTokenArray(
 
             character_index += 2;
         }
-        else if ( token.StartsLine
-             && text.slice( character_index, character_index + 2 ) === "``" )
+        else if ( text.slice( character_index, character_index + 2 ) === "``" )
         {
             character_index += 2;
 
@@ -268,15 +291,7 @@ function GetTokenArray(
             
             if ( it_is_in_blockquote )
             {
-                color = "";
-                
-                while ( character_index < text.length
-                        && IsAlphaNumericCharacter( text.charAt( character_index ) ) )
-                {
-                    color += text.charAt( character_index );
-                    
-                    ++character_index;
-                }
+                ParseColor();
                 
                 if ( color !== "" )
                 {
@@ -294,15 +309,7 @@ function GetTokenArray(
             
             if ( it_is_in_frame_div )
             {
-                color = "";
-                
-                while ( character_index < text.length
-                        && IsAlphaNumericCharacter( text.charAt( character_index ) ) )
-                {
-                    color += text.charAt( character_index );
-                    
-                    ++character_index;
-                }
+                ParseColor();
                 
                 if ( color !== "" )
                 {
@@ -320,15 +327,7 @@ function GetTokenArray(
             
             if ( it_is_in_box_div )
             {
-                color = "";
-                
-                while ( character_index < text.length
-                        && IsAlphaNumericCharacter( text.charAt( character_index ) ) )
-                {
-                    color += text.charAt( character_index );
-                    
-                    ++character_index;
-                }
+                ParseColor();
                 
                 if ( color !== "" )
                 {
@@ -340,19 +339,9 @@ function GetTokenArray(
         {
             character_index += 3;
             
-            color = "";
-            
-            while ( character_index < text.length
-                    && text.charAt( character_index ) != ":" )
-            {
-                color += text.charAt( character_index );
-                
-                ++character_index;
-            }
+            ParseColor();
                     
             token.Text = "<div style=\"background-color:" + color + "\">";
-            
-            ++character_index;       
         }
         else if ( text.slice( character_index, character_index + 3 ) === "}}}" )
         {
@@ -444,19 +433,9 @@ function GetTokenArray(
         {
             character_index += 2;
             
-            color = "";
-            
-            while ( character_index < text.length
-                    && text.charAt( character_index ) != ":" )
-            {
-                color += text.charAt( character_index );
-                
-                ++character_index;
-            }
+            ParseColor();
                     
             token.Text = "<span style=\"background-color:" + color + "\">";
-            
-            ++character_index;
         }
         else if ( text.slice( character_index, character_index + 2 ) === "}}" )
         {
@@ -464,7 +443,7 @@ function GetTokenArray(
 
             character_index += 2;
         }
-        else if ( text.charAt( character_index ) === "°" )
+        else if ( text.charAt( character_index ) === '°' )
         {
             it_is_in_orange_span = !it_is_in_orange_span;
 
@@ -472,7 +451,7 @@ function GetTokenArray(
 
             ++character_index;
         }
-        else if ( text.charAt( character_index ) === "¹" )
+        else if ( text.charAt( character_index ) === '¹' )
         {
             it_is_in_gray_span = !it_is_in_gray_span;
 
@@ -480,7 +459,7 @@ function GetTokenArray(
 
             ++character_index;
         }
-        else if ( text.charAt( character_index ) === "²" )
+        else if ( text.charAt( character_index ) === '²' )
         {
             it_is_in_red_span = !it_is_in_red_span;
 
@@ -488,7 +467,7 @@ function GetTokenArray(
 
             ++character_index;
         }
-        else if ( text.charAt( character_index ) === "³" )
+        else if ( text.charAt( character_index ) === '³' )
         {
             it_is_in_blue_span = !it_is_in_blue_span;
 
@@ -496,7 +475,7 @@ function GetTokenArray(
 
             ++character_index;
         }
-        else if ( text.charAt( character_index ) === "{"
+        else if ( text.charAt( character_index ) === '{'
                   && character_index + 1 < text.length
                   && IsAlphaNumericCharacter( text.charAt( character_index + 1 ) ) )
         {
@@ -505,7 +484,7 @@ function GetTokenArray(
             color = "";
             
             while ( character_index < text.length
-                    && text.charAt( character_index ) != "}" )
+                    && text.charAt( character_index ) !== '}' )
             {
                 color += text.charAt( character_index );
                 
@@ -681,14 +660,14 @@ function MakeLists(
 
         if ( it_is_in_pre )
         {
-            if ( token.Text == "</pre>" )
+            if ( token.Text === "</pre>" )
             {
                 it_is_in_pre = false;
             }
         }
         else
         {
-            if ( token.Text == "<pre>" )
+            if ( token.Text === "<pre>" )
             {
                 it_is_in_pre = true;
             }
@@ -801,14 +780,14 @@ function MakeParagraphs(
 
         if ( it_is_in_pre )
         {
-            if ( token.Text == "</pre>" )
+            if ( token.Text === "</pre>" )
             {
                 it_is_in_pre = false;
             }
         }
         else
         {
-            if ( token.Text == "<pre>" )
+            if ( token.Text === "<pre>" )
             {
                 it_is_in_pre = true;
             }
@@ -848,7 +827,7 @@ function MakeTables(
 
         if ( it_is_in_table )
         {
-            if ( token.Text == "</table>" )
+            if ( token.Text === "</table>" )
             {
                 it_is_in_table = false;
             }
@@ -881,7 +860,7 @@ function MakeTables(
         }
         else
         {
-            if ( token.Text == "<table>" )
+            if ( token.Text === "<table>" )
             {
                 it_is_in_table = true;
             }
