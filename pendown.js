@@ -299,7 +299,7 @@ function GetTokenArray(
                 }
             }
         }
-        else if ( text.slice( character_index, character_index + 3 ) === "***" )
+        else if ( text.slice( character_index, character_index + 3 ) === "+++" )
         {
             it_is_in_frame_div = !it_is_in_frame_div;
 
@@ -317,7 +317,7 @@ function GetTokenArray(
                 }
             }
         }
-        else if ( text.slice( character_index, character_index + 3 ) === "+++" )
+        else if ( text.slice( character_index, character_index + 3 ) === "***" )
         {
             it_is_in_box_div = !it_is_in_box_div;
 

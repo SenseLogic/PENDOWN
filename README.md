@@ -119,29 +119,29 @@ Quoted text.
 
 !! Frame
 
-***
++++
 Framed text.
-***
++++
 
-***f00
++++f00
 Framed text.
-***
++++
 
 {{{ffd
-***f00
++++f00
 Framed text.
-***
++++
 }}}
 
 !! Box
 
-+++
+***
 Boxed text.
-+++
+***
 
-+++ffd
+***ffd
 Boxed text.
-+++
+***
 
 !! Escape
 
