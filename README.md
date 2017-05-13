@@ -24,7 +24,7 @@ Edit your text between these lines:
 <xmp>
 ! Title
 
-%%Pendown%% tags are automatically converted into %%HTML%% tags when the file is opened in a web browser.
+**Pendown** tags are automatically converted into **HTML** tags when the file is opened in a web browser.
 
 ---
 
