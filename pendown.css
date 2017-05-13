@@ -142,7 +142,7 @@ tr > td:last-child
 
 u
 {
-    text-decoration-color : red;
+    text-decoration-color : #f00;
 }
 
 hr
@@ -172,6 +172,16 @@ blockquote
     background-color : #eee;
 }
 
+.mark
+{
+    background-color : #ff0;
+}
+
+.block
+{
+    background-color : #eee;
+}
+
 .left
 {
     text-align : left;
@@ -189,5 +199,5 @@ blockquote
 
 .black
 {
-    color : black;
+    color : #000;
 }

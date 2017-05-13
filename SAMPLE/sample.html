@@ -38,11 +38,13 @@ __underlined__
 
 {080}green{}
 
-##highlighted##
+##highlight##
 
-{{fce:highlighted}}
+##fce\highlight##
 
-{{{cfe:emphasized}}}
+{{block}}
+
+{{cfe\block}}
 
 !! Alignment
 
@@ -52,53 +54,11 @@ $$center$$
 
 >>right>>
 
-!! Quote
-
->>>
-Quoted text.
->>>
-
->>>f00
-Quoted text.
->>>
-
-{{{ffd
->>>f00
-Quoted text.
->>>
-}}}
-
-!! Frame
-
-+++
-Framed text.
-+++
-
-+++f00
-Framed text.
-+++
-
-{{{ffd
-+++f00
-Framed text.
-+++
-}}}
-
-!! Box
-
-***
-Boxed text.
-***
-
-***ffd
-Boxed text.
-***
-
 !! Escape
 
 \_\_
 
-``** <b>not bold</b> **``
+`** <b>not bold</b> **`
 
 !! Link
 
@@ -107,6 +67,72 @@ Boxed text.
 @@http://www.github.com [[image.jpg]]@@
 
 @@http://www.github.com@@
+
+!! Box
+
+###
+Box
+###
+
+###cfe
+Box
+###
+
+!! Frame
+
++++
+Frame
++++
+
++++f00
+Frame
++++
+
+{{ffd
++++f00
+Frame
++++
+}}
+
+!! Quote
+
+>>>
+Quote
+>>>
+
+>>>f00
+Quote
+>>>
+
+{{ffd
+>>>f00
+Quote
+>>>
+}}
+
+!! Table
+
+%%%
+          |**Monday**|**Tuesday**|**Wednesday**
+%%Apple%% |1         |2          |3
+%%Orange%%|1         |2          |3
+%%Banana%%|1         |3          |3
+%%%
+
+!! Code
+
+:::
+##// ²Colored source code²##
+
+²if² ³(³ ... ³)³
+³{³
+    ...
+³}³
+²else²
+³{³
+    ...
+³}³
+:::
 
 !! List
 
@@ -124,29 +150,6 @@ Two spaces per level.
 # List§
   ...
 
-!! Code
-
-%%%
-##// ²Colored source code²##
-
-²if² ³(³ ... ³)³
-³{³
-    ...
-³}³
-²else²
-³{³
-    ...
-³}³
-%%%
-
-!! Table
-
-###
-          |**Monday**|**Tuesday**|**Wednesday**
-%%Apple%% |1         |2          |3
-%%Orange%%|1         |2          |3
-%%Banana%%|1         |3          |3
-###
 
 !! Image
 
