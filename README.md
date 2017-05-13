@@ -77,9 +77,9 @@ __f00\underlined__
 
 {{ff1493\pink}}
 
-##highlight##
+##highlighted##
 
-##fce\highlight##
+##fce\highlighted##
 
 !! Block
 

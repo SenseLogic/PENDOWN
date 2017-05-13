@@ -123,6 +123,7 @@ function GetTokenArray(
     it_is_in_frame_div = false;
     it_is_in_box_div = false;
     it_is_in_mark_span = false;
+    it_is_in_u = false;
     it_is_in_left_div = false;
     it_is_in_center_div = false;
     it_is_in_right_div = false;
@@ -131,7 +132,6 @@ function GetTokenArray(
     it_is_in_sup = false;
     it_is_in_sub = false;
     it_is_in_strike = false;
-    it_is_in_u = false;
     it_is_in_gray_span = false;
     it_is_in_green_span = false;
     it_is_in_red_span = false;
@@ -361,6 +361,27 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
+        else if ( text.slice( character_index, character_index + 3 ) === "{{{" )
+        {
+            character_index += 3;
+            
+            ParseColor();
+                    
+            if ( color === "" )
+            {
+                token.Text = "<div class=\"block\">";
+            }
+            else
+            {
+                token.Text = "<div class=\"block\" style=\"background-color:" + color + "\">";
+            }
+        }
+        else if ( text.slice( character_index, character_index + 3 ) === "}}}" )
+        {
+            token.Text = "</div>";
+
+            character_index += 3;
+        }
         else if ( text.slice( character_index, character_index + 2 ) === "##" )
         {
             it_is_in_mark_span = !it_is_in_mark_span;
@@ -385,26 +406,29 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.slice( character_index, character_index + 3 ) === "{{{" )
+        else if ( text.slice( character_index, character_index + 2 ) === "__" )
         {
-            character_index += 3;
+            it_is_in_u = !it_is_in_u;
             
-            ParseColor();
-                    
-            if ( color === "" )
+            character_index += 2;
+            
+            if ( it_is_in_u )
             {
-                token.Text = "<div class=\"block\">";
+                ParseColor();
+                        
+                if ( color === "" )
+                {
+                    token.Text = "<u>";
+                }
+                else
+                {
+                    token.Text = "<u style=\"text-decoration-color:#" + color + "\">";
+                }
             }
             else
             {
-                token.Text = "<div class=\"block\" style=\"background-color:" + color + "\">";
+                token.Text = "</u>";
             }
-        }
-        else if ( text.slice( character_index, character_index + 3 ) === "}}}" )
-        {
-            token.Text = "</div>";
-
-            character_index += 3;
         }
         else if ( text.slice( character_index, character_index + 2 ) === "{{" )
         {
@@ -490,30 +514,6 @@ function GetTokenArray(
             token.Text = it_is_in_strike ? "<strike>" : "</strike>";
 
             character_index += 2;
-        }
-        else if ( text.slice( character_index, character_index + 2 ) === "__" )
-        {
-            it_is_in_u = !it_is_in_u;
-            
-            character_index += 2;
-            
-            if ( it_is_in_u )
-            {
-                ParseColor();
-                        
-                if ( color === "" )
-                {
-                    token.Text = "<u>";
-                }
-                else
-                {
-                    token.Text = "<u style=\"text-decoration-color:#" + color + "\">";
-                }
-            }
-            else
-            {
-                token.Text = "</u>";
-            }
         }
         else if ( text.charAt( character_index ) === '°' )
         {
