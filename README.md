@@ -20,39 +20,11 @@ Edit your text between these lines:
 
 ```html
 <meta charset="utf8"/>
-<link rel="stylesheet" href="pendown.css">
-<xmp>
-! My title
-
-Hello world :)
-</xmp>
-<script src="pendown.js"></script>
-```
-
-Then simply open your HTML file with your favorite browser :)
-
-Don't forget to use the appropriate relative path to your Pendown installation folder when referencing "pendown.css" and "pendown.js".
-
-For instance :
-
-```html
-<meta charset="utf8"/>
-<link rel="stylesheet" href="../PENDOWN/pendown.css">
-<xmp>
-...
-</xmp>
-<script src="../PENDOWN/pendown.js"></script>
-```
-
-## Sample
-
-```html
-<meta charset="utf8"/>
 <link rel="stylesheet" href="../pendown.css">
 <xmp>
-! Quick reference
+! Title
 
-Pendown tags are automatically converted into HTML tags when the file is opened in a web browser.
+%%Pendown%% tags are automatically converted into %%HTML%% tags when the file is opened in a web browser.
 
 ---
 
@@ -63,37 +35,11 @@ inside a paragraph.
 
 Another paragraph.
 
-!! Styling
+!! Escape
 
-**bold**
+\_\_
 
-%%italics%%
-
-__underlined__
-
-~~strikethrough~~
-
-^^superscript^^
-
-,,subscript,,
-
-°orange°
-
-¹gray¹
-
-²red²
-
-³blue³
-
-{080}green{}
-
-##highlight##
-
-##fce:highlight##
-
-{{block}}
-
-{{cfe:block}}
+`** <b>not bold</b> **`
 
 !! Alignment
 
@@ -103,27 +49,55 @@ $$center$$
 
 >>right>>
 
-!! Escape
+!! Styling
 
-\_\_
+**bold**
 
-`** <b>not bold</b> **`
+%%italics%%
 
-!! Link
+^^superscript^^
 
-@@http://www.github.com This is a link@@
+,,subscript,,
 
-@@http://www.github.com [[image.jpg]]@@
+~~strikethrough~~
 
-@@http://www.github.com@@
+__underlined__
 
+__f00\underlined__
+
+°gray°
+
+¹green¹
+
+²red²
+
+³blue³
+
+{{f80\orange}}
+
+{{ff1493\pink}}
+
+##highlight##
+
+##fce\highlight##
+
+!! Block
+
+{{{
+Block
+}}}
+
+{{{cfe\
+Block
+}}}
+    
 !! Box
 
 ###
 Box
 ###
 
-###cfe
+###cfe\
 Box
 ###
 
@@ -133,15 +107,15 @@ Box
 Frame
 +++
 
-+++f00
++++f00\
 Frame
 +++
 
-{{ffd
-+++f00
+{{{ffd\
++++f00\
 Frame
 +++
-}}
+}}}
 
 !! Quote
 
@@ -149,15 +123,15 @@ Frame
 Quote
 >>>
 
->>>f00
+>>>f00\
 Quote
 >>>
 
-{{ffd
->>>f00
+{{{ffd\
+>>>f00\
 Quote
 >>>
-}}
+}}}
 
 !! Table
 
@@ -199,6 +173,13 @@ Two spaces per level.
 # List§
   ...
 
+!! Link
+
+@@http://www.github.com This is a link@@
+
+@@http://www.github.com [[image.jpg]]@@
+
+@@http://www.github.com@@
 
 !! Image
 
