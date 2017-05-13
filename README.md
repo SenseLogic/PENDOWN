@@ -65,6 +65,14 @@ __underlined__
 
 __f00\underlined__
 
+##highlighted##
+
+##fce\highlighted##
+
+{{f80\orange}}
+
+{{ff1493\pink}}
+
 °gray°
 
 ¹green¹
@@ -73,13 +81,6 @@ __f00\underlined__
 
 ³blue³
 
-{{f80\orange}}
-
-{{ff1493\pink}}
-
-##highlighted##
-
-##fce\highlighted##
 
 !! Block
 
