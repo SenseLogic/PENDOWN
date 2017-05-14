@@ -136,10 +136,10 @@ Quote
 !! Table
 
 %%%
-          |**Monday**|**Tuesday**|**Wednesday**
-%%Apple%% |1         |2          |3
-%%Orange%%|1         |2          |3
-%%Banana%%|1         |3          |3
+      |Monday|Tuesday|Wednesday
+Apple |1     |2      |3
+Orange|1     |2      |3
+Banana|1     |3      |3
 %%%
 
 !! Code
