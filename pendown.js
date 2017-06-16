@@ -57,15 +57,19 @@ function GetTokenArray(
         it_is_in_a,
         it_is_in_b,
         it_is_in_blockquote,
+        it_is_in_black_span,
         it_is_in_blue_span,
         it_is_in_box_div,
         it_is_in_center_div,
+        it_is_in_cyan_span,
         it_is_in_frame_div,
+        it_is_in_gray_span,
         it_is_in_green_span,
         it_is_in_i,
         it_is_in_left_div,
         it_is_in_mark_span,
-        it_is_in_gray_span,
+        it_is_in_orange_span,
+        it_is_in_pink_span,
         it_is_in_pre,
         it_is_in_red_span,
         it_is_in_right_div,
@@ -132,8 +136,12 @@ function GetTokenArray(
     it_is_in_sup = false;
     it_is_in_sub = false;
     it_is_in_strike = false;
-    it_is_in_gray_span = false;
+    it_is_in_black_span = false;
+    it_is_in_cyan_span = false;
+    it_is_in_orange_span = false;
     it_is_in_green_span = false;
+    it_is_in_gray_span = false;
+    it_is_in_pink_span = false;
     it_is_in_red_span = false;
     it_is_in_blue_span = false;
     it_is_in_a = false;
@@ -515,6 +523,42 @@ function GetTokenArray(
 
             character_index += 2;
         }
+        else if ( text.slice( character_index, character_index + 2 ) === '°°'
+                  && !it_is_in_gray_span )
+        {
+            it_is_in_black_span = !it_is_in_black_span;
+
+            token.Text = it_is_in_black_span ? "<span style=\"color:#000\">" : "</span>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) === '¹¹'
+                  && !it_is_in_pink_span )
+        {
+            it_is_in_cyan_span = !it_is_in_cyan_span;
+
+            token.Text = it_is_in_cyan_span ? "<span style=\"color:#0aa\">" : "</span>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) === '²²'
+                  && !it_is_in_red_span )
+        {
+            it_is_in_orange_span = !it_is_in_orange_span;
+
+            token.Text = it_is_in_orange_span ? "<span style=\"color:#f80\">" : "</span>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) === '³³'
+                  && !it_is_in_blue_span )
+        {
+            it_is_in_green_span = !it_is_in_green_span;
+
+            token.Text = it_is_in_green_span ? "<span style=\"color:#0a0\">" : "</span>";
+
+            character_index += 2;
+        }
         else if ( text.charAt( character_index ) === '°' )
         {
             it_is_in_gray_span = !it_is_in_gray_span;
@@ -525,9 +569,9 @@ function GetTokenArray(
         }
         else if ( text.charAt( character_index ) === '¹' )
         {
-            it_is_in_green_span = !it_is_in_green_span;
+            it_is_in_pink_span = !it_is_in_pink_span;
 
-            token.Text = it_is_in_green_span ? "<span style=\"color:#080\">" : "</span>";
+            token.Text = it_is_in_pink_span ? "<span style=\"color:#f4a\">" : "</span>";
 
             ++character_index;
         }

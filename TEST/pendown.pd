@@ -1,0 +1,502 @@
+:::
+°/*
+    This file is part of the Pendown distribution.
+
+    https://github.com/senselogic/GENESIS
+
+    Copyright (C) 2017 Eric Pelzer (ecstatic.coder\@gmail.com)
+
+    Pendown is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    Pendown is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+*/°
+
+°// == LOCAL°
+
+°// -\- IMPORTS°
+
+¹import¹ std°.°ascii °:° isAlpha°,° isDigit°,° isLower°,° isUpper°;°
+¹import¹ std°.°file °:° readText°;°
+¹import¹ std°.°stdio °:° writeln°;°
+¹import¹ std°.°²string² °:° indexOf°,° replace°,° startsWith°,° toLower°,° toUpper°;°
+
+°// == GLOBAL°
+
+°// -\- TYPES°
+
+²enum² ²²TOKEN_TYPE²²
+°{°
+    None°,°
+    ShortComment°,°
+    LongComment°,°
+    String°,°
+    Number°,°
+    Constant°,°
+    LowerCaseIdentifier°,°
+    UpperCaseIdentifier°,°
+    MinorCaseIdentifier°,°
+    MajorCaseIdentifier°,°
+    Identifier°,°
+    Keyword°,°
+    Type°,°
+    Qualifier°,°
+    Pragma°,°
+    Operator°,°
+    Separator°,°
+    Delimiter°,°
+    Special°,°
+    Spacing°,°
+    Count
+°}°
+
+°// ~\~°
+
+²class² ²²TOKEN²²
+°{°
+    °// -\- ATTRIBUTES°
+
+    ²²TOKEN_TYPE²²
+        Type°;°
+    ²string²
+        Text°;°
+°}°
+
+°// ~\~°
+
+²class² ²²CODE²²
+°{°
+    ²²TOKEN²²°[°°]°
+        TokenArray°;°
+    ²string²°[° ²²TOKEN_TYPE²²°.°Count °]°
+        ColorPrefixArray°,°
+        ColorSuffixArray°;°
+        
+    °// ~\~°
+        
+    ¹this¹°(°
+        °)°
+    °{°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°ShortComment °]° °=° ²"\°"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°LongComment °]° °=° ²"\°"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°String °]° °=° ²"\²"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Number °]° °=° ²"\²"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Constant °]° °=° ²"\²"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°LowerCaseIdentifier °]° °=° ²""²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°UpperCaseIdentifier °]° °=° ²"\²\²"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°MinorCaseIdentifier °]° °=° ²""²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°MajorCaseIdentifier °]° °=° ²""²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Identifier °]° °=° ²"\²"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Keyword °]° °=° ²"\¹"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Type °]° °=° ²"\²"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Qualifier °]° °=° ²"\²"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Pragma °]° °=° ²"\²"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Operator °]° °=° ²"\°"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Separator °]° °=° ²"\°"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Delimiter °]° °=° ²"\°"²°;°
+        ColorPrefixArray°[° ²²TOKEN_TYPE²²°.°Special °]° °=° ²"\°"²°;°
+        
+        ColorSuffixArray °=° ColorPrefixArray°;°
+    °}°
+
+    °// ~\~°
+        
+    ²void² SetTokenArray°(°
+        ²string² text
+        °)°
+    °{°
+        ²char²
+            character°,°
+            delimiter_character°,°
+            next_character°;°
+        ²long²
+            character_index°;°
+        ²²TOKEN²²
+            token°;°
+
+        TokenArray °=° °[°°]°°;°
+
+        token °=° ²null²°;°
+        delimiter_character °=° ²0²°;°
+
+        ¹for¹ °(° character_index °=° ²0²°;°
+              character_index °<=° text°.°length°;°
+              °+\+°character_index °)°
+        °{°
+            ¹if¹ °(° character_index °<° text°.°length °)°
+            °{°
+                character °=° text°[° character_index °]°°;°
+            °}°
+            ¹else¹
+            °{°
+                character °=° ²0²°;°
+            °}°
+
+            ¹if¹ °(° character_index °+° ²1² °<° text°.°length °)°
+            °{°
+                next_character °=° text°[° character_index °+° ²1² °]°°;°
+            °}°
+            ¹else¹
+            °{°
+                next_character °=° ²0²°;°
+            °}°
+
+            ¹if¹ °(° token °\!°is ²null² °)°
+            °{°
+                ¹if¹ °(° token°.°Type °==° ²²TOKEN_TYPE²²°.°String °)°
+                °{°
+                    ¹if¹ °(° character °==° delimiter_character °)°
+                    °{°
+                        token°.°Text °~=° character°;°
+
+                        token °=° ²null²°;°
+                        character °=° ²0²°;°
+                    °}°
+                    ¹else¹ ¹if¹ °(° character °==° ²'\\'² °)°
+                    °{°
+                        token°.°Text °~=° next_character°;°
+
+                        °+\+°character_index°;°
+                    °}°
+                    ¹else¹
+                    °{°
+                        token°.°Text °~=° character°;°
+                    °}°
+                °}°
+                ¹else¹ ¹if¹ °(° token°.°Type °==° ²²TOKEN_TYPE²²°.°ShortComment °)°
+                °{°
+                    ¹if¹ °(° character °==° ²'r'²
+                         °||° character °==° ²'n'² °)°
+                    °{°
+                        token °=° ²null²°;°
+                    °}°
+                    ¹else¹
+                    °{°
+                        token°.°Text °~=° character°;°
+                    °}°
+                °}°
+                ¹else¹ ¹if¹ °(° token°.°Type °==° ²²TOKEN_TYPE²²°.°LongComment °)°
+                °{°
+                    ¹if¹ °(° character °==° ²'*'²
+                         °&&° next_character °==° ²'/'² °)°
+                    °{°
+                        token°.°Text °~=° ²"*/"²°;°
+
+                        token °=° ²null²°;°
+                        character °=° ²0²°;°
+
+                        °+\+°character_index°;°
+                    °}°
+                    ¹else¹
+                    °{°
+                        token°.°Text °~=° character°;°
+                    °}°
+                °}°
+                ¹else¹ ¹if¹ °(° °(° token°.°Type °==° ²²TOKEN_TYPE²²°.°Number
+                            °&&° °(° character°.°isDigit°(°°)°
+                                 °||° °(° character °==° ²'.'² °&&° next_character°.°isDigit°(°°)° °)°
+                                 °||° character°.°isAlpha°(°°)° °)° °)°
+                          °||° °(° token°.°Type °==° ²²TOKEN_TYPE²²°.°Identifier
+                               °&&° °(° character°.°isAlpha°(°°)°
+                                    °||° character°.°isDigit°(°°)°
+                                    °||° character °==° ²'_'² °)° °)°
+                          °||° °(° token°.°Type °==° ²²TOKEN_TYPE²²°.°Operator
+                               °&&° ²"~+-*/%^$&|?:\!=<>\#"²°.°indexOf°(° character °)° °>=° ²0² °)° °)°
+                °{°
+                    token°.°Text °~=° character°;°
+                °}°
+                ¹else¹
+                °{°
+                    ¹if¹ °(° token°.°Type °==° ²²TOKEN_TYPE²²°.°Identifier °)°
+                    °{°
+                        ¹if¹ °(° token°.°Text °==° ²"false"²
+                          °||° token°.°Text °==° ²"true"²
+                          °||° token°.°Text °==° ²"null"²
+                          °||° token°.°Text °==° ²"nullptr"²
+                          °||° token°.°Text °==° ²"undefined"² °)°
+                        °{°
+                            token°.°Type °=° ²²TOKEN_TYPE²²°.°Constant°;°
+                        °}°
+                        ¹else¹ ¹if¹ °(° token°.°Text °==° ²"if"²
+                             °||° token°.°Text °==° ²"else"²
+                             °||° token°.°Text °==° ²"do"²
+                             °||° token°.°Text °==° ²"while"²
+                             °||° token°.°Text °==° ²"for"²
+                             °||° token°.°Text °==° ²"foreach"²
+                             °||° token°.°Text °==° ²"switch"²
+                             °||° token°.°Text °==° ²"case"²
+                             °||° token°.°Text °==° ²"default"²
+                             °||° token°.°Text °==° ²"break"²
+                             °||° token°.°Text °==° ²"continue"²
+                             °||° token°.°Text °==° ²"return"²
+                             °||° token°.°Text °==° ²"try"²
+                             °||° token°.°Text °==° ²"catch"²
+                             °||° token°.°Text °==° ²"throw"²
+                             °||° token°.°Text °==° ²"using"²
+                             °||° token°.°Text °==° ²"namespace"²
+                             °||° token°.°Text °==° ²"new"²
+                             °||° token°.°Text °==° ²"delete"²
+                             °||° token°.°Text °==° ²"import"²
+                             °||° token°.°Text °==° ²"this"² °)°
+                        °{°
+                            token°.°Type °=° ²²TOKEN_TYPE²²°.°Keyword°;°
+                        °}°
+                        ¹else¹ ¹if¹ °(° token°.°Text °==° ²"void"²
+                                  °||° token°.°Text °==° ²"bool"²
+                                  °||° token°.°Text °==° ²"char"²
+                                  °||° token°.°Text °==° ²"dchar"²
+                                  °||° token°.°Text °==° ²"ubyte"²
+                                  °||° token°.°Text °==° ²"byte"²
+                                  °||° token°.°Text °==° ²"ushort"²
+                                  °||° token°.°Text °==° ²"short"²
+                                  °||° token°.°Text °==° ²"uint"²
+                                  °||° token°.°Text °==° ²"int"²
+                                  °||° token°.°Text °==° ²"ulong"²
+                                  °||° token°.°Text °==° ²"long"²
+                                  °||° token°.°Text °==° ²"signed"²
+                                  °||° token°.°Text °==° ²"unsigned"²
+                                  °||° token°.°Text °==° ²"float"²
+                                  °||° token°.°Text °==° ²"double"²
+                                  °||° token°.°Text °==° ²"string"²
+                                  °||° token°.°Text °==° ²"auto"² °)°
+                        °{°
+                            token°.°Type °=° ²²TOKEN_TYPE²²°.°Type°;°
+                        °}°
+                        ¹else¹ ¹if¹ °(° token°.°Text °==° ²"const"²
+                                  °||° token°.°Text °==° ²"mutable"²
+                                  °||° token°.°Text °==° ²"virtual"²
+                                  °||° token°.°Text °==° ²"volatile"²
+                                  °||° token°.°Text °==° ²"register"²
+                                  °||° token°.°Text °==° ²"explicit"²
+                                  °||° token°.°Text °==° ²"friend"²
+                                  °||° token°.°Text °==° ²"inline"²
+                                  °||° token°.°Text °==° ²"template"²
+                                  °||° token°.°Text °==° ²"typename"²
+                                  °||° token°.°Text °==° ²"class"²
+                                  °||° token°.°Text °==° ²"struct"²
+                                  °||° token°.°Text °==° ²"union"²
+                                  °||° token°.°Text °==° ²"enum"²
+                                  °||° token°.°Text °==° ²"typedef"²
+                                  °||° token°.°Text °==° ²"static"²
+                                  °||° token°.°Text °==° ²"public"²
+                                  °||° token°.°Text °==° ²"protected"²
+                                  °||° token°.°Text °==° ²"private"²
+                                  °||° token°.°Text °==° ²"override"²
+                                  °||° token°.°Text °==° ²"final"² °)°
+                        °{°
+                            token°.°Type °=° ²²TOKEN_TYPE²²°.°Qualifier°;°
+                        °}°
+                        ¹else¹ ¹if¹ °(° token°.°Text°.°startsWith°(° ²'\#'² °)° °)°
+                        °{°
+                            token°.°Type °=° ²²TOKEN_TYPE²²°.°Pragma°;°
+                        °}°
+                        ¹else¹ ¹if¹ °(° token°.°Text °==° token°.°Text°.°toLower°(°°)° °)°
+                        °{°
+                            token°.°Type °=° ²²TOKEN_TYPE²²°.°LowerCaseIdentifier°;°
+                        °}°
+                        ¹else¹ ¹if¹ °(° token°.°Text °==° token°.°Text°.°toUpper°(°°)°
+                                  °&&° token°.°Text°.°length °>=° ²2² °)°
+                        °{°
+                            token°.°Type °=° ²²TOKEN_TYPE²²°.°UpperCaseIdentifier°;°
+                        °}°
+                        ¹else¹ ¹if¹ °(° token°.°Text°[° ²0² °]°°.°isLower°(°°)° °)°
+                        °{°
+                            token°.°Type °=° ²²TOKEN_TYPE²²°.°MinorCaseIdentifier°;°
+                        °}°
+                        ¹else¹ ¹if¹ °(° token°.°Text°[° ²0² °]°°.°isUpper°(°°)° °)°
+                        °{°
+                            token°.°Type °=° ²²TOKEN_TYPE²²°.°MajorCaseIdentifier°;°
+                        °}°
+                    °}°
+
+                    token °=° ²null²°;°
+                °}°
+            °}°
+
+            ¹if¹ °(° token is ²null²
+                 °&&° character °\!=° ²0² °)°
+            °{°
+                token °=° ¹new¹ ²²TOKEN²²°;°
+
+                ¹if¹ °(° character °==° ²'/'²
+                          °&&° next_character °==° ²'/'² °)°
+                °{°
+                    token°.°Type °=° ²²TOKEN_TYPE²²°.°ShortComment°;°
+                    token°.°Text °=° ²"//"²°;°
+
+                    °+\+°character_index°;°
+                °}°
+                ¹else¹ ¹if¹ °(° character °==° ²'/'²
+                          °&&° next_character °==° ²'*'² °)°
+                °{°
+                    token°.°Type °=° ²²TOKEN_TYPE²²°.°LongComment°;°
+                    token°.°Text °=° ²"/*"²°;°
+
+                    °+\+°character_index°;°
+                °}°
+                ¹else¹ ¹if¹ °(° character °==° ²'''²
+                     °||° character °==° ²'"'²
+                     °||° character °==° ²'\`'² °)°
+                °{°
+                    token°.°Type °=° ²²TOKEN_TYPE²²°.°String°;°
+                    token°.°Text °~=° character°;°
+
+                    delimiter_character °=° character°;°
+                °}°
+                ¹else¹ ¹if¹ °(° character°.°isDigit°(°°)°
+                          °||° °(° character °==° ²'-'²
+                               °&&°  next_character°.°isDigit°(°°)° °)° °)°
+                °{°
+                    token°.°Type °=° ²²TOKEN_TYPE²²°.°Number°;°
+                    token°.°Text °~=° character°;°
+                °}°
+                ¹else¹ ¹if¹ °(° character°.°isAlpha°(°°)°
+                          °||° character °==° ²'_'²
+                          °||° °(° character °==° ²'\#'² °&&° next_character°.°isAlpha°(°°)° °)° °)°
+                °{°
+                    token°.°Type °=° ²²TOKEN_TYPE²²°.°Identifier°;°
+                    token°.°Text °~=° character°;°
+                °}°
+                ¹else¹ ¹if¹ °(° ²"~+-*/%^$&|\!=<>\#"²°.°indexOf°(° character °)° °>=° ²0² °)°
+                °{°
+                    token°.°Type °=° ²²TOKEN_TYPE²²°.°Operator°;°
+                    token°.°Text °~=° character°;°
+                °}°
+                ¹else¹ ¹if¹ °(° ²".,;"²°.°indexOf°(° character °)° °>=° ²0² °)°
+                °{°
+                    token°.°Type °=° ²²TOKEN_TYPE²²°.°Separator°;°
+                    token°.°Text °~=° character°;°
+                °}°
+                ¹else¹ ¹if¹ °(° ²"()[]{}"²°.°indexOf°(° character °)° °>=° ²0² °)°
+                °{°
+                    token°.°Type °=° ²²TOKEN_TYPE²²°.°Delimiter°;°
+                    token°.°Text °~=° character°;°
+                °}°
+                ¹else¹ ¹if¹ °(° ²" trn"²°.°indexOf°(° character °)° °>=° ²0² °)°
+                °{°
+                    token°.°Type °=° ²²TOKEN_TYPE²²°.°Spacing°;°
+                    token°.°Text °~=° character°;°
+                °}°
+                ¹else¹
+                °{°
+                    token°.°Type °=° ²²TOKEN_TYPE²²°.°Special°;°
+                    token°.°Text °~=° character°;°
+                °}°
+
+                TokenArray °~=° token°;°
+
+                ¹if¹ °(° token°.°Type °>=° ²²TOKEN_TYPE²²°.°Separator °)°
+                °{°
+                    token °=° ²null²°;°
+                °}°
+            °}°
+        °}°
+    °}°
+
+    °// ~\~°
+
+    ²void² EscapeCharacters°(°
+        °)°
+    °{°
+        ²dchar²
+            character°,°
+            prior_character°;°
+        ²string²
+            token_text°;°
+
+        ¹foreach¹ °(° ref token°;° TokenArray °)°
+        °{°
+            token_text °=° ²""²°;°
+            prior_character °=° ²0²°;°
+
+            ¹foreach¹ °(° wchar character°;° token°.°Text °)°
+            °{°
+                ¹if¹ °(° ²"\\\`\°\¹\²\³\!\#\@"²°.°indexOf°(° character °)° °>=° ²0²
+                     °||° °(° ²"+-<$>*%^,~_{}[]:"²°.°indexOf°(° character °)° °>=° ²0²
+                          °&&° character °==° prior_character °)° °)°
+                °{°
+                    token_text °~=° ²'\\'²°;°
+                °}°
+
+                token_text °~=° character°;°
+
+                prior_character °=° character°;°
+            °}°
+
+            token°.°Text °=° token_text°;°
+        °}°
+    °}°
+
+    °// ~\~°
+
+    ²void² SetText°(°
+        ²string² text
+        °)°
+    °{°
+        SetTokenArray°(° text °)°°;°
+        EscapeCharacters°(°°)°°;°
+    °}°
+
+    °// ~\~°
+
+    ²string² GetHighlightedText°(°
+        °)°
+    °{°
+        ²string²
+            highlighted_text°;°
+
+        ¹foreach¹ °(° ref token°;° TokenArray °)°
+        °{°
+            highlighted_text °~=° ColorPrefixArray°[° token°.°Type °]°°;°
+            highlighted_text °~=° token°.°Text°;°
+            highlighted_text °~=° ColorSuffixArray°[° token°.°Type °]°°;°
+        °}°
+
+        ¹return¹ highlighted_text°;°
+    °}°
+°}°
+
+°// ~\~°
+
+²void² HighlightFile°(°
+    ²string² file_path
+    °)°
+°{°
+    ²string²
+        highlighted_text°,°
+        text°;°
+    ²²CODE²²
+        code°;°
+
+    text °=° file_path°.°readText°(°°)°°;°
+
+    code °=° ¹new¹ ²²CODE²²°;°
+    code°.°SetText°(° text °)°°;°
+
+    highlighted_text °=° code°.°GetHighlightedText°(°°)°°;°
+
+    writeln°(° ²":\:\:"² °)°°;°
+    writeln°(° highlighted_text °)°°;°
+    writeln°(° ²":\:\:"² °)°°;°
+°}°
+
+°// ~\~°
+
+²void² main°(°
+    ²string²°[°°]° argument_array
+    °)°
+°{°
+    argument_array °=° argument_array°[° ²1² °.°°.° °$° °]°°;°
+
+    HighlightFile°(° argument_array°[° ²0² °]° °)°°;°
+°}°
+
+
+:::
