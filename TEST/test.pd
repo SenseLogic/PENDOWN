@@ -1,205 +1,203 @@
-<meta charset="utf8"/>
-<link rel="stylesheet" href="../pendown.css">
-<p><h1>TITLE 1</h1>
+! TITLE 1
 <h1>TITLE 1</h1>
-</p><p>
+
+!! TITLE 2
 <h2>TITLE 2</h2>
-<h2>TITLE 2</h2>
-</p><p>
+
+!!! TITLE 3
 <h3>TITLE 3</h3>
-<h3>TITLE 3</h3>
-</p><p>
+
+!!!! TITLE 4
 <h4>TITLE 4</h4>
-<h4>TITLE 4</h4>
-</p><p>
+
+!!!!! TITLE 5
 <h5>TITLE 5</h5>
-<h5>TITLE 5</h5>
-</p><p>
+
+!!!!!! TITLE 6
 <h6>TITLE 6</h6>
-<h6>TITLE 6</h6>
-</p><p>
+
+---
 <hr/>
-<hr/>
-</p><p>
-This is an escaped text : __ ** &lt;b&gt;not bold&lt;/b&gt; **.
-</p><p>
-<hr/>
-</p><p>
+
+This is an escaped text : \_\_ `** <b>not bold</b> **`.
+
+---
+
+<<This is a left-aligned text.<<
 <div class="left">This is a left-aligned text.</div>
-<div class="left">This is a left-aligned text.</div>
-</p><p>
+
+$$This is a centered text.$$
 <div class="center">This is a centered text.</div>
-<div class="center">This is a centered text.</div>
-</p><p>
+
+>>This is a right-aligned text.>>
 <div class="right">This is a right-aligned text.</div>
-<div class="right">This is a right-aligned text.</div>
-</p><p>
-<hr/>
-</p><p>
-This is <b>a text in bold</b>.<br/>
+
+---
+
+This is **a text in bold**.§
 This is <b>a text in bold</b>.
-</p><p>
-This is <i>a text in italics</i>.<br/>
+
+This is %%a text in italics%%.§
 This is <i>a text in italics</i>.
-</p><p>
-This is <sup>a superscript text</sup>.<br/>
+
+This is ^^a superscript text^^.§
 This is <sup>a superscript text</sup>.
-</p><p>
-This is <sub>a subscript text</sub>.<br/>
+
+This is ,,a subscript text,,.§
 This is <sub>a subscript text</sub>.
-</p><p>
-This is <strike>a strikethrough text</strike>.<br/>
+
+This is ~~a strikethrough text~~.§
 This is <strike>a strikethrough text</strike>.
-</p><p>
-This is <u>an underlined text</u>.<br/>
+
+This is __an underlined text__.§
 This is <u>an underlined text</u>.
-</p><p>
-This is <u style="text-decoration-color:#f00">an underlined text</u>.<br/>
+
+This is __f00\an underlined text__.§
 This is <u style="text-decoration-color:#f00">an underlined text</u>.
-</p><p>
-This is <span class="mark">a highlighted text</span>.<br/>
+
+This is ##a highlighted text##.§
 This is <span class="mark">a highlighted text</span>.
-</p><p>
-This is <span class="mark" style="background-color:fce">a highlighted text</span>.<br/>
+
+This is ##fce\a highlighted text##.§
 This is <span class="mark"style="background-color:#fce">a highlighted text</span>.
-</p><p>
-This is <span style="color:#0cc">a colored text</span>.<br/>
+
+This is {{0cc\a colored text}}.§
 This is <span style="color:#0cc">a colored text</span>.
-</p><p>
-This is <span style="color:#6f42c1">a colored text</span>.<br/>
+
+This is {{6f42c1\a colored text}}.§
 This is <span style="color:#6f42c1">a colored text</span>.
-</p><p>
-This is <span style="color:#000">a black text</span>.<br/>
+
+This is °°a black text°°.§
 This is <span style="color:#000">a black text</span>.
-</p><p>
-This is <span style="color:#0aa">a cyan text</span>.<br/>
+
+This is ¹¹a cyan text¹¹.§
 This is <span style="color:#0aa">a cyan text</span>.
-</p><p>
-This is <span style="color:#f80">a orange text</span>.<br/>
+
+This is ²²a orange text²².§
 This is <span style="color:#f80">a orange text</span>.
-</p><p>
-This is <span style="color:#0a0">a green text</span>.<br/>
+
+This is ³³a green text³³.§
 This is <span style="color:#0a0">a green text</span>.
-</p><p>
-This is <span style="color:#888">a gray text</span>.<br/>
+
+This is °a gray text°.§
 This is <span style="color:#888">a gray text</span>.
-</p><p>
-This is <span style="color:#f4a">a pink text</span>.<br/>
+
+This is ¹a pink text¹.§
 This is <span style="color:#f4a">a pink text</span>.
-</p><p>
-This is <span style="color:#f00">a red text</span>.<br/>
+
+This is ²a red text².§
 This is <span style="color:#f00">a red text</span>.
-</p><p>
-This is <span style="color:#00f">a blue text</span>.<br/>
+
+This is ³a blue text³.§
 This is <span style="color:#00f">a blue text</span>.
-</p><p>
-</p><p>
-<hr/>
-</p><p>
+
+
+---
+
+{{{
+This is a text block.
+}}}
+
 <div class="block">
 This is a text block.
 </div>
-</p><p>
-<div class="block">
+
+{{{cfe\
 This is a text block.
-</div>
-</p><p>
-<div class="block" style="background-color:cfe">
-This is a text block.
-</div>
-</p><p>
+}}}
+
 <div class="block" style="background-color:#cfe">
 This is a text block.
 </div>
-</p><p>
-<hr/>
-</p><p>
+
+---
+
+###
+This is a text box.
+###
+
 <div class="box">
 This is a text box.
 </div>
-</p><p>
-<div class="box">
+
+###cfe\
 This is a text box.
-</div>
-</p><p>
+###
+
 <div class="box" style="background-color:#cfe">
 This is a text box.
 </div>
-</p><p>
-<div class="box" style="background-color:#cfe">
-This is a text box.
-</div>
-</p><p>
-<hr/>
-</p><p>
+
+---
+
++++
+This is a text frame.
++++
+
 <div class="frame">
 This is a text frame.
 </div>
-</p><p>
-<div class="frame">
+
++++f00\
 This is a text frame.
-</div>
-</p><p>
++++
+
 <div class="frame" style="border-color:#f00">
 This is a text frame.
 </div>
-</p><p>
-<div class="frame" style="border-color:#f00">
-This is a text frame.
-</div>
-</p><p>
-<hr/>
-</p><p>
+
+---
+
+>>>
+This is a text quote.
+>>>
+
 <blockquote>
 This is a text quote.
 </blockquote>
-</p><p>
-<blockquote>
+
+>>>f00\
 This is a text quote.
-</blockquote>
-</p><p>
+>>>
+
 <blockquote style="border-color:#f00">
 This is a text quote.
 </blockquote>
-</p><p>
-<blockquote style="border-color:#f00">
-This is a text quote.
-</blockquote>
-</p><p>
-<hr/>
-</p><p>
+
+---
+
+This is the first line of the paragraph.§
+This is the second line of the paragraph.
+
 This is the first line of the paragraph.<br/>
 This is the second line of the paragraph.
-</p><p>
-This is the first line of the paragraph.<br/>
-This is the second line of the paragraph.
-</p><p>
-<hr/>
-</p><p>
-This is <a href="http://www.senselogic.be">a link</a><br/>
+
+---
+
+This is @@http://www.senselogic.be a link@@§
 This is <a href="http://www.senselogic.be">a link</a>
-</p><p>
-This is a link : <a href="http://www.senselogic.be"><img src="../SAMPLE/image.jpg"/></a><br/>
+
+This is a link : @@http://www.senselogic.be [[../SAMPLE/image.jpg]]@@§
 This is a link : <a href="http://www.senselogic.be"><img src="../SAMPLE/image.jpg"/></a>
-</p><p>
-This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a><br/>
+
+This is a link : @@http://www.senselogic.be@@§
 This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
     
-<hr/>
-</p><p>
-<pre>
-<span class="mark">// <span style="color:#f00">This is source code</span></span>
+---
 
-<span style="color:#f00">if</span> <span style="color:#00f">(</span> ... <span style="color:#00f">)</span>
-<span style="color:#00f">{</span>
+:::
+##// ²This is source code²##
+
+²if² ³(³ ... ³)³
+³{³
     ...
-<span style="color:#00f">}</span>
-<span style="color:#f00">else</span>
-<span style="color:#00f">{</span>
+³}³
+²else²
+³{³
     ...
-<span style="color:#00f">}</span>
-</pre>
-</p><p>
+³}³
+:::
+
 <pre>
 <span class="mark">// <span style="color:#f00">This is source code</span></span>
 
@@ -213,15 +211,15 @@ This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
 <span style="color:#00f">}</span>
 </pre>
           
-<hr/>
-</p><p>
-<table>
-<tr><td>                  </td><td><div class="left"><b>First<br/>Column</b></div></td><td><div class="center"><b>Second<br/>Column</b></div></td><td><div class="right"><b>Third<br/>Column</b></div></td></tr>
-<tr><td><div class="left"><i>First Row</i></div> </td><td>1                   </td><td>2                    </td><td>3        </td></tr>
-<tr><td><div class="center"><i>Second Row</i></div></td><td>1                   </td><td>2                    </td><td>3        </td></tr>
-<tr><td><div class="right"><i>Third Row</i></div> </td><td>1                   </td><td>2                    </td><td>3       </td></tr>
-</table>
-</p><p>
+---
+
+%%%
+                  |<<**First§Column**<<|$$**Second§Column**$$|>>**Third§Column**>>
+<<%%First Row%%<< |1                   |2                    |3        
+$$%%Second Row%%$$|1                   |2                    |3        
+>>%%Third Row%%>> |1                   |2                    |3       
+%%%
+
 <table>
     <tr>
         <td>
@@ -279,21 +277,21 @@ This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
         </td>
     </tr>
 </table>
-</p><p>
-<hr/>
-</p><p>
-<ul><li>List
-</li><li>List
-  <ul><li>Sub-list<br/>
+
+---
+
+# List
+# List
+  # Sub-list§
     ...
-  </li><li>Sub-list<br/>
+  # Sub-list§
     ...
-    <ol><li>Numbered sub-list<br/>
+    @ Numbered sub-list§
       ...
-    </li><li>Numbered sub-list<br/>
+    @ Numbered sub-list§
       ...
-</li></ol></li></ul></li><li>List
-</li></ul></p><p>
+# List
+
 <ul>
     <li>
         List
@@ -325,21 +323,21 @@ This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
         List
     </li>
 </ul>
-</p><p>
-<hr/>
-</p><p>
-<ol><li>Numbered list
-</li><li>Numbered list
-  <ol><li>Numbered sub-list<br/>
+
+---
+
+@ Numbered list
+@ Numbered list
+  @ Numbered sub-list§
     ...
-  </li><li>Numbered sub-list<br/>
+  @ Numbered sub-list§
     ...
-    <ul><li>Sub-list<br/>
+    # Sub-list§
       ...
-    </li><li>Sub-list<br/>
+    # Sub-list§
       ...
-</li></ul></li></ol></li><li>Numbered list
-</li></ol></p><p>
+@ Numbered list
+
 <ol>
     <li>
         Numbered list
@@ -371,32 +369,31 @@ This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
         Numbered list
     </li>
 </ol>
-</p><p>
-<hr/>
-</p><p>
+
+---
+
 These are small images :
-</p><p>
+
+[[../SAMPLE/image.jpg]][[../SAMPLE/image_2.jpg]]§
+[[../SAMPLE/image_3.jpg]][[../SAMPLE/image_4.jpg]][[../SAMPLE/image_5.jpg]]
+
+These are small images :
+
 <img src="../SAMPLE/image.jpg"/><img src="../SAMPLE/image_2.jpg"/><br/>
 <img src="../SAMPLE/image_3.jpg"/><img src="../SAMPLE/image_4.jpg"/><img src="../SAMPLE/image_5.jpg"/>
-</p><p>
-These are small images :
-</p><p>
-<img src="../SAMPLE/image.jpg"/><img src="../SAMPLE/image_2.jpg"/><br/>
-<img src="../SAMPLE/image_3.jpg"/><img src="../SAMPLE/image_4.jpg"/><img src="../SAMPLE/image_5.jpg"/>
-</p><p>
+
 These are medium images :
-</p><p>
-<img src="../SAMPLE/image_3.jpg" class="medium"/><img src="../SAMPLE/image_4.jpg" class="medium"/>
-</p><p>
+
+[[[../SAMPLE/image_3.jpg]]][[[../SAMPLE/image_4.jpg]]]
+
 These are medium images :
-</p><p>
+
 <img src="../SAMPLE/image_3.jpg" class="medium"/><img src="../SAMPLE/image_4.jpg" class="medium"/>
-</p><p>
+
 This is a large image :
-</p><p>
-<img src="../SAMPLE/image_5.jpg" class="large"/>
-</p><p>
+
+[[[[../SAMPLE/image_5.jpg]]]]
+
 This is a large image :
-</p><p>
+
 <img src="../SAMPLE/image_5.jpg" class="large"/>
-</p></p>

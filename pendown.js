@@ -523,7 +523,7 @@ function GetTokenArray(
 
             character_index += 2;
         }
-        else if ( text.slice( character_index, character_index + 2 ) === '°°'
+        else if ( text.slice( character_index, character_index + 2 ) === "°°"
                   && !it_is_in_gray_span )
         {
             it_is_in_black_span = !it_is_in_black_span;
@@ -532,7 +532,7 @@ function GetTokenArray(
 
             character_index += 2;
         }
-        else if ( text.slice( character_index, character_index + 2 ) === '¹¹'
+        else if ( text.slice( character_index, character_index + 2 ) === "¹¹"
                   && !it_is_in_pink_span )
         {
             it_is_in_cyan_span = !it_is_in_cyan_span;
@@ -541,7 +541,7 @@ function GetTokenArray(
 
             character_index += 2;
         }
-        else if ( text.slice( character_index, character_index + 2 ) === '²²'
+        else if ( text.slice( character_index, character_index + 2 ) === "²²"
                   && !it_is_in_red_span )
         {
             it_is_in_orange_span = !it_is_in_orange_span;
@@ -550,7 +550,7 @@ function GetTokenArray(
 
             character_index += 2;
         }
-        else if ( text.slice( character_index, character_index + 2 ) === '³³'
+        else if ( text.slice( character_index, character_index + 2 ) === "³³"
                   && !it_is_in_blue_span )
         {
             it_is_in_green_span = !it_is_in_green_span;
@@ -765,7 +765,7 @@ function MakeLists(
             {
                 tag_token_index = token_index;
                 tag_token = token;
-                tag_count = null;
+                tag_count = -1;
                 tag = null;
 
                 if ( token.IsSpace )
@@ -802,7 +802,7 @@ function MakeLists(
                     }
                 }
 
-                if ( tag_count !== null )
+                if ( tag_count >= 0 )
                 {
                     tag_token_text = "";
 

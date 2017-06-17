@@ -22,16 +22,357 @@
 
 // -- IMPORTS
 
+import core.stdc.stdlib : exit;
 import std.ascii : isAlpha, isDigit, isLower, isUpper;
-import std.file : readText;
+import std.conv : to;
+import std.file : readText, write;
 import std.stdio : writeln;
-import std.string : indexOf, replace, startsWith, toLower, toUpper;
+import std.string : endsWith, indexOf, replace, startsWith, toLower, toUpper;
 
 // == GLOBAL
 
 // -- TYPES
 
-enum TOKEN_TYPE
+class TOKEN
+{
+    dstring
+        Text;
+    bool
+        StartsLine,
+        IsSpace,
+        IsEscaped;
+}
+
+// ~~
+
+class LANGUAGE
+{
+    bool IsConstant(
+        CODE_TOKEN code_token
+        )
+    {
+        return false;
+    }
+    
+    // ~~
+    
+    bool IsKeyword(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "if"
+            || code_token.Text == "else"
+            || code_token.Text == "do"
+            || code_token.Text == "while"
+            || code_token.Text == "for"
+            || code_token.Text == "switch"
+            || code_token.Text == "case"
+            || code_token.Text == "default"
+            || code_token.Text == "break"
+            || code_token.Text == "continue"
+            || code_token.Text == "return";
+    }
+    
+    // ~~
+    
+    bool IsType(
+        CODE_TOKEN code_token
+        )
+    {
+        return false;
+    }
+    
+    // ~~
+    
+    bool IsQualifier(
+        CODE_TOKEN code_token
+        )
+    {
+        return false;
+    }
+}
+
+// ~~
+
+class C_LANGUAGE : LANGUAGE
+{
+    override bool IsConstant(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "false"
+            || code_token.Text == "true";
+    }
+    
+    // ~~
+    
+    override bool IsKeyword(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "if"
+            || code_token.Text == "else"
+            || code_token.Text == "do"
+            || code_token.Text == "while"
+            || code_token.Text == "for"
+            || code_token.Text == "switch"
+            || code_token.Text == "case"
+            || code_token.Text == "default"
+            || code_token.Text == "break"
+            || code_token.Text == "continue"
+            || code_token.Text == "return";
+    }
+    
+    // ~~
+    
+    override bool IsType(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "void"
+            || code_token.Text == "bool"
+            || code_token.Text == "char"
+            || code_token.Text == "short"
+            || code_token.Text == "int"
+            || code_token.Text == "long"
+            || code_token.Text == "signed"
+            || code_token.Text == "unsigned"
+            || code_token.Text == "float"
+            || code_token.Text == "double";
+    }
+    
+    // ~~
+    
+    override bool IsQualifier(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "const"
+            || code_token.Text == "register"
+            || code_token.Text == "inline"
+            || code_token.Text == "struct"
+            || code_token.Text == "union"
+            || code_token.Text == "enum"
+            || code_token.Text == "typedef"
+            || code_token.Text == "static";
+    }
+}
+
+// ~~
+
+class CPP_LANGUAGE : LANGUAGE
+{
+    override bool IsConstant(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "false"
+            || code_token.Text == "true"
+            || code_token.Text == "null"
+            || code_token.Text == "nullptr";
+    }
+    
+    // ~~
+    
+    override bool IsKeyword(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "if"
+            || code_token.Text == "else"
+            || code_token.Text == "do"
+            || code_token.Text == "while"
+            || code_token.Text == "for"
+            || code_token.Text == "switch"
+            || code_token.Text == "case"
+            || code_token.Text == "default"
+            || code_token.Text == "break"
+            || code_token.Text == "continue"
+            || code_token.Text == "return"
+            || code_token.Text == "try"
+            || code_token.Text == "catch"
+            || code_token.Text == "throw"
+            || code_token.Text == "using" 
+            || code_token.Text == "namespace" 
+            || code_token.Text == "new"
+            || code_token.Text == "delete"
+            || code_token.Text == "this";
+    }
+    
+    // ~~
+    
+    override bool IsType(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "void"
+            || code_token.Text == "bool"
+            || code_token.Text == "char"
+            || code_token.Text == "short"
+            || code_token.Text == "int"
+            || code_token.Text == "long"
+            || code_token.Text == "signed"
+            || code_token.Text == "unsigned"
+            || code_token.Text == "float"
+            || code_token.Text == "double"
+            || code_token.Text == "auto";
+    }
+    
+    // ~~
+    
+    override bool IsQualifier(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "const"
+            || code_token.Text == "mutable"
+            || code_token.Text == "virtual"
+            || code_token.Text == "volatile"
+            || code_token.Text == "register"
+            || code_token.Text == "explicit"
+            || code_token.Text == "friend"
+            || code_token.Text == "inline"
+            || code_token.Text == "template"
+            || code_token.Text == "typename"
+            || code_token.Text == "class"
+            || code_token.Text == "struct"
+            || code_token.Text == "union"
+            || code_token.Text == "enum"
+            || code_token.Text == "typedef"
+            || code_token.Text == "static"
+            || code_token.Text == "public"
+            || code_token.Text == "protected"
+            || code_token.Text == "private"
+            || code_token.Text == "override"
+            || code_token.Text == "final";
+    }
+}
+
+// ~~
+
+class CSHARP_LANGUAGE : LANGUAGE
+{
+}
+
+// ~~
+
+class D_LANGUAGE : LANGUAGE
+{
+    override bool IsConstant(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "false"
+            || code_token.Text == "true"
+            || code_token.Text == "null";
+    }
+    
+    // ~~
+    
+    override bool IsKeyword(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "if"
+            || code_token.Text == "else"
+            || code_token.Text == "do"
+            || code_token.Text == "while"
+            || code_token.Text == "for"
+            || code_token.Text == "foreach" 
+            || code_token.Text == "switch"
+            || code_token.Text == "case"
+            || code_token.Text == "default"
+            || code_token.Text == "break"
+            || code_token.Text == "continue"
+            || code_token.Text == "return"
+            || code_token.Text == "try"
+            || code_token.Text == "catch"
+            || code_token.Text == "throw"
+            || code_token.Text == "new"
+            || code_token.Text == "delete"
+            || code_token.Text == "import" 
+            || code_token.Text == "this";
+    }
+    
+    // ~~
+    
+    override bool IsType(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "void"
+            || code_token.Text == "bool"
+            || code_token.Text == "char"
+            || code_token.Text == "wchar"
+            || code_token.Text == "dchar"
+            || code_token.Text == "ubyte"
+            || code_token.Text == "byte"
+            || code_token.Text == "ushort"
+            || code_token.Text == "short"
+            || code_token.Text == "uint"
+            || code_token.Text == "int"
+            || code_token.Text == "ulong"
+            || code_token.Text == "long"
+            || code_token.Text == "float"
+            || code_token.Text == "double"
+            || code_token.Text == "string"
+            || code_token.Text == "wstring"
+            || code_token.Text == "dstring"
+            || code_token.Text == "auto";
+    }
+    
+    // ~~
+    
+    override bool IsQualifier(
+        CODE_TOKEN code_token
+        )
+    {
+        return
+            code_token.Text == "class"
+            || code_token.Text == "struct"
+            || code_token.Text == "union"
+            || code_token.Text == "enum"
+            || code_token.Text == "public"
+            || code_token.Text == "protected"
+            || code_token.Text == "private"
+            || code_token.Text == "override"
+            || code_token.Text == "final";
+    }
+}
+
+// ~~
+
+class JAVA_LANGUAGE : LANGUAGE
+{
+}
+
+// ~~
+
+class JAVASCRIPT_LANGUAGE : LANGUAGE
+{
+}
+
+// ~~
+
+class TYPESCRIPT_LANGUAGE : LANGUAGE
+{
+}
+
+// ~~
+
+enum CODE_TOKEN_TYPE
 {
     None,
     ShortComment,
@@ -58,13 +399,13 @@ enum TOKEN_TYPE
 
 // ~~
 
-class TOKEN
+class CODE_TOKEN
 {
     // -- ATTRIBUTES
 
-    TOKEN_TYPE
+    CODE_TOKEN_TYPE
         Type;
-    string
+    dstring
         Text;
 }
 
@@ -72,57 +413,120 @@ class TOKEN
 
 class CODE
 {
-    TOKEN[]
+    LANGUAGE
+        Language;
+    CODE_TOKEN[]
         TokenArray;
-    string[ TOKEN_TYPE.Count ]
+    dstring[ CODE_TOKEN_TYPE.Count ]
         ColorPrefixArray,
         ColorSuffixArray;
         
     // ~~
         
     this(
+        string file_path
         )
     {
-        ColorPrefixArray[ TOKEN_TYPE.ShortComment ] = "°";
-        ColorPrefixArray[ TOKEN_TYPE.LongComment ] = "°";
-        ColorPrefixArray[ TOKEN_TYPE.String ] = "²";
-        ColorPrefixArray[ TOKEN_TYPE.Number ] = "²";
-        ColorPrefixArray[ TOKEN_TYPE.Constant ] = "²";
-        ColorPrefixArray[ TOKEN_TYPE.LowerCaseIdentifier ] = "";
-        ColorPrefixArray[ TOKEN_TYPE.UpperCaseIdentifier ] = "²²";
-        ColorPrefixArray[ TOKEN_TYPE.MinorCaseIdentifier ] = "";
-        ColorPrefixArray[ TOKEN_TYPE.MajorCaseIdentifier ] = "";
-        ColorPrefixArray[ TOKEN_TYPE.Identifier ] = "²";
-        ColorPrefixArray[ TOKEN_TYPE.Keyword ] = "¹";
-        ColorPrefixArray[ TOKEN_TYPE.Type ] = "²";
-        ColorPrefixArray[ TOKEN_TYPE.Qualifier ] = "²";
-        ColorPrefixArray[ TOKEN_TYPE.Pragma ] = "²";
-        ColorPrefixArray[ TOKEN_TYPE.Operator ] = "°";
-        ColorPrefixArray[ TOKEN_TYPE.Separator ] = "°";
-        ColorPrefixArray[ TOKEN_TYPE.Delimiter ] = "°";
-        ColorPrefixArray[ TOKEN_TYPE.Special ] = "°";
+        SetLanguage( file_path );
+        
+        ColorPrefixArray[ CODE_TOKEN_TYPE.ShortComment ] = "°";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.LongComment ] = "°";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.String ] = "²";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Number ] = "²";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Constant ] = "²";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.LowerCaseIdentifier ] = "";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.UpperCaseIdentifier ] = "²²";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.MinorCaseIdentifier ] = "";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.MajorCaseIdentifier ] = "";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Identifier ] = "²";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Keyword ] = "¹";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Type ] = "²";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Qualifier ] = "²";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Pragma ] = "²";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Operator ] = "°";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Separator ] = "°";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Delimiter ] = "°";
+        ColorPrefixArray[ CODE_TOKEN_TYPE.Special ] = "°";
         
         ColorSuffixArray = ColorPrefixArray;
     }
-
+    
+    // ~~
+    
+    void SetLanguage(
+        string file_path
+        )
+    {
+        if ( LanguageName == "c"
+             || file_path.endsWith( ".c" )
+             || file_path.endsWith( ".h" ) )
+        {
+            Language = new C_LANGUAGE;
+        }
+        else if ( LanguageName == "cpp"
+                 || file_path.endsWith( ".cxx" )
+                 || file_path.endsWith( ".cpp" )
+                 || file_path.endsWith( ".hpp" )
+                 || file_path.endsWith( ".hxx" ) )
+        {
+            Language = new CPP_LANGUAGE;
+        }
+        else if ( LanguageName == "csharp"
+                  || file_path.endsWith( ".cs" ) )
+        {
+            Language = new CSHARP_LANGUAGE;
+        }
+        else if ( LanguageName == "d"
+                  || file_path.endsWith( ".d" ) )
+        {
+            Language = new D_LANGUAGE;
+        }
+        else if ( LanguageName == "java"
+                  || file_path.endsWith( ".java" ) )
+        {
+            Language = new JAVA_LANGUAGE;
+        }
+        else if ( LanguageName == "javascript"
+                  || file_path.endsWith( ".js" ) )
+        {
+            Language = new JAVASCRIPT_LANGUAGE;
+        }
+        else if ( LanguageName == "typescript"
+                  || file_path.endsWith( ".ts" ) )
+        {
+            Language = new TYPESCRIPT_LANGUAGE;
+        }
+        else
+        {
+            Language = new LANGUAGE;
+        }
+    }
+    
     // ~~
         
     void SetTokenArray(
-        string text
+        dstring text
         )
     {
-        char
+        dchar
             character,
             delimiter_character,
             next_character;
         long
             character_index;
-        TOKEN
-            token;
+        CODE_TOKEN
+            code_token;
+            
+        text = text.replace( "\r", "" ).replace( "\t", "    " );
+    
+        if ( !text.endsWith( "\n" ) )
+        {
+            text ~= "\n";
+        }
 
         TokenArray = [];
 
-        token = null;
+        code_token = null;
         delimiter_character = 0;
 
         for ( character_index = 0;
@@ -147,196 +551,138 @@ class CODE
                 next_character = 0;
             }
 
-            if ( token !is null )
+            if ( code_token !is null )
             {
-                if ( token.Type == TOKEN_TYPE.String )
+                if ( code_token.Type == CODE_TOKEN_TYPE.String )
                 {
                     if ( character == delimiter_character )
                     {
-                        token.Text ~= character;
+                        code_token.Text ~= character;
 
-                        token = null;
+                        code_token = null;
                         character = 0;
                     }
                     else if ( character == '\\' )
                     {
-                        token.Text ~= next_character;
+                        code_token.Text ~= character;
+                        code_token.Text ~= next_character;
 
-                        ++character_index;
-                    }
-                    else
-                    {
-                        token.Text ~= character;
-                    }
-                }
-                else if ( token.Type == TOKEN_TYPE.ShortComment )
-                {
-                    if ( character == '\r'
-                         || character == '\n' )
-                    {
-                        token = null;
-                    }
-                    else
-                    {
-                        token.Text ~= character;
-                    }
-                }
-                else if ( token.Type == TOKEN_TYPE.LongComment )
-                {
-                    if ( character == '*'
-                         && next_character == '/' )
-                    {
-                        token.Text ~= "*/";
-
-                        token = null;
                         character = 0;
 
                         ++character_index;
                     }
                     else
                     {
-                        token.Text ~= character;
+                        code_token.Text ~= character;
                     }
                 }
-                else if ( ( token.Type == TOKEN_TYPE.Number
+                else if ( code_token.Type == CODE_TOKEN_TYPE.ShortComment )
+                {
+                    if ( character == '\r'
+                         || character == '\n' )
+                    {
+                        code_token = null;
+                    }
+                    else
+                    {
+                        code_token.Text ~= character;
+                    }
+                }
+                else if ( code_token.Type == CODE_TOKEN_TYPE.LongComment )
+                {
+                    if ( character == '*'
+                         && next_character == '/' )
+                    {
+                        code_token.Text ~= "*/";
+
+                        code_token = null;
+                        character = 0;
+
+                        ++character_index;
+                    }
+                    else
+                    {
+                        code_token.Text ~= character;
+                    }
+                }
+                else if ( ( code_token.Type == CODE_TOKEN_TYPE.Number
                             && ( character.isDigit()
                                  || ( character == '.' && next_character.isDigit() )
                                  || character.isAlpha() ) )
-                          || ( token.Type == TOKEN_TYPE.Identifier
+                          || ( code_token.Type == CODE_TOKEN_TYPE.Identifier
                                && ( character.isAlpha()
                                     || character.isDigit()
                                     || character == '_' ) )
-                          || ( token.Type == TOKEN_TYPE.Operator
+                          || ( code_token.Type == CODE_TOKEN_TYPE.Operator
                                && "~+-*/%^$&|?:!=<>#".indexOf( character ) >= 0 ) )
                 {
-                    token.Text ~= character;
+                    code_token.Text ~= character;
                 }
                 else
                 {
-                    if ( token.Type == TOKEN_TYPE.Identifier )
+                    if ( code_token.Type == CODE_TOKEN_TYPE.Identifier )
                     {
-                        if ( token.Text == "false"
-                          || token.Text == "true"
-                          || token.Text == "null"
-                          || token.Text == "nullptr"
-                          || token.Text == "undefined" )
+                        if ( Language.IsConstant( code_token ) )
                         {
-                            token.Type = TOKEN_TYPE.Constant;
+                            code_token.Type = CODE_TOKEN_TYPE.Constant;
                         }
-                        else if ( token.Text == "if"
-                             || token.Text == "else"
-                             || token.Text == "do"
-                             || token.Text == "while"
-                             || token.Text == "for"
-                             || token.Text == "foreach"
-                             || token.Text == "switch"
-                             || token.Text == "case"
-                             || token.Text == "default"
-                             || token.Text == "break"
-                             || token.Text == "continue"
-                             || token.Text == "return"
-                             || token.Text == "try"
-                             || token.Text == "catch"
-                             || token.Text == "throw"
-                             || token.Text == "using"
-                             || token.Text == "namespace"
-                             || token.Text == "new"
-                             || token.Text == "delete"
-                             || token.Text == "import"
-                             || token.Text == "this" )
+                        else if ( Language.IsKeyword( code_token ) )
                         {
-                            token.Type = TOKEN_TYPE.Keyword;
+                            code_token.Type = CODE_TOKEN_TYPE.Keyword;
                         }
-                        else if ( token.Text == "void"
-                                  || token.Text == "bool"
-                                  || token.Text == "char"
-                                  || token.Text == "dchar"
-                                  || token.Text == "ubyte"
-                                  || token.Text == "byte"
-                                  || token.Text == "ushort"
-                                  || token.Text == "short"
-                                  || token.Text == "uint"
-                                  || token.Text == "int"
-                                  || token.Text == "ulong"
-                                  || token.Text == "long"
-                                  || token.Text == "signed"
-                                  || token.Text == "unsigned"
-                                  || token.Text == "float"
-                                  || token.Text == "double"
-                                  || token.Text == "string"
-                                  || token.Text == "auto" )
+                        else if ( Language.IsType( code_token ) )
                         {
-                            token.Type = TOKEN_TYPE.Type;
+                            code_token.Type = CODE_TOKEN_TYPE.Type;
                         }
-                        else if ( token.Text == "const"
-                                  || token.Text == "mutable"
-                                  || token.Text == "virtual"
-                                  || token.Text == "volatile"
-                                  || token.Text == "register"
-                                  || token.Text == "explicit"
-                                  || token.Text == "friend"
-                                  || token.Text == "inline"
-                                  || token.Text == "template"
-                                  || token.Text == "typename"
-                                  || token.Text == "class"
-                                  || token.Text == "struct"
-                                  || token.Text == "union"
-                                  || token.Text == "enum"
-                                  || token.Text == "typedef"
-                                  || token.Text == "static"
-                                  || token.Text == "public"
-                                  || token.Text == "protected"
-                                  || token.Text == "private"
-                                  || token.Text == "override"
-                                  || token.Text == "final" )
+                        else if ( Language.IsQualifier( code_token ) )
                         {
-                            token.Type = TOKEN_TYPE.Qualifier;
+                            code_token.Type = CODE_TOKEN_TYPE.Qualifier;
                         }
-                        else if ( token.Text.startsWith( '#' ) )
+                        else if ( code_token.Text.startsWith( '#' ) )
                         {
-                            token.Type = TOKEN_TYPE.Pragma;
+                            code_token.Type = CODE_TOKEN_TYPE.Pragma;
                         }
-                        else if ( token.Text == token.Text.toLower() )
+                        else if ( code_token.Text == code_token.Text.toLower() )
                         {
-                            token.Type = TOKEN_TYPE.LowerCaseIdentifier;
+                            code_token.Type = CODE_TOKEN_TYPE.LowerCaseIdentifier;
                         }
-                        else if ( token.Text == token.Text.toUpper()
-                                  && token.Text.length >= 2 )
+                        else if ( code_token.Text == code_token.Text.toUpper()
+                                  && code_token.Text.length >= 2 )
                         {
-                            token.Type = TOKEN_TYPE.UpperCaseIdentifier;
+                            code_token.Type = CODE_TOKEN_TYPE.UpperCaseIdentifier;
                         }
-                        else if ( token.Text[ 0 ].isLower() )
+                        else if ( code_token.Text[ 0 ].isLower() )
                         {
-                            token.Type = TOKEN_TYPE.MinorCaseIdentifier;
+                            code_token.Type = CODE_TOKEN_TYPE.MinorCaseIdentifier;
                         }
-                        else if ( token.Text[ 0 ].isUpper() )
+                        else if ( code_token.Text[ 0 ].isUpper() )
                         {
-                            token.Type = TOKEN_TYPE.MajorCaseIdentifier;
+                            code_token.Type = CODE_TOKEN_TYPE.MajorCaseIdentifier;
                         }
                     }
 
-                    token = null;
+                    code_token = null;
                 }
             }
 
-            if ( token is null
+            if ( code_token is null
                  && character != 0 )
             {
-                token = new TOKEN;
+                code_token = new CODE_TOKEN;
 
                 if ( character == '/'
                           && next_character == '/' )
                 {
-                    token.Type = TOKEN_TYPE.ShortComment;
-                    token.Text = "//";
+                    code_token.Type = CODE_TOKEN_TYPE.ShortComment;
+                    code_token.Text = "//";
 
                     ++character_index;
                 }
                 else if ( character == '/'
                           && next_character == '*' )
                 {
-                    token.Type = TOKEN_TYPE.LongComment;
-                    token.Text = "/*";
+                    code_token.Type = CODE_TOKEN_TYPE.LongComment;
+                    code_token.Text = "/*";
 
                     ++character_index;
                 }
@@ -344,8 +690,8 @@ class CODE
                      || character == '\"'
                      || character == '`' )
                 {
-                    token.Type = TOKEN_TYPE.String;
-                    token.Text ~= character;
+                    code_token.Type = CODE_TOKEN_TYPE.String;
+                    code_token.Text ~= character;
 
                     delimiter_character = character;
                 }
@@ -353,47 +699,47 @@ class CODE
                           || ( character == '-'
                                &&  next_character.isDigit() ) )
                 {
-                    token.Type = TOKEN_TYPE.Number;
-                    token.Text ~= character;
+                    code_token.Type = CODE_TOKEN_TYPE.Number;
+                    code_token.Text ~= character;
                 }
                 else if ( character.isAlpha()
                           || character == '_'
                           || ( character == '#' && next_character.isAlpha() ) )
                 {
-                    token.Type = TOKEN_TYPE.Identifier;
-                    token.Text ~= character;
+                    code_token.Type = CODE_TOKEN_TYPE.Identifier;
+                    code_token.Text ~= character;
                 }
                 else if ( "~+-*/%^$&|!=<>#".indexOf( character ) >= 0 )
                 {
-                    token.Type = TOKEN_TYPE.Operator;
-                    token.Text ~= character;
+                    code_token.Type = CODE_TOKEN_TYPE.Operator;
+                    code_token.Text ~= character;
                 }
                 else if ( ".,;".indexOf( character ) >= 0 )
                 {
-                    token.Type = TOKEN_TYPE.Separator;
-                    token.Text ~= character;
+                    code_token.Type = CODE_TOKEN_TYPE.Separator;
+                    code_token.Text ~= character;
                 }
                 else if ( "()[]{}".indexOf( character ) >= 0 )
                 {
-                    token.Type = TOKEN_TYPE.Delimiter;
-                    token.Text ~= character;
+                    code_token.Type = CODE_TOKEN_TYPE.Delimiter;
+                    code_token.Text ~= character;
                 }
                 else if ( " \t\r\n".indexOf( character ) >= 0 )
                 {
-                    token.Type = TOKEN_TYPE.Spacing;
-                    token.Text ~= character;
+                    code_token.Type = CODE_TOKEN_TYPE.Spacing;
+                    code_token.Text ~= character;
                 }
                 else
                 {
-                    token.Type = TOKEN_TYPE.Special;
-                    token.Text ~= character;
+                    code_token.Type = CODE_TOKEN_TYPE.Special;
+                    code_token.Text ~= character;
                 }
 
-                TokenArray ~= token;
+                TokenArray ~= code_token;
 
-                if ( token.Type >= TOKEN_TYPE.Separator )
+                if ( code_token.Type >= CODE_TOKEN_TYPE.Separator )
                 {
-                    token = null;
+                    code_token = null;
                 }
             }
         }
@@ -401,13 +747,12 @@ class CODE
 
     // ~~
 
-    void EscapeCharacters(
+    void EscapeSpecialCharacters(
         )
     {
         dchar
-            character,
             prior_character;
-        string
+        dstring
             token_text;
 
         foreach ( ref token; TokenArray )
@@ -415,16 +760,27 @@ class CODE
             token_text = "";
             prior_character = 0;
 
-            foreach ( wchar character; token.Text )
+            foreach ( character; token.Text )
             {
-                if ( "\\`°¹²³!#@".indexOf( character ) >= 0
-                     || ( "+-<$>*%^,~_{}[]:".indexOf( character ) >= 0
-                          && character == prior_character ) )
+                if ( character == '<' )
                 {
-                    token_text ~= '\\';
+                    token_text ~= "&lt;";
                 }
+                else if ( character == '>' )
+                {
+                    token_text ~= "&gt;";
+                }
+                else
+                {
+                    if ( "\\`°¹²³!#@".indexOf( character ) >= 0
+                         || ( "+-$*%^,~_{}[]:".indexOf( character ) >= 0
+                              && character == prior_character ) )
+                    {
+                        token_text ~= '\\';
+                    }
 
-                token_text ~= character;
+                    token_text ~= character;
+                }
 
                 prior_character = character;
             }
@@ -436,54 +792,1188 @@ class CODE
     // ~~
 
     void SetText(
-        string text
+        dstring text
         )
     {
         SetTokenArray( text );
-        EscapeCharacters();
+
+        EscapeSpecialCharacters();
     }
 
     // ~~
 
-    string GetHighlightedText(
+    dstring GetColorizedText(
         )
     {
-        string
-            highlighted_text;
+        dstring
+            colorized_text;
+            
+        colorized_text ~= ":::\n";
 
-        foreach ( ref token; TokenArray )
+        foreach ( token_index, token; TokenArray )
         {
-            highlighted_text ~= ColorPrefixArray[ token.Type ];
-            highlighted_text ~= token.Text;
-            highlighted_text ~= ColorSuffixArray[ token.Type ];
+            if ( token_index == 0
+                 || token.Type != TokenArray[ token_index - 1 ].Type )
+            {
+                colorized_text ~= ColorPrefixArray[ token.Type ];
+            }
+
+            colorized_text ~= token.Text;
+
+            if ( token_index == TokenArray.length - 1
+                 || token.Type != TokenArray[ token_index + 1 ].Type )
+            {
+                colorized_text ~= ColorSuffixArray[ token.Type ];
+            }
+        }
+        
+        colorized_text ~= ":::\n";
+
+        return colorized_text;
+    }
+}
+
+// -- VARIABLES
+
+bool
+    ColorizeOptionIsEnabled,
+    ProcessOptionIsEnabled,
+    ScriptOptionIsEnabled,
+    StyleOptionIsEnabled;
+string
+    InputFilePath,
+    LanguageName,
+    OutputFilePath,
+    ScriptFolderPath,
+    StyleFolderPath;
+
+// -- FUNCTIONS
+
+void PrintError(
+    string message
+    )
+{
+    writeln( "*** ERROR : ", message );
+}
+
+// ~~
+
+void Abort(
+    string message
+    )
+{
+    PrintError( message );
+
+    exit( -1 );
+}
+
+// ~~
+
+dchar charAt(
+    dstring text,
+    long character_index
+    )
+{
+    return text[ character_index ];
+}
+
+// ~~
+
+dstring slice(
+    dstring text,
+    long first_character_index,
+    long post_character_index
+    )
+{
+    if ( first_character_index < 0 )
+    {
+        first_character_index += text.length;
+    }
+    
+    if ( post_character_index < 0 )
+    {
+        post_character_index += text.length;
+    }
+    
+    if ( first_character_index > text.length )
+    {
+        first_character_index = text.length;
+    }
+    
+    if ( post_character_index > text.length )
+    {
+        post_character_index = text.length;
+    }
+    
+    
+    return text[ first_character_index .. post_character_index ];
+}
+
+// ~~
+
+void splice( ELEMENT )(
+    ref ELEMENT[] element_array,
+    long element_index,
+    long element_count,
+    ELEMENT element
+    )
+{
+    element_array = element_array[ 0 .. element_index ] ~ element ~ element_array[ element_index + element_count .. $ ];
+}
+
+// ~~
+
+void push( ELEMENT )(
+    ref ELEMENT[] element_array,
+    ELEMENT element
+    )
+{
+    element_array ~= element;
+}
+
+// ~~
+
+ELEMENT pop( ELEMENT )(
+    ref ELEMENT[] element_array
+    )
+{
+    ELEMENT
+        element;
+
+    element = element_array[ $ - 1 ];
+
+    element_array = element_array[ 0 .. $ - 1 ];
+
+    return element;
+}
+
+// ~~
+
+bool IsHexadecimalCharacter(
+    dchar character
+    )
+{
+    return
+        ( character >= '0' && character <= '9' )
+        || ( character >= 'a' && character <= 'f' )
+        || ( character >= 'A' && character <= 'F' );
+}
+
+// ~~
+
+TOKEN[] GetTokenArray(
+    dstring text
+    )
+{
+    bool
+        it_is_in_a,
+        it_is_in_b,
+        it_is_in_blockquote,
+        it_is_in_black_span,
+        it_is_in_blue_span,
+        it_is_in_box_div,
+        it_is_in_center_div,
+        it_is_in_cyan_span,
+        it_is_in_frame_div,
+        it_is_in_gray_span,
+        it_is_in_green_span,
+        it_is_in_i,
+        it_is_in_left_div,
+        it_is_in_mark_span,
+        it_is_in_orange_span,
+        it_is_in_pink_span,
+        it_is_in_pre,
+        it_is_in_red_span,
+        it_is_in_right_div,
+        it_is_in_strike,
+        it_is_in_sup,
+        it_is_in_sub,
+        it_is_in_table,
+        it_is_in_u,
+        token_starts_line;
+    dstring
+        color,
+        closing_tag,
+        url;
+    long
+        character_index;
+    TOKEN
+        closing_token,
+        token;
+    TOKEN[]
+        token_array;
+        
+    // ~~ 
+    
+    void ParseColor(
+        )
+    {
+        color = "";
+        
+        if ( character_index + 3 < text.length
+             && IsHexadecimalCharacter( text.charAt( character_index ) )
+             && IsHexadecimalCharacter( text.charAt( character_index + 1 ) )
+             && IsHexadecimalCharacter( text.charAt( character_index + 2 ) ) )
+        {
+            if ( text.charAt( character_index + 3 ) == '\\' )
+            {
+                color = text.slice( character_index, character_index + 3 );
+                
+                character_index += 4;
+            }
+            else if ( character_index + 3 < text.length
+                      && IsHexadecimalCharacter( text.charAt( character_index + 3 ) )
+                      && IsHexadecimalCharacter( text.charAt( character_index + 4 ) )
+                      && IsHexadecimalCharacter( text.charAt( character_index + 5 ) )
+                      && text.charAt( character_index + 6 ) == '\\' )
+            {
+                color = text.slice( character_index, character_index + 6 );
+                
+                character_index += 7;
+            }
+        }
+    }
+    
+    // ~~
+
+    token_array = [];
+    token_starts_line = true;
+
+    closing_tag = "";
+
+    it_is_in_pre = false;
+    it_is_in_table = false;
+    it_is_in_blockquote = false;
+    it_is_in_frame_div = false;
+    it_is_in_box_div = false;
+    it_is_in_mark_span = false;
+    it_is_in_u = false;
+    it_is_in_left_div = false;
+    it_is_in_center_div = false;
+    it_is_in_right_div = false;
+    it_is_in_b = false;
+    it_is_in_i = false;
+    it_is_in_sup = false;
+    it_is_in_sub = false;
+    it_is_in_strike = false;
+    it_is_in_black_span = false;
+    it_is_in_cyan_span = false;
+    it_is_in_orange_span = false;
+    it_is_in_green_span = false;
+    it_is_in_gray_span = false;
+    it_is_in_pink_span = false;
+    it_is_in_red_span = false;
+    it_is_in_blue_span = false;
+    it_is_in_a = false;
+
+    character_index = 0;
+
+    while ( character_index < text.length )
+    {
+        token = new TOKEN();
+        token.StartsLine = token_starts_line;
+        token_starts_line = false;
+
+        if ( text.charAt( character_index ) == '\\'
+             && character_index + 1 < text.length )
+        {
+            token.Text = text.charAt( character_index + 1 ).to!dstring();
+            token.IsEscaped = true;
+
+            character_index += 2;
+        }
+        else if ( text.charAt( character_index ) == '`' )
+        {
+            ++character_index;
+
+            while ( character_index < text.length )
+            {
+                if ( text.charAt( character_index ) == '`' )
+                {
+                    ++character_index;
+
+                    break;
+                }
+                else
+                {
+                    token.Text ~= text.charAt( character_index );
+
+                    ++character_index;
+                }
+            }
+
+            token.Text = token.Text.replace( "<", "&lt;" ).replace( ">", "&gt;" );
+            token.IsEscaped = true;
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 2 ) == "! " )
+        {
+            token.Text = "<h1>";
+            closing_tag = "</h1>";
+
+            character_index += 2;
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 3 ) == "!! " )
+        {
+            token.Text = "<h2>";
+            closing_tag = "</h2>";
+
+            character_index += 3;
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 4 ) == "!!! " )
+        {
+            token.Text = "<h3>";
+            closing_tag = "</h3>";
+
+            character_index += 4;
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 5 ) == "!!!! " )
+        {
+            token.Text = "<h4>";
+            closing_tag = "</h4>";
+
+            character_index += 5;
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 6 ) == "!!!!! " )
+        {
+            token.Text = "<h5>";
+            closing_tag = "</h5>";
+
+            character_index += 6;
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 7 ) == "!!!!!! " )
+        {
+            token.Text = "<h6>";
+            closing_tag = "</h6>";
+
+            character_index += 7;
+        }
+        else if ( text.slice( character_index, character_index + 3 ) == "---" )
+        {
+            token.Text = "<hr/>";
+
+            character_index += 3;
+        }
+        else if ( text.charAt( character_index ) == '§' )
+        {
+            token.Text = "<br/>";
+
+            ++character_index;
+        }
+        else if ( text.slice( character_index, character_index + 4 ) == "[[[[" )
+        {
+            token.Text = "<img src=\"";
+
+            character_index += 4;
+        }
+        else if ( text.slice( character_index, character_index + 4 ) == "]]]]" )
+        {
+            token.Text = "\" class=\"large\"/>";
+
+            character_index += 4;
+        }
+        else if ( text.slice( character_index, character_index + 3 ) == "[[[" )
+        {
+            token.Text = "<img src=\"";
+
+            character_index += 3;
+        }
+        else if ( text.slice( character_index, character_index + 3 ) == "]]]" )
+        {
+            token.Text = "\" class=\"medium\"/>";
+
+            character_index += 3;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "[[" )
+        {
+            token.Text = "<img src=\"";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "]]" )
+        {
+            token.Text = "\"/>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 3 ) == ":::" )
+        {
+            it_is_in_pre = !it_is_in_pre;
+
+            token.Text = it_is_in_pre ? "<pre>" : "</pre>";
+
+            character_index += 3;
+        }
+        else if ( text.slice( character_index, character_index + 3 ) == "%%%" )
+        {
+            it_is_in_table = !it_is_in_table;
+
+            token.Text = it_is_in_table ? "<table>" : "</table>";
+
+            character_index += 3;
+        }
+        else if ( text.slice( character_index, character_index + 3 ) == ">>>" )
+        {
+            it_is_in_blockquote = !it_is_in_blockquote;
+
+            character_index += 3;
+            
+            if ( it_is_in_blockquote )
+            {
+                ParseColor();
+                
+                if ( color == "" )
+                {
+                    token.Text = "<blockquote>";
+                }
+                else
+                {
+                    token.Text = "<blockquote style=\"border-color:#" ~ color ~ "\">";
+                }
+            }
+            else
+            {
+                token.Text = "</blockquote>";
+            }
+        }
+        else if ( text.slice( character_index, character_index + 3 ) == "+++" )
+        {
+            it_is_in_frame_div = !it_is_in_frame_div;
+
+            character_index += 3;
+            
+            if ( it_is_in_frame_div )
+            {
+                ParseColor();
+                
+                if ( color == "" )
+                {
+                    token.Text = "<div class=\"frame\">";                    
+                }
+                else
+                {
+                    token.Text = "<div class=\"frame\" style=\"border-color:#" ~ color ~ "\">";
+                }
+            }
+            else
+            {
+                token.Text = "</div>";
+            }
+        }
+        else if ( text.slice( character_index, character_index + 3 ) == "###" )
+        {
+            it_is_in_box_div = !it_is_in_box_div;
+
+            character_index += 3;
+            
+            if ( it_is_in_box_div )
+            {
+                ParseColor();
+                
+                if ( color == "" )
+                {
+                    token.Text = "<div class=\"box\">";
+                }
+                else
+                {
+                    token.Text = "<div class=\"box\" style=\"background-color:#" ~ color ~ "\">";
+                }
+            }
+            else
+            {
+                token.Text = "</div>";
+            }
+        }
+        else if ( text.slice( character_index, character_index + 3 ) == "{{{" )
+        {
+            character_index += 3;
+            
+            ParseColor();
+                    
+            if ( color == "" )
+            {
+                token.Text = "<div class=\"block\">";
+            }
+            else
+            {
+                token.Text = "<div class=\"block\" style=\"background-color:" ~ color ~ "\">";
+            }
+        }
+        else if ( text.slice( character_index, character_index + 3 ) == "}}}" )
+        {
+            token.Text = "</div>";
+
+            character_index += 3;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "##" )
+        {
+            it_is_in_mark_span = !it_is_in_mark_span;
+            
+            character_index += 2;
+            
+            if ( it_is_in_mark_span )
+            {
+                ParseColor();
+                        
+                if ( color == "" )
+                {
+                    token.Text = "<span class=\"mark\">";
+                }
+                else
+                {
+                    token.Text = "<span class=\"mark\" style=\"background-color:" ~ color ~ "\">";
+                }
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "__" )
+        {
+            it_is_in_u = !it_is_in_u;
+            
+            character_index += 2;
+            
+            if ( it_is_in_u )
+            {
+                ParseColor();
+                        
+                if ( color == "" )
+                {
+                    token.Text = "<u>";
+                }
+                else
+                {
+                    token.Text = "<u style=\"text-decoration-color:#" ~ color ~ "\">";
+                }
+            }
+            else
+            {
+                token.Text = "</u>";
+            }
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "{{" )
+        {
+            character_index += 2;
+            
+            ParseColor();
+                    
+            if ( color == "" )
+            {
+                token.Text = "<span style=\"color:#000\">";
+            }
+            else
+            {
+                token.Text = "<span style=\"color:#" ~ color ~ "\">";
+            }
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "}}" )
+        {
+            token.Text = "</span>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "<<" )
+        {
+            it_is_in_left_div = !it_is_in_left_div;
+
+            token.Text = it_is_in_left_div ? "<div class=\"left\">" : "</div>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "$$" )
+        {
+            it_is_in_center_div = !it_is_in_center_div;
+
+            token.Text = it_is_in_center_div ? "<div class=\"center\">" : "</div>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == ">>" )
+        {
+            it_is_in_right_div = !it_is_in_right_div;
+
+            token.Text = it_is_in_right_div ? "<div class=\"right\">" : "</div>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "**" )
+        {
+            it_is_in_b = !it_is_in_b;
+
+            token.Text = it_is_in_b ? "<b>" : "</b>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "%%" )
+        {
+            it_is_in_i = !it_is_in_i;
+
+            token.Text = it_is_in_i ? "<i>" : "</i>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "^^" )
+        {
+            it_is_in_sup = !it_is_in_sup;
+
+            token.Text = it_is_in_sup ? "<sup>" : "</sup>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == ",," )
+        {
+            it_is_in_sub = !it_is_in_sub;
+
+            token.Text = it_is_in_sub ? "<sub>" : "</sub>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "~~" )
+        {
+            it_is_in_strike = !it_is_in_strike;
+
+            token.Text = it_is_in_strike ? "<strike>" : "</strike>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "°°"
+                  && !it_is_in_gray_span )
+        {
+            it_is_in_black_span = !it_is_in_black_span;
+
+            token.Text = it_is_in_black_span ? "<span style=\"color:#000\">" : "</span>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "¹¹"
+                  && !it_is_in_pink_span )
+        {
+            it_is_in_cyan_span = !it_is_in_cyan_span;
+
+            token.Text = it_is_in_cyan_span ? "<span style=\"color:#0aa\">" : "</span>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "²²"
+                  && !it_is_in_red_span )
+        {
+            it_is_in_orange_span = !it_is_in_orange_span;
+
+            token.Text = it_is_in_orange_span ? "<span style=\"color:#f80\">" : "</span>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "³³"
+                  && !it_is_in_blue_span )
+        {
+            it_is_in_green_span = !it_is_in_green_span;
+
+            token.Text = it_is_in_green_span ? "<span style=\"color:#0a0\">" : "</span>";
+
+            character_index += 2;
+        }
+        else if ( text.charAt( character_index ) == '°' )
+        {
+            it_is_in_gray_span = !it_is_in_gray_span;
+
+            token.Text = it_is_in_gray_span ? "<span style=\"color:#888\">" : "</span>";
+
+            ++character_index;
+        }
+        else if ( text.charAt( character_index ) == '¹' )
+        {
+            it_is_in_pink_span = !it_is_in_pink_span;
+
+            token.Text = it_is_in_pink_span ? "<span style=\"color:#f4a\">" : "</span>";
+
+            ++character_index;
+        }
+        else if ( text.charAt( character_index ) == '²' )
+        {
+            it_is_in_red_span = !it_is_in_red_span;
+
+            token.Text = it_is_in_red_span ? "<span style=\"color:#f00\">" : "</span>";
+
+            ++character_index;
+        }
+        else if ( text.charAt( character_index ) == '³' )
+        {
+            it_is_in_blue_span = !it_is_in_blue_span;
+
+            token.Text = it_is_in_blue_span ? "<span style=\"color:#00f\">" : "</span>";
+
+            ++character_index;
+        }
+        else if ( text.slice( character_index, character_index + 5 ) == "<pre>" )
+        {
+            token.Text = "<pre>";
+
+            character_index += 5;
+        }
+        else if ( text.slice( character_index, character_index + 6 ) == "</pre>" )
+        {
+            token.Text = "</pre>";
+
+            character_index += 6;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) == "@@" )
+        {
+            it_is_in_a = !it_is_in_a;
+
+            token.Text = it_is_in_a ? "<a href=\"" : "</a>";
+
+            character_index += 2;
+
+            if ( it_is_in_a )
+            {
+                url = "";
+
+                while ( character_index < text.length )
+                {
+                    if ( text.charAt( character_index ) == ' ' )
+                    {
+                        token.Text ~= url ~ "\">";
+
+                        ++character_index;
+
+                        break;
+                    }
+                    else if ( text.slice( character_index, character_index + 2 ) == "@@" )
+                    {
+                        it_is_in_a = false;
+
+                        token.Text ~= url ~ "\">" ~ url ~ "</a>";
+
+                        character_index += 2;
+
+                        break;
+                    }
+                    else
+                    {
+                        url ~= text.charAt( character_index );
+
+                        ++character_index;
+                    }
+                }
+            }
+        }
+        else if ( text.charAt( character_index ) == ' ' )
+        {
+            token.Text = " ";
+
+            ++character_index;
+
+            while ( character_index < text.length
+                    && text.charAt( character_index ) == ' ' )
+            {
+                token.Text ~= " ";
+
+                ++character_index;
+            }
+
+            token.IsSpace = true;
+        }
+        else if ( text.charAt( character_index ) == '\n' )
+        {
+            if ( closing_tag != "" )
+            {
+                closing_token = new TOKEN();
+                closing_token.Text = closing_tag;
+                closing_tag = "";
+
+                token_array.push( closing_token );
+            }
+
+            token.Text = "\n";
+            token_starts_line = true;
+
+            ++character_index;
+        }
+        else
+        {
+            token.Text = text.charAt( character_index ).to!dstring();
+
+            ++character_index;
         }
 
-        return highlighted_text;
+        token_array.push( token );
+    }
+
+    return token_array;
+}
+
+// ~~
+
+dstring GetListTag(
+    ref TOKEN[] token_array,
+    long token_index
+    )
+{
+    TOKEN
+        token;
+
+    if ( token_index >= 0
+         && token_index + 1 < token_array.length
+         && token_array[ token_index + 1 ].IsSpace )
+    {
+        token = token_array[ token_index ];
+
+        if ( !token.IsEscaped )
+        {
+            if ( token.Text == "#" )
+            {
+                return "ul";
+            }
+            else if ( token.Text == "@" )
+            {
+                return "ol";
+            }
+        }
+    }
+
+    return null;
+}
+
+// ~~
+
+void MakeLists(
+    ref TOKEN[] token_array
+    )
+{
+    bool
+        it_is_in_pre;
+    dstring
+        tag,
+        tag_token_text;
+    dstring[]
+        tag_array;
+    long
+        tag_count,
+        tag_token_index,
+        token_index;
+    TOKEN
+        tag_token,
+        token;
+
+    tag_array = [];
+
+    it_is_in_pre = false;
+
+    for ( token_index = 0;
+          token_index < token_array.length;
+          ++token_index )
+    {
+        token = token_array[ token_index ];
+
+        if ( it_is_in_pre )
+        {
+            if ( token.Text == "</pre>" )
+            {
+                it_is_in_pre = false;
+            }
+        }
+        else
+        {
+            if ( token.Text == "<pre>" )
+            {
+                it_is_in_pre = true;
+            }
+            else if ( token.StartsLine )
+            {
+                tag_token_index = token_index;
+                tag_token = token;
+                tag_count = -1;
+                tag = null;
+
+                if ( token.IsSpace )
+                {
+                    tag = GetListTag( token_array, token_index + 1 );
+
+                    if ( tag !is null )
+                    {
+                        tag_count = 1 + ( token.Text.length / 2 );
+
+                        ++token_index;
+
+                        tag_token_index = token_index;
+                        tag_token = token_array[ token_index ];
+
+                        tag_token.Text = "";
+                        token_array[ token_index + 1 ].Text = "";
+                    }
+                }
+                else
+                {
+                    tag = GetListTag( token_array, token_index );
+
+                    if ( tag !is null )
+                    {
+                        tag_count = 1;
+
+                        tag_token.Text = "";
+                        token_array[ token_index + 1 ].Text = "";
+                    }
+                    else if ( tag_array.length > 0 )
+                    {
+                        tag_count = 0;
+                    }
+                }
+
+                if ( tag_count >= 0 )
+                {
+                    tag_token_text = "";
+
+                    if ( tag_count > tag_array.length )
+                    {
+                        while ( tag_count > tag_array.length )
+                        {
+                            tag_array.push( tag );
+                            tag_token_text ~= "<" ~ tag ~ "><li>";
+                        }
+                    }
+                    else if ( tag_count == tag_array.length )
+                    {
+                        tag_token_text ~= "</li><li>";
+                    }
+                    else if ( tag_count < tag_array.length )
+                    {
+                        while ( tag_count < tag_array.length )
+                        {
+                            tag_token_text ~= "</li></" ~ tag_array.pop() ~ ">";
+                        }
+
+                        if ( tag !is null )
+                        {
+                            tag_token_text ~= "</li><li>";
+                        }
+                    }
+
+                    if ( tag_token_text != "" )
+                    {
+                        token = new TOKEN();
+                        token.Text = tag_token_text;
+                        token_array.splice( tag_token_index, 0, token );
+
+                        ++token_index;
+                    }
+                }
+            }
+        }
     }
 }
 
 // ~~
 
-void HighlightFile(
-    string file_path
+void MakeParagraphs(
+    ref TOKEN[] token_array
     )
 {
-    string
-        highlighted_text,
+    bool
+        it_is_in_pre;
+    long
+        token_index;
+    TOKEN
+        token;
+
+    token = new TOKEN();
+    token.Text = "<p>";
+    token_array.splice( 0, 0, token );
+
+    it_is_in_pre = false;
+
+    for ( token_index = 0;
+          token_index < token_array.length;
+          ++token_index )
+    {
+        token = token_array[ token_index ];
+
+        if ( it_is_in_pre )
+        {
+            if ( token.Text == "</pre>" )
+            {
+                it_is_in_pre = false;
+            }
+        }
+        else
+        {
+            if ( token.Text == "<pre>" )
+            {
+                it_is_in_pre = true;
+            }
+            else if ( token.StartsLine
+                 && token.Text == "\n" )
+            {
+                token.Text = "</p><p>\n";
+            }
+        }
+    }
+
+    token = new TOKEN();
+    token.Text = "</p>";
+    token_array.push( token );
+}
+
+// ~~
+
+void MakeTables(
+    ref TOKEN[] token_array
+    )
+{
+    bool
+        it_is_in_row,
+        it_is_in_table;
+    long
+        token_index;
+    TOKEN
+        token;
+
+    it_is_in_table = false;
+    it_is_in_row = false;
+
+    for ( token_index = 0;
+          token_index < token_array.length;
+          ++token_index )
+    {
+        token = token_array[ token_index ];
+
+        if ( it_is_in_table )
+        {
+            if ( token.Text == "</table>" )
+            {
+                it_is_in_table = false;
+            }
+            else if ( token.StartsLine )
+            {
+                token = new TOKEN();
+                token.Text = "<tr><td>";
+                token_array.splice( token_index, 0, token );
+                ++token_index;
+
+                it_is_in_row = true;
+            }
+            else if ( token.Text == "|"
+                      && !token.IsEscaped )
+            {
+                token.Text = "</td><td>";
+            }
+            else if ( token.Text == "\n" )
+            {
+                if ( it_is_in_row )
+                {
+                    token = new TOKEN();
+                    token.Text = "</td></tr>";
+                    token_array.splice( token_index, 0, token );
+                    ++token_index;
+
+                    it_is_in_row = false;
+                }
+            }
+        }
+        else
+        {
+            if ( token.Text == "<table>" )
+            {
+                it_is_in_table = true;
+            }
+        }
+    }
+
+    token = new TOKEN();
+    token.Text = "</p>";
+    token_array.push( token );
+}
+
+// ~~
+
+dstring GetText(
+    ref TOKEN[] token_array
+    )
+{
+    dstring
+        text;
+    long
+        token_index;
+
+    text = "";
+
+    for ( token_index = 0;
+          token_index < token_array.length;
+          ++token_index )
+    {
+        text ~= token_array[ token_index ].Text;
+    }
+
+    return text;
+}
+
+// ~~
+
+dstring GetProcessedText(
+    dstring text
+    )
+{
+    TOKEN[]
+        token_array;
+
+    token_array = GetTokenArray( text );
+
+    MakeLists( token_array );
+    MakeParagraphs( token_array );
+    MakeTables( token_array );
+
+    return GetText( token_array );
+}
+
+// ~~
+
+void Process(
+    )
+{
+    dstring
         text;
     CODE
         code;
 
-    text = file_path.readText();
+    text = InputFilePath.readText().to!dstring();
+    
+    if ( ColorizeOptionIsEnabled )
+    {
+        code = new CODE( InputFilePath );
+        code.SetText( text );
+        
+        text = code.GetColorizedText();
+    }
+    
+    if ( ProcessOptionIsEnabled )
+    {
+        text = text.GetProcessedText();
+    }
 
-    code = new CODE;
-    code.SetText( text );
+    if ( ScriptOptionIsEnabled )
+    {
+        text 
+            = "<xmp>\n"
+              ~ text
+              ~ "</xmp>\n"
+              ~ "<script src=\"" ~ ScriptFolderPath.to!dstring() ~ "pendown.js\"></script>\n";
+    }
+    
+    if ( StyleOptionIsEnabled )
+    {
+        text 
+            = "<meta charset=\"utf8\"/>\n"
+              ~ "<link rel=\"stylesheet\" href=\"" ~ StyleFolderPath.to!dstring() ~ "pendown.css\">\n"
+              ~ text;
+    }
 
-    highlighted_text = code.GetHighlightedText();
-
-    writeln( ":::" );
-    writeln( highlighted_text );
-    writeln( ":::" );
+    OutputFilePath.write( text.to!string() );
 }
 
 // ~~
@@ -492,8 +1982,90 @@ void main(
     string[] argument_array
     )
 {
+    string
+        option;
+        
     argument_array = argument_array[ 1 .. $ ];
+    
+    ColorizeOptionIsEnabled = false;
+    ProcessOptionIsEnabled = false;
+    ScriptOptionIsEnabled = false;
+    StyleOptionIsEnabled = false;
+    LanguageName = "";
+    ScriptFolderPath = "";
+    StyleFolderPath = "";
+    
+    while ( argument_array.length >= 1
+            && argument_array[ 0 ].startsWith( "--" ) )
+    {
+        option = argument_array[ 0 ];
 
-    HighlightFile( argument_array[ 0 ] );
+        argument_array = argument_array[ 1 .. $ ];
+
+        if ( option == "--colorize" )
+        {
+            ColorizeOptionIsEnabled = true;
+        }
+        else if ( option == "--process" )
+        {
+            ProcessOptionIsEnabled = true;
+        }
+        else if ( option == "--script" )
+        {
+            ScriptOptionIsEnabled = true;
+        }
+        else if ( option == "--style" )
+        {
+            StyleOptionIsEnabled = true;
+        }
+        else if ( option == "--language"
+             && argument_array.length >= 1 )
+        {
+            LanguageName = argument_array[ 0 ];
+
+            argument_array = argument_array[ 1 .. $ ];
+        }
+        else if ( option == "--path"
+             && argument_array.length >= 1
+             && argument_array[ 0 ].endsWith( '/' ) )
+        {
+            ScriptFolderPath = argument_array[ 0 ];
+            StyleFolderPath = argument_array[ 0 ];
+
+            argument_array = argument_array[ 1 .. $ ];
+        }
+        else
+        {
+            Abort( "Invalid option : " ~ option );
+        }
+    }
+    
+    if ( argument_array.length == 2 )
+    {
+        InputFilePath = argument_array[ 0 ];
+        OutputFilePath = argument_array[ 1 ];
+
+        Process();
+    }
+    else
+    {
+        writeln( "Usage :" );
+        writeln( "    pendown [options] input_file output_file" );
+        writeln( "Options :" );
+        writeln( "    --colorize" );
+        writeln( "    --process" );
+        writeln( "    --script" );
+        writeln( "    --style" );
+        writeln( "    --language c|cpp|csharp|d|java|javascript|typescript" );
+        writeln( "    --path PENDOWN_FOLDER/" );
+        writeln( "Examples :" );
+        writeln( "    pendown --process --style --path ../ document.pd document.html" );
+        writeln( "    pendown --script --style --path ../ document.pd document.html" );
+        writeln( "    pendown --colorize code.d code.pd" );
+        writeln( "    pendown --colorize --process --style --path ../ code.d code.html" );
+        writeln( "    pendown --colorize --script --style --path ../ code.d code.html" );
+
+        Abort( "Invalid arguments : " ~ argument_array.to!string() );
+    }
 }
 

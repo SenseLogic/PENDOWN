@@ -4,11 +4,10 @@ Lightweight markup for colored documents.
 
 ## Features
 
-* Easy editing directly inside the HTML document, using a simple, concise and consistent syntax.
-* Handwritten note emulation.
-* Fast and easy parsing without ambiguity.
-* No collision with HTML tags and C-like code.
+* Simple, concise and consistent syntax to quickly write colored documents.
 * Complete : styles, colors, alignments, breaks, links, lists, code blocks, tables, quotes, frames and images.
+* Fast conversion to HTML by a standalone command line tool or by a web browser script.
+* Source code syntax highlighting.
 
 ## Getting Started
 
@@ -213,14 +212,82 @@ Large :
 
 Open it in a browser to see the [result](SAMPLE/sample.png).
 
+## Limitations
+
+* Lists are not processed inside preformatted blocks.
+* The Pendown text can't contain the string `</xmp>` if it is converted by the web browser.
+
 ## Installation
+
+Install the [DMD 2 compiler](https://dlang.org/download.html).
+
+Build the executable with the following command line :
+
+```bash
+dmd -m64 pendown.d
+```
 
 Put the "pendown.css" and "pendown.js" files in a local folder directly accessible from your Pendown HTML files.
 
-## Limitations
+## Command line
 
-* Your Pendown text can't contain the string `</xmp>`.
-* Lists are not usable inside preformatted blocks.
+```bash
+pendown [options] input_file output_file
+```
+
+### Options
+
+```
+--colorize : generate a Pendown file from a source code file
+--process : generate a HTML file from a Pendown file
+--script : make the HTML file import the Pendown script file
+--style : make the HTML file import the Pendown style file
+--language c|cpp|csharp|d|java|javascript|typescript : set the source code language
+--path PENDOWN_FOLDER/ : set the path of the imported Pendown files 
+``` 
+
+### File extensions
+
+The source code language is automatically deduced from the following file extensions :
+
+* C : .c, .h
+* C++ : .cpp, .hpp, .cxx, .hxx
+* C# : .cs
+* D : .d
+* JavaScript : .js
+* TypeScript : .ts
+
+### Examples
+
+```bash
+pendown --process --style --path ../ document.pd document.html
+```
+
+Converts a Pendown file to a HTML file which imports the Pendown style file.
+
+```bash
+pendown --script --style --path ../ document.pd document.html
+```
+
+Converts a Pendown file to a HTML file which imports the Pendown script and style files to convert the Pendown tags inside the web browser.
+
+```bash
+pendown --colorize code.d code.pd
+```
+
+Converts a D source code file to a Pendown file.
+
+```bash
+pendown --colorize --process --style --path ../ code.d code.html
+```
+
+Converts a D source code file to a HTML file which imports the Pendown style file.
+
+```bash
+pendown --colorize --script --style --path ../ code.d code.html
+```
+
+Converts a D source code file to a HTML file which imports the Pendown script and style files to convert the Pendown tags inside the web browser.
 
 ## Troubleshooting
 
@@ -240,15 +307,15 @@ Check that both fonts are properly installed on your system.
 
 > How can I force Pendown to use black as the default text color ?
 
-Replace `<xmp>` by `<xmp class="black">`.
+Replace `<xmp>` by `<xmp class="black">` in the HTML file.
 
 > How can I hide the Pendown text until it has been converted into HTML ?
 
-Replace `<xmp>` by `<xmp style="display:none">`.
+Replace `<xmp>` by `<xmp style="display:none">` in the HTML file.
 
 ## Version
 
-0.1
+0.2
 
 ## Author
 
