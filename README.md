@@ -11,11 +11,9 @@ Lightweight markup for colored documents.
 
 ## Getting Started
 
-Create a HTML file with the ".html" extension.
+Open the "sample.html" file with a web-browser to see the [result](SAMPLE/sample.png).
 
-Open it with a plain text editor like Geany or Notepad++.
-
-Edit your text between these lines:
+The embedded Pendown text will be converted on-the-fly when the file is opened.
 
 ```html
 <meta charset="utf8"/>
@@ -210,14 +208,52 @@ Large :
 <script src="../pendown.js"></script>
 ```
 
-Open it in a browser to see the [result](SAMPLE/sample.png).
+## Client-side compiler
 
-## Limitations
+### Installation
 
-* Lists are not processed inside preformatted blocks.
-* The Pendown text can't contain the string `</xmp>` if it is converted by the web browser.
+Just put the "pendown.css" and "pendown.js" files in the same folder as your HTML files, or in a folder accessible from them.
 
-## Installation
+### Usage
+
+Write your Pendown text inside the `<xmp>` section.
+
+```html
+<meta charset="utf8"/>
+<link rel="stylesheet" href="pendown.css">
+<xmp>
+$$Hello world !$$
+</xmp>
+<script src="pendown.js"></script>
+```
+
+### Troubleshooting
+
+> The Pendown page doesn't show the converted text.
+
+Check that the Pendown file extension is ".html".
+
+Check that your text is between the `<xmp>` and `</xmp>` tags.
+
+Check that the relative paths to "pendown.css" and "pendown.js" are correct.
+
+> The Pendown page doesn't use the Comic Sans MS or Consolas font as in the "sample.png" image.
+
+Check that both fonts are properly installed on your system.
+
+### Frequently asked questions
+
+> How can I force Pendown to use black as the default text color ?
+
+Replace `<xmp>` by `<xmp class="black">` in the HTML file.
+
+> How can I hide the Pendown text until it has been converted into HTML ?
+
+Replace `<xmp>` by `<xmp style="display:none">` in the HTML file.
+
+## Server-side compiler
+
+### Installation
 
 Install the [DMD 2 compiler](https://dlang.org/download.html).
 
@@ -227,9 +263,7 @@ Build the executable with the following command line :
 dmd -m64 pendown.d
 ```
 
-Put the "pendown.css" and "pendown.js" files in a local folder directly accessible from your Pendown HTML files.
-
-## Command line
+### Command line
 
 ```bash
 pendown [options] input_file output_file
@@ -289,29 +323,10 @@ pendown --colorize --script --style --path ../ code.d code.html
 
 Converts a D source code file to a HTML file which imports the Pendown script and style files to convert the Pendown tags inside the web browser.
 
-## Troubleshooting
+## Limitations
 
-> The Pendown page doesn't show the converted text.
-
-Check that the Pendown file extension is ".html".
-
-Check that your text is between the `<xmp>` and `</xmp>` tags.
-
-Check that the relative paths to "pendown.css" and "pendown.js" are correct.
-
-> The Pendown page doesn't use the Comic Sans MS or Consolas font as in the "sample.png" image.
-
-Check that both fonts are properly installed on your system.
-
-## Frequently asked questions
-
-> How can I force Pendown to use black as the default text color ?
-
-Replace `<xmp>` by `<xmp class="black">` in the HTML file.
-
-> How can I hide the Pendown text until it has been converted into HTML ?
-
-Replace `<xmp>` by `<xmp style="display:none">` in the HTML file.
+* Lists are not processed inside preformatted blocks.
+* The Pendown text can't contain the string `</xmp>` when it is converted by the web browser script.
 
 ## Version
 
