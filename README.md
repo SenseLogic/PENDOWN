@@ -11,9 +11,9 @@ Lightweight markup for colored documents.
 
 ## Getting Started
 
-Open the "sample.html" file with a web-browser to see the [result](SAMPLE/sample.png).
+Install the Pendown installation files in a local folder on your computer, and open the "sample.html" file with a plain text editor like Geany or Notepad++.
 
-The embedded Pendown text will be converted on-the-fly when the file is opened.
+You will see that all its text is written using Pendown tags, which are automatically converted on-the-fly when the HTML file is opened.
 
 ```html
 <meta charset="utf8"/>
@@ -150,7 +150,7 @@ Banana|1     |3      |3
 !! Code
 
 :::
-##// ²Colored source code²##
+##// ²Colorized source code²##
 
 ²if² ³(³ ... ³)³
 ³{³
@@ -160,6 +160,21 @@ Banana|1     |3      |3
 ³{³
     ...
 ³}³
+:::
+
+:::c++\
+// Colorized source code
+
+#include <iostream>
+
+using namespace std;
+
+int main() 
+{
+    cout << "Hello world!";
+    
+    return 0;
+}
 :::
 
 !! List
@@ -207,6 +222,10 @@ Large :
 </xmp>
 <script src="../pendown.js"></script>
 ```
+
+Then open the "sample.html" file with a web-browser.
+
+You should see the following [result](SAMPLE/sample.png) if the Comic Sans and Consolas fonts are already installed on your system.
 
 ## Syntax highlighting
 
