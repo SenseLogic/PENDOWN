@@ -208,6 +208,19 @@ Large :
 <script src="../pendown.js"></script>
 ```
 
+## Syntax highlighting
+
+The source code programming language can be specified with the following keywords :
+
+* C : c h
+* C++ : c++ h++ cpp hpp cxx hxx
+* C# : c# cs
+* D : d
+* JavaScript : js
+* TypeScript : ts
+
+When colorizing a source code file, its programming language is deduced from the file extension if it matches one of the above keywords.
+
 ## Client-side compiler
 
 ### Installation
@@ -276,20 +289,9 @@ pendown [options] input_file output_file
 --process : generate a HTML file from a Pendown file
 --script : make the HTML file import the Pendown script file
 --style : make the HTML file import the Pendown style file
---language c|cpp|csharp|d|java|javascript|typescript : set the source code language
+--language c|c++|cpp|c#|cs|d|java|js|ts : set the source code language
 --path PENDOWN_FOLDER/ : set the path of the imported Pendown files 
 ``` 
-
-### File extensions
-
-The source code language is automatically deduced from the following file extensions :
-
-* C : .c, .h
-* C++ : .cpp, .hpp, .cxx, .hxx
-* C# : .cs
-* D : .d
-* JavaScript : .js
-* TypeScript : .ts
 
 ### Examples
 

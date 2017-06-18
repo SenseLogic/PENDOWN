@@ -30,23 +30,11 @@
 <span style="color:#f4a">import</span> std<span style="color:#888">.</span>conv <span style="color:#888">:</span> to<span style="color:#888">;</span>
 <span style="color:#f4a">import</span> std<span style="color:#888">.</span>file <span style="color:#888">:</span> readText<span style="color:#888">,</span> write<span style="color:#888">;</span>
 <span style="color:#f4a">import</span> std<span style="color:#888">.</span>stdio <span style="color:#888">:</span> writeln<span style="color:#888">;</span>
-<span style="color:#f4a">import</span> std<span style="color:#888">.</span><span style="color:#f00">string</span> <span style="color:#888">:</span> endsWith<span style="color:#888">,</span> indexOf<span style="color:#888">,</span> replace<span style="color:#888">,</span> startsWith<span style="color:#888">,</span> toLower<span style="color:#888">,</span> toUpper<span style="color:#888">;</span>
+<span style="color:#f4a">import</span> std<span style="color:#888">.</span><span style="color:#f00">string</span> <span style="color:#888">:</span> endsWith<span style="color:#888">,</span> indexOf<span style="color:#888">,</span> join<span style="color:#888">,</span> replace<span style="color:#888">,</span> split<span style="color:#888">,</span> startsWith<span style="color:#888">,</span> strip<span style="color:#888">,</span> toLower<span style="color:#888">,</span> toUpper<span style="color:#888">;</span>
 
 <span style="color:#888">// == GLOBAL</span>
 
 <span style="color:#888">// -- TYPES</span>
-
-<span style="color:#f00">class</span> <span style="color:#f80">TOKEN</span>
-<span style="color:#888">{</span>
-    <span style="color:#f00">dstring</span>
-        Text<span style="color:#888">;</span>
-    <span style="color:#f00">bool</span>
-        StartsLine<span style="color:#888">,</span>
-        IsSpace<span style="color:#888">,</span>
-        IsEscaped<span style="color:#888">;</span>
-<span style="color:#888">}</span>
-
-<span style="color:#888">// ~~</span>
 
 <span style="color:#f00">class</span> <span style="color:#f80">LANGUAGE</span>
 <span style="color:#888">{</span>
@@ -56,14 +44,14 @@
     <span style="color:#888">{</span>
         <span style="color:#f4a">return</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">bool</span> IsKeyword<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"if"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"else"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"do"</span>
@@ -74,20 +62,21 @@
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"default"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"break"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"continue"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"return"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"return"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">bool</span> IsType<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
         <span style="color:#f4a">return</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">bool</span> IsQualifier<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
@@ -104,18 +93,19 @@
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"false"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"true"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"true"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">override</span> <span style="color:#f00">bool</span> IsKeyword<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"if"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"else"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"do"</span>
@@ -126,16 +116,17 @@
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"default"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"break"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"continue"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"return"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"return"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">override</span> <span style="color:#f00">bool</span> IsType<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"void"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"bool"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"char"</span>
@@ -145,16 +136,17 @@
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"signed"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"unsigned"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"float"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"double"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"double"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">override</span> <span style="color:#f00">bool</span> IsQualifier<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"const"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"register"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"inline"</span>
@@ -162,7 +154,8 @@
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"union"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"enum"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"typedef"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"static"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"static"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
 <span style="color:#888">}</span>
 
@@ -174,20 +167,21 @@
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"false"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"true"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"null"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"nullptr"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"nullptr"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">override</span> <span style="color:#f00">bool</span> IsKeyword<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"if"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"else"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"do"</span>
@@ -202,20 +196,21 @@
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"try"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"catch"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"throw"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"using"</span> 
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"namespace"</span> 
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"using"</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"namespace"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"new"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"delete"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"this"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"this"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">override</span> <span style="color:#f00">bool</span> IsType<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"void"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"bool"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"char"</span>
@@ -226,16 +221,17 @@
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"unsigned"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"float"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"double"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"auto"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"auto"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">override</span> <span style="color:#f00">bool</span> IsQualifier<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"const"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"mutable"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"virtual"</span>
@@ -256,7 +252,8 @@
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"protected"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"private"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"override"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"final"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"final"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
 <span style="color:#888">}</span>
 
@@ -274,25 +271,26 @@
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"false"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"true"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"null"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"null"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">override</span> <span style="color:#f00">bool</span> IsKeyword<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"if"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"else"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"do"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"while"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"for"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"foreach"</span> 
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"foreach"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"switch"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"case"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"default"</span>
@@ -304,17 +302,18 @@
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"throw"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"new"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"delete"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"import"</span> 
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"this"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"import"</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"this"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">override</span> <span style="color:#f00">bool</span> IsType<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"void"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"bool"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"char"</span>
@@ -333,16 +332,17 @@
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"string"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"wstring"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"dstring"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"auto"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"auto"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">override</span> <span style="color:#f00">bool</span> IsQualifier<span style="color:#888">(</span>
         <span style="color:#f80">CODE_TOKEN</span> code_token
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span>
+        <span style="color:#f4a">return</span> <span style="color:#888">(</span>
             code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"class"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"struct"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"union"</span>
@@ -351,7 +351,8 @@
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"protected"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"private"</span>
             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"override"</span>
-            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"final"</span><span style="color:#888">;</span>
+            <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"final"</span>
+            <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
 <span style="color:#888">}</span>
 
@@ -404,8 +405,6 @@
 
 <span style="color:#f00">class</span> <span style="color:#f80">CODE_TOKEN</span>
 <span style="color:#888">{</span>
-    <span style="color:#888">// -- ATTRIBUTES</span>
-
     <span style="color:#f80">CODE_TOKEN_TYPE</span>
         Type<span style="color:#888">;</span>
     <span style="color:#f00">dstring</span>
@@ -414,426 +413,14 @@
 
 <span style="color:#888">// ~~</span>
 
-<span style="color:#f00">class</span> <span style="color:#f80">CODE</span>
+<span style="color:#f00">class</span> <span style="color:#f80">TOKEN</span>
 <span style="color:#888">{</span>
-    <span style="color:#f80">LANGUAGE</span>
-        Language<span style="color:#888">;</span>
-    <span style="color:#f80">CODE_TOKEN</span><span style="color:#888">[]</span>
-        TokenArray<span style="color:#888">;</span>
-    <span style="color:#f00">dstring</span><span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Count <span style="color:#888">]</span>
-        ColorPrefixArray<span style="color:#888">,</span>
-        ColorSuffixArray<span style="color:#888">;</span>
-        
-    <span style="color:#888">// ~~</span>
-        
-    <span style="color:#f4a">this</span><span style="color:#888">(</span>
-        <span style="color:#f00">string</span> file_path
-        <span style="color:#888">)</span>
-    <span style="color:#888">{</span>
-        SetLanguage<span style="color:#888">(</span> file_path <span style="color:#888">)</span><span style="color:#888">;</span>
-        
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>ShortComment <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>LongComment <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>String <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Number <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Constant <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>LowerCaseIdentifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>UpperCaseIdentifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²²"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>MinorCaseIdentifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>MajorCaseIdentifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Identifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Keyword <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"¹"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Type <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Qualifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Pragma <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Operator <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Separator <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Delimiter <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
-        ColorPrefixArray<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Special <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
-        
-        ColorSuffixArray <span style="color:#888">=</span> ColorPrefixArray<span style="color:#888">;</span>
-    <span style="color:#888">}</span>
-    
-    <span style="color:#888">// ~~</span>
-    
-    <span style="color:#f00">void</span> SetLanguage<span style="color:#888">(</span>
-        <span style="color:#f00">string</span> file_path
-        <span style="color:#888">)</span>
-    <span style="color:#888">{</span>
-        <span style="color:#f4a">if</span> <span style="color:#888">(</span> LanguageName <span style="color:#888">==</span> <span style="color:#f00">"c"</span>
-             <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".c"</span> <span style="color:#888">)</span>
-             <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".h"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            Language <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">C_LANGUAGE</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> LanguageName <span style="color:#888">==</span> <span style="color:#f00">"cpp"</span>
-                 <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".cxx"</span> <span style="color:#888">)</span>
-                 <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".cpp"</span> <span style="color:#888">)</span>
-                 <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".hpp"</span> <span style="color:#888">)</span>
-                 <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".hxx"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            Language <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">CPP_LANGUAGE</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> LanguageName <span style="color:#888">==</span> <span style="color:#f00">"csharp"</span>
-                  <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".cs"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            Language <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">CSHARP_LANGUAGE</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> LanguageName <span style="color:#888">==</span> <span style="color:#f00">"d"</span>
-                  <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".d"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            Language <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">D_LANGUAGE</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> LanguageName <span style="color:#888">==</span> <span style="color:#f00">"java"</span>
-                  <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".java"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            Language <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">JAVA_LANGUAGE</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> LanguageName <span style="color:#888">==</span> <span style="color:#f00">"javascript"</span>
-                  <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".js"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            Language <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">JAVASCRIPT_LANGUAGE</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> LanguageName <span style="color:#888">==</span> <span style="color:#f00">"typescript"</span>
-                  <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".ts"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            Language <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TYPESCRIPT_LANGUAGE</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-        <span style="color:#f4a">else</span>
-        <span style="color:#888">{</span>
-            Language <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">LANGUAGE</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-    <span style="color:#888">}</span>
-    
-    <span style="color:#888">// ~~</span>
-        
-    <span style="color:#f00">void</span> SetTokenArray<span style="color:#888">(</span>
-        <span style="color:#f00">dstring</span> text
-        <span style="color:#888">)</span>
-    <span style="color:#888">{</span>
-        <span style="color:#f00">dchar</span>
-            character<span style="color:#888">,</span>
-            delimiter_character<span style="color:#888">,</span>
-            next_character<span style="color:#888">;</span>
-        <span style="color:#f00">long</span>
-            character_index<span style="color:#888">;</span>
-        <span style="color:#f80">CODE_TOKEN</span>
-            code_token<span style="color:#888">;</span>
-            
-        text <span style="color:#888">=</span> text<span style="color:#888">.</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\r"</span><span style="color:#888">,</span> <span style="color:#f00">""</span> <span style="color:#888">)</span><span style="color:#888">.</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\t"</span><span style="color:#888">,</span> <span style="color:#f00">"    "</span> <span style="color:#888">)</span><span style="color:#888">;</span>
-    
-        <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">!</span>text<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"\n"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            text <span style="color:#888">~=</span> <span style="color:#f00">"\n"</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-
-        TokenArray <span style="color:#888">=</span> <span style="color:#888">[]</span><span style="color:#888">;</span>
-
-        code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
-        delimiter_character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
-
-        <span style="color:#f4a">for</span> <span style="color:#888">(</span> character_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
-              character_index <span style="color:#888">&lt;=</span> text<span style="color:#888">.</span>length<span style="color:#888">;</span>
-              <span style="color:#888">++</span>character_index <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> character_index <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                character <span style="color:#888">=</span> text<span style="color:#888">[</span> character_index <span style="color:#888">]</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-            <span style="color:#f4a">else</span>
-            <span style="color:#888">{</span>
-                character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> character_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                next_character <span style="color:#888">=</span> text<span style="color:#888">[</span> character_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">]</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-            <span style="color:#f4a">else</span>
-            <span style="color:#888">{</span>
-                next_character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token <span style="color:#888">!</span>is <span style="color:#f00">null</span> <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>String <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> delimiter_character <span style="color:#888">)</span>
-                    <span style="color:#888">{</span>
-                        code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-
-                        code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
-                        character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
-                    <span style="color:#888">}</span>
-                    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'\\'</span> <span style="color:#888">)</span>
-                    <span style="color:#888">{</span>
-                        code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                        code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> next_character<span style="color:#888">;</span>
-
-                        character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
-
-                        <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
-                    <span style="color:#888">}</span>
-                    <span style="color:#f4a">else</span>
-                    <span style="color:#888">{</span>
-                        code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                    <span style="color:#888">}</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>ShortComment <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'\r'</span>
-                         <span style="color:#888">||</span> character <span style="color:#888">==</span> <span style="color:#f00">'\n'</span> <span style="color:#888">)</span>
-                    <span style="color:#888">{</span>
-                        code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
-                    <span style="color:#888">}</span>
-                    <span style="color:#f4a">else</span>
-                    <span style="color:#888">{</span>
-                        code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                    <span style="color:#888">}</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>LongComment <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'*'</span>
-                         <span style="color:#888">&&</span> next_character <span style="color:#888">==</span> <span style="color:#f00">'/'</span> <span style="color:#888">)</span>
-                    <span style="color:#888">{</span>
-                        code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> <span style="color:#f00">"*/"</span><span style="color:#888">;</span>
-
-                        code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
-                        character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
-
-                        <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
-                    <span style="color:#888">}</span>
-                    <span style="color:#f4a">else</span>
-                    <span style="color:#888">{</span>
-                        code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                    <span style="color:#888">}</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Number
-                            <span style="color:#888">&&</span> <span style="color:#888">(</span> character<span style="color:#888">.</span>isDigit<span style="color:#888">()</span>
-                                 <span style="color:#888">||</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'.'</span> <span style="color:#888">&&</span> next_character<span style="color:#888">.</span>isDigit<span style="color:#888">()</span> <span style="color:#888">)</span>
-                                 <span style="color:#888">||</span> character<span style="color:#888">.</span>isAlpha<span style="color:#888">()</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-                          <span style="color:#888">||</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Identifier
-                               <span style="color:#888">&&</span> <span style="color:#888">(</span> character<span style="color:#888">.</span>isAlpha<span style="color:#888">()</span>
-                                    <span style="color:#888">||</span> character<span style="color:#888">.</span>isDigit<span style="color:#888">()</span>
-                                    <span style="color:#888">||</span> character <span style="color:#888">==</span> <span style="color:#f00">'_'</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-                          <span style="color:#888">||</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Operator
-                               <span style="color:#888">&&</span> <span style="color:#f00">"~+-*/%^$&|?:!=&lt;&gt;#"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span>
-                <span style="color:#888">{</span>
-                    <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Identifier <span style="color:#888">)</span>
-                    <span style="color:#888">{</span>
-                        <span style="color:#f4a">if</span> <span style="color:#888">(</span> Language<span style="color:#888">.</span>IsConstant<span style="color:#888">(</span> code_token <span style="color:#888">)</span> <span style="color:#888">)</span>
-                        <span style="color:#888">{</span>
-                            code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Constant<span style="color:#888">;</span>
-                        <span style="color:#888">}</span>
-                        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> Language<span style="color:#888">.</span>IsKeyword<span style="color:#888">(</span> code_token <span style="color:#888">)</span> <span style="color:#888">)</span>
-                        <span style="color:#888">{</span>
-                            code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Keyword<span style="color:#888">;</span>
-                        <span style="color:#888">}</span>
-                        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> Language<span style="color:#888">.</span>IsType<span style="color:#888">(</span> code_token <span style="color:#888">)</span> <span style="color:#888">)</span>
-                        <span style="color:#888">{</span>
-                            code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Type<span style="color:#888">;</span>
-                        <span style="color:#888">}</span>
-                        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> Language<span style="color:#888">.</span>IsQualifier<span style="color:#888">(</span> code_token <span style="color:#888">)</span> <span style="color:#888">)</span>
-                        <span style="color:#888">{</span>
-                            code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Qualifier<span style="color:#888">;</span>
-                        <span style="color:#888">}</span>
-                        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">.</span>startsWith<span style="color:#888">(</span> <span style="color:#f00">'#'</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-                        <span style="color:#888">{</span>
-                            code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Pragma<span style="color:#888">;</span>
-                        <span style="color:#888">}</span>
-                        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">.</span>toLower<span style="color:#888">()</span> <span style="color:#888">)</span>
-                        <span style="color:#888">{</span>
-                            code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>LowerCaseIdentifier<span style="color:#888">;</span>
-                        <span style="color:#888">}</span>
-                        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">.</span>toUpper<span style="color:#888">()</span>
-                                  <span style="color:#888">&&</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">.</span>length <span style="color:#888">&gt;=</span> <span style="color:#f00">2</span> <span style="color:#888">)</span>
-                        <span style="color:#888">{</span>
-                            code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>UpperCaseIdentifier<span style="color:#888">;</span>
-                        <span style="color:#888">}</span>
-                        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">.</span>isLower<span style="color:#888">()</span> <span style="color:#888">)</span>
-                        <span style="color:#888">{</span>
-                            code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>MinorCaseIdentifier<span style="color:#888">;</span>
-                        <span style="color:#888">}</span>
-                        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">.</span>isUpper<span style="color:#888">()</span> <span style="color:#888">)</span>
-                        <span style="color:#888">{</span>
-                            code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>MajorCaseIdentifier<span style="color:#888">;</span>
-                        <span style="color:#888">}</span>
-                    <span style="color:#888">}</span>
-
-                    code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-            <span style="color:#888">}</span>
-
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token is <span style="color:#f00">null</span>
-                 <span style="color:#888">&&</span> character <span style="color:#888">!=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                code_token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">CODE_TOKEN</span><span style="color:#888">;</span>
-
-                <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'/'</span>
-                          <span style="color:#888">&&</span> next_character <span style="color:#888">==</span> <span style="color:#f00">'/'</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>ShortComment<span style="color:#888">;</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"//"</span><span style="color:#888">;</span>
-
-                    <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'/'</span>
-                          <span style="color:#888">&&</span> next_character <span style="color:#888">==</span> <span style="color:#f00">'*'</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>LongComment<span style="color:#888">;</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"/*"</span><span style="color:#888">;</span>
-
-                    <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'\''</span>
-                     <span style="color:#888">||</span> character <span style="color:#888">==</span> <span style="color:#f00">'\"'</span>
-                     <span style="color:#888">||</span> character <span style="color:#888">==</span> <span style="color:#f00">'`'</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>String<span style="color:#888">;</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-
-                    delimiter_character <span style="color:#888">=</span> character<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character<span style="color:#888">.</span>isDigit<span style="color:#888">()</span>
-                          <span style="color:#888">||</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'-'</span>
-                               <span style="color:#888">&&</span>  next_character<span style="color:#888">.</span>isDigit<span style="color:#888">()</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Number<span style="color:#888">;</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character<span style="color:#888">.</span>isAlpha<span style="color:#888">()</span>
-                          <span style="color:#888">||</span> character <span style="color:#888">==</span> <span style="color:#f00">'_'</span>
-                          <span style="color:#888">||</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'#'</span> <span style="color:#888">&&</span> next_character<span style="color:#888">.</span>isAlpha<span style="color:#888">()</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Identifier<span style="color:#888">;</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#f00">"~+-*/%^$&|!=&lt;&gt;#"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Operator<span style="color:#888">;</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#f00">".,;"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Separator<span style="color:#888">;</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#f00">"()[]{}"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Delimiter<span style="color:#888">;</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#f00">" \t\r\n"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Spacing<span style="color:#888">;</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span>
-                <span style="color:#888">{</span>
-                    code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Special<span style="color:#888">;</span>
-                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-
-                TokenArray <span style="color:#888">~=</span> code_token<span style="color:#888">;</span>
-
-                <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">&gt;=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Separator <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-            <span style="color:#888">}</span>
-        <span style="color:#888">}</span>
-    <span style="color:#888">}</span>
-
-    <span style="color:#888">// ~~</span>
-
-    <span style="color:#f00">void</span> EscapeSpecialCharacters<span style="color:#888">(</span>
-        <span style="color:#888">)</span>
-    <span style="color:#888">{</span>
-        <span style="color:#f00">dchar</span>
-            prior_character<span style="color:#888">;</span>
-        <span style="color:#f00">dstring</span>
-            token_text<span style="color:#888">;</span>
-
-        <span style="color:#f4a">foreach</span> <span style="color:#888">(</span> ref token<span style="color:#888">;</span> TokenArray <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            token_text <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
-            prior_character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
-
-            <span style="color:#f4a">foreach</span> <span style="color:#888">(</span> character<span style="color:#888">;</span> token<span style="color:#888">.</span>Text <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'&lt;'</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    token_text <span style="color:#888">~=</span> <span style="color:#f00">"&lt;"</span><span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'&gt;'</span> <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    token_text <span style="color:#888">~=</span> <span style="color:#f00">"&gt;"</span><span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-                <span style="color:#f4a">else</span>
-                <span style="color:#888">{</span>
-                    <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#f00">"\\`°¹²³!#@"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span>
-                         <span style="color:#888">||</span> <span style="color:#888">(</span> <span style="color:#f00">"+-$*%^,~_{}[]:"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span>
-                              <span style="color:#888">&&</span> character <span style="color:#888">==</span> prior_character <span style="color:#888">)</span> <span style="color:#888">)</span>
-                    <span style="color:#888">{</span>
-                        token_text <span style="color:#888">~=</span> <span style="color:#f00">'\\'</span><span style="color:#888">;</span>
-                    <span style="color:#888">}</span>
-
-                    token_text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-
-                prior_character <span style="color:#888">=</span> character<span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-
-            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> token_text<span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-    <span style="color:#888">}</span>
-
-    <span style="color:#888">// ~~</span>
-
-    <span style="color:#f00">void</span> SetText<span style="color:#888">(</span>
-        <span style="color:#f00">dstring</span> text
-        <span style="color:#888">)</span>
-    <span style="color:#888">{</span>
-        SetTokenArray<span style="color:#888">(</span> text <span style="color:#888">)</span><span style="color:#888">;</span>
-
-        EscapeSpecialCharacters<span style="color:#888">()</span><span style="color:#888">;</span>
-    <span style="color:#888">}</span>
-
-    <span style="color:#888">// ~~</span>
-
-    <span style="color:#f00">dstring</span> GetColorizedText<span style="color:#888">(</span>
-        <span style="color:#888">)</span>
-    <span style="color:#888">{</span>
-        <span style="color:#f00">dstring</span>
-            colorized_text<span style="color:#888">;</span>
-            
-        colorized_text <span style="color:#888">~=</span> <span style="color:#f00">":::\n"</span><span style="color:#888">;</span>
-
-        <span style="color:#f4a">foreach</span> <span style="color:#888">(</span> token_index<span style="color:#888">,</span> token<span style="color:#888">;</span> TokenArray <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> token_index <span style="color:#888">==</span> <span style="color:#f00">0</span>
-                 <span style="color:#888">||</span> token<span style="color:#888">.</span>Type <span style="color:#888">!=</span> TokenArray<span style="color:#888">[</span> token_index <span style="color:#888">-</span> <span style="color:#f00">1</span> <span style="color:#888">]</span><span style="color:#888">.</span>Type <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                colorized_text <span style="color:#888">~=</span> ColorPrefixArray<span style="color:#888">[</span> token<span style="color:#888">.</span>Type <span style="color:#888">]</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-
-            colorized_text <span style="color:#888">~=</span> token<span style="color:#888">.</span>Text<span style="color:#888">;</span>
-
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> token_index <span style="color:#888">==</span> TokenArray<span style="color:#888">.</span>length <span style="color:#888">-</span> <span style="color:#f00">1</span>
-                 <span style="color:#888">||</span> token<span style="color:#888">.</span>Type <span style="color:#888">!=</span> TokenArray<span style="color:#888">[</span> token_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">]</span><span style="color:#888">.</span>Type <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                colorized_text <span style="color:#888">~=</span> ColorSuffixArray<span style="color:#888">[</span> token<span style="color:#888">.</span>Type <span style="color:#888">]</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-        <span style="color:#888">}</span>
-        
-        colorized_text <span style="color:#888">~=</span> <span style="color:#f00">":::\n"</span><span style="color:#888">;</span>
-
-        <span style="color:#f4a">return</span> colorized_text<span style="color:#888">;</span>
-    <span style="color:#888">}</span>
+    <span style="color:#f00">dstring</span>
+        Text<span style="color:#888">;</span>
+    <span style="color:#f00">bool</span>
+        StartsLine<span style="color:#888">,</span>
+        IsSpace<span style="color:#888">,</span>
+        IsEscaped<span style="color:#888">;</span>
 <span style="color:#888">}</span>
 
 <span style="color:#888">// -- VARIABLES</span>
@@ -892,24 +479,33 @@
     <span style="color:#888">{</span>
         first_character_index <span style="color:#888">+=</span> text<span style="color:#888">.</span>length<span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> post_character_index <span style="color:#888">&lt;</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
         post_character_index <span style="color:#888">+=</span> text<span style="color:#888">.</span>length<span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> first_character_index <span style="color:#888">&gt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
     <span style="color:#888">{</span>
         first_character_index <span style="color:#888">=</span> text<span style="color:#888">.</span>length<span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> post_character_index <span style="color:#888">&gt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
     <span style="color:#888">{</span>
         post_character_index <span style="color:#888">=</span> text<span style="color:#888">.</span>length<span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
-    
+
+
     <span style="color:#f4a">return</span> text<span style="color:#888">[</span> first_character_index <span style="color:#888">..</span> post_character_index <span style="color:#888">]</span><span style="color:#888">;</span>
+<span style="color:#888">}</span>
+
+<span style="color:#888">// ~~</span>
+
+<span style="color:#f00">dstring</span> trim<span style="color:#888">(</span>
+    <span style="color:#f00">dstring</span> text
+    <span style="color:#888">)</span>
+<span style="color:#888">{</span>
+    <span style="color:#f4a">return</span> text<span style="color:#888">.</span>strip<span style="color:#888">()</span><span style="color:#888">;</span>
 <span style="color:#888">}</span>
 
 <span style="color:#888">// ~~</span>
@@ -952,14 +548,569 @@
 
 <span style="color:#888">// ~~</span>
 
+<span style="color:#f00">dstring</span> GetCleanedText<span style="color:#888">(</span>
+    <span style="color:#f00">dstring</span> text
+    <span style="color:#888">)</span>
+<span style="color:#888">{</span>
+    <span style="color:#f00">dstring</span>
+        cleaned_text<span style="color:#888">;</span>
+
+    cleaned_text <span style="color:#888">=</span> text<span style="color:#888">.</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\r"</span><span style="color:#888">,</span> <span style="color:#f00">""</span> <span style="color:#888">)</span><span style="color:#888">.</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\t"</span><span style="color:#888">,</span> <span style="color:#f00">"    "</span> <span style="color:#888">)</span><span style="color:#888">;</span>
+
+    <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">!</span>cleaned_text<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"\n"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        cleaned_text <span style="color:#888">~=</span> <span style="color:#f00">"\n"</span><span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+
+    <span style="color:#f4a">return</span> cleaned_text<span style="color:#888">;</span>
+<span style="color:#888">}</span>
+
+<span style="color:#888">// ~~</span>
+
 <span style="color:#f00">bool</span> IsHexadecimalCharacter<span style="color:#888">(</span>
     <span style="color:#f00">dchar</span> character
     <span style="color:#888">)</span>
 <span style="color:#888">{</span>
-    <span style="color:#f4a">return</span>
+    <span style="color:#f4a">return</span> <span style="color:#888">(</span>
         <span style="color:#888">(</span> character <span style="color:#888">&gt;=</span> <span style="color:#f00">'0'</span> <span style="color:#888">&&</span> character <span style="color:#888">&lt;=</span> <span style="color:#f00">'9'</span> <span style="color:#888">)</span>
         <span style="color:#888">||</span> <span style="color:#888">(</span> character <span style="color:#888">&gt;=</span> <span style="color:#f00">'a'</span> <span style="color:#888">&&</span> character <span style="color:#888">&lt;=</span> <span style="color:#f00">'f'</span> <span style="color:#888">)</span>
-        <span style="color:#888">||</span> <span style="color:#888">(</span> character <span style="color:#888">&gt;=</span> <span style="color:#f00">'A'</span> <span style="color:#888">&&</span> character <span style="color:#888">&lt;=</span> <span style="color:#f00">'F'</span> <span style="color:#888">)</span><span style="color:#888">;</span>
+        <span style="color:#888">||</span> <span style="color:#888">(</span> character <span style="color:#888">&gt;=</span> <span style="color:#f00">'A'</span> <span style="color:#888">&&</span> character <span style="color:#888">&lt;=</span> <span style="color:#f00">'F'</span> <span style="color:#888">)</span>
+        <span style="color:#888">)</span><span style="color:#888">;</span>
+<span style="color:#888">}</span>
+
+<span style="color:#888">// ~~</span>
+
+<span style="color:#f80">LANGUAGE</span> GetLanguage<span style="color:#888">(</span>
+    <span style="color:#f00">string</span> file_path<span style="color:#888">,</span>
+    <span style="color:#f00">string</span> file_extension
+    <span style="color:#888">)</span>
+<span style="color:#888">{</span>
+    <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_extension <span style="color:#888">!=</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_extension<span style="color:#888">.</span>startsWith<span style="color:#888">(</span> <span style="color:#f00">'.'</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            file_path <span style="color:#888">=</span> file_extension<span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span>
+        <span style="color:#888">{</span>
+            file_path <span style="color:#888">=</span> <span style="color:#f00">"."</span> <span style="color:#888">~</span> file_extension<span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+    <span style="color:#888">}</span>
+
+    <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".c"</span> <span style="color:#888">)</span>
+         <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".h"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">C_LANGUAGE</span><span style="color:#888">()</span><span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".c++"</span> <span style="color:#888">)</span>
+              <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".h++"</span> <span style="color:#888">)</span>
+              <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".cpp"</span> <span style="color:#888">)</span>
+              <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".hpp"</span> <span style="color:#888">)</span>
+              <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".cxx"</span> <span style="color:#888">)</span>
+              <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".hxx"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">CPP_LANGUAGE</span><span style="color:#888">()</span><span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".c#"</span> <span style="color:#888">)</span>
+              <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".cs"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">CSHARP_LANGUAGE</span><span style="color:#888">()</span><span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".d"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">D_LANGUAGE</span><span style="color:#888">()</span><span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".java"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">JAVA_LANGUAGE</span><span style="color:#888">()</span><span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".js"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">JAVASCRIPT_LANGUAGE</span><span style="color:#888">()</span><span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".ts"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">TYPESCRIPT_LANGUAGE</span><span style="color:#888">()</span><span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+    <span style="color:#f4a">else</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">LANGUAGE</span><span style="color:#888">()</span><span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+<span style="color:#888">}</span>
+
+<span style="color:#888">// ~~</span>
+
+<span style="color:#f80">CODE_TOKEN</span><span style="color:#888">[]</span> GetCodeTokenArray<span style="color:#888">(</span>
+    <span style="color:#f00">dstring</span> text<span style="color:#888">,</span>
+    <span style="color:#f80">LANGUAGE</span> language
+    <span style="color:#888">)</span>
+<span style="color:#888">{</span>
+    <span style="color:#f00">dchar</span>
+        character<span style="color:#888">,</span>
+        delimiter_character<span style="color:#888">,</span>
+        next_character<span style="color:#888">;</span>
+    <span style="color:#f00">long</span>
+        character_index<span style="color:#888">;</span>
+    <span style="color:#f80">CODE_TOKEN</span>
+        code_token<span style="color:#888">;</span>
+    <span style="color:#f80">CODE_TOKEN</span><span style="color:#888">[]</span>
+        code_token_array<span style="color:#888">;</span>
+
+    text <span style="color:#888">=</span> GetCleanedText<span style="color:#888">(</span> text <span style="color:#888">)</span><span style="color:#888">;</span>
+
+    code_token_array <span style="color:#888">=</span> <span style="color:#888">[]</span><span style="color:#888">;</span>
+
+    code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
+    delimiter_character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+
+    <span style="color:#f4a">for</span> <span style="color:#888">(</span> character_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+          character_index <span style="color:#888">&lt;=</span> text<span style="color:#888">.</span>length<span style="color:#888">;</span>
+          <span style="color:#888">++</span>character_index <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> character_index <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            character <span style="color:#888">=</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">)</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span>
+        <span style="color:#888">{</span>
+            character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> character_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            next_character <span style="color:#888">=</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">)</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span>
+        <span style="color:#888">{</span>
+            next_character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token <span style="color:#888">!</span>is <span style="color:#f00">null</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>String <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> delimiter_character <span style="color:#888">)</span>
+                <span style="color:#888">{</span>
+                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+
+                    code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
+                    character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+                <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'\\'</span> <span style="color:#888">)</span>
+                <span style="color:#888">{</span>
+                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> next_character<span style="color:#888">;</span>
+
+                    character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+
+                    <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+                <span style="color:#f4a">else</span>
+                <span style="color:#888">{</span>
+                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>ShortComment <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'\r'</span>
+                     <span style="color:#888">||</span> character <span style="color:#888">==</span> <span style="color:#f00">'\n'</span> <span style="color:#888">)</span>
+                <span style="color:#888">{</span>
+                    code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+                <span style="color:#f4a">else</span>
+                <span style="color:#888">{</span>
+                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>LongComment <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'*'</span>
+                     <span style="color:#888">&&</span> next_character <span style="color:#888">==</span> <span style="color:#f00">'/'</span> <span style="color:#888">)</span>
+                <span style="color:#888">{</span>
+                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> <span style="color:#f00">"*/"</span><span style="color:#888">;</span>
+
+                    code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
+                    character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+
+                    <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+                <span style="color:#f4a">else</span>
+                <span style="color:#888">{</span>
+                    code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Number
+                        <span style="color:#888">&&</span> <span style="color:#888">(</span> character<span style="color:#888">.</span>isDigit<span style="color:#888">()</span>
+                             <span style="color:#888">||</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'.'</span> <span style="color:#888">&&</span> next_character<span style="color:#888">.</span>isDigit<span style="color:#888">()</span> <span style="color:#888">)</span>
+                             <span style="color:#888">||</span> character<span style="color:#888">.</span>isAlpha<span style="color:#888">()</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+                      <span style="color:#888">||</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Identifier
+                           <span style="color:#888">&&</span> <span style="color:#888">(</span> character<span style="color:#888">.</span>isAlpha<span style="color:#888">()</span>
+                                <span style="color:#888">||</span> character<span style="color:#888">.</span>isDigit<span style="color:#888">()</span>
+                                <span style="color:#888">||</span> character <span style="color:#888">==</span> <span style="color:#f00">'_'</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+                      <span style="color:#888">||</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Operator
+                           <span style="color:#888">&&</span> <span style="color:#f00">"~+-*/%^$&|?:!=&lt;&gt;#"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">==</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Identifier <span style="color:#888">)</span>
+                <span style="color:#888">{</span>
+                    <span style="color:#f4a">if</span> <span style="color:#888">(</span> language<span style="color:#888">.</span>IsConstant<span style="color:#888">(</span> code_token <span style="color:#888">)</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Constant<span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> language<span style="color:#888">.</span>IsKeyword<span style="color:#888">(</span> code_token <span style="color:#888">)</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Keyword<span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> language<span style="color:#888">.</span>IsType<span style="color:#888">(</span> code_token <span style="color:#888">)</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Type<span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> language<span style="color:#888">.</span>IsQualifier<span style="color:#888">(</span> code_token <span style="color:#888">)</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Qualifier<span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">.</span>startsWith<span style="color:#888">(</span> <span style="color:#f00">'#'</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Pragma<span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">.</span>toLower<span style="color:#888">()</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>LowerCaseIdentifier<span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Text <span style="color:#888">==</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">.</span>toUpper<span style="color:#888">()</span>
+                              <span style="color:#888">&&</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">.</span>length <span style="color:#888">&gt;=</span> <span style="color:#f00">2</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>UpperCaseIdentifier<span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">.</span>isLower<span style="color:#888">()</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>MinorCaseIdentifier<span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                    <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">.</span>isUpper<span style="color:#888">()</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>MajorCaseIdentifier<span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                <span style="color:#888">}</span>
+
+                code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+        <span style="color:#888">}</span>
+
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token is <span style="color:#f00">null</span>
+             <span style="color:#888">&&</span> character <span style="color:#888">!=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            code_token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">CODE_TOKEN</span><span style="color:#888">()</span><span style="color:#888">;</span>
+
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'/'</span>
+                 <span style="color:#888">&&</span> next_character <span style="color:#888">==</span> <span style="color:#f00">'/'</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>ShortComment<span style="color:#888">;</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"//"</span><span style="color:#888">;</span>
+
+                <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'/'</span>
+                      <span style="color:#888">&&</span> next_character <span style="color:#888">==</span> <span style="color:#f00">'*'</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>LongComment<span style="color:#888">;</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"/*"</span><span style="color:#888">;</span>
+
+                <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'\''</span>
+                      <span style="color:#888">||</span> character <span style="color:#888">==</span> <span style="color:#f00">'\"'</span>
+                      <span style="color:#888">||</span> character <span style="color:#888">==</span> <span style="color:#f00">'`'</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>String<span style="color:#888">;</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+
+                delimiter_character <span style="color:#888">=</span> character<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character<span style="color:#888">.</span>isDigit<span style="color:#888">()</span>
+                      <span style="color:#888">||</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'-'</span>
+                           <span style="color:#888">&&</span> next_character<span style="color:#888">.</span>isDigit<span style="color:#888">()</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Number<span style="color:#888">;</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character<span style="color:#888">.</span>isAlpha<span style="color:#888">()</span>
+                      <span style="color:#888">||</span> character <span style="color:#888">==</span> <span style="color:#f00">'_'</span>
+                      <span style="color:#888">||</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'#'</span> <span style="color:#888">&&</span> next_character<span style="color:#888">.</span>isAlpha<span style="color:#888">()</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Identifier<span style="color:#888">;</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#f00">"~+-*/%^$&|!=&lt;&gt;#"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Operator<span style="color:#888">;</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#f00">".,;"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Separator<span style="color:#888">;</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#f00">"()[]{}"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Delimiter<span style="color:#888">;</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#f00">" \t\r\n"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Spacing<span style="color:#888">;</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                code_token<span style="color:#888">.</span>Type <span style="color:#888">=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Special<span style="color:#888">;</span>
+                code_token<span style="color:#888">.</span>Text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+
+            code_token_array<span style="color:#888">.</span>push<span style="color:#888">(</span> code_token <span style="color:#888">)</span><span style="color:#888">;</span>
+
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">&gt;=</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Separator <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token <span style="color:#888">=</span> <span style="color:#f00">null</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+        <span style="color:#888">}</span>
+    <span style="color:#888">}</span>
+
+    <span style="color:#f4a">return</span> code_token_array<span style="color:#888">;</span>
+<span style="color:#888">}</span>
+
+<span style="color:#888">// ~~</span>
+
+<span style="color:#f00">void</span> EscapeSpecialCharacters<span style="color:#888">(</span>
+    ref <span style="color:#f80">CODE_TOKEN</span><span style="color:#888">[]</span> code_token_array
+    <span style="color:#888">)</span>
+<span style="color:#888">{</span>
+    <span style="color:#f00">dchar</span>
+        character<span style="color:#888">,</span>
+        prior_character<span style="color:#888">;</span>
+    <span style="color:#f00">dstring</span>
+        code_token_text<span style="color:#888">;</span>
+    <span style="color:#f00">long</span>
+        character_index<span style="color:#888">,</span>
+        code_token_index<span style="color:#888">;</span>
+    <span style="color:#f80">CODE_TOKEN</span>
+        code_token<span style="color:#888">;</span>
+
+    <span style="color:#f4a">for</span> <span style="color:#888">(</span> code_token_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+          code_token_index <span style="color:#888">&lt;</span> code_token_array<span style="color:#888">.</span>length<span style="color:#888">;</span>
+          <span style="color:#888">++</span>code_token_index <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        code_token <span style="color:#888">=</span> code_token_array<span style="color:#888">[</span> code_token_index <span style="color:#888">]</span><span style="color:#888">;</span>
+
+        code_token_text <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+        prior_character <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+
+        <span style="color:#f4a">for</span> <span style="color:#888">(</span> character_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+              character_index <span style="color:#888">&lt;</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">.</span>length<span style="color:#888">;</span>
+              <span style="color:#888">++</span>character_index <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            character <span style="color:#888">=</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">)</span><span style="color:#888">;</span>
+
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'&lt;'</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token_text <span style="color:#888">~=</span> <span style="color:#f00">"&lt;"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'&gt;'</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                code_token_text <span style="color:#888">~=</span> <span style="color:#f00">"&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#f00">"\\`°¹²³!#@"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span>
+                     <span style="color:#888">||</span> <span style="color:#888">(</span> <span style="color:#f00">"+-$*%^,~_{}[]:"</span><span style="color:#888">.</span>indexOf<span style="color:#888">(</span> character <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span>
+                          <span style="color:#888">&&</span> character <span style="color:#888">==</span> prior_character <span style="color:#888">)</span> <span style="color:#888">)</span>
+                <span style="color:#888">{</span>
+                    code_token_text <span style="color:#888">~=</span> <span style="color:#f00">'\\'</span><span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+
+                code_token_text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+
+            prior_character <span style="color:#888">=</span> character<span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+
+        code_token<span style="color:#888">.</span>Text <span style="color:#888">=</span> code_token_text<span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+<span style="color:#888">}</span>
+
+<span style="color:#888">// ~~</span>
+
+<span style="color:#f00">dstring</span> GetColorizedText<span style="color:#888">(</span>
+    <span style="color:#f00">dstring</span> text<span style="color:#888">,</span>
+    <span style="color:#f00">string</span> file_path<span style="color:#888">,</span>
+    <span style="color:#f00">string</span> file_extension
+    <span style="color:#888">)</span>
+<span style="color:#888">{</span>
+    <span style="color:#f00">dstring</span>
+        colorized_text<span style="color:#888">;</span>
+    <span style="color:#f00">dstring</span><span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Count <span style="color:#888">]</span>
+        color_prefix_array<span style="color:#888">,</span>
+        color_suffix_array<span style="color:#888">;</span>
+    <span style="color:#f00">int</span>
+        code_token_index<span style="color:#888">;</span>
+    <span style="color:#f80">LANGUAGE</span>
+        language<span style="color:#888">;</span>
+    <span style="color:#f80">CODE_TOKEN</span>
+        code_token<span style="color:#888">;</span>
+    <span style="color:#f80">CODE_TOKEN</span><span style="color:#888">[]</span>
+        code_token_array<span style="color:#888">;</span>
+
+    language <span style="color:#888">=</span> GetLanguage<span style="color:#888">(</span> file_path<span style="color:#888">,</span> file_extension <span style="color:#888">)</span><span style="color:#888">;</span>
+
+    text <span style="color:#888">=</span> GetCleanedText<span style="color:#888">(</span> text <span style="color:#888">)</span><span style="color:#888">;</span>
+
+    code_token_array <span style="color:#888">=</span> GetCodeTokenArray<span style="color:#888">(</span> text<span style="color:#888">,</span> language <span style="color:#888">)</span><span style="color:#888">;</span>
+
+    EscapeSpecialCharacters<span style="color:#888">(</span> code_token_array <span style="color:#888">)</span><span style="color:#888">;</span>
+
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>ShortComment <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>LongComment <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>String <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Number <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Constant <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>LowerCaseIdentifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>UpperCaseIdentifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²²"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>MinorCaseIdentifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>MajorCaseIdentifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Identifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Keyword <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"¹"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Type <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Qualifier <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Pragma <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"²"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Operator <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Separator <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Delimiter <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Special <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">"°"</span><span style="color:#888">;</span>
+    color_prefix_array<span style="color:#888">[</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">.</span>Spacing <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+
+    color_suffix_array <span style="color:#888">=</span> color_prefix_array<span style="color:#888">;</span>
+
+    colorized_text <span style="color:#888">=</span> <span style="color:#f00">":::\n"</span><span style="color:#888">;</span>
+
+    <span style="color:#f4a">for</span> <span style="color:#888">(</span> code_token_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+          code_token_index <span style="color:#888">&lt;</span> code_token_array<span style="color:#888">.</span>length<span style="color:#888">;</span>
+          <span style="color:#888">++</span>code_token_index <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        code_token <span style="color:#888">=</span> code_token_array<span style="color:#888">[</span> code_token_index <span style="color:#888">]</span><span style="color:#888">;</span>
+
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token_index <span style="color:#888">==</span> <span style="color:#f00">0</span>
+             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">!=</span> code_token_array<span style="color:#888">[</span> code_token_index <span style="color:#888">-</span> <span style="color:#f00">1</span> <span style="color:#888">]</span><span style="color:#888">.</span>Type <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            colorized_text <span style="color:#888">~=</span> color_prefix_array<span style="color:#888">[</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">]</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+
+        colorized_text <span style="color:#888">~=</span> code_token<span style="color:#888">.</span>Text<span style="color:#888">;</span>
+
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token_index <span style="color:#888">==</span> code_token_array<span style="color:#888">.</span>length <span style="color:#888">-</span> <span style="color:#f00">1</span>
+             <span style="color:#888">||</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">!=</span> code_token_array<span style="color:#888">[</span> code_token_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">]</span><span style="color:#888">.</span>Type <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            colorized_text <span style="color:#888">~=</span> color_suffix_array<span style="color:#888">[</span> code_token<span style="color:#888">.</span>Type <span style="color:#888">]</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+    <span style="color:#888">}</span>
+
+    colorized_text <span style="color:#888">~=</span> <span style="color:#f00">":::\n"</span><span style="color:#888">;</span>
+
+    <span style="color:#f4a">return</span> colorized_text<span style="color:#888">;</span>
+<span style="color:#888">}</span>
+
+<span style="color:#888">// ~~</span>
+
+<span style="color:#f00">dstring</span> GetPreprocessedText<span style="color:#888">(</span>
+    <span style="color:#f00">dstring</span> text
+    <span style="color:#888">)</span>
+<span style="color:#888">{</span>
+    <span style="color:#f00">dstring</span>
+        code_line<span style="color:#888">,</span>
+        code_text<span style="color:#888">,</span>
+        line<span style="color:#888">;</span>
+    <span style="color:#f00">dstring</span><span style="color:#888">[]</span>
+        code_line_array<span style="color:#888">,</span>
+        line_array<span style="color:#888">;</span>
+    <span style="color:#f00">int</span>
+        code_line_index<span style="color:#888">,</span>
+        line_index<span style="color:#888">,</span>
+        post_line_index<span style="color:#888">;</span>
+    <span style="color:#f00">string</span>
+        file_extension<span style="color:#888">;</span>
+
+    text <span style="color:#888">=</span> GetCleanedText<span style="color:#888">(</span> text <span style="color:#888">)</span><span style="color:#888">;</span>
+
+    line_array <span style="color:#888">=</span> text<span style="color:#888">.</span>split<span style="color:#888">(</span> <span style="color:#f00">'\n'</span> <span style="color:#888">)</span><span style="color:#888">;</span>
+
+    <span style="color:#f4a">for</span> <span style="color:#888">(</span> line_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+          line_index <span style="color:#888">&lt;</span> line_array<span style="color:#888">.</span>length<span style="color:#888">;</span>
+          <span style="color:#888">++</span>line_index <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        line <span style="color:#888">=</span> line_array<span style="color:#888">[</span> line_index <span style="color:#888">]</span><span style="color:#888">.</span>trim<span style="color:#888">()</span><span style="color:#888">;</span>
+
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> line<span style="color:#888">.</span>startsWith<span style="color:#888">(</span> <span style="color:#f00">":::"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> line <span style="color:#888">==</span> <span style="color:#f00">":::c\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::h\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::c++\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::h++\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::cpp\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::hpp\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::cxx\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::hxx\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::c#\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::cs\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::d\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::java\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::js\\"</span>
+                 <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::ts\\"</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                file_extension <span style="color:#888">=</span> line<span style="color:#888">.</span>slice<span style="color:#888">(</span> <span style="color:#f00">3</span><span style="color:#888">,</span> <span style="color:#f00">-1</span> <span style="color:#888">)</span><span style="color:#888">.</span>to<span style="color:#888">!</span><span style="color:#f00">string</span><span style="color:#888">()</span><span style="color:#888">;</span>
+
+                code_text <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+
+                <span style="color:#f4a">for</span> <span style="color:#888">(</span> post_line_index <span style="color:#888">=</span> line_index <span style="color:#888">+</span> <span style="color:#f00">1</span><span style="color:#888">;</span>
+                      post_line_index <span style="color:#888">&lt;</span> line_array<span style="color:#888">.</span>length<span style="color:#888">;</span>
+                      <span style="color:#888">++</span>post_line_index <span style="color:#888">)</span>
+                <span style="color:#888">{</span>
+                    code_line <span style="color:#888">=</span> line_array<span style="color:#888">[</span> post_line_index <span style="color:#888">]</span><span style="color:#888">;</span>
+
+                    <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_line<span style="color:#888">.</span>trim<span style="color:#888">()</span> <span style="color:#888">==</span> <span style="color:#f00">":::"</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        <span style="color:#f4a">break</span><span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                    <span style="color:#f4a">else</span>
+                    <span style="color:#888">{</span>
+                        code_text <span style="color:#888">~=</span> code_line<span style="color:#888">;</span>
+                        code_text <span style="color:#888">~=</span> <span style="color:#f00">'\n'</span><span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                <span style="color:#888">}</span>
+
+                <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_text <span style="color:#888">!=</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
+                <span style="color:#888">{</span>
+                    code_text <span style="color:#888">=</span> GetColorizedText<span style="color:#888">(</span> code_text<span style="color:#888">,</span> <span style="color:#f00">""</span><span style="color:#888">,</span> file_extension <span style="color:#888">)</span><span style="color:#888">;</span>
+
+                    code_line_array <span style="color:#888">=</span> code_text<span style="color:#888">.</span>split<span style="color:#888">(</span> <span style="color:#f00">'\n'</span> <span style="color:#888">)</span><span style="color:#888">;</span>
+
+                    <span style="color:#f4a">for</span> <span style="color:#888">(</span> code_line_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+                          code_line_index <span style="color:#888">&lt;</span> code_line_array<span style="color:#888">.</span>length
+                          <span style="color:#888">&&</span> line_index <span style="color:#888">&lt;</span> post_line_index<span style="color:#888">;</span>
+                          <span style="color:#888">++</span>code_line_index <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        line_array<span style="color:#888">[</span> line_index <span style="color:#888">]</span> <span style="color:#888">=</span> code_line_array<span style="color:#888">[</span> code_line_index <span style="color:#888">]</span><span style="color:#888">;</span>
+
+                        <span style="color:#888">++</span>line_index<span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                <span style="color:#888">}</span>
+            <span style="color:#888">}</span>
+        <span style="color:#888">}</span>
+    <span style="color:#888">}</span>
+
+    text <span style="color:#888">=</span> line_array<span style="color:#888">.</span>join<span style="color:#888">(</span> <span style="color:#f00">'\n'</span> <span style="color:#888">)</span><span style="color:#888">;</span>
+
+    <span style="color:#f4a">return</span> text<span style="color:#888">;</span>
 <span style="color:#888">}</span>
 
 <span style="color:#888">// ~~</span>
@@ -1005,14 +1156,14 @@
         token<span style="color:#888">;</span>
     <span style="color:#f80">TOKEN</span><span style="color:#888">[]</span>
         token_array<span style="color:#888">;</span>
-        
-    <span style="color:#888">// ~~ </span>
-    
+
+    <span style="color:#888">// ~~</span>
+
     <span style="color:#f00">void</span> ParseColor<span style="color:#888">(</span>
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
         color <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
-        
+
         <span style="color:#f4a">if</span> <span style="color:#888">(</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length
              <span style="color:#888">&&</span> IsHexadecimalCharacter<span style="color:#888">(</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">)</span> <span style="color:#888">)</span>
              <span style="color:#888">&&</span> IsHexadecimalCharacter<span style="color:#888">(</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
@@ -1021,7 +1172,7 @@
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">'\\'</span> <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 color <span style="color:#888">=</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span><span style="color:#888">;</span>
-                
+
                 character_index <span style="color:#888">+=</span> <span style="color:#f00">4</span><span style="color:#888">;</span>
             <span style="color:#888">}</span>
             <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length
@@ -1031,13 +1182,15 @@
                       <span style="color:#888">&&</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">+</span> <span style="color:#f00">6</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">'\\'</span> <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 color <span style="color:#888">=</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">6</span> <span style="color:#888">)</span><span style="color:#888">;</span>
-                
+
                 character_index <span style="color:#888">+=</span> <span style="color:#f00">7</span><span style="color:#888">;</span>
             <span style="color:#888">}</span>
         <span style="color:#888">}</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
+
+    text <span style="color:#888">=</span> GetCleanedText<span style="color:#888">(</span> text <span style="color:#888">)</span><span style="color:#888">;</span>
 
     token_array <span style="color:#888">=</span> <span style="color:#888">[]</span><span style="color:#888">;</span>
     token_starts_line <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
@@ -1225,11 +1378,11 @@
             it_is_in_blockquote <span style="color:#888">=</span> <span style="color:#888">!</span>it_is_in_blockquote<span style="color:#888">;</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
-            
+
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> it_is_in_blockquote <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 ParseColor<span style="color:#888">()</span><span style="color:#888">;</span>
-                
+
                 <span style="color:#f4a">if</span> <span style="color:#888">(</span> color <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
                 <span style="color:#888">{</span>
                     token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;blockquote&gt;"</span><span style="color:#888">;</span>
@@ -1249,14 +1402,14 @@
             it_is_in_frame_div <span style="color:#888">=</span> <span style="color:#888">!</span>it_is_in_frame_div<span style="color:#888">;</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
-            
+
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> it_is_in_frame_div <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 ParseColor<span style="color:#888">()</span><span style="color:#888">;</span>
-                
+
                 <span style="color:#f4a">if</span> <span style="color:#888">(</span> color <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
                 <span style="color:#888">{</span>
-                    token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;div class=\"frame\"&gt;"</span><span style="color:#888">;</span>                    
+                    token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;div class=\"frame\"&gt;"</span><span style="color:#888">;</span>
                 <span style="color:#888">}</span>
                 <span style="color:#f4a">else</span>
                 <span style="color:#888">{</span>
@@ -1273,11 +1426,11 @@
             it_is_in_box_div <span style="color:#888">=</span> <span style="color:#888">!</span>it_is_in_box_div<span style="color:#888">;</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
-            
+
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> it_is_in_box_div <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 ParseColor<span style="color:#888">()</span><span style="color:#888">;</span>
-                
+
                 <span style="color:#f4a">if</span> <span style="color:#888">(</span> color <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
                 <span style="color:#888">{</span>
                     token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;div class=\"box\"&gt;"</span><span style="color:#888">;</span>
@@ -1295,9 +1448,9 @@
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"{{{"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
-            
+
             ParseColor<span style="color:#888">()</span><span style="color:#888">;</span>
-                    
+
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> color <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;div class=\"block\"&gt;"</span><span style="color:#888">;</span>
@@ -1316,13 +1469,13 @@
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">2</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"##"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             it_is_in_mark_span <span style="color:#888">=</span> <span style="color:#888">!</span>it_is_in_mark_span<span style="color:#888">;</span>
-            
+
             character_index <span style="color:#888">+=</span> <span style="color:#f00">2</span><span style="color:#888">;</span>
-            
+
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> it_is_in_mark_span <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 ParseColor<span style="color:#888">()</span><span style="color:#888">;</span>
-                        
+
                 <span style="color:#f4a">if</span> <span style="color:#888">(</span> color <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
                 <span style="color:#888">{</span>
                     token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;span class=\"mark\"&gt;"</span><span style="color:#888">;</span>
@@ -1340,13 +1493,13 @@
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">2</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"__"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             it_is_in_u <span style="color:#888">=</span> <span style="color:#888">!</span>it_is_in_u<span style="color:#888">;</span>
-            
+
             character_index <span style="color:#888">+=</span> <span style="color:#f00">2</span><span style="color:#888">;</span>
-            
+
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> it_is_in_u <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 ParseColor<span style="color:#888">()</span><span style="color:#888">;</span>
-                        
+
                 <span style="color:#f4a">if</span> <span style="color:#888">(</span> color <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
                 <span style="color:#888">{</span>
                     token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;u&gt;"</span><span style="color:#888">;</span>
@@ -1364,9 +1517,9 @@
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">2</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"{{"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             character_index <span style="color:#888">+=</span> <span style="color:#f00">2</span><span style="color:#888">;</span>
-            
+
             ParseColor<span style="color:#888">()</span><span style="color:#888">;</span>
-                    
+
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> color <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;span style=\"color:#000\"&gt;"</span><span style="color:#888">;</span>
@@ -1811,7 +1964,7 @@
                 it_is_in_pre <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
             <span style="color:#888">}</span>
             <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>StartsLine
-                 <span style="color:#888">&&</span> token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"\n"</span> <span style="color:#888">)</span>
+                      <span style="color:#888">&&</span> token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"\n"</span> <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/p&gt;&lt;p&gt;\n"</span><span style="color:#888">;</span>
             <span style="color:#888">}</span>
@@ -1925,6 +2078,8 @@
     <span style="color:#f80">TOKEN</span><span style="color:#888">[]</span>
         token_array<span style="color:#888">;</span>
 
+    text <span style="color:#888">=</span> GetPreprocessedText<span style="color:#888">(</span> text <span style="color:#888">)</span><span style="color:#888">;</span>
+
     token_array <span style="color:#888">=</span> GetTokenArray<span style="color:#888">(</span> text <span style="color:#888">)</span><span style="color:#888">;</span>
 
     MakeLists<span style="color:#888">(</span> token_array <span style="color:#888">)</span><span style="color:#888">;</span>
@@ -1941,19 +2096,14 @@
 <span style="color:#888">{</span>
     <span style="color:#f00">dstring</span>
         text<span style="color:#888">;</span>
-    <span style="color:#f80">CODE</span>
-        code<span style="color:#888">;</span>
 
     text <span style="color:#888">=</span> InputFilePath<span style="color:#888">.</span>readText<span style="color:#888">()</span><span style="color:#888">.</span>to<span style="color:#888">!</span><span style="color:#f00">dstring</span><span style="color:#888">()</span><span style="color:#888">;</span>
-    
+
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> ColorizeOptionIsEnabled <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        code <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">CODE</span><span style="color:#888">(</span> InputFilePath <span style="color:#888">)</span><span style="color:#888">;</span>
-        code<span style="color:#888">.</span>SetText<span style="color:#888">(</span> text <span style="color:#888">)</span><span style="color:#888">;</span>
-        
-        text <span style="color:#888">=</span> code<span style="color:#888">.</span>GetColorizedText<span style="color:#888">()</span><span style="color:#888">;</span>
+        text <span style="color:#888">=</span> text<span style="color:#888">.</span>GetColorizedText<span style="color:#888">(</span> InputFilePath<span style="color:#888">,</span> LanguageName <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> ProcessOptionIsEnabled <span style="color:#888">)</span>
     <span style="color:#888">{</span>
         text <span style="color:#888">=</span> text<span style="color:#888">.</span>GetProcessedText<span style="color:#888">()</span><span style="color:#888">;</span>
@@ -1961,16 +2111,16 @@
 
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> ScriptOptionIsEnabled <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        text 
+        text
             <span style="color:#888">=</span> <span style="color:#f00">"&lt;xmp&gt;\n"</span>
               <span style="color:#888">~</span> text
               <span style="color:#888">~</span> <span style="color:#f00">"&lt;/xmp&gt;\n"</span>
               <span style="color:#888">~</span> <span style="color:#f00">"&lt;script src=\""</span> <span style="color:#888">~</span> ScriptFolderPath<span style="color:#888">.</span>to<span style="color:#888">!</span><span style="color:#f00">dstring</span><span style="color:#888">()</span> <span style="color:#888">~</span> <span style="color:#f00">"pendown.js\"&gt;&lt;/script&gt;\n"</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> StyleOptionIsEnabled <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        text 
+        text
             <span style="color:#888">=</span> <span style="color:#f00">"&lt;meta charset=\"utf8\"/&gt;\n"</span>
               <span style="color:#888">~</span> <span style="color:#f00">"&lt;link rel=\"stylesheet\" href=\""</span> <span style="color:#888">~</span> StyleFolderPath<span style="color:#888">.</span>to<span style="color:#888">!</span><span style="color:#f00">dstring</span><span style="color:#888">()</span> <span style="color:#888">~</span> <span style="color:#f00">"pendown.css\"&gt;\n"</span>
               <span style="color:#888">~</span> text<span style="color:#888">;</span>
@@ -1987,9 +2137,9 @@
 <span style="color:#888">{</span>
     <span style="color:#f00">string</span>
         option<span style="color:#888">;</span>
-        
+
     argument_array <span style="color:#888">=</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">1</span> <span style="color:#888">..</span> <span style="color:#888">$</span> <span style="color:#888">]</span><span style="color:#888">;</span>
-    
+
     ColorizeOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     ProcessOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     ScriptOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
@@ -1997,7 +2147,7 @@
     LanguageName <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
     ScriptFolderPath <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
     StyleFolderPath <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
-    
+
     <span style="color:#f4a">while</span> <span style="color:#888">(</span> argument_array<span style="color:#888">.</span>length <span style="color:#888">&gt;=</span> <span style="color:#f00">1</span>
             <span style="color:#888">&&</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">.</span>startsWith<span style="color:#888">(</span> <span style="color:#f00">"--"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
@@ -2022,15 +2172,15 @@
             StyleOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> option <span style="color:#888">==</span> <span style="color:#f00">"--language"</span>
-             <span style="color:#888">&&</span> argument_array<span style="color:#888">.</span>length <span style="color:#888">&gt;=</span> <span style="color:#f00">1</span> <span style="color:#888">)</span>
+                  <span style="color:#888">&&</span> argument_array<span style="color:#888">.</span>length <span style="color:#888">&gt;=</span> <span style="color:#f00">1</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             LanguageName <span style="color:#888">=</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">;</span>
 
             argument_array <span style="color:#888">=</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">1</span> <span style="color:#888">..</span> <span style="color:#888">$</span> <span style="color:#888">]</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> option <span style="color:#888">==</span> <span style="color:#f00">"--path"</span>
-             <span style="color:#888">&&</span> argument_array<span style="color:#888">.</span>length <span style="color:#888">&gt;=</span> <span style="color:#f00">1</span>
-             <span style="color:#888">&&</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">'/'</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+                  <span style="color:#888">&&</span> argument_array<span style="color:#888">.</span>length <span style="color:#888">&gt;=</span> <span style="color:#f00">1</span>
+                  <span style="color:#888">&&</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">'/'</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             ScriptFolderPath <span style="color:#888">=</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">;</span>
             StyleFolderPath <span style="color:#888">=</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">;</span>
@@ -2042,7 +2192,7 @@
             Abort<span style="color:#888">(</span> <span style="color:#f00">"Invalid option : "</span> <span style="color:#888">~</span> option <span style="color:#888">)</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> argument_array<span style="color:#888">.</span>length <span style="color:#888">==</span> <span style="color:#f00">2</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
         InputFilePath <span style="color:#888">=</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">]</span><span style="color:#888">;</span>
@@ -2059,7 +2209,7 @@
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --process"</span> <span style="color:#888">)</span><span style="color:#888">;</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --script"</span> <span style="color:#888">)</span><span style="color:#888">;</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --style"</span> <span style="color:#888">)</span><span style="color:#888">;</span>
-        writeln<span style="color:#888">(</span> <span style="color:#f00">"    --language c|cpp|csharp|d|java|javascript|typescript"</span> <span style="color:#888">)</span><span style="color:#888">;</span>
+        writeln<span style="color:#888">(</span> <span style="color:#f00">"    --language c|c++|cpp|c#|cs|d|java|js|ts"</span> <span style="color:#888">)</span><span style="color:#888">;</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --path PENDOWN_FOLDER/"</span> <span style="color:#888">)</span><span style="color:#888">;</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"Examples :"</span> <span style="color:#888">)</span><span style="color:#888">;</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --process --style --path ../ document.pd document.html"</span> <span style="color:#888">)</span><span style="color:#888">;</span>
@@ -2071,6 +2221,5 @@
         Abort<span style="color:#888">(</span> <span style="color:#f00">"Invalid arguments : "</span> <span style="color:#888">~</span> argument_array<span style="color:#888">.</span>to<span style="color:#888">!</span><span style="color:#f00">string</span><span style="color:#888">()</span> <span style="color:#888">)</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
 <span style="color:#888">}</span>
-
 </pre>
 </p></p>
