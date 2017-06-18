@@ -1,7 +1,7 @@
 /*
     This file is part of the Pendown distribution.
 
-    https://github.com/senselogic/GENESIS
+    https://github.com/senselogic/PENDOWN
 
     Copyright (C) 2017 Eric Pelzer (ecstatic.coder@gmail.com)
 
