@@ -235,6 +235,7 @@ The source code programming language can be specified with the following keyword
 * C++ : c++ h++ cpp hpp cxx hxx
 * C# : c# cs
 * D : d
+* Java : java
 * JavaScript : js
 * TypeScript : ts
 
