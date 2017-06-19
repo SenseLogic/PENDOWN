@@ -39,6 +39,18 @@ class LANGUAGE
         CODE_TOKEN code_token
         )
     {
+        return (
+            code_token.Text == "false"
+            || code_token.Text == "true"
+            );
+    }
+
+    // ~~
+
+    bool IsType(
+        CODE_TOKEN code_token
+        )
+    {
         return false;
     }
 
@@ -62,24 +74,6 @@ class LANGUAGE
             || code_token.Text == "return"
             );
     }
-
-    // ~~
-
-    bool IsType(
-        CODE_TOKEN code_token
-        )
-    {
-        return false;
-    }
-
-    // ~~
-
-    bool IsQualifier(
-        CODE_TOKEN code_token
-        )
-    {
-        return false;
-    }
 }
 
 // ~~
@@ -93,111 +87,6 @@ class C_LANGUAGE : LANGUAGE
         return (
             code_token.Text == "false"
             || code_token.Text == "true"
-            );
-    }
-
-    // ~~
-
-    override bool IsKeyword(
-        CODE_TOKEN code_token
-        )
-    {
-        return (
-            code_token.Text == "if"
-            || code_token.Text == "else"
-            || code_token.Text == "do"
-            || code_token.Text == "while"
-            || code_token.Text == "for"
-            || code_token.Text == "switch"
-            || code_token.Text == "case"
-            || code_token.Text == "default"
-            || code_token.Text == "break"
-            || code_token.Text == "continue"
-            || code_token.Text == "return"
-            );
-    }
-
-    // ~~
-
-    override bool IsType(
-        CODE_TOKEN code_token
-        )
-    {
-        return (
-            code_token.Text == "void"
-            || code_token.Text == "bool"
-            || code_token.Text == "char"
-            || code_token.Text == "short"
-            || code_token.Text == "int"
-            || code_token.Text == "long"
-            || code_token.Text == "signed"
-            || code_token.Text == "unsigned"
-            || code_token.Text == "float"
-            || code_token.Text == "double"
-            );
-    }
-
-    // ~~
-
-    override bool IsQualifier(
-        CODE_TOKEN code_token
-        )
-    {
-        return (
-            code_token.Text == "const"
-            || code_token.Text == "register"
-            || code_token.Text == "inline"
-            || code_token.Text == "struct"
-            || code_token.Text == "union"
-            || code_token.Text == "enum"
-            || code_token.Text == "typedef"
-            || code_token.Text == "static"
-            );
-    }
-}
-
-// ~~
-
-class CPP_LANGUAGE : LANGUAGE
-{
-    override bool IsConstant(
-        CODE_TOKEN code_token
-        )
-    {
-        return (
-            code_token.Text == "false"
-            || code_token.Text == "true"
-            || code_token.Text == "null"
-            || code_token.Text == "nullptr"
-            );
-    }
-
-    // ~~
-
-    override bool IsKeyword(
-        CODE_TOKEN code_token
-        )
-    {
-        return (
-            code_token.Text == "if"
-            || code_token.Text == "else"
-            || code_token.Text == "do"
-            || code_token.Text == "while"
-            || code_token.Text == "for"
-            || code_token.Text == "switch"
-            || code_token.Text == "case"
-            || code_token.Text == "default"
-            || code_token.Text == "break"
-            || code_token.Text == "continue"
-            || code_token.Text == "return"
-            || code_token.Text == "try"
-            || code_token.Text == "catch"
-            || code_token.Text == "throw"
-            || code_token.Text == "using"
-            || code_token.Text == "namespace"
-            || code_token.Text == "new"
-            || code_token.Text == "delete"
-            || code_token.Text == "this"
             );
     }
 
@@ -224,19 +113,110 @@ class CPP_LANGUAGE : LANGUAGE
 
     // ~~
 
-    override bool IsQualifier(
+    override bool IsKeyword(
         CODE_TOKEN code_token
         )
     {
         return (
-            code_token.Text == "const"
-            || code_token.Text == "mutable"
-            || code_token.Text == "virtual"
-            || code_token.Text == "volatile"
+            code_token.Text == "if"
+            || code_token.Text == "else"
+            || code_token.Text == "do"
+            || code_token.Text == "while"
+            || code_token.Text == "for"
+            || code_token.Text == "switch"
+            || code_token.Text == "case"
+            || code_token.Text == "default"
+            || code_token.Text == "break"
+            || code_token.Text == "continue"
+            || code_token.Text == "return"
+            || code_token.Text == "goto"
+            || code_token.Text == "sizeof"
+            || code_token.Text == "struct"
+            || code_token.Text == "union"
+            || code_token.Text == "enum"
+            || code_token.Text == "typedef"
+            || code_token.Text == "const"
             || code_token.Text == "register"
-            || code_token.Text == "explicit"
-            || code_token.Text == "friend"
+            || code_token.Text == "volatile"
+            || code_token.Text == "restrict"
             || code_token.Text == "inline"
+            || code_token.Text == "static"
+            || code_token.Text == "extern"
+            || code_token.Text == "asm"
+            );
+    }
+}
+
+// ~~
+
+class CPP_LANGUAGE : LANGUAGE
+{
+    override bool IsConstant(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "false"
+            || code_token.Text == "true"
+            || code_token.Text == "nullptr"
+            );
+    }
+
+    // ~~
+
+    override bool IsType(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "void"
+            || code_token.Text == "bool"
+            || code_token.Text == "char"
+            || code_token.Text == "short"
+            || code_token.Text == "int"
+            || code_token.Text == "long"
+            || code_token.Text == "signed"
+            || code_token.Text == "unsigned"
+            || code_token.Text == "float"
+            || code_token.Text == "double"
+            || code_token.Text == "auto"
+            );
+    }
+
+    // ~~
+
+    override bool IsKeyword(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "if"
+            || code_token.Text == "else"
+            || code_token.Text == "do"
+            || code_token.Text == "while"
+            || code_token.Text == "for"
+            || code_token.Text == "switch"
+            || code_token.Text == "case"
+            || code_token.Text == "default"
+            || code_token.Text == "break"
+            || code_token.Text == "continue"
+            || code_token.Text == "return"
+            || code_token.Text == "goto"
+            || code_token.Text == "try"
+            || code_token.Text == "catch"
+            || code_token.Text == "throw"
+            || code_token.Text == "new"
+            || code_token.Text == "delete"
+            || code_token.Text == "this"
+            || code_token.Text == "sizeof"
+            || code_token.Text == "reinterpret_cast"
+            || code_token.Text == "static_cast"
+            || code_token.Text == "dynamic_cast"
+            || code_token.Text == "using"
+            || code_token.Text == "namespace"
+            || code_token.Text == "public"
+            || code_token.Text == "protected"
+            || code_token.Text == "private"
             || code_token.Text == "template"
             || code_token.Text == "typename"
             || code_token.Text == "class"
@@ -244,12 +224,19 @@ class CPP_LANGUAGE : LANGUAGE
             || code_token.Text == "union"
             || code_token.Text == "enum"
             || code_token.Text == "typedef"
-            || code_token.Text == "static"
-            || code_token.Text == "public"
-            || code_token.Text == "protected"
-            || code_token.Text == "private"
-            || code_token.Text == "override"
+            || code_token.Text == "operator"
+            || code_token.Text == "virtual"
             || code_token.Text == "final"
+            || code_token.Text == "override"
+            || code_token.Text == "const"
+            || code_token.Text == "mutable"
+            || code_token.Text == "volatile"
+            || code_token.Text == "register"
+            || code_token.Text == "explicit"
+            || code_token.Text == "friend"
+            || code_token.Text == "inline"
+            || code_token.Text == "static"
+            || code_token.Text == "extern"
             );
     }
 }
@@ -258,6 +245,106 @@ class CPP_LANGUAGE : LANGUAGE
 
 class CSHARP_LANGUAGE : LANGUAGE
 {
+    override bool IsConstant(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "false"
+            || code_token.Text == "true"
+            || code_token.Text == "null"
+            );
+    }
+
+    // ~~
+
+    override bool IsType(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "void"
+            || code_token.Text == "bool"
+            || code_token.Text == "char"
+            || code_token.Text == "byte"
+            || code_token.Text == "sbyte"
+            || code_token.Text == "short"
+            || code_token.Text == "int"
+            || code_token.Text == "uint"
+            || code_token.Text == "long"
+            || code_token.Text == "ulong"
+            || code_token.Text == "float"
+            || code_token.Text == "double"
+            || code_token.Text == "decimal"
+            || code_token.Text == "string"
+            );
+    }
+
+    // ~~
+
+    override bool IsKeyword(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "if"
+            || code_token.Text == "else"
+            || code_token.Text == "do"
+            || code_token.Text == "while"
+            || code_token.Text == "for"
+            || code_token.Text == "foreach"
+            || code_token.Text == "switch"
+            || code_token.Text == "case"
+            || code_token.Text == "default"
+            || code_token.Text == "break"
+            || code_token.Text == "continue"
+            || code_token.Text == "return"
+            || code_token.Text == "goto"
+            || code_token.Text == "try"
+            || code_token.Text == "catch"
+            || code_token.Text == "finally"
+            || code_token.Text == "throw"
+            || code_token.Text == "lock"
+            || code_token.Text == "new"
+            || code_token.Text == "stackalloc"
+            || code_token.Text == "sizeof"
+            || code_token.Text == "typeof"
+            || code_token.Text == "is"
+            || code_token.Text == "as"
+            || code_token.Text == "params"
+            || code_token.Text == "this"
+            || code_token.Text == "base"
+            || code_token.Text == "using"
+            || code_token.Text == "namespace"
+            || code_token.Text == "public"
+            || code_token.Text == "protected"
+            || code_token.Text == "private"
+            || code_token.Text == "class"
+            || code_token.Text == "interface"
+            || code_token.Text == "enum"
+            || code_token.Text == "operator"
+            || code_token.Text == "object"
+            || code_token.Text == "event"
+            || code_token.Text == "static"
+            || code_token.Text == "const"
+            || code_token.Text == "in"
+            || code_token.Text == "out"
+            || code_token.Text == "ref"
+            || code_token.Text == "readonly"
+            || code_token.Text == "delegate"
+            || code_token.Text == "abstract"
+            || code_token.Text == "override"
+            || code_token.Text == "implicit"
+            || code_token.Text == "volatile"
+            || code_token.Text == "checked"
+            || code_token.Text == "unchecked"
+            || code_token.Text == "unsafe"
+            || code_token.Text == "fixed"
+            || code_token.Text == "sealed"
+            || code_token.Text == "internal"
+            || code_token.Text == "extern"
+            );
+    }
 }
 
 // ~~
@@ -272,6 +359,35 @@ class D_LANGUAGE : LANGUAGE
             code_token.Text == "false"
             || code_token.Text == "true"
             || code_token.Text == "null"
+            );
+    }
+
+    // ~~
+
+    override bool IsType(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "void"
+            || code_token.Text == "bool"
+            || code_token.Text == "char"
+            || code_token.Text == "wchar"
+            || code_token.Text == "dchar"
+            || code_token.Text == "byte"
+            || code_token.Text == "ubyte"
+            || code_token.Text == "short"
+            || code_token.Text == "ushort"
+            || code_token.Text == "int"
+            || code_token.Text == "uint"
+            || code_token.Text == "long"
+            || code_token.Text == "ulong"
+            || code_token.Text == "float"
+            || code_token.Text == "double"
+            || code_token.Text == "string"
+            || code_token.Text == "wstring"
+            || code_token.Text == "dstring"
+            || code_token.Text == "auto"
             );
     }
 
@@ -301,6 +417,31 @@ class D_LANGUAGE : LANGUAGE
             || code_token.Text == "delete"
             || code_token.Text == "import"
             || code_token.Text == "this"
+            || code_token.Text == "public"
+            || code_token.Text == "protected"
+            || code_token.Text == "private"
+            || code_token.Text == "class"
+            || code_token.Text == "struct"
+            || code_token.Text == "union"
+            || code_token.Text == "enum"
+            || code_token.Text == "final"
+            || code_token.Text == "override"
+            );
+    }
+}
+
+// ~~
+
+class JAVA_LANGUAGE : LANGUAGE
+{
+    override bool IsConstant(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "false"
+            || code_token.Text == "true"
+            || code_token.Text == "null"
             );
     }
 
@@ -312,63 +453,257 @@ class D_LANGUAGE : LANGUAGE
     {
         return (
             code_token.Text == "void"
-            || code_token.Text == "bool"
+            || code_token.Text == "boolean"
             || code_token.Text == "char"
-            || code_token.Text == "wchar"
-            || code_token.Text == "dchar"
-            || code_token.Text == "ubyte"
             || code_token.Text == "byte"
-            || code_token.Text == "ushort"
             || code_token.Text == "short"
-            || code_token.Text == "uint"
             || code_token.Text == "int"
-            || code_token.Text == "ulong"
             || code_token.Text == "long"
             || code_token.Text == "float"
             || code_token.Text == "double"
-            || code_token.Text == "string"
-            || code_token.Text == "wstring"
-            || code_token.Text == "dstring"
-            || code_token.Text == "auto"
             );
     }
 
     // ~~
 
-    override bool IsQualifier(
+    override bool IsKeyword(
         CODE_TOKEN code_token
         )
     {
         return (
-            code_token.Text == "class"
-            || code_token.Text == "struct"
-            || code_token.Text == "union"
-            || code_token.Text == "enum"
+            code_token.Text == "if"
+            || code_token.Text == "else"
+            || code_token.Text == "do"
+            || code_token.Text == "while"
+            || code_token.Text == "for"
+            || code_token.Text == "switch"
+            || code_token.Text == "case"
+            || code_token.Text == "default"
+            || code_token.Text == "break"
+            || code_token.Text == "continue"
+            || code_token.Text == "return"
+            || code_token.Text == "goto"
+            || code_token.Text == "try"
+            || code_token.Text == "catch"
+            || code_token.Text == "finally"
+            || code_token.Text == "throw"
+            || code_token.Text == "new"
+            || code_token.Text == "instanceof"
+            || code_token.Text == "this"
+            || code_token.Text == "super"
+            || code_token.Text == "import"
             || code_token.Text == "public"
             || code_token.Text == "protected"
             || code_token.Text == "private"
-            || code_token.Text == "override"
+            || code_token.Text == "package"
+            || code_token.Text == "class"
+            || code_token.Text == "interface"
+            || code_token.Text == "enum"
+            || code_token.Text == "extends"
+            || code_token.Text == "implements"
+            || code_token.Text == "throws"
+            || code_token.Text == "static"
+            || code_token.Text == "const"
             || code_token.Text == "final"
+            || code_token.Text == "abstract"
+            || code_token.Text == "volatile"
+            || code_token.Text == "transient"
+            || code_token.Text == "native"
+            || code_token.Text == "synchronized"
+            || code_token.Text == "strictfp"
             );
     }
-}
-
-// ~~
-
-class JAVA_LANGUAGE : LANGUAGE
-{
 }
 
 // ~~
 
 class JAVASCRIPT_LANGUAGE : LANGUAGE
 {
+    override bool IsConstant(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "false"
+            || code_token.Text == "true"
+            || code_token.Text == "null"
+            || code_token.Text == "undefined"
+            );
+    }
+
+    // ~~
+
+    override bool IsType(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "void"
+            || code_token.Text == "boolean"
+            || code_token.Text == "char"
+            || code_token.Text == "byte"
+            || code_token.Text == "short"
+            || code_token.Text == "int"
+            || code_token.Text == "long"
+            || code_token.Text == "float"
+            || code_token.Text == "double"
+            );
+    }
+
+    // ~~
+
+    override bool IsKeyword(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "var"
+            || code_token.Text == "let"
+            || code_token.Text == "if"
+            || code_token.Text == "else"
+            || code_token.Text == "do"
+            || code_token.Text == "while"
+            || code_token.Text == "for"
+            || code_token.Text == "switch"
+            || code_token.Text == "case"
+            || code_token.Text == "default"
+            || code_token.Text == "break"
+            || code_token.Text == "continue"
+            || code_token.Text == "return"
+            || code_token.Text == "goto"
+            || code_token.Text == "try"
+            || code_token.Text == "catch"
+            || code_token.Text == "finally"
+            || code_token.Text == "throw"
+            || code_token.Text == "new"
+            || code_token.Text == "delete"
+            || code_token.Text == "yield"
+            || code_token.Text == "await"
+            || code_token.Text == "eval"
+            || code_token.Text == "with"
+            || code_token.Text == "in"
+            || code_token.Text == "debugger"
+            || code_token.Text == "instanceof"
+            || code_token.Text == "typeof"
+            || code_token.Text == "arguments"
+            || code_token.Text == "this"
+            || code_token.Text == "super"
+            || code_token.Text == "import"
+            || code_token.Text == "export"
+            || code_token.Text == "public"
+            || code_token.Text == "protected"
+            || code_token.Text == "private"
+            || code_token.Text == "package"
+            || code_token.Text == "class"
+            || code_token.Text == "interface"
+            || code_token.Text == "enum"
+            || code_token.Text == "function"
+            || code_token.Text == "extends"
+            || code_token.Text == "implements"
+            || code_token.Text == "throws"
+            || code_token.Text == "static"
+            || code_token.Text == "const"
+            || code_token.Text == "final"
+            || code_token.Text == "abstract"
+            || code_token.Text == "volatile"
+            || code_token.Text == "transient"
+            || code_token.Text == "native"
+            || code_token.Text == "synchronized"
+            );
+    }
 }
 
 // ~~
 
 class TYPESCRIPT_LANGUAGE : LANGUAGE
 {
+    override bool IsConstant(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "false"
+            || code_token.Text == "true"
+            || code_token.Text == "null"
+            || code_token.Text == "undefined"
+            );
+    }
+
+    // ~~
+
+    override bool IsType(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "boolean"
+            || code_token.Text == "number"
+            || code_token.Text == "string"
+            || code_token.Text == "symbol"
+            || code_token.Text == "any"
+            );
+    }
+
+    // ~~
+
+    override bool IsKeyword(
+        CODE_TOKEN code_token
+        )
+    {
+        return (
+            code_token.Text == "var"
+            || code_token.Text == "let"
+            || code_token.Text == "if"
+            || code_token.Text == "else"
+            || code_token.Text == "do"
+            || code_token.Text == "while"
+            || code_token.Text == "for"
+            || code_token.Text == "switch"
+            || code_token.Text == "case"
+            || code_token.Text == "default"
+            || code_token.Text == "break"
+            || code_token.Text == "continue"
+            || code_token.Text == "return"
+            || code_token.Text == "goto"
+            || code_token.Text == "try"
+            || code_token.Text == "catch"
+            || code_token.Text == "finally"
+            || code_token.Text == "throw"
+            || code_token.Text == "new"
+            || code_token.Text == "delete"
+            || code_token.Text == "yield"
+            || code_token.Text == "await"
+            || code_token.Text == "eval"
+            || code_token.Text == "with"
+            || code_token.Text == "in"
+            || code_token.Text == "debugger"
+            || code_token.Text == "instanceof"
+            || code_token.Text == "typeof"
+            || code_token.Text == "arguments"
+            || code_token.Text == "this"
+            || code_token.Text == "super"
+            || code_token.Text == "import"
+            || code_token.Text == "export"
+            || code_token.Text == "public"
+            || code_token.Text == "protected"
+            || code_token.Text == "private"
+            || code_token.Text == "package"
+            || code_token.Text == "class"
+            || code_token.Text == "interface"
+            || code_token.Text == "enum"
+            || code_token.Text == "function"
+            || code_token.Text == "constructor"
+            || code_token.Text == "extends"
+            || code_token.Text == "implements"
+            || code_token.Text == "static"
+            || code_token.Text == "const"
+            || code_token.Text == "abstract"
+            || code_token.Text == "volatile"
+            || code_token.Text == "transient"
+            || code_token.Text == "native"
+            || code_token.Text == "synchronized"
+            );
+    }
 }
 
 // ~~
@@ -381,15 +716,14 @@ enum CODE_TOKEN_TYPE
     String,
     Number,
     Constant,
+    Type,
+    Keyword,
+    Pragma,
     LowerCaseIdentifier,
     UpperCaseIdentifier,
     MinorCaseIdentifier,
     MajorCaseIdentifier,
     Identifier,
-    Keyword,
-    Type,
-    Qualifier,
-    Pragma,
     Operator,
     Separator,
     Delimiter,
@@ -757,17 +1091,13 @@ CODE_TOKEN[] GetCodeTokenArray(
                     {
                         code_token.Type = CODE_TOKEN_TYPE.Constant;
                     }
-                    else if ( language.IsKeyword( code_token ) )
-                    {
-                        code_token.Type = CODE_TOKEN_TYPE.Keyword;
-                    }
                     else if ( language.IsType( code_token ) )
                     {
                         code_token.Type = CODE_TOKEN_TYPE.Type;
                     }
-                    else if ( language.IsQualifier( code_token ) )
+                    else if ( language.IsKeyword( code_token ) )
                     {
-                        code_token.Type = CODE_TOKEN_TYPE.Qualifier;
+                        code_token.Type = CODE_TOKEN_TYPE.Keyword;
                     }
                     else if ( code_token.Text.startsWith( '#' ) )
                     {
@@ -972,15 +1302,14 @@ dstring GetColorizedText(
     color_prefix_array[ CODE_TOKEN_TYPE.String ] = "²";
     color_prefix_array[ CODE_TOKEN_TYPE.Number ] = "²";
     color_prefix_array[ CODE_TOKEN_TYPE.Constant ] = "²";
+    color_prefix_array[ CODE_TOKEN_TYPE.Type ] = "²";
+    color_prefix_array[ CODE_TOKEN_TYPE.Keyword ] = "¹";
+    color_prefix_array[ CODE_TOKEN_TYPE.Pragma ] = "²";
     color_prefix_array[ CODE_TOKEN_TYPE.LowerCaseIdentifier ] = "";
     color_prefix_array[ CODE_TOKEN_TYPE.UpperCaseIdentifier ] = "²²";
     color_prefix_array[ CODE_TOKEN_TYPE.MinorCaseIdentifier ] = "";
     color_prefix_array[ CODE_TOKEN_TYPE.MajorCaseIdentifier ] = "";
     color_prefix_array[ CODE_TOKEN_TYPE.Identifier ] = "²";
-    color_prefix_array[ CODE_TOKEN_TYPE.Keyword ] = "¹";
-    color_prefix_array[ CODE_TOKEN_TYPE.Type ] = "²";
-    color_prefix_array[ CODE_TOKEN_TYPE.Qualifier ] = "²";
-    color_prefix_array[ CODE_TOKEN_TYPE.Pragma ] = "²";
     color_prefix_array[ CODE_TOKEN_TYPE.Operator ] = "°";
     color_prefix_array[ CODE_TOKEN_TYPE.Separator ] = "°";
     color_prefix_array[ CODE_TOKEN_TYPE.Delimiter ] = "°";

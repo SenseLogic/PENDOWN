@@ -2,7 +2,7 @@
 °/*
     This file is part of the Pendown distribution.
 
-    https://github.com/senselogic/GENESIS
+    https://github.com/senselogic/PENDOWN
 
     Copyright (C) 2017 Eric Pelzer (ecstatic.coder\@gmail.com)
 
@@ -34,9 +34,21 @@
 
 °// -\- TYPES°
 
-²class² ²²LANGUAGE²²
+¹class¹ ²²LANGUAGE²²
 °{°
     ²bool² IsConstant°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"false"²
+            °||° code_token°.°Text °==° ²"true"²
+            °)°°;°
+    °}°
+
+    °// ~\~°
+
+    ²bool² IsType°(°
         ²²CODE_TOKEN²² code_token
         °)°
     °{°
@@ -63,31 +75,13 @@
             °||° code_token°.°Text °==° ²"return"²
             °)°°;°
     °}°
-
-    °// ~\~°
-
-    ²bool² IsType°(°
-        ²²CODE_TOKEN²² code_token
-        °)°
-    °{°
-        ¹return¹ ²false²°;°
-    °}°
-
-    °// ~\~°
-
-    ²bool² IsQualifier°(°
-        ²²CODE_TOKEN²² code_token
-        °)°
-    °{°
-        ¹return¹ ²false²°;°
-    °}°
 °}°
 
 °// ~\~°
 
-²class² ²²C_LANGUAGE²² °:° ²²LANGUAGE²²
+¹class¹ ²²C_LANGUAGE²² °:° ²²LANGUAGE²²
 °{°
-    ²override² ²bool² IsConstant°(°
+    ¹override¹ ²bool² IsConstant°(°
         ²²CODE_TOKEN²² code_token
         °)°
     °{°
@@ -99,112 +93,7 @@
 
     °// ~\~°
 
-    ²override² ²bool² IsKeyword°(°
-        ²²CODE_TOKEN²² code_token
-        °)°
-    °{°
-        ¹return¹ °(°
-            code_token°.°Text °==° ²"if"²
-            °||° code_token°.°Text °==° ²"else"²
-            °||° code_token°.°Text °==° ²"do"²
-            °||° code_token°.°Text °==° ²"while"²
-            °||° code_token°.°Text °==° ²"for"²
-            °||° code_token°.°Text °==° ²"switch"²
-            °||° code_token°.°Text °==° ²"case"²
-            °||° code_token°.°Text °==° ²"default"²
-            °||° code_token°.°Text °==° ²"break"²
-            °||° code_token°.°Text °==° ²"continue"²
-            °||° code_token°.°Text °==° ²"return"²
-            °)°°;°
-    °}°
-
-    °// ~\~°
-
-    ²override² ²bool² IsType°(°
-        ²²CODE_TOKEN²² code_token
-        °)°
-    °{°
-        ¹return¹ °(°
-            code_token°.°Text °==° ²"void"²
-            °||° code_token°.°Text °==° ²"bool"²
-            °||° code_token°.°Text °==° ²"char"²
-            °||° code_token°.°Text °==° ²"short"²
-            °||° code_token°.°Text °==° ²"int"²
-            °||° code_token°.°Text °==° ²"long"²
-            °||° code_token°.°Text °==° ²"signed"²
-            °||° code_token°.°Text °==° ²"unsigned"²
-            °||° code_token°.°Text °==° ²"float"²
-            °||° code_token°.°Text °==° ²"double"²
-            °)°°;°
-    °}°
-
-    °// ~\~°
-
-    ²override² ²bool² IsQualifier°(°
-        ²²CODE_TOKEN²² code_token
-        °)°
-    °{°
-        ¹return¹ °(°
-            code_token°.°Text °==° ²"const"²
-            °||° code_token°.°Text °==° ²"register"²
-            °||° code_token°.°Text °==° ²"inline"²
-            °||° code_token°.°Text °==° ²"struct"²
-            °||° code_token°.°Text °==° ²"union"²
-            °||° code_token°.°Text °==° ²"enum"²
-            °||° code_token°.°Text °==° ²"typedef"²
-            °||° code_token°.°Text °==° ²"static"²
-            °)°°;°
-    °}°
-°}°
-
-°// ~\~°
-
-²class² ²²CPP_LANGUAGE²² °:° ²²LANGUAGE²²
-°{°
-    ²override² ²bool² IsConstant°(°
-        ²²CODE_TOKEN²² code_token
-        °)°
-    °{°
-        ¹return¹ °(°
-            code_token°.°Text °==° ²"false"²
-            °||° code_token°.°Text °==° ²"true"²
-            °||° code_token°.°Text °==° ²"null"²
-            °||° code_token°.°Text °==° ²"nullptr"²
-            °)°°;°
-    °}°
-
-    °// ~\~°
-
-    ²override² ²bool² IsKeyword°(°
-        ²²CODE_TOKEN²² code_token
-        °)°
-    °{°
-        ¹return¹ °(°
-            code_token°.°Text °==° ²"if"²
-            °||° code_token°.°Text °==° ²"else"²
-            °||° code_token°.°Text °==° ²"do"²
-            °||° code_token°.°Text °==° ²"while"²
-            °||° code_token°.°Text °==° ²"for"²
-            °||° code_token°.°Text °==° ²"switch"²
-            °||° code_token°.°Text °==° ²"case"²
-            °||° code_token°.°Text °==° ²"default"²
-            °||° code_token°.°Text °==° ²"break"²
-            °||° code_token°.°Text °==° ²"continue"²
-            °||° code_token°.°Text °==° ²"return"²
-            °||° code_token°.°Text °==° ²"try"²
-            °||° code_token°.°Text °==° ²"catch"²
-            °||° code_token°.°Text °==° ²"throw"²
-            °||° code_token°.°Text °==° ²"using"²
-            °||° code_token°.°Text °==° ²"namespace"²
-            °||° code_token°.°Text °==° ²"new"²
-            °||° code_token°.°Text °==° ²"delete"²
-            °||° code_token°.°Text °==° ²"this"²
-            °)°°;°
-    °}°
-
-    °// ~\~°
-
-    ²override² ²bool² IsType°(°
+    ¹override¹ ²bool² IsType°(°
         ²²CODE_TOKEN²² code_token
         °)°
     °{°
@@ -225,19 +114,110 @@
 
     °// ~\~°
 
-    ²override² ²bool² IsQualifier°(°
+    ¹override¹ ²bool² IsKeyword°(°
         ²²CODE_TOKEN²² code_token
         °)°
     °{°
         ¹return¹ °(°
-            code_token°.°Text °==° ²"const"²
-            °||° code_token°.°Text °==° ²"mutable"²
-            °||° code_token°.°Text °==° ²"virtual"²
-            °||° code_token°.°Text °==° ²"volatile"²
+            code_token°.°Text °==° ²"if"²
+            °||° code_token°.°Text °==° ²"else"²
+            °||° code_token°.°Text °==° ²"do"²
+            °||° code_token°.°Text °==° ²"while"²
+            °||° code_token°.°Text °==° ²"for"²
+            °||° code_token°.°Text °==° ²"switch"²
+            °||° code_token°.°Text °==° ²"case"²
+            °||° code_token°.°Text °==° ²"default"²
+            °||° code_token°.°Text °==° ²"break"²
+            °||° code_token°.°Text °==° ²"continue"²
+            °||° code_token°.°Text °==° ²"return"²
+            °||° code_token°.°Text °==° ²"goto"²
+            °||° code_token°.°Text °==° ²"sizeof"²
+            °||° code_token°.°Text °==° ²"struct"²
+            °||° code_token°.°Text °==° ²"union"²
+            °||° code_token°.°Text °==° ²"enum"²
+            °||° code_token°.°Text °==° ²"typedef"²
+            °||° code_token°.°Text °==° ²"const"²
             °||° code_token°.°Text °==° ²"register"²
-            °||° code_token°.°Text °==° ²"explicit"²
-            °||° code_token°.°Text °==° ²"friend"²
+            °||° code_token°.°Text °==° ²"volatile"²
+            °||° code_token°.°Text °==° ²"restrict"²
             °||° code_token°.°Text °==° ²"inline"²
+            °||° code_token°.°Text °==° ²"static"²
+            °||° code_token°.°Text °==° ²"extern"²
+            °||° code_token°.°Text °==° ²"asm"²
+            °)°°;°
+    °}°
+°}°
+
+°// ~\~°
+
+¹class¹ ²²CPP_LANGUAGE²² °:° ²²LANGUAGE²²
+°{°
+    ¹override¹ ²bool² IsConstant°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"false"²
+            °||° code_token°.°Text °==° ²"true"²
+            °||° code_token°.°Text °==° ²"nullptr"²
+            °)°°;°
+    °}°
+
+    °// ~\~°
+
+    ¹override¹ ²bool² IsType°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"void"²
+            °||° code_token°.°Text °==° ²"bool"²
+            °||° code_token°.°Text °==° ²"char"²
+            °||° code_token°.°Text °==° ²"short"²
+            °||° code_token°.°Text °==° ²"int"²
+            °||° code_token°.°Text °==° ²"long"²
+            °||° code_token°.°Text °==° ²"signed"²
+            °||° code_token°.°Text °==° ²"unsigned"²
+            °||° code_token°.°Text °==° ²"float"²
+            °||° code_token°.°Text °==° ²"double"²
+            °||° code_token°.°Text °==° ²"auto"²
+            °)°°;°
+    °}°
+
+    °// ~\~°
+
+    ¹override¹ ²bool² IsKeyword°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"if"²
+            °||° code_token°.°Text °==° ²"else"²
+            °||° code_token°.°Text °==° ²"do"²
+            °||° code_token°.°Text °==° ²"while"²
+            °||° code_token°.°Text °==° ²"for"²
+            °||° code_token°.°Text °==° ²"switch"²
+            °||° code_token°.°Text °==° ²"case"²
+            °||° code_token°.°Text °==° ²"default"²
+            °||° code_token°.°Text °==° ²"break"²
+            °||° code_token°.°Text °==° ²"continue"²
+            °||° code_token°.°Text °==° ²"return"²
+            °||° code_token°.°Text °==° ²"goto"²
+            °||° code_token°.°Text °==° ²"try"²
+            °||° code_token°.°Text °==° ²"catch"²
+            °||° code_token°.°Text °==° ²"throw"²
+            °||° code_token°.°Text °==° ²"new"²
+            °||° code_token°.°Text °==° ²"delete"²
+            °||° code_token°.°Text °==° ²"this"²
+            °||° code_token°.°Text °==° ²"sizeof"²
+            °||° code_token°.°Text °==° ²"reinterpret_cast"²
+            °||° code_token°.°Text °==° ²"static_cast"²
+            °||° code_token°.°Text °==° ²"dynamic_cast"²
+            °||° code_token°.°Text °==° ²"using"²
+            °||° code_token°.°Text °==° ²"namespace"²
+            °||° code_token°.°Text °==° ²"public"²
+            °||° code_token°.°Text °==° ²"protected"²
+            °||° code_token°.°Text °==° ²"private"²
             °||° code_token°.°Text °==° ²"template"²
             °||° code_token°.°Text °==° ²"typename"²
             °||° code_token°.°Text °==° ²"class"²
@@ -245,27 +225,28 @@
             °||° code_token°.°Text °==° ²"union"²
             °||° code_token°.°Text °==° ²"enum"²
             °||° code_token°.°Text °==° ²"typedef"²
-            °||° code_token°.°Text °==° ²"static"²
-            °||° code_token°.°Text °==° ²"public"²
-            °||° code_token°.°Text °==° ²"protected"²
-            °||° code_token°.°Text °==° ²"private"²
-            °||° code_token°.°Text °==° ²"override"²
+            °||° code_token°.°Text °==° ²"operator"²
+            °||° code_token°.°Text °==° ²"virtual"²
             °||° code_token°.°Text °==° ²"final"²
+            °||° code_token°.°Text °==° ²"override"²
+            °||° code_token°.°Text °==° ²"const"²
+            °||° code_token°.°Text °==° ²"mutable"²
+            °||° code_token°.°Text °==° ²"volatile"²
+            °||° code_token°.°Text °==° ²"register"²
+            °||° code_token°.°Text °==° ²"explicit"²
+            °||° code_token°.°Text °==° ²"friend"²
+            °||° code_token°.°Text °==° ²"inline"²
+            °||° code_token°.°Text °==° ²"static"²
+            °||° code_token°.°Text °==° ²"extern"²
             °)°°;°
     °}°
 °}°
 
 °// ~\~°
 
-²class² ²²CSHARP_LANGUAGE²² °:° ²²LANGUAGE²²
+¹class¹ ²²CSHARP_LANGUAGE²² °:° ²²LANGUAGE²²
 °{°
-°}°
-
-°// ~\~°
-
-²class² ²²D_LANGUAGE²² °:° ²²LANGUAGE²²
-°{°
-    ²override² ²bool² IsConstant°(°
+    ¹override¹ ²bool² IsConstant°(°
         ²²CODE_TOKEN²² code_token
         °)°
     °{°
@@ -278,7 +259,142 @@
 
     °// ~\~°
 
-    ²override² ²bool² IsKeyword°(°
+    ¹override¹ ²bool² IsType°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"void"²
+            °||° code_token°.°Text °==° ²"bool"²
+            °||° code_token°.°Text °==° ²"char"²
+            °||° code_token°.°Text °==° ²"byte"²
+            °||° code_token°.°Text °==° ²"sbyte"²
+            °||° code_token°.°Text °==° ²"short"²
+            °||° code_token°.°Text °==° ²"int"²
+            °||° code_token°.°Text °==° ²"uint"²
+            °||° code_token°.°Text °==° ²"long"²
+            °||° code_token°.°Text °==° ²"ulong"²
+            °||° code_token°.°Text °==° ²"float"²
+            °||° code_token°.°Text °==° ²"double"²
+            °||° code_token°.°Text °==° ²"decimal"²
+            °||° code_token°.°Text °==° ²"string"²
+            °)°°;°
+    °}°
+
+    °// ~\~°
+
+    ¹override¹ ²bool² IsKeyword°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"if"²
+            °||° code_token°.°Text °==° ²"else"²
+            °||° code_token°.°Text °==° ²"do"²
+            °||° code_token°.°Text °==° ²"while"²
+            °||° code_token°.°Text °==° ²"for"²
+            °||° code_token°.°Text °==° ²"foreach"²
+            °||° code_token°.°Text °==° ²"switch"²
+            °||° code_token°.°Text °==° ²"case"²
+            °||° code_token°.°Text °==° ²"default"²
+            °||° code_token°.°Text °==° ²"break"²
+            °||° code_token°.°Text °==° ²"continue"²
+            °||° code_token°.°Text °==° ²"return"²
+            °||° code_token°.°Text °==° ²"goto"²
+            °||° code_token°.°Text °==° ²"try"²
+            °||° code_token°.°Text °==° ²"catch"²
+            °||° code_token°.°Text °==° ²"finally"²
+            °||° code_token°.°Text °==° ²"throw"²
+            °||° code_token°.°Text °==° ²"lock"²
+            °||° code_token°.°Text °==° ²"new"²
+            °||° code_token°.°Text °==° ²"stackalloc"²
+            °||° code_token°.°Text °==° ²"sizeof"²
+            °||° code_token°.°Text °==° ²"typeof"²
+            °||° code_token°.°Text °==° ²"is"²
+            °||° code_token°.°Text °==° ²"as"²
+            °||° code_token°.°Text °==° ²"params"²
+            °||° code_token°.°Text °==° ²"this"²
+            °||° code_token°.°Text °==° ²"base"²
+            °||° code_token°.°Text °==° ²"using"²
+            °||° code_token°.°Text °==° ²"namespace"²
+            °||° code_token°.°Text °==° ²"public"²
+            °||° code_token°.°Text °==° ²"protected"²
+            °||° code_token°.°Text °==° ²"private"²
+            °||° code_token°.°Text °==° ²"class"²
+            °||° code_token°.°Text °==° ²"interface"²
+            °||° code_token°.°Text °==° ²"enum"²
+            °||° code_token°.°Text °==° ²"operator"²
+            °||° code_token°.°Text °==° ²"object"²
+            °||° code_token°.°Text °==° ²"event"²
+            °||° code_token°.°Text °==° ²"static"²
+            °||° code_token°.°Text °==° ²"const"²
+            °||° code_token°.°Text °==° ²"in"²
+            °||° code_token°.°Text °==° ²"out"²
+            °||° code_token°.°Text °==° ²"ref"²
+            °||° code_token°.°Text °==° ²"readonly"²
+            °||° code_token°.°Text °==° ²"delegate"²
+            °||° code_token°.°Text °==° ²"abstract"²
+            °||° code_token°.°Text °==° ²"override"²
+            °||° code_token°.°Text °==° ²"implicit"²
+            °||° code_token°.°Text °==° ²"volatile"²
+            °||° code_token°.°Text °==° ²"checked"²
+            °||° code_token°.°Text °==° ²"unchecked"²
+            °||° code_token°.°Text °==° ²"unsafe"²
+            °||° code_token°.°Text °==° ²"fixed"²
+            °||° code_token°.°Text °==° ²"sealed"²
+            °||° code_token°.°Text °==° ²"internal"²
+            °||° code_token°.°Text °==° ²"extern"²
+            °)°°;°
+    °}°
+°}°
+
+°// ~\~°
+
+¹class¹ ²²D_LANGUAGE²² °:° ²²LANGUAGE²²
+°{°
+    ¹override¹ ²bool² IsConstant°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"false"²
+            °||° code_token°.°Text °==° ²"true"²
+            °||° code_token°.°Text °==° ²"null"²
+            °)°°;°
+    °}°
+
+    °// ~\~°
+
+    ¹override¹ ²bool² IsType°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"void"²
+            °||° code_token°.°Text °==° ²"bool"²
+            °||° code_token°.°Text °==° ²"char"²
+            °||° code_token°.°Text °==° ²"wchar"²
+            °||° code_token°.°Text °==° ²"dchar"²
+            °||° code_token°.°Text °==° ²"byte"²
+            °||° code_token°.°Text °==° ²"ubyte"²
+            °||° code_token°.°Text °==° ²"short"²
+            °||° code_token°.°Text °==° ²"ushort"²
+            °||° code_token°.°Text °==° ²"int"²
+            °||° code_token°.°Text °==° ²"uint"²
+            °||° code_token°.°Text °==° ²"long"²
+            °||° code_token°.°Text °==° ²"ulong"²
+            °||° code_token°.°Text °==° ²"float"²
+            °||° code_token°.°Text °==° ²"double"²
+            °||° code_token°.°Text °==° ²"string"²
+            °||° code_token°.°Text °==° ²"wstring"²
+            °||° code_token°.°Text °==° ²"dstring"²
+            °||° code_token°.°Text °==° ²"auto"²
+            °)°°;°
+    °}°
+
+    °// ~\~°
+
+    ¹override¹ ²bool² IsKeyword°(°
         ²²CODE_TOKEN²² code_token
         °)°
     °{°
@@ -302,79 +418,298 @@
             °||° code_token°.°Text °==° ²"delete"²
             °||° code_token°.°Text °==° ²"import"²
             °||° code_token°.°Text °==° ²"this"²
+            °||° code_token°.°Text °==° ²"public"²
+            °||° code_token°.°Text °==° ²"protected"²
+            °||° code_token°.°Text °==° ²"private"²
+            °||° code_token°.°Text °==° ²"class"²
+            °||° code_token°.°Text °==° ²"struct"²
+            °||° code_token°.°Text °==° ²"union"²
+            °||° code_token°.°Text °==° ²"enum"²
+            °||° code_token°.°Text °==° ²"final"²
+            °||° code_token°.°Text °==° ²"override"²
+            °)°°;°
+    °}°
+°}°
+
+°// ~\~°
+
+¹class¹ ²²JAVA_LANGUAGE²² °:° ²²LANGUAGE²²
+°{°
+    ¹override¹ ²bool² IsConstant°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"false"²
+            °||° code_token°.°Text °==° ²"true"²
+            °||° code_token°.°Text °==° ²"null"²
             °)°°;°
     °}°
 
     °// ~\~°
 
-    ²override² ²bool² IsType°(°
+    ¹override¹ ²bool² IsType°(°
         ²²CODE_TOKEN²² code_token
         °)°
     °{°
         ¹return¹ °(°
             code_token°.°Text °==° ²"void"²
-            °||° code_token°.°Text °==° ²"bool"²
+            °||° code_token°.°Text °==° ²"boolean"²
             °||° code_token°.°Text °==° ²"char"²
-            °||° code_token°.°Text °==° ²"wchar"²
-            °||° code_token°.°Text °==° ²"dchar"²
-            °||° code_token°.°Text °==° ²"ubyte"²
             °||° code_token°.°Text °==° ²"byte"²
-            °||° code_token°.°Text °==° ²"ushort"²
             °||° code_token°.°Text °==° ²"short"²
-            °||° code_token°.°Text °==° ²"uint"²
             °||° code_token°.°Text °==° ²"int"²
-            °||° code_token°.°Text °==° ²"ulong"²
             °||° code_token°.°Text °==° ²"long"²
             °||° code_token°.°Text °==° ²"float"²
             °||° code_token°.°Text °==° ²"double"²
-            °||° code_token°.°Text °==° ²"string"²
-            °||° code_token°.°Text °==° ²"wstring"²
-            °||° code_token°.°Text °==° ²"dstring"²
-            °||° code_token°.°Text °==° ²"auto"²
             °)°°;°
     °}°
 
     °// ~\~°
 
-    ²override² ²bool² IsQualifier°(°
+    ¹override¹ ²bool² IsKeyword°(°
         ²²CODE_TOKEN²² code_token
         °)°
     °{°
         ¹return¹ °(°
-            code_token°.°Text °==° ²"class"²
-            °||° code_token°.°Text °==° ²"struct"²
-            °||° code_token°.°Text °==° ²"union"²
-            °||° code_token°.°Text °==° ²"enum"²
+            code_token°.°Text °==° ²"if"²
+            °||° code_token°.°Text °==° ²"else"²
+            °||° code_token°.°Text °==° ²"do"²
+            °||° code_token°.°Text °==° ²"while"²
+            °||° code_token°.°Text °==° ²"for"²
+            °||° code_token°.°Text °==° ²"switch"²
+            °||° code_token°.°Text °==° ²"case"²
+            °||° code_token°.°Text °==° ²"default"²
+            °||° code_token°.°Text °==° ²"break"²
+            °||° code_token°.°Text °==° ²"continue"²
+            °||° code_token°.°Text °==° ²"return"²
+            °||° code_token°.°Text °==° ²"goto"²
+            °||° code_token°.°Text °==° ²"try"²
+            °||° code_token°.°Text °==° ²"catch"²
+            °||° code_token°.°Text °==° ²"finally"²
+            °||° code_token°.°Text °==° ²"throw"²
+            °||° code_token°.°Text °==° ²"new"²
+            °||° code_token°.°Text °==° ²"instanceof"²
+            °||° code_token°.°Text °==° ²"this"²
+            °||° code_token°.°Text °==° ²"super"²
+            °||° code_token°.°Text °==° ²"import"²
             °||° code_token°.°Text °==° ²"public"²
             °||° code_token°.°Text °==° ²"protected"²
             °||° code_token°.°Text °==° ²"private"²
-            °||° code_token°.°Text °==° ²"override"²
+            °||° code_token°.°Text °==° ²"package"²
+            °||° code_token°.°Text °==° ²"class"²
+            °||° code_token°.°Text °==° ²"interface"²
+            °||° code_token°.°Text °==° ²"enum"²
+            °||° code_token°.°Text °==° ²"extends"²
+            °||° code_token°.°Text °==° ²"implements"²
+            °||° code_token°.°Text °==° ²"throws"²
+            °||° code_token°.°Text °==° ²"static"²
+            °||° code_token°.°Text °==° ²"const"²
             °||° code_token°.°Text °==° ²"final"²
+            °||° code_token°.°Text °==° ²"abstract"²
+            °||° code_token°.°Text °==° ²"volatile"²
+            °||° code_token°.°Text °==° ²"transient"²
+            °||° code_token°.°Text °==° ²"native"²
+            °||° code_token°.°Text °==° ²"synchronized"²
+            °||° code_token°.°Text °==° ²"strictfp"²
             °)°°;°
     °}°
 °}°
 
 °// ~\~°
 
-²class² ²²JAVA_LANGUAGE²² °:° ²²LANGUAGE²²
+¹class¹ ²²JAVASCRIPT_LANGUAGE²² °:° ²²LANGUAGE²²
 °{°
+    ¹override¹ ²bool² IsConstant°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"false"²
+            °||° code_token°.°Text °==° ²"true"²
+            °||° code_token°.°Text °==° ²"null"²
+            °||° code_token°.°Text °==° ²"undefined"²
+            °)°°;°
+    °}°
+
+    °// ~\~°
+
+    ¹override¹ ²bool² IsType°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"void"²
+            °||° code_token°.°Text °==° ²"boolean"²
+            °||° code_token°.°Text °==° ²"char"²
+            °||° code_token°.°Text °==° ²"byte"²
+            °||° code_token°.°Text °==° ²"short"²
+            °||° code_token°.°Text °==° ²"int"²
+            °||° code_token°.°Text °==° ²"long"²
+            °||° code_token°.°Text °==° ²"float"²
+            °||° code_token°.°Text °==° ²"double"²
+            °)°°;°
+    °}°
+
+    °// ~\~°
+
+    ¹override¹ ²bool² IsKeyword°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"var"²
+            °||° code_token°.°Text °==° ²"let"²
+            °||° code_token°.°Text °==° ²"if"²
+            °||° code_token°.°Text °==° ²"else"²
+            °||° code_token°.°Text °==° ²"do"²
+            °||° code_token°.°Text °==° ²"while"²
+            °||° code_token°.°Text °==° ²"for"²
+            °||° code_token°.°Text °==° ²"switch"²
+            °||° code_token°.°Text °==° ²"case"²
+            °||° code_token°.°Text °==° ²"default"²
+            °||° code_token°.°Text °==° ²"break"²
+            °||° code_token°.°Text °==° ²"continue"²
+            °||° code_token°.°Text °==° ²"return"²
+            °||° code_token°.°Text °==° ²"goto"²
+            °||° code_token°.°Text °==° ²"try"²
+            °||° code_token°.°Text °==° ²"catch"²
+            °||° code_token°.°Text °==° ²"finally"²
+            °||° code_token°.°Text °==° ²"throw"²
+            °||° code_token°.°Text °==° ²"new"²
+            °||° code_token°.°Text °==° ²"delete"²
+            °||° code_token°.°Text °==° ²"yield"²
+            °||° code_token°.°Text °==° ²"await"²
+            °||° code_token°.°Text °==° ²"eval"²
+            °||° code_token°.°Text °==° ²"with"²
+            °||° code_token°.°Text °==° ²"in"²
+            °||° code_token°.°Text °==° ²"debugger"²
+            °||° code_token°.°Text °==° ²"instanceof"²
+            °||° code_token°.°Text °==° ²"typeof"²
+            °||° code_token°.°Text °==° ²"arguments"²
+            °||° code_token°.°Text °==° ²"this"²
+            °||° code_token°.°Text °==° ²"super"²
+            °||° code_token°.°Text °==° ²"import"²
+            °||° code_token°.°Text °==° ²"export"²
+            °||° code_token°.°Text °==° ²"public"²
+            °||° code_token°.°Text °==° ²"protected"²
+            °||° code_token°.°Text °==° ²"private"²
+            °||° code_token°.°Text °==° ²"package"²
+            °||° code_token°.°Text °==° ²"class"²
+            °||° code_token°.°Text °==° ²"interface"²
+            °||° code_token°.°Text °==° ²"enum"²
+            °||° code_token°.°Text °==° ²"function"²
+            °||° code_token°.°Text °==° ²"extends"²
+            °||° code_token°.°Text °==° ²"implements"²
+            °||° code_token°.°Text °==° ²"throws"²
+            °||° code_token°.°Text °==° ²"static"²
+            °||° code_token°.°Text °==° ²"const"²
+            °||° code_token°.°Text °==° ²"final"²
+            °||° code_token°.°Text °==° ²"abstract"²
+            °||° code_token°.°Text °==° ²"volatile"²
+            °||° code_token°.°Text °==° ²"transient"²
+            °||° code_token°.°Text °==° ²"native"²
+            °||° code_token°.°Text °==° ²"synchronized"²
+            °)°°;°
+    °}°
 °}°
 
 °// ~\~°
 
-²class² ²²JAVASCRIPT_LANGUAGE²² °:° ²²LANGUAGE²²
+¹class¹ ²²TYPESCRIPT_LANGUAGE²² °:° ²²LANGUAGE²²
 °{°
+    ¹override¹ ²bool² IsConstant°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"false"²
+            °||° code_token°.°Text °==° ²"true"²
+            °||° code_token°.°Text °==° ²"null"²
+            °||° code_token°.°Text °==° ²"undefined"²
+            °)°°;°
+    °}°
+
+    °// ~\~°
+
+    ¹override¹ ²bool² IsType°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"boolean"²
+            °||° code_token°.°Text °==° ²"number"²
+            °||° code_token°.°Text °==° ²"string"²
+            °||° code_token°.°Text °==° ²"symbol"²
+            °||° code_token°.°Text °==° ²"any"²
+            °)°°;°
+    °}°
+
+    °// ~\~°
+
+    ¹override¹ ²bool² IsKeyword°(°
+        ²²CODE_TOKEN²² code_token
+        °)°
+    °{°
+        ¹return¹ °(°
+            code_token°.°Text °==° ²"var"²
+            °||° code_token°.°Text °==° ²"let"²
+            °||° code_token°.°Text °==° ²"if"²
+            °||° code_token°.°Text °==° ²"else"²
+            °||° code_token°.°Text °==° ²"do"²
+            °||° code_token°.°Text °==° ²"while"²
+            °||° code_token°.°Text °==° ²"for"²
+            °||° code_token°.°Text °==° ²"switch"²
+            °||° code_token°.°Text °==° ²"case"²
+            °||° code_token°.°Text °==° ²"default"²
+            °||° code_token°.°Text °==° ²"break"²
+            °||° code_token°.°Text °==° ²"continue"²
+            °||° code_token°.°Text °==° ²"return"²
+            °||° code_token°.°Text °==° ²"goto"²
+            °||° code_token°.°Text °==° ²"try"²
+            °||° code_token°.°Text °==° ²"catch"²
+            °||° code_token°.°Text °==° ²"finally"²
+            °||° code_token°.°Text °==° ²"throw"²
+            °||° code_token°.°Text °==° ²"new"²
+            °||° code_token°.°Text °==° ²"delete"²
+            °||° code_token°.°Text °==° ²"yield"²
+            °||° code_token°.°Text °==° ²"await"²
+            °||° code_token°.°Text °==° ²"eval"²
+            °||° code_token°.°Text °==° ²"with"²
+            °||° code_token°.°Text °==° ²"in"²
+            °||° code_token°.°Text °==° ²"debugger"²
+            °||° code_token°.°Text °==° ²"instanceof"²
+            °||° code_token°.°Text °==° ²"typeof"²
+            °||° code_token°.°Text °==° ²"arguments"²
+            °||° code_token°.°Text °==° ²"this"²
+            °||° code_token°.°Text °==° ²"super"²
+            °||° code_token°.°Text °==° ²"import"²
+            °||° code_token°.°Text °==° ²"export"²
+            °||° code_token°.°Text °==° ²"public"²
+            °||° code_token°.°Text °==° ²"protected"²
+            °||° code_token°.°Text °==° ²"private"²
+            °||° code_token°.°Text °==° ²"package"²
+            °||° code_token°.°Text °==° ²"class"²
+            °||° code_token°.°Text °==° ²"interface"²
+            °||° code_token°.°Text °==° ²"enum"²
+            °||° code_token°.°Text °==° ²"function"²
+            °||° code_token°.°Text °==° ²"constructor"²
+            °||° code_token°.°Text °==° ²"extends"²
+            °||° code_token°.°Text °==° ²"implements"²
+            °||° code_token°.°Text °==° ²"static"²
+            °||° code_token°.°Text °==° ²"const"²
+            °||° code_token°.°Text °==° ²"abstract"²
+            °||° code_token°.°Text °==° ²"volatile"²
+            °||° code_token°.°Text °==° ²"transient"²
+            °||° code_token°.°Text °==° ²"native"²
+            °||° code_token°.°Text °==° ²"synchronized"²
+            °)°°;°
+    °}°
 °}°
 
 °// ~\~°
 
-²class² ²²TYPESCRIPT_LANGUAGE²² °:° ²²LANGUAGE²²
-°{°
-°}°
-
-°// ~\~°
-
-²enum² ²²CODE_TOKEN_TYPE²²
+¹enum¹ ²²CODE_TOKEN_TYPE²²
 °{°
     None°,°
     ShortComment°,°
@@ -382,15 +717,14 @@
     String°,°
     Number°,°
     Constant°,°
+    Type°,°
+    Keyword°,°
+    Pragma°,°
     LowerCaseIdentifier°,°
     UpperCaseIdentifier°,°
     MinorCaseIdentifier°,°
     MajorCaseIdentifier°,°
     Identifier°,°
-    Keyword°,°
-    Type°,°
-    Qualifier°,°
-    Pragma°,°
     Operator°,°
     Separator°,°
     Delimiter°,°
@@ -401,7 +735,7 @@
 
 °// ~\~°
 
-²class² ²²CODE_TOKEN²²
+¹class¹ ²²CODE_TOKEN²²
 °{°
     ²²CODE_TOKEN_TYPE²²
         Type°;°
@@ -411,7 +745,7 @@
 
 °// ~\~°
 
-²class² ²²TOKEN²²
+¹class¹ ²²TOKEN²²
 °{°
     ²dstring²
         Text°;°
@@ -758,17 +1092,13 @@
                     °{°
                         code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Constant°;°
                     °}°
-                    ¹else¹ ¹if¹ °(° language°.°IsKeyword°(° code_token °)° °)°
-                    °{°
-                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Keyword°;°
-                    °}°
                     ¹else¹ ¹if¹ °(° language°.°IsType°(° code_token °)° °)°
                     °{°
                         code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Type°;°
                     °}°
-                    ¹else¹ ¹if¹ °(° language°.°IsQualifier°(° code_token °)° °)°
+                    ¹else¹ ¹if¹ °(° language°.°IsKeyword°(° code_token °)° °)°
                     °{°
-                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Qualifier°;°
+                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Keyword°;°
                     °}°
                     ¹else¹ ¹if¹ °(° code_token°.°Text°.°startsWith°(° ²'\#'² °)° °)°
                     °{°
@@ -973,15 +1303,14 @@
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°String °]° °=° ²"\²"²°;°
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Number °]° °=° ²"\²"²°;°
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Constant °]° °=° ²"\²"²°;°
+    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Type °]° °=° ²"\²"²°;°
+    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Keyword °]° °=° ²"\¹"²°;°
+    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Pragma °]° °=° ²"\²"²°;°
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°LowerCaseIdentifier °]° °=° ²""²°;°
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°UpperCaseIdentifier °]° °=° ²"\²\²"²°;°
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°MinorCaseIdentifier °]° °=° ²""²°;°
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°MajorCaseIdentifier °]° °=° ²""²°;°
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Identifier °]° °=° ²"\²"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Keyword °]° °=° ²"\¹"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Type °]° °=° ²"\²"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Qualifier °]° °=° ²"\²"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Pragma °]° °=° ²"\²"²°;°
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Operator °]° °=° ²"\°"²°;°
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Separator °]° °=° ²"\°"²°;°
     color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Delimiter °]° °=° ²"\°"²°;°
