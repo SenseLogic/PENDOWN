@@ -58,6 +58,8 @@ $$center$$
 
 ~~strikethrough~~
 
+~~f00\strikethrough~~
+
 __underlined__
 
 __f00\underlined__
