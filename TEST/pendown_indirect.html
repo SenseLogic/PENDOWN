@@ -1924,9 +1924,25 @@
         <span style="color:#888">{</span>
             it_is_in_strike <span style="color:#888">=</span> <span style="color:#888">!</span>it_is_in_strike<span style="color:#888">;</span>
 
-            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> it_is_in_strike <span style="color:#888">?</span> <span style="color:#f00">"&lt;strike&gt;"</span> <span style="color:#888">:</span> <span style="color:#f00">"&lt;/strike&gt;"</span><span style="color:#888">;</span>
-
             character_index <span style="color:#888">+=</span> <span style="color:#f00">2</span><span style="color:#888">;</span>
+
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> it_is_in_strike <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                ParseColor<span style="color:#888">()</span><span style="color:#888">;</span>
+
+                <span style="color:#f4a">if</span> <span style="color:#888">(</span> color <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
+                <span style="color:#888">{</span>
+                    token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;strike&gt;"</span><span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+                <span style="color:#f4a">else</span>
+                <span style="color:#888">{</span>
+                    token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;strike style=\"text-decoration-color:#"</span> <span style="color:#888">~</span> color <span style="color:#888">~</span> <span style="color:#f00">"\"&gt;"</span><span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/strike&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">2</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"°°"</span>
                   <span style="color:#888">&&</span> <span style="color:#888">!</span>it_is_in_gray_span <span style="color:#888">)</span>

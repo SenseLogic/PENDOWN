@@ -1925,9 +1925,25 @@
         °{°
             it_is_in_strike °=° °\!°it_is_in_strike°;°
 
-            token°.°Text °=° it_is_in_strike °?° ²"&lt;strike&gt;"² °:° ²"&lt;/strike&gt;"²°;°
-
             character_index °+=° ²2²°;°
+
+            ¹if¹ °(° it_is_in_strike °)°
+            °{°
+                ParseColor°()°°;°
+
+                ¹if¹ °(° color °==° ²""² °)°
+                °{°
+                    token°.°Text °=° ²"&lt;strike&gt;"²°;°
+                °}°
+                ¹else¹
+                °{°
+                    token°.°Text °=° ²"&lt;strike style=\\"text-decoration-color:\#"² °~° color °~° ²"\\"&gt;"²°;°
+                °}°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/strike&gt;"²°;°
+            °}°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"\°\°"²
                   °&&° °\!°it_is_in_gray_span °)°

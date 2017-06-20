@@ -1763,9 +1763,25 @@ function GetTokenArray(
         {
             it_is_in_strike = !it_is_in_strike;
 
-            token.Text = it_is_in_strike ? "<strike>" : "</strike>";
-
             character_index += 2;
+
+            if ( it_is_in_strike )
+            {
+                ParseColor();
+
+                if ( color === "" )
+                {
+                    token.Text = "<strike>";
+                }
+                else
+                {
+                    token.Text = "<strike style=\"text-decoration-color:#" + color + "\">";
+                }
+            }
+            else
+            {
+                token.Text = "</strike>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) === "°°"
                   && !it_is_in_gray_span )
