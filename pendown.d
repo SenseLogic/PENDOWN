@@ -1327,7 +1327,8 @@ dstring GetColorizedText(
         code_token = code_token_array[ code_token_index ];
 
         if ( code_token_index == 0
-             || code_token.Type != code_token_array[ code_token_index - 1 ].Type )
+             || color_prefix_array[ code_token.Type ]
+                != color_prefix_array[ code_token_array[ code_token_index - 1 ].Type ] )
         {
             colorized_text ~= color_prefix_array[ code_token.Type ];
         }
@@ -1335,7 +1336,8 @@ dstring GetColorizedText(
         colorized_text ~= code_token.Text;
 
         if ( code_token_index == code_token_array.length - 1
-             || code_token.Type != code_token_array[ code_token_index + 1 ].Type )
+             || color_suffix_array[ code_token.Type ]
+                != color_suffix_array[ code_token_array[ code_token_index + 1 ].Type ] )
         {
             colorized_text ~= color_suffix_array[ code_token.Type ];
         }
