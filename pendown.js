@@ -726,6 +726,20 @@ String.prototype.isAlpha = function()
 
 // ~~
 
+String.prototype.isLower = function()
+{
+    return this >= 'a' && this <= 'z';
+}
+
+// ~~
+
+String.prototype.isUpper = function()
+{
+    return this >= 'A' && this <= 'Z';
+}
+
+// ~~
+
 String.prototype.toLower = function()
 {
     return this.toLowerCase();
