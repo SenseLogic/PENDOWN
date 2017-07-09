@@ -227,7 +227,9 @@ Large :
 
 Then open the "sample.html" file with a web-browser.
 
-You should see the following [result](SAMPLE/sample.png) if the Comic Sans and Consolas fonts are already installed on your system.
+You should see the following result if the Comic Sans and Consolas fonts are already installed on your system.
+
+![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
 
 ## Syntax highlighting
 
