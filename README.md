@@ -356,7 +356,7 @@ Converts a D source code file to a HTML file which imports the Pendown script an
 
 ## Version
 
-0.2
+1.0
 
 ## Author
 
