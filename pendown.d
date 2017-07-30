@@ -931,7 +931,7 @@ LANGUAGE GetLanguage(
     if ( file_path.endsWith( ".c" )
          || file_path.endsWith( ".h" ) )
     {
-        return new C_LANGUAGE();
+        return new C_LANGUAGE;
     }
     else if ( file_path.endsWith( ".c++" )
               || file_path.endsWith( ".h++" )
@@ -940,32 +940,32 @@ LANGUAGE GetLanguage(
               || file_path.endsWith( ".cxx" )
               || file_path.endsWith( ".hxx" ) )
     {
-        return new CPP_LANGUAGE();
+        return new CPP_LANGUAGE;
     }
     else if ( file_path.endsWith( ".c#" )
               || file_path.endsWith( ".cs" ) )
     {
-        return new CSHARP_LANGUAGE();
+        return new CSHARP_LANGUAGE;
     }
     else if ( file_path.endsWith( ".d" ) )
     {
-        return new D_LANGUAGE();
+        return new D_LANGUAGE;
     }
     else if ( file_path.endsWith( ".java" ) )
     {
-        return new JAVA_LANGUAGE();
+        return new JAVA_LANGUAGE;
     }
     else if ( file_path.endsWith( ".js" ) )
     {
-        return new JAVASCRIPT_LANGUAGE();
+        return new JAVASCRIPT_LANGUAGE;
     }
     else if ( file_path.endsWith( ".ts" ) )
     {
-        return new TYPESCRIPT_LANGUAGE();
+        return new TYPESCRIPT_LANGUAGE;
     }
     else
     {
-        return new LANGUAGE();
+        return new LANGUAGE;
     }
 }
 
@@ -1129,7 +1129,7 @@ CODE_TOKEN[] GetCodeTokenArray(
         if ( code_token is null
              && character != 0 )
         {
-            code_token = new CODE_TOKEN();
+            code_token = new CODE_TOKEN;
 
             if ( character == '/'
                  && next_character == '/' )
@@ -1554,7 +1554,7 @@ TOKEN[] GetTokenArray(
 
     while ( character_index < text.length )
     {
-        token = new TOKEN();
+        token = new TOKEN;
         token.StartsLine = token_starts_line;
         token_starts_line = false;
 
@@ -2084,7 +2084,7 @@ TOKEN[] GetTokenArray(
         {
             if ( closing_tag != "" )
             {
-                closing_token = new TOKEN();
+                closing_token = new TOKEN;
                 closing_token.Text = closing_tag;
                 closing_tag = "";
 
@@ -2257,7 +2257,7 @@ void MakeLists(
 
                     if ( tag_token_text != "" )
                     {
-                        token = new TOKEN();
+                        token = new TOKEN;
                         token.Text = tag_token_text;
                         token_array.splice( tag_token_index, 0, token );
 
@@ -2282,7 +2282,7 @@ void MakeParagraphs(
     TOKEN
         token;
 
-    token = new TOKEN();
+    token = new TOKEN;
     token.Text = "<p>";
     token_array.splice( 0, 0, token );
 
@@ -2315,7 +2315,7 @@ void MakeParagraphs(
         }
     }
 
-    token = new TOKEN();
+    token = new TOKEN;
     token.Text = "</p>";
     token_array.push( token );
 }
@@ -2351,7 +2351,7 @@ void MakeTables(
             }
             else if ( token.StartsLine )
             {
-                token = new TOKEN();
+                token = new TOKEN;
                 token.Text = "<tr><td>";
                 token_array.splice( token_index, 0, token );
                 ++token_index;
@@ -2367,7 +2367,7 @@ void MakeTables(
             {
                 if ( it_is_in_row )
                 {
-                    token = new TOKEN();
+                    token = new TOKEN;
                     token.Text = "</td></tr>";
                     token_array.splice( token_index, 0, token );
                     ++token_index;
@@ -2385,7 +2385,7 @@ void MakeTables(
         }
     }
 
-    token = new TOKEN();
+    token = new TOKEN;
     token.Text = "</p>";
     token_array.push( token );
 }
