@@ -1,3 +1,5 @@
+![](https://github.com/senselogic/PENDOWN/blob/master/LOGO/pendown.png)
+
 # Pendown
 
 Lightweight markup for colored documents.
