@@ -1,3 +1,3 @@
 # Credits
 
-Thanks to Freepik and Flaticon.com for the free drawing used in the logo.
+Thanks to Skhumbuzo and Onlinewebfonts.com for the free drawing used in the logo.
