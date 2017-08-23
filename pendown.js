@@ -1376,6 +1376,8 @@ function GetTokenArray(
 
     // ~~
 
+    text = GetCleanedText( text );
+
     token_array = [];
     token_starts_line = true;
 
