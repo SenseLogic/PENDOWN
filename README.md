@@ -287,7 +287,7 @@ Check that both fonts are properly installed on your system.
 
 > The Pendown page doens't apply the page breaks.
 
-They are used when printing the page from the browser, or when the file is loaded in LibreOffice Write.
+They are used when printing the page from the browser, or when the generated file is loaded in LibreOffice Writer.
 
 ### Frequently asked questions
 
