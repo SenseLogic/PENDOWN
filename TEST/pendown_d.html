@@ -761,6 +761,7 @@
 
 <span style="color:#f00">bool</span>
     ColorizeOptionIsEnabled<span style="color:#888">,</span>
+    WriterOptionIsEnabled<span style="color:#888">,</span>
     ProcessOptionIsEnabled<span style="color:#888">,</span>
     ScriptOptionIsEnabled<span style="color:#888">,</span>
     StyleOptionIsEnabled<span style="color:#888">;</span>
@@ -934,7 +935,7 @@
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".c"</span> <span style="color:#888">)</span>
          <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".h"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">C_LANGUAGE</span><span style="color:#888">();</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">C_LANGUAGE</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
     <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".c++"</span> <span style="color:#888">)</span>
               <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".h++"</span> <span style="color:#888">)</span>
@@ -943,32 +944,32 @@
               <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".cxx"</span> <span style="color:#888">)</span>
               <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".hxx"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">CPP_LANGUAGE</span><span style="color:#888">();</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">CPP_LANGUAGE</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
     <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".c#"</span> <span style="color:#888">)</span>
               <span style="color:#888">||</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".cs"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">CSHARP_LANGUAGE</span><span style="color:#888">();</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">CSHARP_LANGUAGE</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
     <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".d"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">D_LANGUAGE</span><span style="color:#888">();</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">D_LANGUAGE</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
     <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".java"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">JAVA_LANGUAGE</span><span style="color:#888">();</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">JAVA_LANGUAGE</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
     <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".js"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">JAVASCRIPT_LANGUAGE</span><span style="color:#888">();</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">JAVASCRIPT_LANGUAGE</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
     <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> file_path<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">".ts"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">TYPESCRIPT_LANGUAGE</span><span style="color:#888">();</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">TYPESCRIPT_LANGUAGE</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
     <span style="color:#f4a">else</span>
     <span style="color:#888">{</span>
-        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">LANGUAGE</span><span style="color:#888">();</span>
+        <span style="color:#f4a">return</span> <span style="color:#f4a">new</span> <span style="color:#f80">LANGUAGE</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
 <span style="color:#888">}</span>
 
@@ -1132,7 +1133,7 @@
         <span style="color:#f4a">if</span> <span style="color:#888">(</span> code_token is <span style="color:#f00">null</span>
              <span style="color:#888">&&</span> character <span style="color:#888">!=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            code_token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">CODE_TOKEN</span><span style="color:#888">();</span>
+            code_token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">CODE_TOKEN</span><span style="color:#888">;</span>
 
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'/'</span>
                  <span style="color:#888">&&</span> next_character <span style="color:#888">==</span> <span style="color:#f00">'/'</span> <span style="color:#888">)</span>
@@ -1481,7 +1482,8 @@
         closing_tag<span style="color:#888">,</span>
         url<span style="color:#888">;</span>
     <span style="color:#f00">long</span>
-        character_index<span style="color:#888">;</span>
+        character_index<span style="color:#888">,</span>
+        token_character_index<span style="color:#888">;</span>
     <span style="color:#f80">TOKEN</span>
         closing_token<span style="color:#888">,</span>
         token<span style="color:#888">;</span>
@@ -1557,7 +1559,7 @@
 
     <span style="color:#f4a">while</span> <span style="color:#888">(</span> character_index <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">();</span>
+        token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">;</span>
         token<span style="color:#888">.</span>StartsLine <span style="color:#888">=</span> token_starts_line<span style="color:#888">;</span>
         token_starts_line <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
 
@@ -1646,6 +1648,12 @@
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"~~~"</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;pb/&gt;"</span><span style="color:#888">;</span>
+
+            character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">'<br/>'</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;br/&gt;"</span><span style="color:#888">;</span>
@@ -1660,7 +1668,14 @@
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">4</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"]]]]"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" class=\"large\"/&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> WriterOptionIsEnabled <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" height=\"auto\" width=\"100%\"/&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" class=\"large\"/&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">4</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
@@ -1672,7 +1687,14 @@
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"]]]"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" class=\"medium\"/&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> WriterOptionIsEnabled <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" height=\"28%\" width=\"auto\"/&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" class=\"medium\"/&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
@@ -1684,7 +1706,14 @@
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">2</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"]]"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\"/&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> WriterOptionIsEnabled <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" height=\"14%\" width=\"auto\"/&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\"/&gt;"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">2</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
@@ -2087,7 +2116,7 @@
         <span style="color:#888">{</span>
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> closing_tag <span style="color:#888">!=</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
             <span style="color:#888">{</span>
-                closing_token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">();</span>
+                closing_token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">;</span>
                 closing_token<span style="color:#888">.</span>Text <span style="color:#888">=</span> closing_tag<span style="color:#888">;</span>
                 closing_tag <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
 
@@ -2260,7 +2289,7 @@
 
                     <span style="color:#f4a">if</span> <span style="color:#888">(</span> tag_token_text <span style="color:#888">!=</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
                     <span style="color:#888">{</span>
-                        token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">();</span>
+                        token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">;</span>
                         token<span style="color:#888">.</span>Text <span style="color:#888">=</span> tag_token_text<span style="color:#888">;</span>
                         token_array<span style="color:#888">.</span>splice<span style="color:#888">(</span> tag_token_index<span style="color:#888">,</span> <span style="color:#f00">0</span><span style="color:#888">,</span> token <span style="color:#888">);</span>
 
@@ -2285,7 +2314,7 @@
     <span style="color:#f80">TOKEN</span>
         token<span style="color:#888">;</span>
 
-    token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">();</span>
+    token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">;</span>
     token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;p&gt;"</span><span style="color:#888">;</span>
     token_array<span style="color:#888">.</span>splice<span style="color:#888">(</span> <span style="color:#f00">0</span><span style="color:#888">,</span> <span style="color:#f00">0</span><span style="color:#888">,</span> token <span style="color:#888">);</span>
 
@@ -2318,7 +2347,7 @@
         <span style="color:#888">}</span>
     <span style="color:#888">}</span>
 
-    token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">();</span>
+    token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">;</span>
     token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/p&gt;"</span><span style="color:#888">;</span>
     token_array<span style="color:#888">.</span>push<span style="color:#888">(</span> token <span style="color:#888">);</span>
 <span style="color:#888">}</span>
@@ -2354,7 +2383,7 @@
             <span style="color:#888">}</span>
             <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>StartsLine <span style="color:#888">)</span>
             <span style="color:#888">{</span>
-                token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">();</span>
+                token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">;</span>
                 token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;tr&gt;&lt;td&gt;"</span><span style="color:#888">;</span>
                 token_array<span style="color:#888">.</span>splice<span style="color:#888">(</span> token_index<span style="color:#888">,</span> <span style="color:#f00">0</span><span style="color:#888">,</span> token <span style="color:#888">);</span>
                 <span style="color:#888">++</span>token_index<span style="color:#888">;</span>
@@ -2370,7 +2399,7 @@
             <span style="color:#888">{</span>
                 <span style="color:#f4a">if</span> <span style="color:#888">(</span> it_is_in_row <span style="color:#888">)</span>
                 <span style="color:#888">{</span>
-                    token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">();</span>
+                    token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">;</span>
                     token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/td&gt;&lt;/tr&gt;"</span><span style="color:#888">;</span>
                     token_array<span style="color:#888">.</span>splice<span style="color:#888">(</span> token_index<span style="color:#888">,</span> <span style="color:#f00">0</span><span style="color:#888">,</span> token <span style="color:#888">);</span>
                     <span style="color:#888">++</span>token_index<span style="color:#888">;</span>
@@ -2387,10 +2416,63 @@
             <span style="color:#888">}</span>
         <span style="color:#888">}</span>
     <span style="color:#888">}</span>
+<span style="color:#888">}</span>
 
-    token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">();</span>
-    token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/p&gt;"</span><span style="color:#888">;</span>
-    token_array<span style="color:#888">.</span>push<span style="color:#888">(</span> token <span style="color:#888">);</span>
+<span style="color:#888">// ~~</span>
+
+<span style="color:#f00">void</span> MakeBreaks<span style="color:#888">(</span>
+    ref <span style="color:#f80">TOKEN</span><span style="color:#888">[]</span> token_array
+    <span style="color:#888">)</span>
+<span style="color:#888">{</span>
+    <span style="color:#f00">bool</span>
+        page_break_is_added<span style="color:#888">;</span>
+    <span style="color:#f00">long</span>
+        token_character_index<span style="color:#888">,</span>
+        token_index<span style="color:#888">;</span>
+    <span style="color:#f80">TOKEN</span>
+        token<span style="color:#888">;</span>
+
+    page_break_is_added <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
+
+    <span style="color:#f4a">for</span> <span style="color:#888">(</span> token_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+          token_index <span style="color:#888">&lt;</span> token_array<span style="color:#888">.</span>length<span style="color:#888">;</span>
+          <span style="color:#888">++</span>token_index <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        token <span style="color:#888">=</span> token_array<span style="color:#888">[</span> token_index <span style="color:#888">];</span>
+
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"&lt;pb/&gt;"</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+
+            page_break_is_added <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> page_break_is_added
+                  <span style="color:#888">&&</span> token<span style="color:#888">.</span>Text<span style="color:#888">.</span>length <span style="color:#888">&gt;=</span> <span style="color:#f00">3</span>
+                  <span style="color:#888">&&</span> token<span style="color:#888">.</span>Text<span style="color:#888">.</span>startsWith<span style="color:#888">(</span> <span style="color:#f00">'&lt;'</span> <span style="color:#888">)</span>
+                  <span style="color:#888">&&</span> <span style="color:#888">(</span> <span style="color:#888">!</span>token<span style="color:#888">.</span>Text<span style="color:#888">.</span>startsWith<span style="color:#888">(</span> <span style="color:#f00">"&lt;/"</span> <span style="color:#888">)</span>
+                       <span style="color:#888">||</span> token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"&lt;/p&gt;&lt;p&gt;\n"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"&lt;/p&gt;&lt;p&gt;\n"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                token_character_index <span style="color:#888">=</span> <span style="color:#f00">6</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"&gt;"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                token_character_index <span style="color:#888">=</span> token<span style="color:#888">.</span>Text<span style="color:#888">.</span>length <span style="color:#888">-</span> <span style="color:#f00">1</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                token_character_index <span style="color:#888">=</span> token<span style="color:#888">.</span>Text<span style="color:#888">.</span>indexOf<span style="color:#888">(</span> <span style="color:#f00">' '</span> <span style="color:#888">);</span>
+            <span style="color:#888">}</span>
+
+            token<span style="color:#888">.</span>Text
+                <span style="color:#888">=</span> token<span style="color:#888">.</span>Text<span style="color:#888">.</span>slice<span style="color:#888">(</span> <span style="color:#f00">0</span><span style="color:#888">,</span> token_character_index <span style="color:#888">)</span>
+                  <span style="color:#888">~</span> <span style="color:#f00">" style=\"page-break-before: always\""</span>
+                  <span style="color:#888">~</span> token<span style="color:#888">.</span>Text<span style="color:#888">.</span>slice<span style="color:#888">(</span> token_character_index<span style="color:#888">,</span> token<span style="color:#888">.</span>Text<span style="color:#888">.</span>length <span style="color:#888">);</span>
+
+            page_break_is_added <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+    <span style="color:#888">}</span>
 <span style="color:#888">}</span>
 
 <span style="color:#888">// ~~</span>
@@ -2432,6 +2514,7 @@
     MakeLists<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
     MakeParagraphs<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
     MakeTables<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
+    MakeBreaks<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
 
     <span style="color:#f4a">return</span> GetText<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
 <span style="color:#888">}</span>
@@ -2489,6 +2572,7 @@
 
     ColorizeOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     ProcessOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
+    WriterOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     ScriptOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     StyleOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     LanguageName <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
@@ -2509,6 +2593,10 @@
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> option <span style="color:#888">==</span> <span style="color:#f00">"--process"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             ProcessOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> option <span style="color:#888">==</span> <span style="color:#f00">"--writer"</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            WriterOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> option <span style="color:#888">==</span> <span style="color:#f00">"--script"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
@@ -2554,13 +2642,15 @@
         writeln<span style="color:#888">(</span> <span style="color:#f00">"Options :"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --colorize"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --process"</span> <span style="color:#888">);</span>
+        writeln<span style="color:#888">(</span> <span style="color:#f00">"    --writer"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --script"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --style"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --language c|c++|cpp|c#|cs|d|java|js|ts"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --path PENDOWN_FOLDER/"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"Examples :"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --process --style --path ../ document.pd document.html"</span> <span style="color:#888">);</span>
-        writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --script --style --path ../ document.pd document.html"</span> <span style="color:#888">);</span>
+        writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --process --writer --style --path ../ document.pd document.html"</span> <span style="color:#888">);</span>
+        writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --process --style --path ../ document.pd document.html"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --colorize code.d code.pd"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --colorize --process --style --path ../ code.d code.html"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --colorize --script --style --path ../ code.d code.html"</span> <span style="color:#888">);</span>
@@ -2569,4 +2659,4 @@
     <span style="color:#888">}</span>
 <span style="color:#888">}</span>
 </pre>
-</p></p>
+</p>

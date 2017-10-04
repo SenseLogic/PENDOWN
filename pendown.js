@@ -1314,6 +1314,7 @@ function GetTokenArray(
         character_index,
         closing_tag,
         closing_token,
+        it_breaks_page,
         it_is_in_a,
         it_is_in_b,
         it_is_in_blockquote,
@@ -1340,6 +1341,7 @@ function GetTokenArray(
         it_is_in_u,
         token,
         token_array,
+        token_character_index,
         token_starts_line,
         url;
 
@@ -1383,6 +1385,7 @@ function GetTokenArray(
 
     closing_tag = "";
 
+    it_breaks_page = false;
     it_is_in_pre = false;
     it_is_in_table = false;
     it_is_in_blockquote = false;
@@ -1498,6 +1501,12 @@ function GetTokenArray(
         else if ( text.slice( character_index, character_index + 3 ) === "---" )
         {
             token.Text = "<hr/>";
+
+            character_index += 3;
+        }
+        else if ( text.slice( character_index, character_index + 3 ) === "~~~" )
+        {
+            token.Text = "<pb/>";
 
             character_index += 3;
         }
@@ -1961,6 +1970,28 @@ function GetTokenArray(
             ++character_index;
         }
 
+        if ( it_breaks_page
+             && token.Text.length >= 3
+             && token.Text.startsWith( '<' )
+             && !token.Text.startsWith( "</" ) )
+        {
+            if ( token.Text.endsWith( ">" ) )
+            {
+                token_character_index = token.Text.length - 1;
+            }
+            else
+            {
+                token_character_index = token.Text.indexOf( ' ' );
+            }
+            
+            token.Text 
+                = token.Text.slice( 0, token_character_index )
+                  + " style=\"page-break-before: always\""
+                  + token.Text.slice( token_character_index, token.Text.length );
+            
+            it_breaks_page = false;
+        }
+
         token_array.push( token );
     }
 
@@ -2234,10 +2265,61 @@ function MakeTables(
             }
         }
     }
+}
 
-    token = new TOKEN();
-    token.Text = "</p>";
-    token_array.push( token );
+// ~~
+
+function AddPageBreaks(
+    token_array
+    )
+{
+    var
+        page_break_is_added,
+        token,
+        token_character_index,
+        token_index;
+
+    page_break_is_added = false;
+
+    for ( token_index = 0;
+          token_index < token_array.length;
+          ++token_index )
+    {
+        token = token_array[ token_index ];
+
+        if ( token.Text === "<pb/>" )
+        {
+            token.Text = "";
+            
+            page_break_is_added = true;
+        }
+        else if ( page_break_is_added
+                  && token.Text.length >= 3
+                  && token.Text.startsWith( '<' )
+                  && ( !token.Text.startsWith( "</" )
+                       || token.Text === "</p><p>\n" ) )
+        {
+            if ( token.Text.endsWith( "</p><p>\n" ) )
+            {
+                token_character_index = 6;
+            }
+            else if ( token.Text.endsWith( ">" ) )
+            {
+                token_character_index = token.Text.length - 1;
+            }
+            else
+            {
+                token_character_index = token.Text.indexOf( ' ' );
+            }
+            
+            token.Text 
+                = token.Text.slice( 0, token_character_index )
+                  + " style=\"page-break-before: always\""
+                  + token.Text.slice( token_character_index, token.Text.length );
+            
+            page_break_is_added = false;
+        }
+    }
 }
 
 // ~~
@@ -2278,6 +2360,8 @@ function GetProcessedText(
     MakeLists( token_array );
     MakeParagraphs( token_array );
     MakeTables( token_array );
+    
+    AddPageBreaks( token_array );
 
     return GetText( token_array );
 }

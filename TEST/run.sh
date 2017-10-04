@@ -1,6 +1,7 @@
 #!/bin/sh
 set -x
 ../pendown --process --style --path ../ test.pd test.html
+../pendown --process --writer --style --path ../ test.pd test_writer.html
 ../pendown --script --style --path ../ test.pd test_script.html
 ../pendown --colorize --process --style --path ../ ../pendown.d pendown_d.html
 ../pendown --colorize --process --style --path ../ ../pendown.js pendown_js.html

@@ -44,31 +44,37 @@ pre
 h1
 {
     font-size : 2.75rem;
+    font-family : "Comic Sans MS", sans-serif;
 }
 
 h2
 {
     font-size : 2.25rem;
+    font-family : "Comic Sans MS", sans-serif;
 }
 
 h3
 {
     font-size : 1.75rem;
+    font-family : "Comic Sans MS", sans-serif;
 }
 
 h4
 {
     font-size : 1.5rem;
+    font-family : "Comic Sans MS", sans-serif;
 }
 
 h5
 {
     font-size : 1.25rem;
+    font-family : "Comic Sans MS", sans-serif;
 }
 
 h6
 {
     font-size : 1rem;
+    font-family : "Comic Sans MS", sans-serif;
 }
 
 p, pre
@@ -84,6 +90,7 @@ img + img
 img
 {
     height : 21vw;
+    width : auto;
     margin-top : 0.5vw;
     margin-bottom : 0.5vw;
 }
@@ -91,6 +98,7 @@ img
 img.medium
 {
     height : 42vw;
+    width : auto;
 }
 
 img.large

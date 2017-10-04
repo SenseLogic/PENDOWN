@@ -727,6 +727,20 @@ String°.°prototype°.°isAlpha °=° ¹function¹°()°
 
 °// ~\~°
 
+String°.°prototype°.°isLower °=° ¹function¹°()°
+°{°
+    ¹return¹ ¹this¹ °&gt;=° ²'a'² °&&° ¹this¹ °&lt;=° ²'z'²°;°
+°}°
+
+°// ~\~°
+
+String°.°prototype°.°isUpper °=° ¹function¹°()°
+°{°
+    ¹return¹ ¹this¹ °&gt;=° ²'A'² °&&° ¹this¹ °&lt;=° ²'Z'²°;°
+°}°
+
+°// ~\~°
+
 String°.°prototype°.°toLower °=° ¹function¹°()°
 °{°
     ¹return¹ ¹this¹°.°toLowerCase°();°
@@ -1301,6 +1315,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         character_index°,°
         closing_tag°,°
         closing_token°,°
+        it_breaks_page°,°
         it_is_in_a°,°
         it_is_in_b°,°
         it_is_in_blockquote°,°
@@ -1327,6 +1342,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         it_is_in_u°,°
         token°,°
         token_array°,°
+        token_character_index°,°
         token_starts_line°,°
         url°;°
 
@@ -1363,11 +1379,14 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
     °// ~\~°
 
+    text °=° GetCleanedText°(° text °);°
+
     token_array °=° °[];°
     token_starts_line °=° ²true²°;°
 
     closing_tag °=° ²""²°;°
 
+    it_breaks_page °=° ²false²°;°
     it_is_in_pre °=° ²false²°;°
     it_is_in_table °=° ²false²°;°
     it_is_in_blockquote °=° ²false²°;°
@@ -1483,6 +1502,12 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °===° ²"-\-\-"² °)°
         °{°
             token°.°Text °=° ²"&lt;hr/&gt;"²°;°
+
+            character_index °+=° ²3²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °===° ²"~\~\~"² °)°
+        °{°
+            token°.°Text °=° ²"&lt;pb/&gt;"²°;°
 
             character_index °+=° ²3²°;°
         °}°
@@ -1946,6 +1971,28 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             °+\+°character_index°;°
         °}°
 
+        ¹if¹ °(° it_breaks_page
+             °&&° token°.°Text°.°length °&gt;=° ²3²
+             °&&° token°.°Text°.°startsWith°(° ²'&lt;'² °)°
+             °&&° °\!°token°.°Text°.°startsWith°(° ²"&lt;/"² °)° °)°
+        °{°
+            ¹if¹ °(° token°.°Text°.°endsWith°(° ²"&gt;"² °)° °)°
+            °{°
+                token_character_index °=° token°.°Text°.°length °-° ²1²°;°
+            °}°
+            ¹else¹
+            °{°
+                token_character_index °=° token°.°Text°.°indexOf°(° ²' '² °);°
+            °}°
+            
+            token°.°Text 
+                °=° token°.°Text°.°slice°(° ²0²°,° token_character_index °)°
+                  °+° ²" style=\\"page-break-before: always\\""²
+                  °+° token°.°Text°.°slice°(° token_character_index°,° token°.°Text°.°length °);°
+            
+            it_breaks_page °=° ²false²°;°
+        °}°
+
         token_array°.°push°(° token °);°
     °}°
 
@@ -2219,10 +2266,61 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             °}°
         °}°
     °}°
+°}°
 
-    token °=° ¹new¹ ²²TOKEN²²°();°
-    token°.°Text °=° ²"&lt;/p&gt;"²°;°
-    token_array°.°push°(° token °);°
+°// ~\~°
+
+¹function¹ AddPageBreaks°(°
+    token_array
+    °)°
+°{°
+    ¹var¹
+        page_break_is_added°,°
+        token°,°
+        token_character_index°,°
+        token_index°;°
+
+    page_break_is_added °=° ²false²°;°
+
+    ¹for¹ °(° token_index °=° ²0²°;°
+          token_index °&lt;° token_array°.°length°;°
+          °+\+°token_index °)°
+    °{°
+        token °=° token_array°[° token_index °];°
+
+        ¹if¹ °(° token°.°Text °===° ²"&lt;pb/&gt;"² °)°
+        °{°
+            token°.°Text °=° ²""²°;°
+            
+            page_break_is_added °=° ²true²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° page_break_is_added
+                  °&&° token°.°Text°.°length °&gt;=° ²3²
+                  °&&° token°.°Text°.°startsWith°(° ²'&lt;'² °)°
+                  °&&° °(° °\!°token°.°Text°.°startsWith°(° ²"&lt;/"² °)°
+                       °||° token°.°Text °===° ²"&lt;/p&gt;&lt;p&gt;\\n"² °)° °)°
+        °{°
+            ¹if¹ °(° token°.°Text°.°endsWith°(° ²"&lt;/p&gt;&lt;p&gt;\\n"² °)° °)°
+            °{°
+                token_character_index °=° ²6²°;°
+            °}°
+            ¹else¹ ¹if¹ °(° token°.°Text°.°endsWith°(° ²"&gt;"² °)° °)°
+            °{°
+                token_character_index °=° token°.°Text°.°length °-° ²1²°;°
+            °}°
+            ¹else¹
+            °{°
+                token_character_index °=° token°.°Text°.°indexOf°(° ²' '² °);°
+            °}°
+            
+            token°.°Text 
+                °=° token°.°Text°.°slice°(° ²0²°,° token_character_index °)°
+                  °+° ²" style=\\"page-break-before: always\\""²
+                  °+° token°.°Text°.°slice°(° token_character_index°,° token°.°Text°.°length °);°
+            
+            page_break_is_added °=° ²false²°;°
+        °}°
+    °}°
 °}°
 
 °// ~\~°
@@ -2263,6 +2361,8 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     MakeLists°(° token_array °);°
     MakeParagraphs°(° token_array °);°
     MakeTables°(° token_array °);°
+    
+    AddPageBreaks°(° token_array °);°
 
     ¹return¹ GetText°(° token_array °);°
 °}°

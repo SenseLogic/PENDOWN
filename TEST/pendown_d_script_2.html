@@ -762,6 +762,7 @@
 
 ²bool²
     ColorizeOptionIsEnabled°,°
+    WriterOptionIsEnabled°,°
     ProcessOptionIsEnabled°,°
     ScriptOptionIsEnabled°,°
     StyleOptionIsEnabled°;°
@@ -935,7 +936,7 @@
     ¹if¹ °(° file_path°.°endsWith°(° ²".c"² °)°
          °||° file_path°.°endsWith°(° ²".h"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²C_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ²²C_LANGUAGE²²°;°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".c+\+"² °)°
               °||° file_path°.°endsWith°(° ²".h+\+"² °)°
@@ -944,32 +945,32 @@
               °||° file_path°.°endsWith°(° ²".cxx"² °)°
               °||° file_path°.°endsWith°(° ²".hxx"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²CPP_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ²²CPP_LANGUAGE²²°;°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".c\#"² °)°
               °||° file_path°.°endsWith°(° ²".cs"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²CSHARP_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ²²CSHARP_LANGUAGE²²°;°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".d"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²D_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ²²D_LANGUAGE²²°;°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".java"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²JAVA_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ²²JAVA_LANGUAGE²²°;°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".js"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²JAVASCRIPT_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ²²JAVASCRIPT_LANGUAGE²²°;°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".ts"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²TYPESCRIPT_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ²²TYPESCRIPT_LANGUAGE²²°;°
     °}°
     ¹else¹
     °{°
-        ¹return¹ ¹new¹ ²²LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ²²LANGUAGE²²°;°
     °}°
 °}°
 
@@ -1133,7 +1134,7 @@
         ¹if¹ °(° code_token is ²null²
              °&&° character °\!=° ²0² °)°
         °{°
-            code_token °=° ¹new¹ ²²CODE_TOKEN²²°();°
+            code_token °=° ¹new¹ ²²CODE_TOKEN²²°;°
 
             ¹if¹ °(° character °==° ²'/'²
                  °&&° next_character °==° ²'/'² °)°
@@ -1482,7 +1483,8 @@
         closing_tag°,°
         url°;°
     ²long²
-        character_index°;°
+        character_index°,°
+        token_character_index°;°
     ²²TOKEN²²
         closing_token°,°
         token°;°
@@ -1558,7 +1560,7 @@
 
     ¹while¹ °(° character_index °&lt;° text°.°length °)°
     °{°
-        token °=° ¹new¹ ²²TOKEN²²°();°
+        token °=° ¹new¹ ²²TOKEN²²°;°
         token°.°StartsLine °=° token_starts_line°;°
         token_starts_line °=° ²false²°;°
 
@@ -1647,6 +1649,12 @@
 
             character_index °+=° ²3²°;°
         °}°
+        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"~\~\~"² °)°
+        °{°
+            token°.°Text °=° ²"&lt;pb/&gt;"²°;°
+
+            character_index °+=° ²3²°;°
+        °}°
         ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °==° ²'§'² °)°
         °{°
             token°.°Text °=° ²"&lt;br/&gt;"²°;°
@@ -1661,7 +1669,14 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²4² °)° °==° ²"]\]\]\]"² °)°
         °{°
-            token°.°Text °=° ²"\\" class=\\"large\\"/&gt;"²°;°
+            ¹if¹ °(° WriterOptionIsEnabled °)°
+            °{°
+                token°.°Text °=° ²"\\" height=\\"auto\\" width=\\"100%\\"/&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"\\" class=\\"large\\"/&gt;"²°;°
+            °}°
 
             character_index °+=° ²4²°;°
         °}°
@@ -1673,7 +1688,14 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"]\]\]"² °)°
         °{°
-            token°.°Text °=° ²"\\" class=\\"medium\\"/&gt;"²°;°
+            ¹if¹ °(° WriterOptionIsEnabled °)°
+            °{°
+                token°.°Text °=° ²"\\" height=\\"28%\\" width=\\"auto\\"/&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"\\" class=\\"medium\\"/&gt;"²°;°
+            °}°
 
             character_index °+=° ²3²°;°
         °}°
@@ -1685,7 +1707,14 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"]\]"² °)°
         °{°
-            token°.°Text °=° ²"\\"/&gt;"²°;°
+            ¹if¹ °(° WriterOptionIsEnabled °)°
+            °{°
+                token°.°Text °=° ²"\\" height=\\"14%\\" width=\\"auto\\"/&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"\\"/&gt;"²°;°
+            °}°
 
             character_index °+=° ²2²°;°
         °}°
@@ -2088,7 +2117,7 @@
         °{°
             ¹if¹ °(° closing_tag °\!=° ²""² °)°
             °{°
-                closing_token °=° ¹new¹ ²²TOKEN²²°();°
+                closing_token °=° ¹new¹ ²²TOKEN²²°;°
                 closing_token°.°Text °=° closing_tag°;°
                 closing_tag °=° ²""²°;°
 
@@ -2261,7 +2290,7 @@
 
                     ¹if¹ °(° tag_token_text °\!=° ²""² °)°
                     °{°
-                        token °=° ¹new¹ ²²TOKEN²²°();°
+                        token °=° ¹new¹ ²²TOKEN²²°;°
                         token°.°Text °=° tag_token_text°;°
                         token_array°.°splice°(° tag_token_index°,° ²0²°,° token °);°
 
@@ -2286,7 +2315,7 @@
     ²²TOKEN²²
         token°;°
 
-    token °=° ¹new¹ ²²TOKEN²²°();°
+    token °=° ¹new¹ ²²TOKEN²²°;°
     token°.°Text °=° ²"&lt;p&gt;"²°;°
     token_array°.°splice°(° ²0²°,° ²0²°,° token °);°
 
@@ -2319,7 +2348,7 @@
         °}°
     °}°
 
-    token °=° ¹new¹ ²²TOKEN²²°();°
+    token °=° ¹new¹ ²²TOKEN²²°;°
     token°.°Text °=° ²"&lt;/p&gt;"²°;°
     token_array°.°push°(° token °);°
 °}°
@@ -2355,7 +2384,7 @@
             °}°
             ¹else¹ ¹if¹ °(° token°.°StartsLine °)°
             °{°
-                token °=° ¹new¹ ²²TOKEN²²°();°
+                token °=° ¹new¹ ²²TOKEN²²°;°
                 token°.°Text °=° ²"&lt;tr&gt;&lt;td&gt;"²°;°
                 token_array°.°splice°(° token_index°,° ²0²°,° token °);°
                 °+\+°token_index°;°
@@ -2371,7 +2400,7 @@
             °{°
                 ¹if¹ °(° it_is_in_row °)°
                 °{°
-                    token °=° ¹new¹ ²²TOKEN²²°();°
+                    token °=° ¹new¹ ²²TOKEN²²°;°
                     token°.°Text °=° ²"&lt;/td&gt;&lt;/tr&gt;"²°;°
                     token_array°.°splice°(° token_index°,° ²0²°,° token °);°
                     °+\+°token_index°;°
@@ -2388,10 +2417,63 @@
             °}°
         °}°
     °}°
+°}°
 
-    token °=° ¹new¹ ²²TOKEN²²°();°
-    token°.°Text °=° ²"&lt;/p&gt;"²°;°
-    token_array°.°push°(° token °);°
+°// ~\~°
+
+²void² MakeBreaks°(°
+    ref ²²TOKEN²²°[]° token_array
+    °)°
+°{°
+    ²bool²
+        page_break_is_added°;°
+    ²long²
+        token_character_index°,°
+        token_index°;°
+    ²²TOKEN²²
+        token°;°
+
+    page_break_is_added °=° ²false²°;°
+
+    ¹for¹ °(° token_index °=° ²0²°;°
+          token_index °&lt;° token_array°.°length°;°
+          °+\+°token_index °)°
+    °{°
+        token °=° token_array°[° token_index °];°
+
+        ¹if¹ °(° token°.°Text °==° ²"&lt;pb/&gt;"² °)°
+        °{°
+            token°.°Text °=° ²""²°;°
+
+            page_break_is_added °=° ²true²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° page_break_is_added
+                  °&&° token°.°Text°.°length °&gt;=° ²3²
+                  °&&° token°.°Text°.°startsWith°(° ²'&lt;'² °)°
+                  °&&° °(° °\!°token°.°Text°.°startsWith°(° ²"&lt;/"² °)°
+                       °||° token°.°Text °==° ²"&lt;/p&gt;&lt;p&gt;\\n"² °)° °)°
+        °{°
+            ¹if¹ °(° token°.°Text°.°endsWith°(° ²"&lt;/p&gt;&lt;p&gt;\\n"² °)° °)°
+            °{°
+                token_character_index °=° ²6²°;°
+            °}°
+            ¹else¹ ¹if¹ °(° token°.°Text°.°endsWith°(° ²"&gt;"² °)° °)°
+            °{°
+                token_character_index °=° token°.°Text°.°length °-° ²1²°;°
+            °}°
+            ¹else¹
+            °{°
+                token_character_index °=° token°.°Text°.°indexOf°(° ²' '² °);°
+            °}°
+
+            token°.°Text
+                °=° token°.°Text°.°slice°(° ²0²°,° token_character_index °)°
+                  °~° ²" style=\\"page-break-before: always\\""²
+                  °~° token°.°Text°.°slice°(° token_character_index°,° token°.°Text°.°length °);°
+
+            page_break_is_added °=° ²false²°;°
+        °}°
+    °}°
 °}°
 
 °// ~\~°
@@ -2433,6 +2515,7 @@
     MakeLists°(° token_array °);°
     MakeParagraphs°(° token_array °);°
     MakeTables°(° token_array °);°
+    MakeBreaks°(° token_array °);°
 
     ¹return¹ GetText°(° token_array °);°
 °}°
@@ -2490,6 +2573,7 @@
 
     ColorizeOptionIsEnabled °=° ²false²°;°
     ProcessOptionIsEnabled °=° ²false²°;°
+    WriterOptionIsEnabled °=° ²false²°;°
     ScriptOptionIsEnabled °=° ²false²°;°
     StyleOptionIsEnabled °=° ²false²°;°
     LanguageName °=° ²""²°;°
@@ -2510,6 +2594,10 @@
         ¹else¹ ¹if¹ °(° option °==° ²"-\-process"² °)°
         °{°
             ProcessOptionIsEnabled °=° ²true²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° option °==° ²"-\-writer"² °)°
+        °{°
+            WriterOptionIsEnabled °=° ²true²°;°
         °}°
         ¹else¹ ¹if¹ °(° option °==° ²"-\-script"² °)°
         °{°
@@ -2555,13 +2643,15 @@
         writeln°(° ²"Options :"² °);°
         writeln°(° ²"    -\-colorize"² °);°
         writeln°(° ²"    -\-process"² °);°
+        writeln°(° ²"    -\-writer"² °);°
         writeln°(° ²"    -\-script"² °);°
         writeln°(° ²"    -\-style"² °);°
         writeln°(° ²"    -\-language c|c+\+|cpp|c\#|cs|d|java|js|ts"² °);°
         writeln°(° ²"    -\-path PENDOWN_FOLDER/"² °);°
         writeln°(° ²"Examples :"² °);°
         writeln°(° ²"    pendown -\-process -\-style -\-path ../ document.pd document.html"² °);°
-        writeln°(° ²"    pendown -\-script -\-style -\-path ../ document.pd document.html"² °);°
+        writeln°(° ²"    pendown -\-process -\-writer -\-style -\-path ../ document.pd document.html"² °);°
+        writeln°(° ²"    pendown -\-process -\-style -\-path ../ document.pd document.html"² °);°
         writeln°(° ²"    pendown -\-colorize code.d code.pd"² °);°
         writeln°(° ²"    pendown -\-colorize -\-process -\-style -\-path ../ code.d code.html"² °);°
         writeln°(° ²"    pendown -\-colorize -\-script -\-style -\-path ../ code.d code.html"² °);°

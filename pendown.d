@@ -758,6 +758,7 @@ class TOKEN
 
 bool
     ColorizeOptionIsEnabled,
+    WriterOptionIsEnabled,
     ProcessOptionIsEnabled,
     ScriptOptionIsEnabled,
     StyleOptionIsEnabled;
@@ -1478,7 +1479,8 @@ TOKEN[] GetTokenArray(
         closing_tag,
         url;
     long
-        character_index;
+        character_index,
+        token_character_index;
     TOKEN
         closing_token,
         token;
@@ -1643,6 +1645,12 @@ TOKEN[] GetTokenArray(
 
             character_index += 3;
         }
+        else if ( text.slice( character_index, character_index + 3 ) == "~~~" )
+        {
+            token.Text = "<pb/>";
+
+            character_index += 3;
+        }
         else if ( text.charAt( character_index ) == '§' )
         {
             token.Text = "<br/>";
@@ -1657,7 +1665,14 @@ TOKEN[] GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 4 ) == "]]]]" )
         {
-            token.Text = "\" class=\"large\"/>";
+            if ( WriterOptionIsEnabled )
+            {
+                token.Text = "\" height=\"auto\" width=\"100%\"/>";
+            }
+            else
+            {
+                token.Text = "\" class=\"large\"/>";
+            }
 
             character_index += 4;
         }
@@ -1669,7 +1684,14 @@ TOKEN[] GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 3 ) == "]]]" )
         {
-            token.Text = "\" class=\"medium\"/>";
+            if ( WriterOptionIsEnabled )
+            {
+                token.Text = "\" height=\"28%\" width=\"auto\"/>";
+            }
+            else
+            {
+                token.Text = "\" class=\"medium\"/>";
+            }
 
             character_index += 3;
         }
@@ -1681,7 +1703,14 @@ TOKEN[] GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 2 ) == "]]" )
         {
-            token.Text = "\"/>";
+            if ( WriterOptionIsEnabled )
+            {
+                token.Text = "\" height=\"14%\" width=\"auto\"/>";
+            }
+            else
+            {
+                token.Text = "\"/>";
+            }
 
             character_index += 2;
         }
@@ -2384,10 +2413,63 @@ void MakeTables(
             }
         }
     }
+}
 
-    token = new TOKEN;
-    token.Text = "</p>";
-    token_array.push( token );
+// ~~
+
+void MakeBreaks(
+    ref TOKEN[] token_array
+    )
+{
+    bool
+        page_break_is_added;
+    long
+        token_character_index,
+        token_index;
+    TOKEN
+        token;
+
+    page_break_is_added = false;
+
+    for ( token_index = 0;
+          token_index < token_array.length;
+          ++token_index )
+    {
+        token = token_array[ token_index ];
+
+        if ( token.Text == "<pb/>" )
+        {
+            token.Text = "";
+
+            page_break_is_added = true;
+        }
+        else if ( page_break_is_added
+                  && token.Text.length >= 3
+                  && token.Text.startsWith( '<' )
+                  && ( !token.Text.startsWith( "</" )
+                       || token.Text == "</p><p>\n" ) )
+        {
+            if ( token.Text.endsWith( "</p><p>\n" ) )
+            {
+                token_character_index = 6;
+            }
+            else if ( token.Text.endsWith( ">" ) )
+            {
+                token_character_index = token.Text.length - 1;
+            }
+            else
+            {
+                token_character_index = token.Text.indexOf( ' ' );
+            }
+
+            token.Text
+                = token.Text.slice( 0, token_character_index )
+                  ~ " style=\"page-break-before: always\""
+                  ~ token.Text.slice( token_character_index, token.Text.length );
+
+            page_break_is_added = false;
+        }
+    }
 }
 
 // ~~
@@ -2429,6 +2511,7 @@ dstring GetProcessedText(
     MakeLists( token_array );
     MakeParagraphs( token_array );
     MakeTables( token_array );
+    MakeBreaks( token_array );
 
     return GetText( token_array );
 }
@@ -2486,6 +2569,7 @@ void main(
 
     ColorizeOptionIsEnabled = false;
     ProcessOptionIsEnabled = false;
+    WriterOptionIsEnabled = false;
     ScriptOptionIsEnabled = false;
     StyleOptionIsEnabled = false;
     LanguageName = "";
@@ -2506,6 +2590,10 @@ void main(
         else if ( option == "--process" )
         {
             ProcessOptionIsEnabled = true;
+        }
+        else if ( option == "--writer" )
+        {
+            WriterOptionIsEnabled = true;
         }
         else if ( option == "--script" )
         {
@@ -2551,13 +2639,15 @@ void main(
         writeln( "Options :" );
         writeln( "    --colorize" );
         writeln( "    --process" );
+        writeln( "    --writer" );
         writeln( "    --script" );
         writeln( "    --style" );
         writeln( "    --language c|c++|cpp|c#|cs|d|java|js|ts" );
         writeln( "    --path PENDOWN_FOLDER/" );
         writeln( "Examples :" );
         writeln( "    pendown --process --style --path ../ document.pd document.html" );
-        writeln( "    pendown --script --style --path ../ document.pd document.html" );
+        writeln( "    pendown --process --writer --style --path ../ document.pd document.html" );
+        writeln( "    pendown --process --style --path ../ document.pd document.html" );
         writeln( "    pendown --colorize code.d code.pd" );
         writeln( "    pendown --colorize --process --style --path ../ code.d code.html" );
         writeln( "    pendown --colorize --script --style --path ../ code.d code.html" );

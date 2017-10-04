@@ -34,6 +34,10 @@ inside a paragraph.
 
 Another paragraph.
 
+!! Page break
+
+~~~
+
 !! Escape
 
 \_\_
@@ -313,6 +317,7 @@ pendown [options] input_file output_file
 ```
 --colorize : generate a Pendown file from a source code file
 --process : generate a HTML file from a Pendown file
+--writer : make the HTML file compatible with LibreOffice Writer
 --script : make the HTML file import the Pendown script file
 --style : make the HTML file import the Pendown style file
 --language c|c++|cpp|c#|cs|d|java|js|ts : set the source code language
@@ -326,6 +331,12 @@ pendown --process --style --path ../ document.pd document.html
 ```
 
 Converts a Pendown file to a HTML file which imports the Pendown style file.
+
+```bash
+pendown --process --writer --style --path ../ document.pd document.html
+```
+
+Converts a Pendown file to a HTML file which imports the Pendown style file and can be loaded in LibreOffice Writer.
 
 ```bash
 pendown --script --style --path ../ document.pd document.html
