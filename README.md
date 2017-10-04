@@ -285,6 +285,10 @@ Check that the relative paths to "pendown.css" and "pendown.js" are correct.
 
 Check that both fonts are properly installed on your system.
 
+> The Pendown page doens't apply the page breaks.
+
+They are used when printing the page from the browser, or when the file is loaded in LibreOffice Write.
+
 ### Frequently asked questions
 
 > How can I force Pendown to use black as the default text color ?
@@ -337,7 +341,7 @@ Converts a Pendown file to a HTML file which imports the Pendown style file.
 pendown --process --writer --style --path ../ document.pd document.html
 ```
 
-Converts a Pendown file to a HTML file which imports the Pendown style file and can be loaded in LibreOffice Writer.
+Converts a Pendown file to a HTML file which can be loaded in LibreOffice Writer.
 
 ```bash
 pendown --script --style --path ../ document.pd document.html
