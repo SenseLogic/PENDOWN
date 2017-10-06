@@ -408,11 +408,13 @@ These are medium images :
 
 These are large images :
 
-[[../SAMPLE/image_5.jpg]]§
-[[:../SAMPLE/image_5.jpg]]§
-[[,100:../SAMPLE/image_5.jpg]]
+[[../SAMPLE/image.jpg]]§
+[[:../SAMPLE/image_2.jpg]]§
+[[,100:../SAMPLE/image_4.jpg]]
 
-<img style="height:auto;width:100%" src="../SAMPLE/image_5.jpg"/>
+<img style="height:auto;width:100%" src="../SAMPLE/image.jpg"/><br/>
+<img style="height:auto;width:100%" src="../SAMPLE/image_2.jpg"/><br/>
+<img style="height:auto;width:100%" src="../SAMPLE/image_4.jpg"/>
 
 This is a custom image :
 
