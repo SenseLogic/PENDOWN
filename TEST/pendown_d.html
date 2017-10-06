@@ -761,7 +761,7 @@
 
 <span style="color:#f00">bool</span>
     ColorizeOptionIsEnabled<span style="color:#888">,</span>
-    WriterOptionIsEnabled<span style="color:#888">,</span>
+    LoadableOptionIsEnabled<span style="color:#888">,</span>
     ProcessOptionIsEnabled<span style="color:#888">,</span>
     ScriptOptionIsEnabled<span style="color:#888">,</span>
     StyleOptionIsEnabled<span style="color:#888">;</span>
@@ -1584,7 +1584,14 @@
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">!</span>HasUnit<span style="color:#888">(</span> height <span style="color:#888">)</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            height <span style="color:#888">~=</span> <span style="color:#f00">"vw"</span><span style="color:#888">;</span>
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> LoadableOptionIsEnabled <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                height <span style="color:#888">=</span> <span style="color:#888">(</span> height<span style="color:#888">.</span>to<span style="color:#888">!</span><span style="color:#f00">double</span><span style="color:#888">()</span> <span style="color:#888">*</span> <span style="color:#f00">2.0</span> <span style="color:#888">/</span> <span style="color:#f00">3.0</span> <span style="color:#888">).</span>to<span style="color:#888">!</span><span style="color:#f00">dstring</span><span style="color:#888">()</span> <span style="color:#888">~</span> <span style="color:#f00">"%"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                height <span style="color:#888">~=</span> <span style="color:#f00">"vw"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
         <span style="color:#888">}</span>
         
         <span style="color:#f4a">if</span> <span style="color:#888">(</span> width <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
@@ -2636,7 +2643,7 @@
 
     ColorizeOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     ProcessOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
-    WriterOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
+    LoadableOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     ScriptOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     StyleOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     LanguageName <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
@@ -2658,9 +2665,9 @@
         <span style="color:#888">{</span>
             ProcessOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
-        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> option <span style="color:#888">==</span> <span style="color:#f00">"--writer"</span> <span style="color:#888">)</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> option <span style="color:#888">==</span> <span style="color:#f00">"--loadable"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            WriterOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
+            LoadableOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> option <span style="color:#888">==</span> <span style="color:#f00">"--script"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
@@ -2706,14 +2713,14 @@
         writeln<span style="color:#888">(</span> <span style="color:#f00">"Options :"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --colorize"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --process"</span> <span style="color:#888">);</span>
-        writeln<span style="color:#888">(</span> <span style="color:#f00">"    --writer"</span> <span style="color:#888">);</span>
+        writeln<span style="color:#888">(</span> <span style="color:#f00">"    --loadable"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --script"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --style"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --language c|c++|cpp|c#|cs|d|java|js|ts"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --path PENDOWN_FOLDER/"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"Examples :"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --process --style --path ../ document.pd document.html"</span> <span style="color:#888">);</span>
-        writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --process --writer --style --path ../ document.pd document.html"</span> <span style="color:#888">);</span>
+        writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --process --loadable --style --path ../ document.pd document.html"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --process --style --path ../ document.pd document.html"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --colorize code.d code.pd"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    pendown --colorize --process --style --path ../ code.d code.html"</span> <span style="color:#888">);</span>

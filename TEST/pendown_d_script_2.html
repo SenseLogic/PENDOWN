@@ -762,7 +762,7 @@
 
 ²bool²
     ColorizeOptionIsEnabled°,°
-    WriterOptionIsEnabled°,°
+    LoadableOptionIsEnabled°,°
     ProcessOptionIsEnabled°,°
     ScriptOptionIsEnabled°,°
     StyleOptionIsEnabled°;°
@@ -1585,7 +1585,14 @@
         °}°
         ¹else¹ ¹if¹ °(° °\!°HasUnit°(° height °)° °)°
         °{°
-            height °~=° ²"vw"²°;°
+            ¹if¹ °(° LoadableOptionIsEnabled °)°
+            °{°
+                height °=° °(° height°.°to°\!°²double²°()° °*° ²2.0² °/° ²3.0² °).°to°\!°²dstring²°()° °~° ²"%"²°;°
+            °}°
+            ¹else¹
+            °{°
+                height °~=° ²"vw"²°;°
+            °}°
         °}°
         
         ¹if¹ °(° width °==° ²""² °)°
@@ -2637,7 +2644,7 @@
 
     ColorizeOptionIsEnabled °=° ²false²°;°
     ProcessOptionIsEnabled °=° ²false²°;°
-    WriterOptionIsEnabled °=° ²false²°;°
+    LoadableOptionIsEnabled °=° ²false²°;°
     ScriptOptionIsEnabled °=° ²false²°;°
     StyleOptionIsEnabled °=° ²false²°;°
     LanguageName °=° ²""²°;°
@@ -2659,9 +2666,9 @@
         °{°
             ProcessOptionIsEnabled °=° ²true²°;°
         °}°
-        ¹else¹ ¹if¹ °(° option °==° ²"-\-writer"² °)°
+        ¹else¹ ¹if¹ °(° option °==° ²"-\-loadable"² °)°
         °{°
-            WriterOptionIsEnabled °=° ²true²°;°
+            LoadableOptionIsEnabled °=° ²true²°;°
         °}°
         ¹else¹ ¹if¹ °(° option °==° ²"-\-script"² °)°
         °{°
@@ -2707,14 +2714,14 @@
         writeln°(° ²"Options :"² °);°
         writeln°(° ²"    -\-colorize"² °);°
         writeln°(° ²"    -\-process"² °);°
-        writeln°(° ²"    -\-writer"² °);°
+        writeln°(° ²"    -\-loadable"² °);°
         writeln°(° ²"    -\-script"² °);°
         writeln°(° ²"    -\-style"² °);°
         writeln°(° ²"    -\-language c|c+\+|cpp|c\#|cs|d|java|js|ts"² °);°
         writeln°(° ²"    -\-path PENDOWN_FOLDER/"² °);°
         writeln°(° ²"Examples :"² °);°
         writeln°(° ²"    pendown -\-process -\-style -\-path ../ document.pd document.html"² °);°
-        writeln°(° ²"    pendown -\-process -\-writer -\-style -\-path ../ document.pd document.html"² °);°
+        writeln°(° ²"    pendown -\-process -\-loadable -\-style -\-path ../ document.pd document.html"² °);°
         writeln°(° ²"    pendown -\-process -\-style -\-path ../ document.pd document.html"² °);°
         writeln°(° ²"    pendown -\-colorize code.d code.pd"² °);°
         writeln°(° ²"    pendown -\-colorize -\-process -\-style -\-path ../ code.d code.html"² °);°

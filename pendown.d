@@ -758,7 +758,7 @@ class TOKEN
 
 bool
     ColorizeOptionIsEnabled,
-    WriterOptionIsEnabled,
+    LoadableOptionIsEnabled,
     ProcessOptionIsEnabled,
     ScriptOptionIsEnabled,
     StyleOptionIsEnabled;
@@ -1581,7 +1581,14 @@ TOKEN[] GetTokenArray(
         }
         else if ( !HasUnit( height ) )
         {
-            height ~= "vw";
+            if ( LoadableOptionIsEnabled )
+            {
+                height = ( height.to!double() * 2.0 / 3.0 ).to!dstring() ~ "%";
+            }
+            else
+            {
+                height ~= "vw";
+            }
         }
         
         if ( width == "" )
@@ -2633,7 +2640,7 @@ void main(
 
     ColorizeOptionIsEnabled = false;
     ProcessOptionIsEnabled = false;
-    WriterOptionIsEnabled = false;
+    LoadableOptionIsEnabled = false;
     ScriptOptionIsEnabled = false;
     StyleOptionIsEnabled = false;
     LanguageName = "";
@@ -2655,9 +2662,9 @@ void main(
         {
             ProcessOptionIsEnabled = true;
         }
-        else if ( option == "--writer" )
+        else if ( option == "--loadable" )
         {
-            WriterOptionIsEnabled = true;
+            LoadableOptionIsEnabled = true;
         }
         else if ( option == "--script" )
         {
@@ -2703,14 +2710,14 @@ void main(
         writeln( "Options :" );
         writeln( "    --colorize" );
         writeln( "    --process" );
-        writeln( "    --writer" );
+        writeln( "    --loadable" );
         writeln( "    --script" );
         writeln( "    --style" );
         writeln( "    --language c|c++|cpp|c#|cs|d|java|js|ts" );
         writeln( "    --path PENDOWN_FOLDER/" );
         writeln( "Examples :" );
         writeln( "    pendown --process --style --path ../ document.pd document.html" );
-        writeln( "    pendown --process --writer --style --path ../ document.pd document.html" );
+        writeln( "    pendown --process --loadable --style --path ../ document.pd document.html" );
         writeln( "    pendown --process --style --path ../ document.pd document.html" );
         writeln( "    pendown --colorize code.d code.pd" );
         writeln( "    pendown --colorize --process --style --path ../ code.d code.html" );
