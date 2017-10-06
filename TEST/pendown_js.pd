@@ -1311,7 +1311,8 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     °)°
 °{°
     ¹return¹ °(°
-        size°.°endsWith°(° ²"%"² °)°
+        size °===° ²"auto"²
+        °||° size°.°endsWith°(° ²"%"² °)°
         °||° size°.°endsWith°(° ²"ch"² °)°
         °||° size°.°endsWith°(° ²"cm"² °)°
         °||° size°.°endsWith°(° ²"em"² °)°
@@ -1365,7 +1366,6 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         it_is_in_sub°,°
         it_is_in_table°,°
         it_is_in_u°,°
-        size°,°
         token°,°
         token_array°,°
         token_character_index°,°
@@ -1375,43 +1375,61 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     °// ~\~°
     
     ¹function¹ ParseSize°(°
-        height°,°
-        width
         °)°
     °{°
         ¹var¹
-            value_array°,°
-            value_text°;°
+            height°,°
+            size_array°,°
+            size_text°,°
+            size_character_index°,°
+            width°;°
 
-        ¹if¹ °(° character_index °&lt;° text°.°length
-             °&&° text°.°charAt°(° character_index °)° °===° ²'\@'² °)°
+        size_text °=° ²""²°;°
+        
+        ¹for¹ °(° size_character_index °=° character_index°;°
+              size_character_index °&lt;° text°.°length°;°
+              °+\+°size_character_index °)°
         °{°
-            °+\+°character_index°;°
-            
-            value_text °=° ²""²°;°
-            
-            ¹while¹ °(° character_index °&lt;° text°.°length
-                    °&&° text°.°charAt°(° character_index °)° °\!==° ²':'² °)°
+            ¹if¹ °(° text°.°charAt°(° size_character_index °)° °===° ²':'² °)°
             °{°
-                value_text °+=° text°.°charAt°(° character_index °);°
+                character_index °=° size_character_index °+° ²1²°;°
                 
-                °+\+°character_index°;°
+                ¹break¹°;°
             °}°
-            
-            °+\+°character_index°;°
-         
-            value_array °=° value_text°.°split°(° ²','² °);°
-            
-            ¹if¹ °(° value_array°.°length °===° ²1² °)°
+            ¹else¹ 
             °{°
-                height °=° value_array°[° ²0² °];°
-                width °=° ²""²°;°
+                size_text °+=° text°.°charAt°(° size_character_index °);°
+                
+                ¹if¹ °(° size_text°.°endsWith°(° ²"]\]"² °)° °)°
+                °{°
+                    size_text °=° ²""²°;°
+                    
+                    ¹break¹°;°
+                °}°
             °}°
-            ¹else¹ ¹if¹ °(° value_array°.°length °===° ²2² °)°
-            °{°
-                height °=° value_array°[° ²0² °];°
-                width °=° value_array°[° ²1² °];°
-            °}°
+        °}°
+        
+        ¹if¹ °(° size_text °===° ²""² °)°
+        °{°
+            size_text °=° ²",100"²°;°
+        °}°
+     
+        size_array °=° size_text°.°split°(° ²','² °);°
+        
+        ¹if¹ °(° size_array°.°length °===° ²1² °)°
+        °{°
+            height °=° size_array°[° ²0² °];°
+            width °=° ²""²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° size_array°.°length °===° ²2² °)°
+        °{°
+            height °=° size_array°[° ²0² °];°
+            width °=° size_array°[° ²1² °];°
+        °}°
+        ¹else¹
+        °{°
+            height °=° ²""²°;°
+            width °=° ²"100"²°;°
         °}°
         
         ¹if¹ °(° height °===° ²""² °)°
@@ -1432,7 +1450,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             width °+=° ²"%"²°;°
         °}°
         
-        size °=° ²"style=\\"height:"² °+° height °+° ²";width:"² °+° width °+° ²"\\""²°;°
+        ¹return¹ ²"style=\\"height:"² °+° height °+° ²";width:"² °+° width °+° ²"\\""²°;°
     °}°
 
     °// ~\~°
@@ -1606,41 +1624,11 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
             °+\+°character_index°;°
         °}°
-        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²4² °)° °===° ²"[\[\[\["² °)°
-        °{°
-            character_index °+=° ²4²°;°
-            
-            ParseSize°(° ²""²°,° ²"100"² °);°
-
-            token°.°Text °=° ²"&lt;img "² °+° size °+° ²" src=\\""²°;°
-        °}°
-        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²4² °)° °===° ²"]\]\]\]"² °)°
-        °{°
-            token°.°Text °=° ²"\\"/&gt;"²°;°
-
-            character_index °+=° ²4²°;°
-        °}°
-        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °===° ²"[\[\["² °)°
-        °{°
-            character_index °+=° ²3²°;°
-            
-            ParseSize°(° ²"42"²°,° ²""² °);°
-            
-            token°.°Text °=° ²"&lt;img "² °+° size °+° ²" src=\\""²°;°
-        °}°
-        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °===° ²"]\]\]"² °)°
-        °{°
-            token°.°Text °=° ²"\\"/&gt;"²°;°
-
-            character_index °+=° ²3²°;°
-        °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"[\["² °)°
         °{°
             character_index °+=° ²2²°;°
             
-            ParseSize°(° ²"21"²°,° ²""² °);°
-            
-            token°.°Text °=° ²"&lt;img "² °+° size °+° ²" src=\\""²°;°
+            token°.°Text °=° ²"&lt;img "² °+° ParseSize°()° °+° ²" src=\\""²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"]\]"² °)°
         °{°

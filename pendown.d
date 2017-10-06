@@ -1449,7 +1449,8 @@ bool HasUnit(
     )
 {
     return (
-        size.endsWith( "%" )
+        size == "auto"
+        || size.endsWith( "%" )
         || size.endsWith( "ch" )
         || size.endsWith( "cm" )
         || size.endsWith( "em" )
@@ -1502,7 +1503,6 @@ TOKEN[] GetTokenArray(
     dstring
         color,
         closing_tag,
-        size,
         url;
     long
         character_index,
@@ -1515,45 +1515,64 @@ TOKEN[] GetTokenArray(
 
     // ~~
     
-    void ParseSize(
-        dstring height,
-        dstring width
+    dstring ParseSize(
         )
     {
         dstring
-            value_text;
+            height,
+            size_text,
+            width;
         dstring[]
-            value_array;
+            size_array;
+        long
+            size_character_index;
 
-        if ( character_index < text.length
-             && text.charAt( character_index ) == '@' )
+        size_text = "";
+        
+        for ( size_character_index = character_index;
+              size_character_index < text.length;
+              ++size_character_index )
         {
-            ++character_index;
-            
-            value_text = "";
-            
-            while ( character_index < text.length
-                    && text.charAt( character_index ) != ':' )
+            if ( text.charAt( size_character_index ) == ':' )
             {
-                value_text ~= text.charAt( character_index );
+                character_index = size_character_index + 1;
                 
-                ++character_index;
+                break;
             }
-            
-            ++character_index;
-         
-            value_array = value_text.split( ',' );
-            
-            if ( value_array.length == 1 )
+            else 
             {
-                height = value_array[ 0 ];
-                width = "";
+                size_text ~= text.charAt( size_character_index );
+                
+                if ( size_text.endsWith( "]]" ) )
+                {
+                    size_text = "";
+                    
+                    break;
+                }
             }
-            else if ( value_array.length == 2 )
-            {
-                height = value_array[ 0 ];
-                width = value_array[ 1 ];
-            }
+        }
+        
+        if ( size_text == "" )
+        {
+            size_text = ",100";
+        }
+     
+        size_array = size_text.split( ',' );
+        
+        if ( size_array.length == 1 )
+        {
+            height = size_array[ 0 ];
+            width = "";
+        }
+        else if ( size_array.length == 2 )
+        {
+            height = size_array[ 0 ];
+            width = size_array[ 1 ];
+        }
+        else
+        {
+            height = "";
+            width = "100";
         }
         
         if ( height == "" )
@@ -1562,14 +1581,7 @@ TOKEN[] GetTokenArray(
         }
         else if ( !HasUnit( height ) )
         {
-            if ( WriterOptionIsEnabled )
-            {
-                height = ( ( height.to!double() * 2.0 ) / 3.0 ).to!dstring() ~ "%";
-            }
-            else
-            {
-                height ~= "vw";
-            }
+            height ~= "vw";
         }
         
         if ( width == "" )
@@ -1581,7 +1593,7 @@ TOKEN[] GetTokenArray(
             width ~= "%";
         }
         
-        size = "style=\"height:" ~ height ~ ";width:" ~ width ~ "\"";
+        return "style=\"height:" ~ height ~ ";width:" ~ width ~ "\"";
     }
     
     // ~~
@@ -1754,48 +1766,18 @@ TOKEN[] GetTokenArray(
 
             ++character_index;
         }
-        else if ( text.slice( character_index, character_index + 4 ) == "[[[[" )
-        {
-            character_index += 4;
-            
-            ParseSize( "", "100" );
-
-            token.Text = "<img " ~ size ~ " src=\"";
-        }
-        else if ( text.slice( character_index, character_index + 4 ) == "]]]]" )
-        {
-            token.Text = "\"/>";
-
-            character_index += 4;
-        }
-        else if ( text.slice( character_index, character_index + 3 ) == "[[[" )
-        {
-            character_index += 3;
-            
-            ParseSize( "42", "" );
-            
-            token.Text = "<img " ~ size ~ " src=\"";
-        }
-        else if ( text.slice( character_index, character_index + 3 ) == "]]]" )
-        {
-            token.Text = "\"/>";
-
-            character_index += 3;
-        }
         else if ( text.slice( character_index, character_index + 2 ) == "[[" )
         {
             character_index += 2;
             
-            ParseSize( "21", "" );
-            
-            token.Text = "<img " ~ size ~ " src=\"";
+            token.Text = "<img " ~ ParseSize() ~ " src=\"";
         }
         else if ( text.slice( character_index, character_index + 2 ) == "]]" )
         {
             token.Text = "\"/>";
 
             character_index += 2;
-        }        
+        }
         else if ( text.slice( character_index, character_index + 3 ) == ":::" )
         {
             it_is_in_pre = !it_is_in_pre;

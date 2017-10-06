@@ -206,7 +206,7 @@ Two spaces per level.
 
 @@http://www.github.com This is a link@@
 
-@@http://www.github.com [[image.jpg]]@@
+@@http://www.github.com [[20:image.jpg]]@@
 
 @@http://www.github.com@@
 
@@ -214,23 +214,22 @@ Two spaces per level.
 
 Small :
 
-[[image.jpg]][[image_2.jpg]]§
-[[image_3.jpg]][[image_4.jpg]][[image_5.jpg]]
+[[20:image.jpg]][[20:image_2.jpg]]§
+[[20:image_3.jpg]][[20:image_4.jpg]][[20:image_5.jpg]]
 
 Medium :
 
-[[[image_3.jpg]]][[[image_4.jpg]]]
+[[40:image_3.jpg]][[40:image_4.jpg]]
 
 Large :
 
-[[[[image_5.jpg]]]]
+[[image_5.jpg]]§
+[[:image_5.jpg]]§
+[[,100:image_5.jpg]]
 
 Custom :
 
-[[@21:../SAMPLE/image.jpg]][[@21:../SAMPLE/image_2.jpg]]§
-[[@42:../SAMPLE/image_3.jpg]]§
-[[@,100:../SAMPLE/image_4.jpg]]§
-[[@50vw,50%:../SAMPLE/image_5.jpg]]
+[[50vw,50%:image_5.jpg]]
 
 !! HTML
 

@@ -1310,7 +1310,8 @@ function HasUnit(
     )
 {
     return (
-        size.endsWith( "%" )
+        size === "auto"
+        || size.endsWith( "%" )
         || size.endsWith( "ch" )
         || size.endsWith( "cm" )
         || size.endsWith( "em" )
@@ -1364,7 +1365,6 @@ function GetTokenArray(
         it_is_in_sub,
         it_is_in_table,
         it_is_in_u,
-        size,
         token,
         token_array,
         token_character_index,
@@ -1374,43 +1374,61 @@ function GetTokenArray(
     // ~~
     
     function ParseSize(
-        height,
-        width
         )
     {
         var
-            value_array,
-            value_text;
+            height,
+            size_array,
+            size_text,
+            size_character_index,
+            width;
 
-        if ( character_index < text.length
-             && text.charAt( character_index ) === '@' )
+        size_text = "";
+        
+        for ( size_character_index = character_index;
+              size_character_index < text.length;
+              ++size_character_index )
         {
-            ++character_index;
-            
-            value_text = "";
-            
-            while ( character_index < text.length
-                    && text.charAt( character_index ) !== ':' )
+            if ( text.charAt( size_character_index ) === ':' )
             {
-                value_text += text.charAt( character_index );
+                character_index = size_character_index + 1;
                 
-                ++character_index;
+                break;
             }
-            
-            ++character_index;
-         
-            value_array = value_text.split( ',' );
-            
-            if ( value_array.length === 1 )
+            else 
             {
-                height = value_array[ 0 ];
-                width = "";
+                size_text += text.charAt( size_character_index );
+                
+                if ( size_text.endsWith( "]]" ) )
+                {
+                    size_text = "";
+                    
+                    break;
+                }
             }
-            else if ( value_array.length === 2 )
-            {
-                height = value_array[ 0 ];
-                width = value_array[ 1 ];
-            }
+        }
+        
+        if ( size_text === "" )
+        {
+            size_text = ",100";
+        }
+     
+        size_array = size_text.split( ',' );
+        
+        if ( size_array.length === 1 )
+        {
+            height = size_array[ 0 ];
+            width = "";
+        }
+        else if ( size_array.length === 2 )
+        {
+            height = size_array[ 0 ];
+            width = size_array[ 1 ];
+        }
+        else
+        {
+            height = "";
+            width = "100";
         }
         
         if ( height === "" )
@@ -1431,7 +1449,7 @@ function GetTokenArray(
             width += "%";
         }
         
-        size = "style=\"height:" + height + ";width:" + width + "\"";
+        return "style=\"height:" + height + ";width:" + width + "\"";
     }
 
     // ~~
@@ -1605,41 +1623,11 @@ function GetTokenArray(
 
             ++character_index;
         }
-        else if ( text.slice( character_index, character_index + 4 ) === "[[[[" )
-        {
-            character_index += 4;
-            
-            ParseSize( "", "100" );
-
-            token.Text = "<img " + size + " src=\"";
-        }
-        else if ( text.slice( character_index, character_index + 4 ) === "]]]]" )
-        {
-            token.Text = "\"/>";
-
-            character_index += 4;
-        }
-        else if ( text.slice( character_index, character_index + 3 ) === "[[[" )
-        {
-            character_index += 3;
-            
-            ParseSize( "42", "" );
-            
-            token.Text = "<img " + size + " src=\"";
-        }
-        else if ( text.slice( character_index, character_index + 3 ) === "]]]" )
-        {
-            token.Text = "\"/>";
-
-            character_index += 3;
-        }
         else if ( text.slice( character_index, character_index + 2 ) === "[[" )
         {
             character_index += 2;
             
-            ParseSize( "21", "" );
-            
-            token.Text = "<img " + size + " src=\"";
+            token.Text = "<img " + ParseSize() + " src=\"";
         }
         else if ( text.slice( character_index, character_index + 2 ) === "]]" )
         {
