@@ -1305,6 +1305,31 @@ function GetPreprocessedText(
 
 // ~~
 
+function HasUnit(
+    size
+    )
+{
+    return (
+        size.endsWith( "%" )
+        || size.endsWith( "ch" )
+        || size.endsWith( "cm" )
+        || size.endsWith( "em" )
+        || size.endsWith( "ex" )
+        || size.endsWith( "in" )
+        || size.endsWith( "mm" )
+        || size.endsWith( "pc" )
+        || size.endsWith( "pt" )
+        || size.endsWith( "px" )
+        || size.endsWith( "rem" )
+        || size.endsWith( "vh" )
+        || size.endsWith( "vmax" )
+        || size.endsWith( "vmin" )
+        || size.endsWith( "vw" )
+        );
+}
+
+// ~~
+
 function GetTokenArray(
     text
     )
@@ -1339,11 +1364,75 @@ function GetTokenArray(
         it_is_in_sub,
         it_is_in_table,
         it_is_in_u,
+        size,
         token,
         token_array,
         token_character_index,
         token_starts_line,
         url;
+
+    // ~~
+    
+    function ParseSize(
+        height,
+        width
+        )
+    {
+        var
+            value_array,
+            value_text;
+
+        if ( character_index < text.length
+             && text.charAt( character_index ) === '@' )
+        {
+            ++character_index;
+            
+            value_text = "";
+            
+            while ( character_index < text.length
+                    && text.charAt( character_index ) !== ':' )
+            {
+                value_text += text.charAt( character_index );
+                
+                ++character_index;
+            }
+            
+            ++character_index;
+         
+            value_array = value_text.split( ',' );
+            
+            if ( value_array.length === 1 )
+            {
+                height = value_array[ 0 ];
+                width = "";
+            }
+            else if ( value_array.length === 2 )
+            {
+                height = value_array[ 0 ];
+                width = value_array[ 1 ];
+            }
+        }
+        
+        if ( height === "" )
+        {
+            height = "auto";
+        }
+        else if ( !HasUnit( height ) )
+        {
+            height += "vw";
+        }
+        
+        if ( width === "" )
+        {
+            width = "auto";
+        }
+        else if ( !HasUnit( width ) )
+        {
+            width += "%";
+        }
+        
+        size = "style=\"height:" + height + ";width:" + width + "\"";
+    }
 
     // ~~
 
@@ -1518,33 +1607,39 @@ function GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 4 ) === "[[[[" )
         {
-            token.Text = "<img src=\"";
-
             character_index += 4;
+            
+            ParseSize( "", "100" );
+
+            token.Text = "<img " + size + " src=\"";
         }
         else if ( text.slice( character_index, character_index + 4 ) === "]]]]" )
         {
-            token.Text = "\" class=\"large\"/>";
+            token.Text = "\"/>";
 
             character_index += 4;
         }
         else if ( text.slice( character_index, character_index + 3 ) === "[[[" )
         {
-            token.Text = "<img src=\"";
-
             character_index += 3;
+            
+            ParseSize( "42", "" );
+            
+            token.Text = "<img " + size + " src=\"";
         }
         else if ( text.slice( character_index, character_index + 3 ) === "]]]" )
         {
-            token.Text = "\" class=\"medium\"/>";
+            token.Text = "\"/>";
 
             character_index += 3;
         }
         else if ( text.slice( character_index, character_index + 2 ) === "[[" )
         {
-            token.Text = "<img src=\"";
-
             character_index += 2;
+            
+            ParseSize( "21", "" );
+            
+            token.Text = "<img " + size + " src=\"";
         }
         else if ( text.slice( character_index, character_index + 2 ) === "]]" )
         {

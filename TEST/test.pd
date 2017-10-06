@@ -183,7 +183,7 @@ This is @@http://www.senselogic.be a link@@§
 This is <a href="http://www.senselogic.be">a link</a>
 
 This is a link : @@http://www.senselogic.be [[../SAMPLE/image.jpg]]@@§
-This is a link : <a href="http://www.senselogic.be"><img src="../SAMPLE/image.jpg"/></a>
+This is a link : <a href="http://www.senselogic.be"><img style="height:21vw;width:auto" src="../SAMPLE/image.jpg"/></a>
 
 This is a link : @@http://www.senselogic.be@@§
 This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
@@ -397,23 +397,29 @@ These are small images :
 [[../SAMPLE/image.jpg]][[../SAMPLE/image_2.jpg]]§
 [[../SAMPLE/image_3.jpg]][[../SAMPLE/image_4.jpg]][[../SAMPLE/image_5.jpg]]
 
-These are small images :
-
-<img src="../SAMPLE/image.jpg"/><img src="../SAMPLE/image_2.jpg"/><br/>
-<img src="../SAMPLE/image_3.jpg"/><img src="../SAMPLE/image_4.jpg"/><img src="../SAMPLE/image_5.jpg"/>
+<img style="height:21vw;width:auto" src="../SAMPLE/image.jpg"/><img style="height:21vw;width:auto" src="../SAMPLE/image_2.jpg"/><br/>
+<img style="height:21vw;width:auto" src="../SAMPLE/image_3.jpg"/><img style="height:21vw;width:auto" src="../SAMPLE/image_4.jpg"/><img style="height:21vw;width:auto" src="../SAMPLE/image_5.jpg"/>
 
 These are medium images :
 
 [[[../SAMPLE/image_3.jpg]]][[[../SAMPLE/image_4.jpg]]]
 
-These are medium images :
-
-<img src="../SAMPLE/image_3.jpg" class="medium"/><img src="../SAMPLE/image_4.jpg" class="medium"/>
+<img style="height:42vw;width:auto" src="../SAMPLE/image_3.jpg"/><img style="height:42vw;width:auto" src="../SAMPLE/image_4.jpg"/>
 
 This is a large image :
 
 [[[[../SAMPLE/image_5.jpg]]]]
 
-This is a large image :
+<img style="height:auto;width:100%" src="../SAMPLE/image_5.jpg"/>
 
-<img src="../SAMPLE/image_5.jpg" class="large"/>
+These are custom images :
+
+[[@21:../SAMPLE/image.jpg]][[@21:../SAMPLE/image_2.jpg]]§
+[[@42:../SAMPLE/image_3.jpg]]§
+[[@,100:../SAMPLE/image_4.jpg]]§
+[[@50vw,50%:../SAMPLE/image_5.jpg]]
+
+<img style="height:21vw;width:auto" src="../SAMPLE/image.jpg"/><img style="height:21vw;width:auto" src="../SAMPLE/image_2.jpg"/><br/>
+<img style="height:42vw;width:auto" src="../SAMPLE/image_3.jpg"/><br/>
+<img style="height:auto;width:100%" src="../SAMPLE/image_4.jpg"/><br/>
+<img style="height:50vw;width:50%" src="../SAMPLE/image_5.jpg"/>

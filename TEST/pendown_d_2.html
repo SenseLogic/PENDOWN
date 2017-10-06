@@ -1447,6 +1447,31 @@
 
 <span style="color:#888">// ~~</span>
 
+<span style="color:#f00">bool</span> HasUnit<span style="color:#888">(</span>
+    <span style="color:#f00">dstring</span> size
+    <span style="color:#888">)</span>
+<span style="color:#888">{</span>
+    <span style="color:#f4a">return</span> <span style="color:#888">(</span>
+        size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"%"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"ch"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"cm"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"em"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"ex"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"in"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"mm"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"pc"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"pt"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"px"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"rem"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"vh"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"vmax"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"vmin"</span> <span style="color:#888">)</span>
+        <span style="color:#888">||</span> size<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"vw"</span> <span style="color:#888">)</span>
+        <span style="color:#888">);</span>
+<span style="color:#888">}</span>
+
+<span style="color:#888">// ~~</span>
+
 <span style="color:#f80">TOKEN</span><span style="color:#888">[]</span> GetTokenArray<span style="color:#888">(</span>
     <span style="color:#f00">dstring</span> text
     <span style="color:#888">)</span>
@@ -1480,6 +1505,7 @@
     <span style="color:#f00">dstring</span>
         color<span style="color:#888">,</span>
         closing_tag<span style="color:#888">,</span>
+        size<span style="color:#888">,</span>
         url<span style="color:#888">;</span>
     <span style="color:#f00">long</span>
         character_index<span style="color:#888">,</span>
@@ -1490,6 +1516,77 @@
     <span style="color:#f80">TOKEN</span><span style="color:#888">[]</span>
         token_array<span style="color:#888">;</span>
 
+    <span style="color:#888">// ~~</span>
+    
+    <span style="color:#f00">void</span> ParseSize<span style="color:#888">(</span>
+        <span style="color:#f00">dstring</span> height<span style="color:#888">,</span>
+        <span style="color:#f00">dstring</span> width
+        <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f00">dstring</span>
+            value_text<span style="color:#888">;</span>
+        <span style="color:#f00">dstring</span><span style="color:#888">[]</span>
+            value_array<span style="color:#888">;</span>
+
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> character_index <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length
+             <span style="color:#888">&&</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">'@'</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
+            
+            value_text <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+            
+            <span style="color:#f4a">while</span> <span style="color:#888">(</span> character_index <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length
+                    <span style="color:#888">&&</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">)</span> <span style="color:#888">!=</span> <span style="color:#f00">':'</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                value_text <span style="color:#888">~=</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">);</span>
+                
+                <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            
+            <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
+         
+            value_array <span style="color:#888">=</span> value_text<span style="color:#888">.</span>split<span style="color:#888">(</span> <span style="color:#f00">','</span> <span style="color:#888">);</span>
+            
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> value_array<span style="color:#888">.</span>length <span style="color:#888">==</span> <span style="color:#f00">1</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                height <span style="color:#888">=</span> value_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">];</span>
+                width <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> value_array<span style="color:#888">.</span>length <span style="color:#888">==</span> <span style="color:#f00">2</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                height <span style="color:#888">=</span> value_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">];</span>
+                width <span style="color:#888">=</span> value_array<span style="color:#888">[</span> <span style="color:#f00">1</span> <span style="color:#888">];</span>
+            <span style="color:#888">}</span>
+        <span style="color:#888">}</span>
+        
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> height <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            height <span style="color:#888">=</span> <span style="color:#f00">"auto"</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">!</span>HasUnit<span style="color:#888">(</span> height <span style="color:#888">)</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> WriterOptionIsEnabled <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                height <span style="color:#888">=</span> <span style="color:#888">(</span> <span style="color:#888">(</span> height<span style="color:#888">.</span>to<span style="color:#888">!</span><span style="color:#f00">double</span><span style="color:#888">()</span> <span style="color:#888">*</span> <span style="color:#f00">2.0</span> <span style="color:#888">)</span> <span style="color:#888">/</span> <span style="color:#f00">3.0</span> <span style="color:#888">).</span>to<span style="color:#888">!</span><span style="color:#f00">dstring</span><span style="color:#888">()</span> <span style="color:#888">~</span> <span style="color:#f00">"%"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                height <span style="color:#888">~=</span> <span style="color:#f00">"vw"</span><span style="color:#888">;</span>
+            <span style="color:#888">}</span>
+        <span style="color:#888">}</span>
+        
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> width <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            width <span style="color:#888">=</span> <span style="color:#f00">"auto"</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">!</span>HasUnit<span style="color:#888">(</span> width <span style="color:#888">)</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            width <span style="color:#888">~=</span> <span style="color:#f00">"%"</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        
+        size <span style="color:#888">=</span> <span style="color:#f00">"style=\"height:"</span> <span style="color:#888">~</span> height <span style="color:#888">~</span> <span style="color:#f00">";width:"</span> <span style="color:#888">~</span> width <span style="color:#888">~</span> <span style="color:#f00">"\""</span><span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+    
     <span style="color:#888">// ~~</span>
 
     <span style="color:#f00">void</span> ParseColor<span style="color:#888">(</span>
@@ -1662,61 +1759,46 @@
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">4</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"[[[["</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;img src=\""</span><span style="color:#888">;</span>
-
             character_index <span style="color:#888">+=</span> <span style="color:#f00">4</span><span style="color:#888">;</span>
+            
+            ParseSize<span style="color:#888">(</span> <span style="color:#f00">""</span><span style="color:#888">,</span> <span style="color:#f00">"100"</span> <span style="color:#888">);</span>
+
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;img "</span> <span style="color:#888">~</span> size <span style="color:#888">~</span> <span style="color:#f00">" src=\""</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">4</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"]]]]"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> WriterOptionIsEnabled <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" height=\"auto\" width=\"100%\"/&gt;"</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-            <span style="color:#f4a">else</span>
-            <span style="color:#888">{</span>
-                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" class=\"large\"/&gt;"</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\"/&gt;"</span><span style="color:#888">;</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">4</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"[[["</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;img src=\""</span><span style="color:#888">;</span>
-
             character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
+            
+            ParseSize<span style="color:#888">(</span> <span style="color:#f00">"42"</span><span style="color:#888">,</span> <span style="color:#f00">""</span> <span style="color:#888">);</span>
+            
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;img "</span> <span style="color:#888">~</span> size <span style="color:#888">~</span> <span style="color:#f00">" src=\""</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"]]]"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> WriterOptionIsEnabled <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" height=\"28%\" width=\"auto\"/&gt;"</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-            <span style="color:#f4a">else</span>
-            <span style="color:#888">{</span>
-                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" class=\"medium\"/&gt;"</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\"/&gt;"</span><span style="color:#888">;</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">2</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"[["</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;img src=\""</span><span style="color:#888">;</span>
-
             character_index <span style="color:#888">+=</span> <span style="color:#f00">2</span><span style="color:#888">;</span>
+            
+            ParseSize<span style="color:#888">(</span> <span style="color:#f00">"21"</span><span style="color:#888">,</span> <span style="color:#f00">""</span> <span style="color:#888">);</span>
+            
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;img "</span> <span style="color:#888">~</span> size <span style="color:#888">~</span> <span style="color:#f00">" src=\""</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">2</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"]]"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> WriterOptionIsEnabled <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\" height=\"14%\" width=\"auto\"/&gt;"</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-            <span style="color:#f4a">else</span>
-            <span style="color:#888">{</span>
-                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\"/&gt;"</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"\"/&gt;"</span><span style="color:#888">;</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">2</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
+        <span style="color:#888">}</span>        
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">":::"</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             it_is_in_pre <span style="color:#888">=</span> <span style="color:#888">!</span>it_is_in_pre<span style="color:#888">;</span>

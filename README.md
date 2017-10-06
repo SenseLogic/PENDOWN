@@ -225,6 +225,13 @@ Large :
 
 [[[[image_5.jpg]]]]
 
+Custom :
+
+[[@21:../SAMPLE/image.jpg]][[@21:../SAMPLE/image_2.jpg]]§
+[[@42:../SAMPLE/image_3.jpg]]§
+[[@,100:../SAMPLE/image_4.jpg]]§
+[[@50vw,50%:../SAMPLE/image_5.jpg]]
+
 !! HTML
 
 ²Pendown tags² can be mixed with <span style="color:green">HTML tags</span>.

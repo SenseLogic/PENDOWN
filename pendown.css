@@ -89,22 +89,8 @@ img + img
 
 img
 {
-    height : 21vw;
-    width : auto;
     margin-top : 0.5vw;
     margin-bottom : 0.5vw;
-}
-
-img.medium
-{
-    height : 42vw;
-    width : auto;
-}
-
-img.large
-{
-    height : auto;
-    width : 100%;
 }
 
 ul
