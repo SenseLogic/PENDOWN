@@ -1379,6 +1379,7 @@ function GetTokenArray(
         var
             height,
             size_array,
+            size_character,
             size_text,
             size_character_index,
             width;
@@ -1397,13 +1398,27 @@ function GetTokenArray(
             }
             else 
             {
-                size_text += text.charAt( size_character_index );
+                size_character = text.charAt( size_character_index );
                 
-                if ( size_text.endsWith( "]]" ) )
+                if ( size_character === '\\'
+                     && size_character_index + 1 < text.length )
                 {
-                    size_text = "";
+                    ++size_character_index;
                     
-                    break;
+                    size_text += text.charAt( size_character_index );
+                }
+                else
+                {
+                    if ( size_character === ']'
+                         && size_character_index + 1 < text.length
+                         && text.charAt( size_character_index + 1 ) === ']' )
+                    {
+                        size_text = "";
+                        
+                        break;
+                    }
+                    
+                    size_text += size_character;
                 }
             }
         }

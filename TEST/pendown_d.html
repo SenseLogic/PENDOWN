@@ -1521,6 +1521,8 @@
     <span style="color:#f00">dstring</span> ParseSize<span style="color:#888">(</span>
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
+        <span style="color:#f00">dchar</span>
+            size_character<span style="color:#888">;</span>
         <span style="color:#f00">dstring</span>
             height<span style="color:#888">,</span>
             size_text<span style="color:#888">,</span>
@@ -1544,13 +1546,27 @@
             <span style="color:#888">}</span>
             <span style="color:#f4a">else</span> 
             <span style="color:#888">{</span>
-                size_text <span style="color:#888">~=</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> size_character_index <span style="color:#888">);</span>
-                
-                <span style="color:#f4a">if</span> <span style="color:#888">(</span> size_text<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"]]"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+                size_character <span style="color:#888">=</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> size_character_index <span style="color:#888">);</span>
+
+                <span style="color:#f4a">if</span> <span style="color:#888">(</span> size_character <span style="color:#888">==</span> <span style="color:#f00">'\\'</span>
+                     <span style="color:#888">&&</span> size_character_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
                 <span style="color:#888">{</span>
-                    size_text <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+                    <span style="color:#888">++</span>size_character_index<span style="color:#888">;</span>
                     
-                    <span style="color:#f4a">break</span><span style="color:#888">;</span>
+                    size_text <span style="color:#888">~=</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> size_character_index <span style="color:#888">);</span>
+                <span style="color:#888">}</span>
+                <span style="color:#f4a">else</span>
+                <span style="color:#888">{</span>
+                    <span style="color:#f4a">if</span> <span style="color:#888">(</span> size_character <span style="color:#888">==</span> <span style="color:#f00">']'</span>
+                         <span style="color:#888">&&</span> size_character_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length
+                         <span style="color:#888">&&</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> size_character_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">']'</span> <span style="color:#888">)</span>
+                    <span style="color:#888">{</span>
+                        size_text <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+                        
+                        <span style="color:#f4a">break</span><span style="color:#888">;</span>
+                    <span style="color:#888">}</span>
+                    
+                    size_text <span style="color:#888">~=</span> size_character<span style="color:#888">;</span>
                 <span style="color:#888">}</span>
             <span style="color:#888">}</span>
         <span style="color:#888">}</span>

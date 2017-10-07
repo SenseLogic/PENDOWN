@@ -1519,6 +1519,8 @@
     ²dstring² ParseSize°(°
         °)°
     °{°
+        ²dchar²
+            size_character°;°
         ²dstring²
             height°,°
             size_text°,°
@@ -1542,13 +1544,27 @@
             °}°
             ¹else¹ 
             °{°
-                size_text °~=° text°.°charAt°(° size_character_index °);°
-                
-                ¹if¹ °(° size_text°.°endsWith°(° ²"]\]"² °)° °)°
+                size_character °=° text°.°charAt°(° size_character_index °);°
+
+                ¹if¹ °(° size_character °==° ²'\\\\'²
+                     °&&° size_character_index °+° ²1² °&lt;° text°.°length °)°
                 °{°
-                    size_text °=° ²""²°;°
+                    °+\+°size_character_index°;°
                     
-                    ¹break¹°;°
+                    size_text °~=° text°.°charAt°(° size_character_index °);°
+                °}°
+                ¹else¹
+                °{°
+                    ¹if¹ °(° size_character °==° ²']'²
+                         °&&° size_character_index °+° ²1² °&lt;° text°.°length
+                         °&&° text°.°charAt°(° size_character_index °+° ²1² °)° °==° ²']'² °)°
+                    °{°
+                        size_text °=° ²""²°;°
+                        
+                        ¹break¹°;°
+                    °}°
+                    
+                    size_text °~=° size_character°;°
                 °}°
             °}°
         °}°

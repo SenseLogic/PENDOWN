@@ -1380,6 +1380,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         ¹var¹
             height°,°
             size_array°,°
+            size_character°,°
             size_text°,°
             size_character_index°,°
             width°;°
@@ -1398,13 +1399,27 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             °}°
             ¹else¹ 
             °{°
-                size_text °+=° text°.°charAt°(° size_character_index °);°
+                size_character °=° text°.°charAt°(° size_character_index °);°
                 
-                ¹if¹ °(° size_text°.°endsWith°(° ²"]\]"² °)° °)°
+                ¹if¹ °(° size_character °===° ²'\\\\'²
+                     °&&° size_character_index °+° ²1² °&lt;° text°.°length °)°
                 °{°
-                    size_text °=° ²""²°;°
+                    °+\+°size_character_index°;°
                     
-                    ¹break¹°;°
+                    size_text °+=° text°.°charAt°(° size_character_index °);°
+                °}°
+                ¹else¹
+                °{°
+                    ¹if¹ °(° size_character °===° ²']'²
+                         °&&° size_character_index °+° ²1² °&lt;° text°.°length
+                         °&&° text°.°charAt°(° size_character_index °+° ²1² °)° °===° ²']'² °)°
+                    °{°
+                        size_text °=° ²""²°;°
+                        
+                        ¹break¹°;°
+                    °}°
+                    
+                    size_text °+=° size_character°;°
                 °}°
             °}°
         °}°
