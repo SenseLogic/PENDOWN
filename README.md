@@ -335,7 +335,8 @@ pendown [options] input_file output_file
 --script : make the HTML file import the Pendown script file
 --style : make the HTML file import the Pendown style file
 --language c|c++|cpp|c#|cs|d|java|js|ts : set the source code language
---indentation 4 : set the code and list indentation space count
+--tabulation 4 : set the text tabulation space count
+--indentation 4 : set the list indentation space count
 --path PENDOWN_FOLDER/ : set the path of the imported Pendown files 
 ``` 
 
