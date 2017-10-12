@@ -754,10 +754,10 @@ String.prototype.toUpper = function()
 
 // ~~
 
-function GetIndentationText(
+function GetTabulationText(
 	)
 {
-	return "        ".slice( 0, IndentationSpaceCount );
+	return "        ".slice( 0, TabulationSpaceCount );
 }
 
 // ~~
@@ -769,7 +769,7 @@ function GetCleanedText(
     var
         cleaned_text;
 
-    cleaned_text = text.split( "\r" ).join( "" ).split( "\t" ).join( GetIndentationText() );
+    cleaned_text = text.split( "\r" ).join( "" ).split( "\t" ).join( GetTabulationText() );
 
     if ( !cleaned_text.endsWith( "\n" ) )
     {
@@ -2484,7 +2484,7 @@ function ProcessElement(
         processed_element,
         text;
 
-    text = element.innerHTML.split( "\t" ).join( GetIndentationText() ).split( "\r" ).join( "" ).replace( / +\n/g, "\n" );
+    text = element.innerHTML.split( "\t" ).join( GetTabulationText() ).split( "\r" ).join( "" ).replace( / +\n/g, "\n" );
 
     processed_element = document.createElement( "article" );
     processed_element.className = element.className;
@@ -2516,6 +2516,7 @@ function ProcessDocument(
 
 CODE_TOKEN_TYPE = new CODE_TOKEN_TYPE();
 
+TabulationSpaceCount = 4;
 IndentationSpaceCount = 4;
 
 ProcessDocument();

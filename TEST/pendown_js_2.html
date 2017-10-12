@@ -757,10 +757,10 @@ String<span style="color:#888">.</span>prototype<span style="color:#888">.</span
 
 <span style="color:#888">// ~~</span>
 
-<span style="color:#f4a">function</span> GetIndentationText<span style="color:#888">(</span>
+<span style="color:#f4a">function</span> GetTabulationText<span style="color:#888">(</span>
     <span style="color:#888">)</span>
 <span style="color:#888">{</span>
-    <span style="color:#f4a">return</span> <span style="color:#f00">"        "</span><span style="color:#888">.</span>slice<span style="color:#888">(</span> <span style="color:#f00">0</span><span style="color:#888">,</span> IndentationSpaceCount <span style="color:#888">);</span>
+    <span style="color:#f4a">return</span> <span style="color:#f00">"        "</span><span style="color:#888">.</span>slice<span style="color:#888">(</span> <span style="color:#f00">0</span><span style="color:#888">,</span> TabulationSpaceCount <span style="color:#888">);</span>
 <span style="color:#888">}</span>
 
 <span style="color:#888">// ~~</span>
@@ -772,7 +772,7 @@ String<span style="color:#888">.</span>prototype<span style="color:#888">.</span
     <span style="color:#f4a">var</span>
         cleaned_text<span style="color:#888">;</span>
 
-    cleaned_text <span style="color:#888">=</span> text<span style="color:#888">.</span>split<span style="color:#888">(</span> <span style="color:#f00">"\r"</span> <span style="color:#888">).</span>join<span style="color:#888">(</span> <span style="color:#f00">""</span> <span style="color:#888">).</span>split<span style="color:#888">(</span> <span style="color:#f00">"\t"</span> <span style="color:#888">).</span>join<span style="color:#888">(</span> GetIndentationText<span style="color:#888">()</span> <span style="color:#888">);</span>
+    cleaned_text <span style="color:#888">=</span> text<span style="color:#888">.</span>split<span style="color:#888">(</span> <span style="color:#f00">"\r"</span> <span style="color:#888">).</span>join<span style="color:#888">(</span> <span style="color:#f00">""</span> <span style="color:#888">).</span>split<span style="color:#888">(</span> <span style="color:#f00">"\t"</span> <span style="color:#888">).</span>join<span style="color:#888">(</span> GetTabulationText<span style="color:#888">()</span> <span style="color:#888">);</span>
 
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">!</span>cleaned_text<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"\n"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
@@ -2487,7 +2487,7 @@ String<span style="color:#888">.</span>prototype<span style="color:#888">.</span
         processed_element<span style="color:#888">,</span>
         text<span style="color:#888">;</span>
 
-    text <span style="color:#888">=</span> element<span style="color:#888">.</span>innerHTML<span style="color:#888">.</span>split<span style="color:#888">(</span> <span style="color:#f00">"\t"</span> <span style="color:#888">).</span>join<span style="color:#888">(</span> GetIndentationText<span style="color:#888">()</span> <span style="color:#888">).</span>split<span style="color:#888">(</span> <span style="color:#f00">"\r"</span> <span style="color:#888">).</span>join<span style="color:#888">(</span> <span style="color:#f00">""</span> <span style="color:#888">).</span>replace<span style="color:#888">(</span> <span style="color:#888">/</span> <span style="color:#888">+\</span>n<span style="color:#888">/</span>g<span style="color:#888">,</span> <span style="color:#f00">"\n"</span> <span style="color:#888">);</span>
+    text <span style="color:#888">=</span> element<span style="color:#888">.</span>innerHTML<span style="color:#888">.</span>split<span style="color:#888">(</span> <span style="color:#f00">"\t"</span> <span style="color:#888">).</span>join<span style="color:#888">(</span> GetTabulationText<span style="color:#888">()</span> <span style="color:#888">).</span>split<span style="color:#888">(</span> <span style="color:#f00">"\r"</span> <span style="color:#888">).</span>join<span style="color:#888">(</span> <span style="color:#f00">""</span> <span style="color:#888">).</span>replace<span style="color:#888">(</span> <span style="color:#888">/</span> <span style="color:#888">+\</span>n<span style="color:#888">/</span>g<span style="color:#888">,</span> <span style="color:#f00">"\n"</span> <span style="color:#888">);</span>
 
     processed_element <span style="color:#888">=</span> document<span style="color:#888">.</span>createElement<span style="color:#888">(</span> <span style="color:#f00">"article"</span> <span style="color:#888">);</span>
     processed_element<span style="color:#888">.</span>className <span style="color:#888">=</span> element<span style="color:#888">.</span>className<span style="color:#888">;</span>
@@ -2519,6 +2519,7 @@ String<span style="color:#888">.</span>prototype<span style="color:#888">.</span
 
 <span style="color:#f80">CODE_TOKEN_TYPE</span> <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">CODE_TOKEN_TYPE</span><span style="color:#888">();</span>
 
+TabulationSpaceCount <span style="color:#888">=</span> <span style="color:#f00">4</span><span style="color:#888">;</span>
 IndentationSpaceCount <span style="color:#888">=</span> <span style="color:#f00">4</span><span style="color:#888">;</span>
 
 ProcessDocument<span style="color:#888">();</span>

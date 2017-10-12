@@ -766,7 +766,8 @@
     ScriptOptionIsEnabled<span style="color:#888">,</span>
     StyleOptionIsEnabled<span style="color:#888">;</span>
 <span style="color:#f00">long</span>
-    IndentationSpaceCount<span style="color:#888">;</span>
+    IndentationSpaceCount<span style="color:#888">,</span>
+    TabulationSpaceCount<span style="color:#888">;</span>
 <span style="color:#f00">string</span>
     InputFilePath<span style="color:#888">,</span>
     LanguageName<span style="color:#888">,</span>
@@ -885,10 +886,10 @@
 
 <span style="color:#888">// ~~</span>
 
-<span style="color:#f00">dstring</span> GetIndentationText<span style="color:#888">(</span>
+<span style="color:#f00">dstring</span> GetTabulationText<span style="color:#888">(</span>
     <span style="color:#888">)</span>
 <span style="color:#888">{</span>
-    <span style="color:#f4a">return</span> <span style="color:#f00">"        "</span><span style="color:#888">.</span>slice<span style="color:#888">(</span> <span style="color:#f00">0</span><span style="color:#888">,</span> IndentationSpaceCount <span style="color:#888">);</span>
+    <span style="color:#f4a">return</span> <span style="color:#f00">"        "</span><span style="color:#888">.</span>slice<span style="color:#888">(</span> <span style="color:#f00">0</span><span style="color:#888">,</span> TabulationSpaceCount <span style="color:#888">);</span>
 <span style="color:#888">}</span>
 
 <span style="color:#888">// ~~</span>
@@ -900,7 +901,7 @@
     <span style="color:#f00">dstring</span>
         cleaned_text<span style="color:#888">;</span>
 
-    cleaned_text <span style="color:#888">=</span> text<span style="color:#888">.</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\r"</span><span style="color:#888">,</span> <span style="color:#f00">""</span> <span style="color:#888">).</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\t"</span><span style="color:#888">,</span> GetIndentationText<span style="color:#888">()</span> <span style="color:#888">);</span>
+    cleaned_text <span style="color:#888">=</span> text<span style="color:#888">.</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\r"</span><span style="color:#888">,</span> <span style="color:#f00">""</span> <span style="color:#888">).</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\t"</span><span style="color:#888">,</span> GetTabulationText<span style="color:#888">()</span> <span style="color:#888">);</span>
 
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">!</span>cleaned_text<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"\n"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
@@ -2247,7 +2248,7 @@
 <span style="color:#888">{</span>
     <span style="color:#f80">TOKEN</span>
         token<span style="color:#888">;</span>
-         
+
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> token_index <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span>
          <span style="color:#888">&&</span> token_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">&lt;</span> token_array<span style="color:#888">.</span>length
          <span style="color:#888">&&</span> <span style="color:#888">!</span>token_array<span style="color:#888">[</span> token_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">].</span>StartsLine
@@ -2675,6 +2676,7 @@
     ScriptOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     StyleOptionIsEnabled <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     LanguageName <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+    TabulationSpaceCount <span style="color:#888">=</span> <span style="color:#f00">4</span><span style="color:#888">;</span>
     IndentationSpaceCount <span style="color:#888">=</span> <span style="color:#f00">4</span><span style="color:#888">;</span>
     ScriptFolderPath <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
     StyleFolderPath <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
@@ -2710,6 +2712,13 @@
                   <span style="color:#888">&&</span> argument_array<span style="color:#888">.</span>length <span style="color:#888">&gt;=</span> <span style="color:#f00">1</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             LanguageName <span style="color:#888">=</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">];</span>
+
+            argument_array <span style="color:#888">=</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">1</span> <span style="color:#888">..</span> <span style="color:#888">$</span> <span style="color:#888">];</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> option <span style="color:#888">==</span> <span style="color:#f00">"--tabulation"</span>
+                  <span style="color:#888">&&</span> argument_array<span style="color:#888">.</span>length <span style="color:#888">&gt;=</span> <span style="color:#f00">1</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            TabulationSpaceCount <span style="color:#888">=</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">].</span>to<span style="color:#888">!</span><span style="color:#f00">long</span><span style="color:#888">();</span>
 
             argument_array <span style="color:#888">=</span> argument_array<span style="color:#888">[</span> <span style="color:#f00">1</span> <span style="color:#888">..</span> <span style="color:#888">$</span> <span style="color:#888">];</span>
         <span style="color:#888">}</span>
@@ -2753,6 +2762,7 @@
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --script"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --style"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --language c|c++|cpp|c#|cs|d|java|js|ts"</span> <span style="color:#888">);</span>
+        writeln<span style="color:#888">(</span> <span style="color:#f00">"    --tabulation 4"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --indentation 4"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"    --path PENDOWN_FOLDER/"</span> <span style="color:#888">);</span>
         writeln<span style="color:#888">(</span> <span style="color:#f00">"Examples :"</span> <span style="color:#888">);</span>

@@ -755,10 +755,10 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
 °// ~\~°
 
-¹function¹ GetIndentationText°(°
+¹function¹ GetTabulationText°(°
     °)°
 °{°
-    ¹return¹ ²"        "²°.°slice°(° ²0²°,° IndentationSpaceCount °);°
+    ¹return¹ ²"        "²°.°slice°(° ²0²°,° TabulationSpaceCount °);°
 °}°
 
 °// ~\~°
@@ -770,7 +770,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     ¹var¹
         cleaned_text°;°
 
-    cleaned_text °=° text°.°split°(° ²"\\r"² °).°join°(° ²""² °).°split°(° ²"\\t"² °).°join°(° GetIndentationText°()° °);°
+    cleaned_text °=° text°.°split°(° ²"\\r"² °).°join°(° ²""² °).°split°(° ²"\\t"² °).°join°(° GetTabulationText°()° °);°
 
     ¹if¹ °(° °\!°cleaned_text°.°endsWith°(° ²"\\n"² °)° °)°
     °{°
@@ -2485,7 +2485,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         processed_element°,°
         text°;°
 
-    text °=° element°.°innerHTML°.°split°(° ²"\\t"² °).°join°(° GetIndentationText°()° °).°split°(° ²"\\r"² °).°join°(° ²""² °).°replace°(° °/° °+\\°n°/°g°,° ²"\\n"² °);°
+    text °=° element°.°innerHTML°.°split°(° ²"\\t"² °).°join°(° GetTabulationText°()° °).°split°(° ²"\\r"² °).°join°(° ²""² °).°replace°(° °/° °+\\°n°/°g°,° ²"\\n"² °);°
 
     processed_element °=° document°.°createElement°(° ²"article"² °);°
     processed_element°.°className °=° element°.°className°;°
@@ -2517,6 +2517,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
 ²²CODE_TOKEN_TYPE²² °=° ¹new¹ ²²CODE_TOKEN_TYPE²²°();°
 
+TabulationSpaceCount °=° ²4²°;°
 IndentationSpaceCount °=° ²4²°;°
 
 ProcessDocument°();°

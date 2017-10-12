@@ -767,7 +767,8 @@
     ScriptOptionIsEnabled°,°
     StyleOptionIsEnabled°;°
 ²long²
-    IndentationSpaceCount°;°
+    IndentationSpaceCount°,°
+    TabulationSpaceCount°;°
 ²string²
     InputFilePath°,°
     LanguageName°,°
@@ -886,10 +887,10 @@
 
 °// ~\~°
 
-²dstring² GetIndentationText°(°
+²dstring² GetTabulationText°(°
     °)°
 °{°
-    ¹return¹ ²"        "²°.°slice°(° ²0²°,° IndentationSpaceCount °);°
+    ¹return¹ ²"        "²°.°slice°(° ²0²°,° TabulationSpaceCount °);°
 °}°
 
 °// ~\~°
@@ -901,7 +902,7 @@
     ²dstring²
         cleaned_text°;°
 
-    cleaned_text °=° text°.°replace°(° ²"\\r"²°,° ²""² °).°replace°(° ²"\\t"²°,° GetIndentationText°()° °);°
+    cleaned_text °=° text°.°replace°(° ²"\\r"²°,° ²""² °).°replace°(° ²"\\t"²°,° GetTabulationText°()° °);°
 
     ¹if¹ °(° °\!°cleaned_text°.°endsWith°(° ²"\\n"² °)° °)°
     °{°
@@ -2248,7 +2249,7 @@
 °{°
     ²²TOKEN²²
         token°;°
-         
+
     ¹if¹ °(° token_index °&gt;=° ²0²
          °&&° token_index °+° ²1² °&lt;° token_array°.°length
          °&&° °\!°token_array°[° token_index °+° ²1² °].°StartsLine
@@ -2676,6 +2677,7 @@
     ScriptOptionIsEnabled °=° ²false²°;°
     StyleOptionIsEnabled °=° ²false²°;°
     LanguageName °=° ²""²°;°
+    TabulationSpaceCount °=° ²4²°;°
     IndentationSpaceCount °=° ²4²°;°
     ScriptFolderPath °=° ²""²°;°
     StyleFolderPath °=° ²""²°;°
@@ -2711,6 +2713,13 @@
                   °&&° argument_array°.°length °&gt;=° ²1² °)°
         °{°
             LanguageName °=° argument_array°[° ²0² °];°
+
+            argument_array °=° argument_array°[° ²1² °..° °$° °];°
+        °}°
+        ¹else¹ ¹if¹ °(° option °==° ²"-\-tabulation"²
+                  °&&° argument_array°.°length °&gt;=° ²1² °)°
+        °{°
+            TabulationSpaceCount °=° argument_array°[° ²0² °].°to°\!°²long²°();°
 
             argument_array °=° argument_array°[° ²1² °..° °$° °];°
         °}°
@@ -2754,6 +2763,7 @@
         writeln°(° ²"    -\-script"² °);°
         writeln°(° ²"    -\-style"² °);°
         writeln°(° ²"    -\-language c|c+\+|cpp|c\#|cs|d|java|js|ts"² °);°
+        writeln°(° ²"    -\-tabulation 4"² °);°
         writeln°(° ²"    -\-indentation 4"² °);°
         writeln°(° ²"    -\-path PENDOWN_FOLDER/"² °);°
         writeln°(° ²"Examples :"² °);°

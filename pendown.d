@@ -763,7 +763,8 @@ bool
     ScriptOptionIsEnabled,
     StyleOptionIsEnabled;
 long
-    IndentationSpaceCount;
+    IndentationSpaceCount,
+    TabulationSpaceCount;
 string
     InputFilePath,
     LanguageName,
@@ -882,10 +883,10 @@ ELEMENT pop( ELEMENT )(
 
 // ~~
 
-dstring GetIndentationText(
+dstring GetTabulationText(
 	)
 {
-	return "        ".slice( 0, IndentationSpaceCount );
+	return "        ".slice( 0, TabulationSpaceCount );
 }
 
 // ~~
@@ -897,7 +898,7 @@ dstring GetCleanedText(
     dstring
         cleaned_text;
 
-    cleaned_text = text.replace( "\r", "" ).replace( "\t", GetIndentationText() );
+    cleaned_text = text.replace( "\r", "" ).replace( "\t", GetTabulationText() );
 
     if ( !cleaned_text.endsWith( "\n" ) )
     {
@@ -2244,7 +2245,7 @@ dstring GetListTag(
 {
     TOKEN
         token;
-         
+
     if ( token_index >= 0
          && token_index + 1 < token_array.length
          && !token_array[ token_index + 1 ].StartsLine
@@ -2672,6 +2673,7 @@ void main(
     ScriptOptionIsEnabled = false;
     StyleOptionIsEnabled = false;
     LanguageName = "";
+    TabulationSpaceCount = 4;
     IndentationSpaceCount = 4;
     ScriptFolderPath = "";
     StyleFolderPath = "";
@@ -2707,6 +2709,13 @@ void main(
                   && argument_array.length >= 1 )
         {
             LanguageName = argument_array[ 0 ];
+
+            argument_array = argument_array[ 1 .. $ ];
+        }
+        else if ( option == "--tabulation"
+                  && argument_array.length >= 1 )
+        {
+            TabulationSpaceCount = argument_array[ 0 ].to!long();
 
             argument_array = argument_array[ 1 .. $ ];
         }
@@ -2750,6 +2759,7 @@ void main(
         writeln( "    --script" );
         writeln( "    --style" );
         writeln( "    --language c|c++|cpp|c#|cs|d|java|js|ts" );
+        writeln( "    --tabulation 4" );
         writeln( "    --indentation 4" );
         writeln( "    --path PENDOWN_FOLDER/" );
         writeln( "Examples :" );
