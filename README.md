@@ -294,9 +294,9 @@ Check that the relative paths to "pendown.css" and "pendown.js" are correct.
 
 Check that both fonts are properly installed on your system.
 
-> The Pendown page doens't apply the page breaks in the browser.
+> The Pendown page doens't show the page breaks in the browser.
 
-They are applied when printing the page from the browser, or when the generated file is loaded in LibreOffice Writer.
+This is normal, page breaks are only applied when the web page is printed from the browser, or when the generated HTML file is loaded in LibreOffice Writer.
 
 ### Frequently asked questions
 
