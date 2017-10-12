@@ -754,6 +754,14 @@ String.prototype.toUpper = function()
 
 // ~~
 
+function GetIndentationText(
+	)
+{
+	return "        ".slice( 0, IndentationSpaceCount );
+}
+
+// ~~
+
 function GetCleanedText(
     text
     )
@@ -761,7 +769,7 @@ function GetCleanedText(
     var
         cleaned_text;
 
-    cleaned_text = text.split( "\r" ).join( "" ).split( "\t" ).join( "    " );
+    cleaned_text = text.split( "\r" ).join( "" ).split( "\t" ).join( GetIndentationText() );
 
     if ( !cleaned_text.endsWith( "\n" ) )
     {
@@ -2108,17 +2116,19 @@ function GetListTag(
 
     if ( token_index >= 0
          && token_index + 1 < token_array.length
-         && token_array[ token_index + 1 ].IsSpace )
+         && !token_array[ token_index + 1 ].StartsLine
+         && token_array[ token_index + 1 ].IsSpace
+         && token_array[ token_index + 1 ].Text.length === IndentationSpaceCount -1 )
     {
         token = token_array[ token_index ];
 
         if ( !token.IsEscaped )
         {
-            if ( token.Text === "#" )
+            if ( token.Text === "*" )
             {
                 return "ul";
             }
-            else if ( token.Text === "@" )
+            else if ( token.Text === "#" )
             {
                 return "ol";
             }
@@ -2181,7 +2191,7 @@ function MakeLists(
 
                     if ( tag !== null )
                     {
-                        tag_count = 1 + ( token.Text.length / 2 );
+                        tag_count = 1 + ( token.Text.length / IndentationSpaceCount );
 
                         ++token_index;
 
@@ -2474,7 +2484,7 @@ function ProcessElement(
         processed_element,
         text;
 
-    text = element.innerHTML.split( "\t" ).join( "    " ).split( "\r" ).join( "" ).replace( / +\n/g, "\n" );
+    text = element.innerHTML.split( "\t" ).join( GetIndentationText() ).split( "\r" ).join( "" ).replace( / +\n/g, "\n" );
 
     processed_element = document.createElement( "article" );
     processed_element.className = element.className;
@@ -2505,5 +2515,7 @@ function ProcessDocument(
 // -- STATEMENTS
 
 CODE_TOKEN_TYPE = new CODE_TOKEN_TYPE();
+
+IndentationSpaceCount = 4;
 
 ProcessDocument();

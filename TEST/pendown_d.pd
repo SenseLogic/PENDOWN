@@ -763,6 +763,8 @@
     ProcessOptionIsEnabled°,°
     ScriptOptionIsEnabled°,°
     StyleOptionIsEnabled°;°
+²long²
+    IndentationSpaceCount°;°
 ²string²
     InputFilePath°,°
     LanguageName°,°
@@ -881,6 +883,14 @@
 
 °// ~\~°
 
+²dstring² GetIndentationText°(°
+    °)°
+°{°
+    ¹return¹ ²"        "²°.°slice°(° ²0²°,° IndentationSpaceCount °);°
+°}°
+
+°// ~\~°
+
 ²dstring² GetCleanedText°(°
     ²dstring² text
     °)°
@@ -888,7 +898,7 @@
     ²dstring²
         cleaned_text°;°
 
-    cleaned_text °=° text°.°replace°(° ²"\\r"²°,° ²""² °).°replace°(° ²"\\t"²°,° ²"    "² °);°
+    cleaned_text °=° text°.°replace°(° ²"\\r"²°,° ²""² °).°replace°(° ²"\\t"²°,° GetIndentationText°()° °);°
 
     ¹if¹ °(° °\!°cleaned_text°.°endsWith°(° ²"\\n"² °)° °)°
     °{°
@@ -2235,20 +2245,22 @@
 °{°
     ²²TOKEN²²
         token°;°
-
+         
     ¹if¹ °(° token_index °&gt;=° ²0²
          °&&° token_index °+° ²1² °&lt;° token_array°.°length
-         °&&° token_array°[° token_index °+° ²1² °].°IsSpace °)°
+         °&&° °\!°token_array°[° token_index °+° ²1² °].°StartsLine
+         °&&° token_array°[° token_index °+° ²1² °].°IsSpace
+         °&&° token_array°[° token_index °+° ²1² °].°Text°.°length °==° IndentationSpaceCount °-° ²1² °)°
     °{°
         token °=° token_array°[° token_index °];°
 
         ¹if¹ °(° °\!°token°.°IsEscaped °)°
         °{°
-            ¹if¹ °(° token°.°Text °==° ²"\#"² °)°
+            ¹if¹ °(° token°.°Text °==° ²"*"² °)°
             °{°
                 ¹return¹ ²"ul"²°;°
             °}°
-            ¹else¹ ¹if¹ °(° token°.°Text °==° ²"\@"² °)°
+            ¹else¹ ¹if¹ °(° token°.°Text °==° ²"\#"² °)°
             °{°
                 ¹return¹ ²"ol"²°;°
             °}°
@@ -2315,7 +2327,7 @@
 
                     ¹if¹ °(° tag °\!°is ²null² °)°
                     °{°
-                        tag_count °=° ²1² °+° °(° token°.°Text°.°length °/° ²2² °);°
+                        tag_count °=° ²1² °+° °(° token°.°Text°.°length °/° IndentationSpaceCount °);°
 
                         °+\+°token_index°;°
 
@@ -2661,6 +2673,7 @@
     ScriptOptionIsEnabled °=° ²false²°;°
     StyleOptionIsEnabled °=° ²false²°;°
     LanguageName °=° ²""²°;°
+    IndentationSpaceCount °=° ²4²°;°
     ScriptFolderPath °=° ²""²°;°
     StyleFolderPath °=° ²""²°;°
 
@@ -2698,6 +2711,13 @@
 
             argument_array °=° argument_array°[° ²1² °..° °$° °];°
         °}°
+        ¹else¹ ¹if¹ °(° option °==° ²"-\-indentation"²
+                  °&&° argument_array°.°length °&gt;=° ²1² °)°
+        °{°
+            IndentationSpaceCount °=° argument_array°[° ²0² °].°to°\!°²long²°();°
+
+            argument_array °=° argument_array°[° ²1² °..° °$° °];°
+        °}°
         ¹else¹ ¹if¹ °(° option °==° ²"-\-path"²
                   °&&° argument_array°.°length °&gt;=° ²1²
                   °&&° argument_array°[° ²0² °].°endsWith°(° ²'/'² °)° °)°
@@ -2731,6 +2751,7 @@
         writeln°(° ²"    -\-script"² °);°
         writeln°(° ²"    -\-style"² °);°
         writeln°(° ²"    -\-language c|c+\+|cpp|c\#|cs|d|java|js|ts"² °);°
+        writeln°(° ²"    -\-indentation 4"² °);°
         writeln°(° ²"    -\-path PENDOWN_FOLDER/"² °);°
         writeln°(° ²"Examples :"² °);°
         writeln°(° ²"    pendown -\-process -\-style -\-path ../ document.pd document.html"² °);°

@@ -39,6 +39,8 @@ Another paragraph.
 
 ~~~
 
+This is printed on a new page.
+
 !! Escape
 
 \_\_
@@ -188,19 +190,20 @@ int main()
 
 !! List
 
-Two spaces per level.
+Four spaces per level.
 
-# List
-# List
-  # Sub-list
-  # Sub-list
-    @ Numbered sub-list
-    @ Numbered sub-list
-      @ Numbered sub-list
-      @ Numbered sub-list
-    @ Numbered sub-list
-# List§
-  ...
+*   List
+*   List
+    *   Sub-list
+    *   Sub-list
+    #   Numbered sub-list
+    #   Numbered sub-list
+        #   Numbered sub-list
+        #   Numbered sub-list
+    #   Numbered
+        sub-list
+*   List§
+    ...
 
 !! Link
 

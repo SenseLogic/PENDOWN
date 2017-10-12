@@ -762,6 +762,8 @@ bool
     ProcessOptionIsEnabled,
     ScriptOptionIsEnabled,
     StyleOptionIsEnabled;
+long
+    IndentationSpaceCount;
 string
     InputFilePath,
     LanguageName,
@@ -880,6 +882,14 @@ ELEMENT pop( ELEMENT )(
 
 // ~~
 
+dstring GetIndentationText(
+	)
+{
+	return "        ".slice( 0, IndentationSpaceCount );
+}
+
+// ~~
+
 dstring GetCleanedText(
     dstring text
     )
@@ -887,7 +897,7 @@ dstring GetCleanedText(
     dstring
         cleaned_text;
 
-    cleaned_text = text.replace( "\r", "" ).replace( "\t", "    " );
+    cleaned_text = text.replace( "\r", "" ).replace( "\t", GetIndentationText() );
 
     if ( !cleaned_text.endsWith( "\n" ) )
     {
@@ -2234,20 +2244,22 @@ dstring GetListTag(
 {
     TOKEN
         token;
-
+         
     if ( token_index >= 0
          && token_index + 1 < token_array.length
-         && token_array[ token_index + 1 ].IsSpace )
+         && !token_array[ token_index + 1 ].StartsLine
+         && token_array[ token_index + 1 ].IsSpace
+         && token_array[ token_index + 1 ].Text.length == IndentationSpaceCount - 1 )
     {
         token = token_array[ token_index ];
 
         if ( !token.IsEscaped )
         {
-            if ( token.Text == "#" )
+            if ( token.Text == "*" )
             {
                 return "ul";
             }
-            else if ( token.Text == "@" )
+            else if ( token.Text == "#" )
             {
                 return "ol";
             }
@@ -2314,7 +2326,7 @@ void MakeLists(
 
                     if ( tag !is null )
                     {
-                        tag_count = 1 + ( token.Text.length / 2 );
+                        tag_count = 1 + ( token.Text.length / IndentationSpaceCount );
 
                         ++token_index;
 
@@ -2660,6 +2672,7 @@ void main(
     ScriptOptionIsEnabled = false;
     StyleOptionIsEnabled = false;
     LanguageName = "";
+    IndentationSpaceCount = 4;
     ScriptFolderPath = "";
     StyleFolderPath = "";
 
@@ -2697,6 +2710,13 @@ void main(
 
             argument_array = argument_array[ 1 .. $ ];
         }
+        else if ( option == "--indentation"
+                  && argument_array.length >= 1 )
+        {
+            IndentationSpaceCount = argument_array[ 0 ].to!long();
+
+            argument_array = argument_array[ 1 .. $ ];
+        }
         else if ( option == "--path"
                   && argument_array.length >= 1
                   && argument_array[ 0 ].endsWith( '/' ) )
@@ -2730,6 +2750,7 @@ void main(
         writeln( "    --script" );
         writeln( "    --style" );
         writeln( "    --language c|c++|cpp|c#|cs|d|java|js|ts" );
+        writeln( "    --indentation 4" );
         writeln( "    --path PENDOWN_FOLDER/" );
         writeln( "Examples :" );
         writeln( "    pendown --process --style --path ../ document.pd document.html" );
