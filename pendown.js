@@ -763,25 +763,27 @@ function ReplaceTabulations(
         character_index,
         replaced_text,
         line_character_index;
-        
+
+    text = text.split( "\t\t" ).join( "\t    " ).split( "\n\t" ).join( "\n    " );
+
     if ( text.indexOf( '\t' ) >= 0 )
     {
         replaced_text = "";
 
         line_character_index = 0;
-        
+
         for ( character_index = 0;
               character_index < text.length;
               ++character_index )
         {
             character = text.charAt( character_index );
-            
+
             if ( character === '\t' )
             {
                 do
                 {
                     replaced_text += ' ';
-                    
+
                     ++line_character_index;
                 }
                 while ( ( line_character_index % TabulationSpaceCount ) !== 0 );
@@ -789,7 +791,7 @@ function ReplaceTabulations(
             else
             {
                 replaced_text += character;
-                
+
                 if ( character === '\n' )
                 {
                     line_character_index = 0;
@@ -800,7 +802,7 @@ function ReplaceTabulations(
                 }
             }
         }
-        
+
         return replaced_text;
     }
     else
@@ -1246,7 +1248,7 @@ function GetColorizedText(
         code_token = code_token_array[ code_token_index ];
 
         if ( code_token_index === 0
-             || color_prefix_array[ code_token.Type ] 
+             || color_prefix_array[ code_token.Type ]
                 !== color_prefix_array[ code_token_array[ code_token_index - 1 ].Type ] )
         {
             colorized_text += color_prefix_array[ code_token.Type ];
@@ -1430,7 +1432,7 @@ function GetTokenArray(
         url;
 
     // ~~
-    
+
     function ParseImage(
         )
     {
@@ -1442,22 +1444,22 @@ function GetTokenArray(
             size_is_parsed,
             size_text,
             width;
-            
+
         character_index += 2;
 
         image_text = "<img src=\"";
         size_text = "";
         size_is_parsed = false;
-        
+
         while ( character_index < text.length )
         {
             character = text.charAt( character_index );
-            
+
             if ( character === '\\'
                  && character_index + 1 < text.length )
             {
                 ++character_index;
-                
+
                 image_text += text.charAt( character_index );
             }
             else if ( character === ']'
@@ -1465,7 +1467,7 @@ function GetTokenArray(
                       && text.charAt( character_index + 1 ) === ']' )
             {
                 character_index += 2;
-                
+
                 break;
             }
             else if ( size_is_parsed )
@@ -1487,17 +1489,17 @@ function GetTokenArray(
                     image_text += character;
                 }
             }
-            
+
             ++character_index;
         }
-                
+
         if ( size_text === "" )
         {
             size_text = ",100";
         }
-     
+
         size_array = size_text.split( ',' );
-        
+
         if ( size_array.length === 1 )
         {
             height = size_array[ 0 ];
@@ -1513,7 +1515,7 @@ function GetTokenArray(
             height = "";
             width = "100";
         }
-        
+
         if ( height === "" )
         {
             height = "auto";
@@ -1522,7 +1524,7 @@ function GetTokenArray(
         {
             height += "vw";
         }
-        
+
         if ( width === "" )
         {
             width = "auto";
@@ -1531,9 +1533,9 @@ function GetTokenArray(
         {
             width += "%";
         }
-        
+
         image_text += "\" style=\"height:" + height + ";width:" + width + "\"/>";
-        
+
         return image_text;
     }
 
@@ -2143,12 +2145,12 @@ function GetTokenArray(
             {
                 token_character_index = token.Text.indexOf( ' ' );
             }
-            
-            token.Text 
+
+            token.Text
                 = token.Text.slice( 0, token_character_index )
                   + " style=\"page-break-before: always\""
                   + token.Text.slice( token_character_index, token.Text.length );
-            
+
             it_breaks_page = false;
         }
 
@@ -2452,7 +2454,7 @@ function AddPageBreaks(
         if ( token.Text === "<pb/>" )
         {
             token.Text = "";
-            
+
             page_break_is_added = true;
         }
         else if ( page_break_is_added
@@ -2473,12 +2475,12 @@ function AddPageBreaks(
             {
                 token_character_index = token.Text.indexOf( ' ' );
             }
-            
-            token.Text 
+
+            token.Text
                 = token.Text.slice( 0, token_character_index )
                   + " style=\"page-break-before: always\""
                   + token.Text.slice( token_character_index, token.Text.length );
-            
+
             page_break_is_added = false;
         }
     }
@@ -2522,7 +2524,7 @@ function GetProcessedText(
     MakeLists( token_array );
     MakeParagraphs( token_array );
     MakeTables( token_array );
-    
+
     AddPageBreaks( token_array );
 
     return GetText( token_array );

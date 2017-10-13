@@ -895,6 +895,8 @@ dstring ReplaceTabulations(
         character_index,
         line_character_index;
         
+    text = text.replace( "\t\t", "\t    " ).replace( "\n\t", "\n    " );
+
     if ( text.indexOf( '\t' ) >= 0 )
     {
         replaced_text = "";
