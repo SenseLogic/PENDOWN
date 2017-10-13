@@ -887,10 +887,61 @@
 
 °// ~\~°
 
-²dstring² GetTabulationText°(°
+²dstring² ReplaceTabulations°(°
+    ²dstring² text
     °)°
 °{°
-    ¹return¹ ²"        "²°.°slice°(° ²0²°,° TabulationSpaceCount °);°
+    ²dchar²
+        character°;°
+    ²dstring²
+        replaced_text°;°
+    ²long²
+        character_index°,°
+        line_character_index°;°
+        
+    ¹if¹ °(° text°.°indexOf°(° ²'\\t'² °)° °&gt;=° ²0² °)°
+    °{°
+        replaced_text °=° ²""²°;°
+
+        line_character_index °=° ²0²°;°
+        
+        ¹for¹ °(° character_index °=° ²0²°;°
+              character_index °&lt;° text°.°length°;°
+              °+\+°character_index °)°
+        °{°
+            character °=° text°.°charAt°(° character_index °);°
+            
+            ¹if¹ °(° character °==° ²'\\t'² °)°
+            °{°
+                ¹do¹
+                °{°
+                    replaced_text °~=° ²' '²°;°
+                    
+                    °+\+°line_character_index°;°
+                °}°
+                ¹while¹ °(° °(° line_character_index °%° TabulationSpaceCount °)° °\!=° ²0² °);°
+            °}°
+            ¹else¹
+            °{°
+                replaced_text °~=° character°;°
+                
+                ¹if¹ °(° character °==° ²'\\n'² °)°
+                °{°
+                    line_character_index °=° ²0²°;°
+                °}°
+                ¹else¹
+                °{°
+                    °+\+°line_character_index°;°
+                °}°
+            °}°
+        °}°
+        
+        ¹return¹ replaced_text°;°
+    °}°
+    ¹else¹
+    °{°
+        ¹return¹ text°;°
+    °}°
 °}°
 
 °// ~\~°
@@ -901,15 +952,15 @@
 °{°
     ²dstring²
         cleaned_text°;°
+        
+    cleaned_text °=° ReplaceTabulations°(° text °).°replace°(° ²"\\r"²°,° ²""² °);°
 
-    cleaned_text °=° text°.°replace°(° ²"\\r"²°,° ²""² °).°replace°(° ²"\\t"²°,° GetTabulationText°()° °);°
-
-    ¹if¹ °(° °\!°cleaned_text°.°endsWith°(° ²"\\n"² °)° °)°
+    ¹if¹ °(° °\!°cleaned_text°.°endsWith°(° ²'\\n'² °)° °)°
     °{°
-        cleaned_text °~=° ²"\\n"²°;°
+        cleaned_text °~=° ²'\\n'²°;°
     °}°
 
-    ¹return¹ cleaned_text°;°
+    ¹return¹ cleaned_text°;°    
 °}°
 
 °// ~\~°
@@ -1393,8 +1444,12 @@
           °+\+°line_index °)°
     °{°
         line °=° line_array°[° line_index °].°trim°();°
-
-        ¹if¹ °(° line°.°startsWith°(° ²":\:\:"² °)° °)°
+        
+        ¹if¹ °(° line °==° ²""² °)°
+        °{°
+            line_array°[° line_index °]° °=° ²""²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° line°.°startsWith°(° ²":\:\:"² °)° °)°
         °{°
             ¹if¹ °(° line °==° ²":\:\:c\\\\"²
                  °||° line °==° ²":\:\:h\\\\"²

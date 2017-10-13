@@ -886,10 +886,61 @@
 
 <span style="color:#888">// ~~</span>
 
-<span style="color:#f00">dstring</span> GetTabulationText<span style="color:#888">(</span>
+<span style="color:#f00">dstring</span> ReplaceTabulations<span style="color:#888">(</span>
+    <span style="color:#f00">dstring</span> text
     <span style="color:#888">)</span>
 <span style="color:#888">{</span>
-    <span style="color:#f4a">return</span> <span style="color:#f00">"        "</span><span style="color:#888">.</span>slice<span style="color:#888">(</span> <span style="color:#f00">0</span><span style="color:#888">,</span> TabulationSpaceCount <span style="color:#888">);</span>
+    <span style="color:#f00">dchar</span>
+        character<span style="color:#888">;</span>
+    <span style="color:#f00">dstring</span>
+        replaced_text<span style="color:#888">;</span>
+    <span style="color:#f00">long</span>
+        character_index<span style="color:#888">,</span>
+        line_character_index<span style="color:#888">;</span>
+
+    <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>indexOf<span style="color:#888">(</span> <span style="color:#f00">'\t'</span> <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
+    <span style="color:#888">{</span>
+        replaced_text <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+
+        line_character_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+
+        <span style="color:#f4a">for</span> <span style="color:#888">(</span> character_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+              character_index <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length<span style="color:#888">;</span>
+              <span style="color:#888">++</span>character_index <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            character <span style="color:#888">=</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">);</span>
+
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'\t'</span> <span style="color:#888">)</span>
+            <span style="color:#888">{</span>
+                <span style="color:#f4a">do</span>
+                <span style="color:#888">{</span>
+                    replaced_text <span style="color:#888">~=</span> <span style="color:#f00">' '</span><span style="color:#888">;</span>
+
+                    <span style="color:#888">++</span>line_character_index<span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+                <span style="color:#f4a">while</span> <span style="color:#888">(</span> <span style="color:#888">(</span> line_character_index <span style="color:#888">%</span> TabulationSpaceCount <span style="color:#888">)</span> <span style="color:#888">!=</span> <span style="color:#f00">0</span> <span style="color:#888">);</span>
+            <span style="color:#888">}</span>
+            <span style="color:#f4a">else</span>
+            <span style="color:#888">{</span>
+                replaced_text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
+
+                <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'\n'</span> <span style="color:#888">)</span>
+                <span style="color:#888">{</span>
+                    line_character_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+                <span style="color:#f4a">else</span>
+                <span style="color:#888">{</span>
+                    <span style="color:#888">++</span>line_character_index<span style="color:#888">;</span>
+                <span style="color:#888">}</span>
+            <span style="color:#888">}</span>
+        <span style="color:#888">}</span>
+
+        <span style="color:#f4a">return</span> replaced_text<span style="color:#888">;</span>
+    <span style="color:#888">}</span>
+    <span style="color:#f4a">else</span>
+    <span style="color:#888">{</span>
+        <span style="color:#f4a">return</span> text<span style="color:#888">;</span>
+    <span style="color:#888">}</span>
 <span style="color:#888">}</span>
 
 <span style="color:#888">// ~~</span>
@@ -901,14 +952,14 @@
     <span style="color:#f00">dstring</span>
         cleaned_text<span style="color:#888">;</span>
 
-    cleaned_text <span style="color:#888">=</span> text<span style="color:#888">.</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\r"</span><span style="color:#888">,</span> <span style="color:#f00">""</span> <span style="color:#888">).</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\t"</span><span style="color:#888">,</span> GetTabulationText<span style="color:#888">()</span> <span style="color:#888">);</span>
+    cleaned_text <span style="color:#888">=</span> ReplaceTabulations<span style="color:#888">(</span> text <span style="color:#888">).</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\r"</span><span style="color:#888">,</span> <span style="color:#f00">""</span> <span style="color:#888">);</span>
 
-    <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">!</span>cleaned_text<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">"\n"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+    <span style="color:#f4a">if</span> <span style="color:#888">(</span> <span style="color:#888">!</span>cleaned_text<span style="color:#888">.</span>endsWith<span style="color:#888">(</span> <span style="color:#f00">'\n'</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
-        cleaned_text <span style="color:#888">~=</span> <span style="color:#f00">"\n"</span><span style="color:#888">;</span>
+        cleaned_text <span style="color:#888">~=</span> <span style="color:#f00">'\n'</span><span style="color:#888">;</span>
     <span style="color:#888">}</span>
 
-    <span style="color:#f4a">return</span> cleaned_text<span style="color:#888">;</span>
+    <span style="color:#f4a">return</span> cleaned_text<span style="color:#888">;</span>    
 <span style="color:#888">}</span>
 
 <span style="color:#888">// ~~</span>
@@ -1393,7 +1444,11 @@
     <span style="color:#888">{</span>
         line <span style="color:#888">=</span> line_array<span style="color:#888">[</span> line_index <span style="color:#888">].</span>trim<span style="color:#888">();</span>
 
-        <span style="color:#f4a">if</span> <span style="color:#888">(</span> line<span style="color:#888">.</span>startsWith<span style="color:#888">(</span> <span style="color:#f00">":::"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
+        <span style="color:#f4a">if</span> <span style="color:#888">(</span> line <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            line_array<span style="color:#888">[</span> line_index <span style="color:#888">]</span> <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> line<span style="color:#888">.</span>startsWith<span style="color:#888">(</span> <span style="color:#f00">":::"</span> <span style="color:#888">)</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> line <span style="color:#888">==</span> <span style="color:#f00">":::c\\"</span>
                  <span style="color:#888">||</span> line <span style="color:#888">==</span> <span style="color:#f00">":::h\\"</span>
@@ -1528,7 +1583,7 @@
         token_array<span style="color:#888">;</span>
 
     <span style="color:#888">// ~~</span>
-    
+
     <span style="color:#f00">dstring</span> ParseImage<span style="color:#888">(</span>
         <span style="color:#888">)</span>
     <span style="color:#888">{</span>
@@ -1549,16 +1604,16 @@
         image_text <span style="color:#888">=</span> <span style="color:#f00">"&lt;img src=\""</span><span style="color:#888">;</span>
         size_text <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
         size_is_parsed <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
-        
+
         <span style="color:#f4a">while</span> <span style="color:#888">(</span> character_index <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             character <span style="color:#888">=</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">);</span>
-            
+
             <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">'\\'</span>
                  <span style="color:#888">&&</span> character_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
-                
+
                 image_text <span style="color:#888">~=</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">);</span>
             <span style="color:#888">}</span>
             <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> character <span style="color:#888">==</span> <span style="color:#f00">']'</span>
@@ -1566,7 +1621,7 @@
                       <span style="color:#888">&&</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">+</span> <span style="color:#f00">1</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">']'</span> <span style="color:#888">)</span>
             <span style="color:#888">{</span>
                 character_index <span style="color:#888">+=</span> <span style="color:#f00">2</span><span style="color:#888">;</span>
-                
+
                 <span style="color:#f4a">break</span><span style="color:#888">;</span>
             <span style="color:#888">}</span>
             <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> size_is_parsed <span style="color:#888">)</span>
@@ -1588,17 +1643,17 @@
                     image_text <span style="color:#888">~=</span> character<span style="color:#888">;</span>
                 <span style="color:#888">}</span>
             <span style="color:#888">}</span>
-            
+
             <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
         <span style="color:#888">}</span>
-        
+
         <span style="color:#f4a">if</span> <span style="color:#888">(</span> size_text <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             size_text <span style="color:#888">=</span> <span style="color:#f00">",100"</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
-     
+
         size_array <span style="color:#888">=</span> size_text<span style="color:#888">.</span>split<span style="color:#888">(</span> <span style="color:#f00">','</span> <span style="color:#888">);</span>
-        
+
         <span style="color:#f4a">if</span> <span style="color:#888">(</span> size_array<span style="color:#888">.</span>length <span style="color:#888">==</span> <span style="color:#f00">1</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             height <span style="color:#888">=</span> size_array<span style="color:#888">[</span> <span style="color:#f00">0</span> <span style="color:#888">];</span>
@@ -1614,7 +1669,7 @@
             height <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>
             width <span style="color:#888">=</span> <span style="color:#f00">"100"</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
-        
+
         <span style="color:#f4a">if</span> <span style="color:#888">(</span> height <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             height <span style="color:#888">=</span> <span style="color:#f00">"auto"</span><span style="color:#888">;</span>
@@ -1630,7 +1685,7 @@
                 height <span style="color:#888">~=</span> <span style="color:#f00">"vw"</span><span style="color:#888">;</span>
             <span style="color:#888">}</span>
         <span style="color:#888">}</span>
-        
+
         <span style="color:#f4a">if</span> <span style="color:#888">(</span> width <span style="color:#888">==</span> <span style="color:#f00">""</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             width <span style="color:#888">=</span> <span style="color:#f00">"auto"</span><span style="color:#888">;</span>
@@ -1639,12 +1694,12 @@
         <span style="color:#888">{</span>
             width <span style="color:#888">~=</span> <span style="color:#f00">"%"</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
-        
+
         image_text <span style="color:#888">~=</span> <span style="color:#f00">"\" style=\"height:"</span> <span style="color:#888">~</span> height <span style="color:#888">~</span> <span style="color:#f00">";width:"</span> <span style="color:#888">~</span> width <span style="color:#888">~</span> <span style="color:#f00">"\"/&gt;"</span><span style="color:#888">;</span>
-        
+
         <span style="color:#f4a">return</span> image_text<span style="color:#888">;</span>
     <span style="color:#888">}</span>
-    
+
     <span style="color:#888">// ~~</span>
 
     <span style="color:#f00">void</span> ParseColor<span style="color:#888">(</span>

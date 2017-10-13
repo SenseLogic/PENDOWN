@@ -755,10 +755,59 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
 °// ~\~°
 
-¹function¹ GetTabulationText°(°
+¹function¹ ReplaceTabulations°(°
+    text
     °)°
 °{°
-    ¹return¹ ²"        "²°.°slice°(° ²0²°,° TabulationSpaceCount °);°
+    ¹var¹
+        character°,°
+        character_index°,°
+        replaced_text°,°
+        line_character_index°;°
+        
+    ¹if¹ °(° text°.°indexOf°(° ²'\\t'² °)° °&gt;=° ²0² °)°
+    °{°
+        replaced_text °=° ²""²°;°
+
+        line_character_index °=° ²0²°;°
+        
+        ¹for¹ °(° character_index °=° ²0²°;°
+              character_index °&lt;° text°.°length°;°
+              °+\+°character_index °)°
+        °{°
+            character °=° text°.°charAt°(° character_index °);°
+            
+            ¹if¹ °(° character °===° ²'\\t'² °)°
+            °{°
+                ¹do¹
+                °{°
+                    replaced_text °+=° ²' '²°;°
+                    
+                    °+\+°line_character_index°;°
+                °}°
+                ¹while¹ °(° °(° line_character_index °%° TabulationSpaceCount °)° °\!==° ²0² °);°
+            °}°
+            ¹else¹
+            °{°
+                replaced_text °+=° character°;°
+                
+                ¹if¹ °(° character °===° ²'\\n'² °)°
+                °{°
+                    line_character_index °=° ²0²°;°
+                °}°
+                ¹else¹
+                °{°
+                    °+\+°line_character_index°;°
+                °}°
+            °}°
+        °}°
+        
+        ¹return¹ replaced_text°;°
+    °}°
+    ¹else¹
+    °{°
+        ¹return¹ text°;°
+    °}°
 °}°
 
 °// ~\~°
@@ -767,14 +816,11 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     text
     °)°
 °{°
-    ¹var¹
-        cleaned_text°;°
+    cleaned_text °=° ReplaceTabulations°(° text °).°split°(° ²"\\r"² °).°join°(° ²""² °);°
 
-    cleaned_text °=° text°.°split°(° ²"\\r"² °).°join°(° ²""² °).°split°(° ²"\\t"² °).°join°(° GetTabulationText°()° °);°
-
-    ¹if¹ °(° °\!°cleaned_text°.°endsWith°(° ²"\\n"² °)° °)°
+    ¹if¹ °(° °\!°cleaned_text°.°endsWith°(° ²'\\n'² °)° °)°
     °{°
-        cleaned_text °+=° ²"\\n"²°;°
+        cleaned_text °+=° ²'\\n'²°;°
     °}°
 
     ¹return¹ cleaned_text°;°
@@ -1249,7 +1295,11 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     °{°
         line °=° line_array°[° line_index °].°trim°();°
 
-        ¹if¹ °(° line°.°startsWith°(° ²":\:\:"² °)° °)°
+        ¹if¹ °(° line °===° ²""² °)°
+        °{°
+            line_array°[° line_index °]° °=° ²""²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° line°.°startsWith°(° ²":\:\:"² °)° °)°
         °{°
             ¹if¹ °(° line °===° ²":\:\:c\\\\"²
                  °||° line °===° ²":\:\:h\\\\"²
@@ -2486,14 +2536,11 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     °)°
 °{°
     ¹var¹
-        processed_element°,°
-        text°;°
-
-    text °=° element°.°innerHTML°.°split°(° ²"\\t"² °).°join°(° GetTabulationText°()° °).°split°(° ²"\\r"² °).°join°(° ²""² °).°replace°(° °/° °+\\°n°/°g°,° ²"\\n"² °);°
+        processed_element°;°
 
     processed_element °=° document°.°createElement°(° ²"article"² °);°
     processed_element°.°className °=° element°.°className°;°
-    processed_element°.°innerHTML °=° GetProcessedText°(° text °);°
+    processed_element°.°innerHTML °=° GetProcessedText°(° element°.°innerHTML °);°
 
     element°.°parentNode°.°replaceChild°(° processed_element°,° element °);°
 °}°

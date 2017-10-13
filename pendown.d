@@ -883,10 +883,61 @@ ELEMENT pop( ELEMENT )(
 
 // ~~
 
-dstring GetTabulationText(
-	)
+dstring ReplaceTabulations(
+    dstring text
+    )
 {
-	return "        ".slice( 0, TabulationSpaceCount );
+    dchar
+        character;
+    dstring
+        replaced_text;
+    long
+        character_index,
+        line_character_index;
+        
+    if ( text.indexOf( '\t' ) >= 0 )
+    {
+        replaced_text = "";
+
+        line_character_index = 0;
+        
+        for ( character_index = 0;
+              character_index < text.length;
+              ++character_index )
+        {
+            character = text.charAt( character_index );
+            
+            if ( character == '\t' )
+            {
+                do
+                {
+                    replaced_text ~= ' ';
+                    
+                    ++line_character_index;
+                }
+                while ( ( line_character_index % TabulationSpaceCount ) != 0 );
+            }
+            else
+            {
+                replaced_text ~= character;
+                
+                if ( character == '\n' )
+                {
+                    line_character_index = 0;
+                }
+                else
+                {
+                    ++line_character_index;
+                }
+            }
+        }
+        
+        return replaced_text;
+    }
+    else
+    {
+        return text;
+    }
 }
 
 // ~~
@@ -897,15 +948,15 @@ dstring GetCleanedText(
 {
     dstring
         cleaned_text;
+        
+    cleaned_text = ReplaceTabulations( text ).replace( "\r", "" );
 
-    cleaned_text = text.replace( "\r", "" ).replace( "\t", GetTabulationText() );
-
-    if ( !cleaned_text.endsWith( "\n" ) )
+    if ( !cleaned_text.endsWith( '\n' ) )
     {
-        cleaned_text ~= "\n";
+        cleaned_text ~= '\n';
     }
 
-    return cleaned_text;
+    return cleaned_text;    
 }
 
 // ~~
@@ -1389,8 +1440,12 @@ dstring GetPreprocessedText(
           ++line_index )
     {
         line = line_array[ line_index ].trim();
-
-        if ( line.startsWith( ":::" ) )
+        
+        if ( line == "" )
+        {
+            line_array[ line_index ] = "";
+        }
+        else if ( line.startsWith( ":::" ) )
         {
             if ( line == ":::c\\"
                  || line == ":::h\\"
@@ -1529,8 +1584,8 @@ TOKEN[] GetTokenArray(
     dstring ParseImage(
         )
     {
-		bool
-			size_is_parsed;
+        bool
+            size_is_parsed;
         dchar
             character;
         dstring
@@ -1543,51 +1598,51 @@ TOKEN[] GetTokenArray(
 
         character_index += 2;
 
-		image_text = "<img src=\"";
+        image_text = "<img src=\"";
         size_text = "";
         size_is_parsed = false;
-		
-		while ( character_index < text.length )
-		{
-			character = text.charAt( character_index );
-			
-			if ( character == '\\'
+        
+        while ( character_index < text.length )
+        {
+            character = text.charAt( character_index );
+            
+            if ( character == '\\'
                  && character_index + 1 < text.length )
-			{
-				++character_index;
-				
-				image_text ~= text.charAt( character_index );
-			}
-			else if ( character == ']'
+            {
+                ++character_index;
+                
+                image_text ~= text.charAt( character_index );
+            }
+            else if ( character == ']'
                       && character_index + 1 < text.length
                       && text.charAt( character_index + 1 ) == ']' )
             {
-				character_index += 2;
-				
-				break;
-			}
-			else if ( size_is_parsed )
-			{
-				size_text ~= character;
-			}
-			else
-			{
-				if ( character == ':' )
-				{
-					size_is_parsed = true;
-				}
-				else if ( character == '\"' )
-				{
-					image_text ~= "&quot;";
-				}
-				else
-				{
-					image_text ~= character;
-				}
-			}
-			
-			++character_index;
-		}
+                character_index += 2;
+                
+                break;
+            }
+            else if ( size_is_parsed )
+            {
+                size_text ~= character;
+            }
+            else
+            {
+                if ( character == ':' )
+                {
+                    size_is_parsed = true;
+                }
+                else if ( character == '\"' )
+                {
+                    image_text ~= "&quot;";
+                }
+                else
+                {
+                    image_text ~= character;
+                }
+            }
+            
+            ++character_index;
+        }
         
         if ( size_text == "" )
         {
@@ -1637,9 +1692,9 @@ TOKEN[] GetTokenArray(
             width ~= "%";
         }
         
-		image_text ~= "\" style=\"height:" ~ height ~ ";width:" ~ width ~ "\"/>";
-		
-		return image_text;
+        image_text ~= "\" style=\"height:" ~ height ~ ";width:" ~ width ~ "\"/>";
+        
+        return image_text;
     }
     
     // ~~

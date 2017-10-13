@@ -754,10 +754,59 @@ String.prototype.toUpper = function()
 
 // ~~
 
-function GetTabulationText(
-	)
+function ReplaceTabulations(
+    text
+    )
 {
-	return "        ".slice( 0, TabulationSpaceCount );
+    var
+        character,
+        character_index,
+        replaced_text,
+        line_character_index;
+        
+    if ( text.indexOf( '\t' ) >= 0 )
+    {
+        replaced_text = "";
+
+        line_character_index = 0;
+        
+        for ( character_index = 0;
+              character_index < text.length;
+              ++character_index )
+        {
+            character = text.charAt( character_index );
+            
+            if ( character === '\t' )
+            {
+                do
+                {
+                    replaced_text += ' ';
+                    
+                    ++line_character_index;
+                }
+                while ( ( line_character_index % TabulationSpaceCount ) !== 0 );
+            }
+            else
+            {
+                replaced_text += character;
+                
+                if ( character === '\n' )
+                {
+                    line_character_index = 0;
+                }
+                else
+                {
+                    ++line_character_index;
+                }
+            }
+        }
+        
+        return replaced_text;
+    }
+    else
+    {
+        return text;
+    }
 }
 
 // ~~
@@ -766,14 +815,11 @@ function GetCleanedText(
     text
     )
 {
-    var
-        cleaned_text;
+    cleaned_text = ReplaceTabulations( text ).split( "\r" ).join( "" );
 
-    cleaned_text = text.split( "\r" ).join( "" ).split( "\t" ).join( GetTabulationText() );
-
-    if ( !cleaned_text.endsWith( "\n" ) )
+    if ( !cleaned_text.endsWith( '\n' ) )
     {
-        cleaned_text += "\n";
+        cleaned_text += '\n';
     }
 
     return cleaned_text;
@@ -1248,7 +1294,11 @@ function GetPreprocessedText(
     {
         line = line_array[ line_index ].trim();
 
-        if ( line.startsWith( ":::" ) )
+        if ( line === "" )
+        {
+            line_array[ line_index ] = "";
+        }
+        else if ( line.startsWith( ":::" ) )
         {
             if ( line === ":::c\\"
                  || line === ":::h\\"
@@ -1385,7 +1435,7 @@ function GetTokenArray(
         )
     {
         var
-			character,
+            character,
             height,
             image_text,
             size_array,
@@ -1395,51 +1445,51 @@ function GetTokenArray(
             
         character_index += 2;
 
-		image_text = "<img src=\"";
+        image_text = "<img src=\"";
         size_text = "";
         size_is_parsed = false;
-		
-		while ( character_index < text.length )
-		{
-			character = text.charAt( character_index );
-			
-			if ( character === '\\'
+        
+        while ( character_index < text.length )
+        {
+            character = text.charAt( character_index );
+            
+            if ( character === '\\'
                  && character_index + 1 < text.length )
-			{
-				++character_index;
-				
-				image_text += text.charAt( character_index );
-			}
-			else if ( character === ']'
+            {
+                ++character_index;
+                
+                image_text += text.charAt( character_index );
+            }
+            else if ( character === ']'
                       && character_index + 1 < text.length
                       && text.charAt( character_index + 1 ) === ']' )
             {
-				character_index += 2;
-				
-				break;
-			}
-			else if ( size_is_parsed )
-			{
-				size_text += character;
-			}
-			else
-			{
-				if ( character === ':' )
-				{
-					size_is_parsed = true;
-				}
-				else if ( character === '\"' )
-				{
-					image_text += "&quot;";
-				}
-				else
-				{
-					image_text += character;
-				}
-			}
-			
-			++character_index;
-		}
+                character_index += 2;
+                
+                break;
+            }
+            else if ( size_is_parsed )
+            {
+                size_text += character;
+            }
+            else
+            {
+                if ( character === ':' )
+                {
+                    size_is_parsed = true;
+                }
+                else if ( character === '\"' )
+                {
+                    image_text += "&quot;";
+                }
+                else
+                {
+                    image_text += character;
+                }
+            }
+            
+            ++character_index;
+        }
                 
         if ( size_text === "" )
         {
@@ -1482,9 +1532,9 @@ function GetTokenArray(
             width += "%";
         }
         
-		image_text += "\" style=\"height:" + height + ";width:" + width + "\"/>";
-		
-		return image_text;
+        image_text += "\" style=\"height:" + height + ";width:" + width + "\"/>";
+        
+        return image_text;
     }
 
     // ~~
@@ -2485,14 +2535,11 @@ function ProcessElement(
     )
 {
     var
-        processed_element,
-        text;
-
-    text = element.innerHTML.split( "\t" ).join( GetTabulationText() ).split( "\r" ).join( "" ).replace( / +\n/g, "\n" );
+        processed_element;
 
     processed_element = document.createElement( "article" );
     processed_element.className = element.className;
-    processed_element.innerHTML = GetProcessedText( text );
+    processed_element.innerHTML = GetProcessedText( element.innerHTML );
 
     element.parentNode.replaceChild( processed_element, element );
 }
