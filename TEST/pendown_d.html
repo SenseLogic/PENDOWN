@@ -898,6 +898,8 @@
         character_index<span style="color:#888">,</span>
         line_character_index<span style="color:#888">;</span>
 
+    text <span style="color:#888">=</span> text<span style="color:#888">.</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\t\t"</span><span style="color:#888">,</span> <span style="color:#f00">"\t    "</span> <span style="color:#888">).</span>replace<span style="color:#888">(</span> <span style="color:#f00">"\n\t"</span><span style="color:#888">,</span> <span style="color:#f00">"\n    "</span> <span style="color:#888">);</span>
+
     <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>indexOf<span style="color:#888">(</span> <span style="color:#f00">'\t'</span> <span style="color:#888">)</span> <span style="color:#888">&gt;=</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
     <span style="color:#888">{</span>
         replaced_text <span style="color:#888">=</span> <span style="color:#f00">""</span><span style="color:#888">;</span>

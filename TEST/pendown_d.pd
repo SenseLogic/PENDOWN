@@ -896,6 +896,8 @@
         character_index°,°
         line_character_index°;°
         
+    text °=° text°.°replace°(° ²"\\t\\t"²°,° ²"\\t    "² °).°replace°(° ²"\\n\\t"²°,° ²"\\n    "² °);°
+
     ¹if¹ °(° text°.°indexOf°(° ²'\\t'² °)° °&gt;=° ²0² °)°
     °{°
         replaced_text °=° ²""²°;°
