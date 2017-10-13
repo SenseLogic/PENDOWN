@@ -185,7 +185,7 @@ This is the second line of the paragraph.
 This is @@http://www.senselogic.be a link@@§
 This is <a href="http://www.senselogic.be">a link</a>
 
-This is a link : @@http://www.senselogic.be [[20:../SAMPLE/image.jpg]]@@§
+This is a link : @@http://www.senselogic.be [[../SAMPLE/image.jpg:20]]@@§
 This is a link : <a href="http://www.senselogic.be"><img style="height:20vw;width:auto" src="../SAMPLE/image.jpg"/></a>
 
 This is a link : @@http://www.senselogic.be@@§
@@ -397,23 +397,23 @@ $$%%Second Row%%$$|1                   |2                    |3
 
 These are small images :
 
-[[20:../SAMPLE/image.jpg]][[20:../SAMPLE/image_2.jpg]]§
-[[20:../SAMPLE/image_3.jpg]][[20:../SAMPLE/image_4.jpg]][[20:../SAMPLE/image_5.jpg]]
+[[../SAMPLE/image.jpg:20]][[../SAMPLE/image_2.jpg:20]]§
+[[../SAMPLE/image_3.jpg:20]][[../SAMPLE/image_4.jpg:20]][[../SAMPLE/image_5.jpg:20]]
 
 <img style="height:20vw;width:auto" src="../SAMPLE/image.jpg"/><img style="height:20vw;width:auto" src="../SAMPLE/image_2.jpg"/><br/>
 <img style="height:20vw;width:auto" src="../SAMPLE/image_3.jpg"/><img style="height:20vw;width:auto" src="../SAMPLE/image_4.jpg"/><img style="height:20vw;width:auto" src="../SAMPLE/image_5.jpg"/>
 
 These are medium images :
 
-[[40:../SAMPLE/image_3.jpg]][[40:../SAMPLE/image_4.jpg]]
+[[../SAMPLE/image_3.jpg:40]][[../SAMPLE/image_4.jpg:40]]
 
 <img style="height:40vw;width:auto" src="../SAMPLE/image_3.jpg"/><img style="height:40vw;width:auto" src="../SAMPLE/image_4.jpg"/>
 
 These are large images :
 
 [[../SAMPLE/image.jpg]]§
-[[:../SAMPLE/image_2.jpg]]§
-[[,100:../SAMPLE/image_4.jpg]]
+[[../SAMPLE/image_2.jpg:]]§
+[[../SAMPLE/image_4.jpg:,100]]
 
 <img style="height:auto;width:100%" src="../SAMPLE/image.jpg"/><br/>
 <img style="height:auto;width:100%" src="../SAMPLE/image_2.jpg"/><br/>
@@ -421,7 +421,7 @@ These are large images :
 
 This is a custom image :
 
-[[50vw,50%:../SAMPLE/image_5.jpg]]
+[[../SAMPLE/image_5.jpg:50vw,50%]]
 
 <img style="height:50vw;width:50%" src="../SAMPLE/image_5.jpg"/>
 </xmp>

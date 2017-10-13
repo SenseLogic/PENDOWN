@@ -1382,56 +1382,66 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
     °// ~\~°
     
-    ¹function¹ ParseSize°(°
+    ¹function¹ ParseImage°(°
         °)°
     °{°
         ¹var¹
+            character°,°
             height°,°
+            image_text°,°
             size_array°,°
-            size_character°,°
+            size_is_parsed°,°
             size_text°,°
-            size_character_index°,°
             width°;°
+            
+        character_index °+=° ²2²°;°
 
+        image_text °=° ²"&lt;img src=\\""²°;°
         size_text °=° ²""²°;°
+        size_is_parsed °=° ²false²°;°
         
-        ¹for¹ °(° size_character_index °=° character_index°;°
-              size_character_index °&lt;° text°.°length°;°
-              °+\+°size_character_index °)°
+        ¹while¹ °(° character_index °&lt;° text°.°length °)°
         °{°
-            ¹if¹ °(° text°.°charAt°(° size_character_index °)° °===° ²':'² °)°
+            character °=° text°.°charAt°(° character_index °);°
+            
+            ¹if¹ °(° character °===° ²'\\\\'²
+                 °&&° character_index °+° ²1² °&lt;° text°.°length °)°
             °{°
-                character_index °=° size_character_index °+° ²1²°;°
+                °+\+°character_index°;°
+                
+                image_text °+=° text°.°charAt°(° character_index °);°
+            °}°
+            ¹else¹ ¹if¹ °(° character °===° ²']'²
+                      °&&° character_index °+° ²1² °&lt;° text°.°length
+                      °&&° text°.°charAt°(° character_index °+° ²1² °)° °===° ²']'² °)°
+            °{°
+                character_index °+=° ²2²°;°
                 
                 ¹break¹°;°
             °}°
-            ¹else¹ 
+            ¹else¹ ¹if¹ °(° size_is_parsed °)°
             °{°
-                size_character °=° text°.°charAt°(° size_character_index °);°
-                
-                ¹if¹ °(° size_character °===° ²'\\\\'²
-                     °&&° size_character_index °+° ²1² °&lt;° text°.°length °)°
+                size_text °+=° character°;°
+            °}°
+            ¹else¹
+            °{°
+                ¹if¹ °(° character °===° ²':'² °)°
                 °{°
-                    °+\+°size_character_index°;°
-                    
-                    size_text °+=° text°.°charAt°(° size_character_index °);°
+                    size_is_parsed °=° ²true²°;°
+                °}°
+                ¹else¹ ¹if¹ °(° character °===° ²'\\"'² °)°
+                °{°
+                    image_text °+=° ²"&quot;"²°;°
                 °}°
                 ¹else¹
                 °{°
-                    ¹if¹ °(° size_character °===° ²']'²
-                         °&&° size_character_index °+° ²1² °&lt;° text°.°length
-                         °&&° text°.°charAt°(° size_character_index °+° ²1² °)° °===° ²']'² °)°
-                    °{°
-                        size_text °=° ²""²°;°
-                        
-                        ¹break¹°;°
-                    °}°
-                    
-                    size_text °+=° size_character°;°
+                    image_text °+=° character°;°
                 °}°
             °}°
+            
+            °+\+°character_index°;°
         °}°
-        
+                
         ¹if¹ °(° size_text °===° ²""² °)°
         °{°
             size_text °=° ²",100"²°;°
@@ -1473,7 +1483,9 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             width °+=° ²"%"²°;°
         °}°
         
-        ¹return¹ ²"style=\\"height:"² °+° height °+° ²";width:"² °+° width °+° ²"\\""²°;°
+        image_text °+=° ²"\\" style=\\"height:"² °+° height °+° ²";width:"² °+° width °+° ²"\\"/&gt;"²°;°
+        
+        ¹return¹ image_text°;°
     °}°
 
     °// ~\~°
@@ -1649,15 +1661,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"[\["² °)°
         °{°
-            character_index °+=° ²2²°;°
-            
-            token°.°Text °=° ²"&lt;img "² °+° ParseSize°()° °+° ²" src=\\""²°;°
-        °}°
-        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"]\]"² °)°
-        °{°
-            token°.°Text °=° ²"\\"/&gt;"²°;°
-
-            character_index °+=° ²2²°;°
+            token°.°Text °=° ParseImage°();°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °===° ²":\:\:"² °)°
         °{°

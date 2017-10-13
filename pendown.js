@@ -1381,56 +1381,66 @@ function GetTokenArray(
 
     // ~~
     
-    function ParseSize(
+    function ParseImage(
         )
     {
         var
+			character,
             height,
+            image_text,
             size_array,
-            size_character,
+            size_is_parsed,
             size_text,
-            size_character_index,
             width;
+            
+        character_index += 2;
 
+		image_text = "<img src=\"";
         size_text = "";
-        
-        for ( size_character_index = character_index;
-              size_character_index < text.length;
-              ++size_character_index )
-        {
-            if ( text.charAt( size_character_index ) === ':' )
+        size_is_parsed = false;
+		
+		while ( character_index < text.length )
+		{
+			character = text.charAt( character_index );
+			
+			if ( character === '\\'
+                 && character_index + 1 < text.length )
+			{
+				++character_index;
+				
+				image_text += text.charAt( character_index );
+			}
+			else if ( character === ']'
+                      && character_index + 1 < text.length
+                      && text.charAt( character_index + 1 ) === ']' )
             {
-                character_index = size_character_index + 1;
+				character_index += 2;
+				
+				break;
+			}
+			else if ( size_is_parsed )
+			{
+				size_text += character;
+			}
+			else
+			{
+				if ( character === ':' )
+				{
+					size_is_parsed = true;
+				}
+				else if ( character === '\"' )
+				{
+					image_text += "&quot;";
+				}
+				else
+				{
+					image_text += character;
+				}
+			}
+			
+			++character_index;
+		}
                 
-                break;
-            }
-            else 
-            {
-                size_character = text.charAt( size_character_index );
-                
-                if ( size_character === '\\'
-                     && size_character_index + 1 < text.length )
-                {
-                    ++size_character_index;
-                    
-                    size_text += text.charAt( size_character_index );
-                }
-                else
-                {
-                    if ( size_character === ']'
-                         && size_character_index + 1 < text.length
-                         && text.charAt( size_character_index + 1 ) === ']' )
-                    {
-                        size_text = "";
-                        
-                        break;
-                    }
-                    
-                    size_text += size_character;
-                }
-            }
-        }
-        
         if ( size_text === "" )
         {
             size_text = ",100";
@@ -1472,7 +1482,9 @@ function GetTokenArray(
             width += "%";
         }
         
-        return "style=\"height:" + height + ";width:" + width + "\"";
+		image_text += "\" style=\"height:" + height + ";width:" + width + "\"/>";
+		
+		return image_text;
     }
 
     // ~~
@@ -1648,15 +1660,7 @@ function GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 2 ) === "[[" )
         {
-            character_index += 2;
-            
-            token.Text = "<img " + ParseSize() + " src=\"";
-        }
-        else if ( text.slice( character_index, character_index + 2 ) === "]]" )
-        {
-            token.Text = "\"/>";
-
-            character_index += 2;
+            token.Text = ParseImage();
         }
         else if ( text.slice( character_index, character_index + 3 ) === ":::" )
         {
