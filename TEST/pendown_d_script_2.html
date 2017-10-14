@@ -762,10 +762,17 @@
 
 ²bool²
     ColorizeOptionIsEnabled°,°
-    LoadableOptionIsEnabled°,°
+    PageOptionIsEnabled°,°
     ProcessOptionIsEnabled°,°
     ScriptOptionIsEnabled°,°
     StyleOptionIsEnabled°;°
+²double²
+    PageBottomMargin°,°
+    PageHeight°,°
+    PageLeftMargin°,°
+    PageRightMargin°,°
+    PageTopMargin°,°
+    PageWidth°;°
 ²long²
     IndentationSpaceCount°,°
     TabulationSpaceCount°;°
@@ -1679,9 +1686,12 @@
         °}°
         ¹else¹ ¹if¹ °(° °\!°HasUnit°(° height °)° °)°
         °{°
-            ¹if¹ °(° LoadableOptionIsEnabled °)°
+            ¹if¹ °(° PageOptionIsEnabled °)°
             °{°
-                height °=° °(° height°.°to°\!°²double²°()° °*° ²2.0² °/° ²3.0² °).°to°\!°²dstring²°()° °~° ²"%"²°;°
+                height 
+                    °=° °(° height°.°to°\!°²double²°()° 
+                        °*° °(° PageWidth °-° PageLeftMargin °-° PageRightMargin °)° 
+                        °/° °(° PageHeight °-° PageTopMargin °-° PageBottomMargin °)° °).°to°\!°²dstring²°()° °~° ²"%"²°;°
             °}°
             ¹else¹
             °{°
@@ -2734,12 +2744,18 @@
 
     ColorizeOptionIsEnabled °=° ²false²°;°
     ProcessOptionIsEnabled °=° ²false²°;°
-    LoadableOptionIsEnabled °=° ²false²°;°
     ScriptOptionIsEnabled °=° ²false²°;°
     StyleOptionIsEnabled °=° ²false²°;°
     LanguageName °=° ²""²°;°
     TabulationSpaceCount °=° ²4²°;°
     IndentationSpaceCount °=° ²4²°;°
+    PageOptionIsEnabled °=° ²false²°;°
+    PageWidth °=° ²21.0²°;°
+    PageHeight °=° ²29.7²°;°
+    PageLeftMargin °=° ²2²°;°
+    PageRightMargin °=° ²1²°;°
+    PageTopMargin °=° ²1²°;°
+    PageBottomMargin °=° ²1²°;°
     ScriptFolderPath °=° ²""²°;°
     StyleFolderPath °=° ²""²°;°
 
@@ -2757,10 +2773,6 @@
         ¹else¹ ¹if¹ °(° option °==° ²"-\-process"² °)°
         °{°
             ProcessOptionIsEnabled °=° ²true²°;°
-        °}°
-        ¹else¹ ¹if¹ °(° option °==° ²"-\-loadable"² °)°
-        °{°
-            LoadableOptionIsEnabled °=° ²true²°;°
         °}°
         ¹else¹ ¹if¹ °(° option °==° ²"-\-script"² °)°
         °{°
@@ -2791,6 +2803,20 @@
 
             argument_array °=° argument_array°[° ²1² °..° °$° °];°
         °}°
+        ¹else¹ ¹if¹ °(° option °==° ²"-\-page"²
+                  °&&° argument_array°.°length °&gt;=° ²6² °)°
+        °{°
+            PageOptionIsEnabled °=° ²true²°;°
+            
+            PageWidth °=° argument_array°[° ²0² °].°to°\!°²double²°();°
+            PageHeight °=° argument_array°[° ²1² °].°to°\!°²double²°();°
+            PageLeftMargin °=° argument_array°[° ²2² °].°to°\!°²double²°();°
+            PageRightMargin °=° argument_array°[° ²3² °].°to°\!°²double²°();°
+            PageTopMargin °=° argument_array°[° ²4² °].°to°\!°²double²°();°
+            PageBottomMargin °=° argument_array°[° ²5² °].°to°\!°²double²°();°
+
+            argument_array °=° argument_array°[° ²6² °..° °$° °];°
+        °}°
         ¹else¹ ¹if¹ °(° option °==° ²"-\-path"²
                   °&&° argument_array°.°length °&gt;=° ²1²
                   °&&° argument_array°[° ²0² °].°endsWith°(° ²'/'² °)° °)°
@@ -2820,12 +2846,12 @@
         writeln°(° ²"Options :"² °);°
         writeln°(° ²"    -\-colorize"² °);°
         writeln°(° ²"    -\-process"² °);°
-        writeln°(° ²"    -\-loadable"² °);°
         writeln°(° ²"    -\-script"² °);°
         writeln°(° ²"    -\-style"² °);°
         writeln°(° ²"    -\-language c|c+\+|cpp|c\#|cs|d|java|js|ts"² °);°
         writeln°(° ²"    -\-tabulation 4"² °);°
         writeln°(° ²"    -\-indentation 4"² °);°
+        writeln°(° ²"    -\-page 21 29.7 2 1 1 1"² °);°
         writeln°(° ²"    -\-path PENDOWN_FOLDER/"² °);°
         writeln°(° ²"Examples :"² °);°
         writeln°(° ²"    pendown -\-process -\-style -\-path ../ document.pd document.html"² °);°

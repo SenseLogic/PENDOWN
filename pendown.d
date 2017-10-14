@@ -758,10 +758,17 @@ class TOKEN
 
 bool
     ColorizeOptionIsEnabled,
-    LoadableOptionIsEnabled,
+    PageOptionIsEnabled,
     ProcessOptionIsEnabled,
     ScriptOptionIsEnabled,
     StyleOptionIsEnabled;
+double
+    PageBottomMargin,
+    PageHeight,
+    PageLeftMargin,
+    PageRightMargin,
+    PageTopMargin,
+    PageWidth;
 long
     IndentationSpaceCount,
     TabulationSpaceCount;
@@ -1675,9 +1682,12 @@ TOKEN[] GetTokenArray(
         }
         else if ( !HasUnit( height ) )
         {
-            if ( LoadableOptionIsEnabled )
+            if ( PageOptionIsEnabled )
             {
-                height = ( height.to!double() * 2.0 / 3.0 ).to!dstring() ~ "%";
+                height 
+                    = ( height.to!double() 
+                        * ( PageWidth - PageLeftMargin - PageRightMargin ) 
+                        / ( PageHeight - PageTopMargin - PageBottomMargin ) ).to!dstring() ~ "%";
             }
             else
             {
@@ -2730,12 +2740,18 @@ void main(
 
     ColorizeOptionIsEnabled = false;
     ProcessOptionIsEnabled = false;
-    LoadableOptionIsEnabled = false;
     ScriptOptionIsEnabled = false;
     StyleOptionIsEnabled = false;
     LanguageName = "";
     TabulationSpaceCount = 4;
     IndentationSpaceCount = 4;
+    PageOptionIsEnabled = false;
+    PageWidth = 21.0;
+    PageHeight = 29.7;
+    PageLeftMargin = 2;
+    PageRightMargin = 1;
+    PageTopMargin = 1;
+    PageBottomMargin = 1;
     ScriptFolderPath = "";
     StyleFolderPath = "";
 
@@ -2753,10 +2769,6 @@ void main(
         else if ( option == "--process" )
         {
             ProcessOptionIsEnabled = true;
-        }
-        else if ( option == "--loadable" )
-        {
-            LoadableOptionIsEnabled = true;
         }
         else if ( option == "--script" )
         {
@@ -2787,6 +2799,20 @@ void main(
 
             argument_array = argument_array[ 1 .. $ ];
         }
+        else if ( option == "--page"
+                  && argument_array.length >= 6 )
+        {
+            PageOptionIsEnabled = true;
+            
+            PageWidth = argument_array[ 0 ].to!double();
+            PageHeight = argument_array[ 1 ].to!double();
+            PageLeftMargin = argument_array[ 2 ].to!double();
+            PageRightMargin = argument_array[ 3 ].to!double();
+            PageTopMargin = argument_array[ 4 ].to!double();
+            PageBottomMargin = argument_array[ 5 ].to!double();
+
+            argument_array = argument_array[ 6 .. $ ];
+        }
         else if ( option == "--path"
                   && argument_array.length >= 1
                   && argument_array[ 0 ].endsWith( '/' ) )
@@ -2816,12 +2842,12 @@ void main(
         writeln( "Options :" );
         writeln( "    --colorize" );
         writeln( "    --process" );
-        writeln( "    --loadable" );
         writeln( "    --script" );
         writeln( "    --style" );
         writeln( "    --language c|c++|cpp|c#|cs|d|java|js|ts" );
         writeln( "    --tabulation 4" );
         writeln( "    --indentation 4" );
+        writeln( "    --page 21 29.7 2 1 1 1" );
         writeln( "    --path PENDOWN_FOLDER/" );
         writeln( "Examples :" );
         writeln( "    pendown --process --style --path ../ document.pd document.html" );

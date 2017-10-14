@@ -8,9 +8,9 @@ Lightweight markup for colored documents.
 
 * Simple, concise and consistent syntax to quickly write colored documents.
 * Complete : styles, colors, alignments, page breaks, links, lists, code blocks, tables, quotes, frames and images.
-* Fast conversion to HTML by a standalone command line tool or by a web browser script.
-* The generated files can be loaded in LibreOffice Writer.
 * Source code syntax highlighting.
+* Fast conversion to HTML by a standalone command line tool or by a web browser script.
+* The generated files can be imported in LibreOffice Writer.
 
 ## Getting Started
 
@@ -337,6 +337,7 @@ pendown [options] input_file output_file
 --language c|c++|cpp|c#|cs|d|java|js|ts : set the source code language
 --tabulation 4 : set the text tabulation space count
 --indentation 4 : set the list indentation space count
+--page 21 29.7 2 1 1 1 : resize the images for a LibreOffice Writer document of this page width, height, left margin, right margin, top margin and bottom margin
 --path PENDOWN_FOLDER/ : set the path of the imported Pendown files 
 ``` 
 
@@ -349,10 +350,10 @@ pendown --process --style --path ../ document.pd document.html
 Converts a Pendown file to a HTML file which imports the Pendown style file.
 
 ```bash
-pendown --process --loadable --style --path ../ document.pd document.html
+pendown --process --page 18 27.7 --style --path ../ document.pd document.html
 ```
 
-Converts a Pendown file to a HTML file which can be loaded in LibreOffice Writer.
+Converts a Pendown file to a HTML file which can be imported in LibreOffice Writer
 
 ```bash
 pendown --script --style --path ../ document.pd document.html
