@@ -196,12 +196,12 @@ Four spaces per level.
 *   List
     *   Sub-list
     *   Sub-list
-    #   Numbered sub-list
-    #   Numbered sub-list
         #   Numbered sub-list
         #   Numbered sub-list
-    #   Numbered
-        sub-list
+            #   Numbered sub-list
+            #   Numbered sub-list
+        #   Numbered
+            sub-list
 *   List§
     ...
 
