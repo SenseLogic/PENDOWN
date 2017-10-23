@@ -22,11 +22,21 @@ You will see that all its text is written using Pendown tags, which are automati
 <meta charset="utf8"/>
 <link rel="stylesheet" href="../pendown.css">
 <xmp>
-! Title
-
 **Pendown** tags are automatically converted into **HTML** tags when the file is opened in a web browser.
 
 ---
+
+! Huge Title
+
+!! Big title
+
+!!! Medium title
+
+!!!! Small title
+
+!!!!! Tiny title
+
+!!!!!! Micro title
 
 !! Line break
 
