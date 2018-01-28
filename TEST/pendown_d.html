@@ -1584,6 +1584,7 @@
         url<span style="color:#888">;</span>
     <span style="color:#f00">long</span>
         character_index<span style="color:#888">,</span>
+        table_count<span style="color:#888">,</span>
         token_character_index<span style="color:#888">;</span>
     <span style="color:#f80">TOKEN</span>
         closing_token<span style="color:#888">,</span>
@@ -1777,6 +1778,7 @@
     it_is_in_blue_span <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     it_is_in_a <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
 
+    table_count <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
     character_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
 
     <span style="color:#f4a">while</span> <span style="color:#888">(</span> character_index <span style="color:#888">&lt;</span> text<span style="color:#888">.</span>length <span style="color:#888">)</span>
@@ -1882,6 +1884,44 @@
 
             <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
         <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"[[["</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            <span style="color:#888">++</span>table_count<span style="color:#888">;</span>
+
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;table&gt;"</span><span style="color:#888">;</span>
+
+            character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">2</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"(("</span>
+                  <span style="color:#888">&&</span> table_count <span style="color:#888">&gt;</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;tr&gt;&lt;td&gt;"</span><span style="color:#888">;</span>
+
+            character_index <span style="color:#888">+=</span> <span style="color:#f00">2</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>charAt<span style="color:#888">(</span> character_index <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">'|'</span>
+                  <span style="color:#888">&&</span> table_count <span style="color:#888">&gt;</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/td&gt;&lt;td&gt;"</span><span style="color:#888">;</span>
+
+            <span style="color:#888">++</span>character_index<span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">2</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"))"</span>
+                  <span style="color:#888">&&</span> table_count <span style="color:#888">&gt;</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/td&gt;&lt;/tr&gt;"</span><span style="color:#888">;</span>
+
+            character_index <span style="color:#888">+=</span> <span style="color:#f00">2</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
+        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"]]]"</span>
+                  <span style="color:#888">&&</span> table_count <span style="color:#888">&gt;</span> <span style="color:#f00">0</span> <span style="color:#888">)</span>
+        <span style="color:#888">{</span>
+            <span style="color:#888">--</span>table_count<span style="color:#888">;</span>
+
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/table&gt;"</span><span style="color:#888">;</span>
+
+            character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
+        <span style="color:#888">}</span>
         <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">2</span> <span style="color:#888">)</span> <span style="color:#888">==</span> <span style="color:#f00">"[["</span> <span style="color:#888">)</span>
         <span style="color:#888">{</span>
             token<span style="color:#888">.</span>Text <span style="color:#888">=</span> ParseImage<span style="color:#888">();</span>
@@ -1898,7 +1938,7 @@
         <span style="color:#888">{</span>
             it_is_in_table <span style="color:#888">=</span> <span style="color:#888">!</span>it_is_in_table<span style="color:#888">;</span>
 
-            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> it_is_in_table <span style="color:#888">?</span> <span style="color:#f00">"&lt;table&gt;"</span> <span style="color:#888">:</span> <span style="color:#f00">"&lt;/table&gt;"</span><span style="color:#888">;</span>
+            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> it_is_in_table <span style="color:#888">?</span> <span style="color:#f00">"&lt;TABLE&gt;"</span> <span style="color:#888">:</span> <span style="color:#f00">"&lt;/TABLE&gt;"</span><span style="color:#888">;</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
@@ -2548,8 +2588,10 @@
 
         <span style="color:#f4a">if</span> <span style="color:#888">(</span> it_is_in_table <span style="color:#888">)</span>
         <span style="color:#888">{</span>
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"&lt;/table&gt;"</span> <span style="color:#888">)</span>
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"&lt;/TABLE&gt;"</span> <span style="color:#888">)</span>
             <span style="color:#888">{</span>
+                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/table&gt;"</span><span style="color:#888">;</span>
+
                 it_is_in_table <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
             <span style="color:#888">}</span>
             <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>StartsLine <span style="color:#888">)</span>
@@ -2581,8 +2623,10 @@
         <span style="color:#888">}</span>
         <span style="color:#f4a">else</span>
         <span style="color:#888">{</span>
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"&lt;table&gt;"</span> <span style="color:#888">)</span>
+            <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text <span style="color:#888">==</span> <span style="color:#f00">"&lt;TABLE&gt;"</span> <span style="color:#888">)</span>
             <span style="color:#888">{</span>
+                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;table&gt;"</span><span style="color:#888">;</span>
+
                 it_is_in_table <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
             <span style="color:#888">}</span>
         <span style="color:#888">}</span>

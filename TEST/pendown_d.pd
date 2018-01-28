@@ -1582,6 +1582,7 @@
         url°;°
     ²long²
         character_index°,°
+        table_count°,°
         token_character_index°;°
     ²²TOKEN²²
         closing_token°,°
@@ -1775,6 +1776,7 @@
     it_is_in_blue_span °=° ²false²°;°
     it_is_in_a °=° ²false²°;°
 
+    table_count °=° ²0²°;°
     character_index °=° ²0²°;°
 
     ¹while¹ °(° character_index °&lt;° text°.°length °)°
@@ -1880,6 +1882,44 @@
 
             °+\+°character_index°;°
         °}°
+        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"[\[\["² °)°
+        °{°
+            °+\+°table_count°;°
+            
+            token°.°Text °=° ²"&lt;table&gt;"²°;°
+            
+            character_index °+=° ²3²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"(("²
+                  °&&° table_count °&gt;° ²0² °)°
+        °{°
+            token°.°Text °=° ²"&lt;tr&gt;&lt;td&gt;"²°;°
+            
+            character_index °+=° ²2²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °==° ²'|'²
+                  °&&° table_count °&gt;° ²0² °)°
+        °{°
+            token°.°Text °=° ²"&lt;/td&gt;&lt;td&gt;"²°;°
+            
+            °+\+°character_index°;°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"))"²
+                  °&&° table_count °&gt;° ²0² °)°
+        °{°
+            token°.°Text °=° ²"&lt;/td&gt;&lt;/tr&gt;"²°;°
+            
+            character_index °+=° ²2²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"]\]\]"²
+                  °&&° table_count °&gt;° ²0² °)°
+        °{°
+            °-\-°table_count°;°
+            
+            token°.°Text °=° ²"&lt;/table&gt;"²°;°
+            
+            character_index °+=° ²3²°;°
+        °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"[\["² °)°
         °{°
             token°.°Text °=° ParseImage°();°
@@ -1896,7 +1936,7 @@
         °{°
             it_is_in_table °=° °\!°it_is_in_table°;°
 
-            token°.°Text °=° it_is_in_table °?° ²"&lt;table&gt;"² °:° ²"&lt;/table&gt;"²°;°
+            token°.°Text °=° it_is_in_table °?° ²"&lt;TABLE&gt;"² °:° ²"&lt;/TABLE&gt;"²°;°
 
             character_index °+=° ²3²°;°
         °}°
@@ -2546,8 +2586,10 @@
 
         ¹if¹ °(° it_is_in_table °)°
         °{°
-            ¹if¹ °(° token°.°Text °==° ²"&lt;/table&gt;"² °)°
+            ¹if¹ °(° token°.°Text °==° ²"&lt;/TABLE&gt;"² °)°
             °{°
+                token°.°Text °=° ²"&lt;/table&gt;"²°;°
+                
                 it_is_in_table °=° ²false²°;°
             °}°
             ¹else¹ ¹if¹ °(° token°.°StartsLine °)°
@@ -2579,8 +2621,10 @@
         °}°
         ¹else¹
         °{°
-            ¹if¹ °(° token°.°Text °==° ²"&lt;table&gt;"² °)°
+            ¹if¹ °(° token°.°Text °==° ²"&lt;TABLE&gt;"² °)°
             °{°
+                token°.°Text °=° ²"&lt;table&gt;"²°;°
+                
                 it_is_in_table °=° ²true²°;°
             °}°
         °}°

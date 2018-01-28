@@ -116,7 +116,7 @@ Block
 {{{cfe\
 Block
 }}}
-    
+
 !! Box
 
 ###
@@ -168,6 +168,13 @@ Orange|1     |2      |3
 Banana|1     |2      |3
 %%%
 
+[[[
+((      |Monday|Tuesday|Wednesday))
+((Apple |1     |2      |3        ))
+((Orange|1     |2      |3        ))
+((Banana|1     |2      |3        ))
+]]]
+
 !! Code
 
 :::
@@ -190,10 +197,10 @@ Banana|1     |2      |3
 
 using namespace std;
 
-int main() 
+int main()
 {
     cout << "Hello world!";
-    
+
     return 0;
 }
 :::

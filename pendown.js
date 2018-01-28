@@ -1425,6 +1425,7 @@ function GetTokenArray(
         it_is_in_sub,
         it_is_in_table,
         it_is_in_u,
+        table_count,
         token,
         token_array,
         token_character_index,
@@ -1605,6 +1606,7 @@ function GetTokenArray(
     it_is_in_blue_span = false;
     it_is_in_a = false;
 
+    table_count = 0;
     character_index = 0;
 
     while ( character_index < text.length )
@@ -1710,6 +1712,44 @@ function GetTokenArray(
 
             ++character_index;
         }
+        else if ( text.slice( character_index, character_index + 3 ) === "[[[" )
+        {
+            ++table_count;
+
+            token.Text = "<table>";
+
+            character_index += 3;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) === "(("
+                  && table_count > 0 )
+        {
+            token.Text = "<tr><td>";
+
+            character_index += 2;
+        }
+        else if ( text.charAt( character_index ) === '|'
+                  && table_count > 0 )
+        {
+            token.Text = "</td><td>";
+
+            ++character_index;
+        }
+        else if ( text.slice( character_index, character_index + 2 ) === "))"
+                  && table_count > 0 )
+        {
+            token.Text = "</td></tr>";
+
+            character_index += 2;
+        }
+        else if ( text.slice( character_index, character_index + 3 ) === "]]]"
+                  && table_count > 0 )
+        {
+            --table_count;
+
+            token.Text = "</table>";
+
+            character_index += 3;
+        }
         else if ( text.slice( character_index, character_index + 2 ) === "[[" )
         {
             token.Text = ParseImage();
@@ -1726,7 +1766,7 @@ function GetTokenArray(
         {
             it_is_in_table = !it_is_in_table;
 
-            token.Text = it_is_in_table ? "<table>" : "</table>";
+            token.Text = it_is_in_table ? "<TABLE>" : "</TABLE>";
 
             character_index += 3;
         }
@@ -2390,8 +2430,10 @@ function MakeTables(
 
         if ( it_is_in_table )
         {
-            if ( token.Text === "</table>" )
+            if ( token.Text === "</TABLE>" )
             {
+                token.Text = "</table>";
+                
                 it_is_in_table = false;
             }
             else if ( token.StartsLine )
@@ -2423,8 +2465,10 @@ function MakeTables(
         }
         else
         {
-            if ( token.Text === "<table>" )
+            if ( token.Text === "<TABLE>" )
             {
+                token.Text = "<table>";
+                
                 it_is_in_table = true;
             }
         }

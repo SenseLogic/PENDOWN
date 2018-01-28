@@ -190,7 +190,7 @@ This is a link : <a href="http://www.senselogic.be"><img style="height:20vw;widt
 
 This is a link : @@http://www.senselogic.be@@§
 This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
-    
+
 ---
 
 :::
@@ -226,10 +226,10 @@ This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
 
 using namespace std;
 
-int main() 
+int main()
 {
     cout << "Hello world!";
-    
+
     return 0;
 }
 :::
@@ -238,10 +238,17 @@ int main()
 
 %%%
                   |<<**First§Column**<<|$$**Second§Column**$$|>>**Third§Column**>>
-<<%%First Row%%<< |1                   |2                    |3        
-$$%%Second Row%%$$|1                   |2                    |3        
->>%%Third Row%%>> |1                   |2                    |3       
+<<%%First Row%%<< |1                   |2                    |3
+$$%%Second Row%%$$|1                   |2                    |3
+>>%%Third Row%%>> |1                   |2                    |3
 %%%
+
+[[[
+((                  |<<**First§Column**<<|$$**Second§Column**$$|>>**Third§Column**>>))
+((<<%%First Row%%<< |1                   |2                    |3))
+(($$%%Second Row%%$$|1                   |2                    |3))
+((>>%%Third Row%%>> |1                   |2                    |3))
+]]]
 
 <table>
     <tr>
@@ -328,7 +335,7 @@ $$%%Second Row%%$$|1                   |2                    |3
             </li>
             <li>
                 Sub-list<br/>
-                ...                        
+                ...
                 <ol>
                     <li>
                         Numbered sub-list<br/>
@@ -374,7 +381,7 @@ $$%%Second Row%%$$|1                   |2                    |3
             </li>
             <li>
                 Numbered sub-list<br/>
-                ...                        
+                ...
                 <ul>
                     <li>
                         Sub-list<br/>
