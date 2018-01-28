@@ -1573,7 +1573,6 @@
         it_is_in_strike°,°
         it_is_in_sup°,°
         it_is_in_sub°,°
-        it_is_in_table°,°
         it_is_in_u°,°
         token_starts_line°;°
     ²dstring²
@@ -1752,7 +1751,6 @@
     closing_tag °=° ²""²°;°
 
     it_is_in_pre °=° ²false²°;°
-    it_is_in_table °=° ²false²°;°
     it_is_in_blockquote °=° ²false²°;°
     it_is_in_frame_div °=° ²false²°;°
     it_is_in_box_div °=° ²false²°;°
@@ -1929,14 +1927,6 @@
             it_is_in_pre °=° °\!°it_is_in_pre°;°
 
             token°.°Text °=° it_is_in_pre °?° ²"&lt;pre&gt;"² °:° ²"&lt;/pre&gt;"²°;°
-
-            character_index °+=° ²3²°;°
-        °}°
-        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"%\%\%"² °)°
-        °{°
-            it_is_in_table °=° °\!°it_is_in_table°;°
-
-            token°.°Text °=° it_is_in_table °?° ²"&lt;TABLE&gt;"² °:° ²"&lt;/TABLE&gt;"²°;°
 
             character_index °+=° ²3²°;°
         °}°
@@ -2563,76 +2553,6 @@
 
 °// ~\~°
 
-²void² MakeTables°(°
-    ref ²²TOKEN²²°[]° token_array
-    °)°
-°{°
-    ²bool²
-        it_is_in_row°,°
-        it_is_in_table°;°
-    ²long²
-        token_index°;°
-    ²²TOKEN²²
-        token°;°
-
-    it_is_in_table °=° ²false²°;°
-    it_is_in_row °=° ²false²°;°
-
-    ¹for¹ °(° token_index °=° ²0²°;°
-          token_index °&lt;° token_array°.°length°;°
-          °+\+°token_index °)°
-    °{°
-        token °=° token_array°[° token_index °];°
-
-        ¹if¹ °(° it_is_in_table °)°
-        °{°
-            ¹if¹ °(° token°.°Text °==° ²"&lt;/TABLE&gt;"² °)°
-            °{°
-                token°.°Text °=° ²"&lt;/table&gt;"²°;°
-                
-                it_is_in_table °=° ²false²°;°
-            °}°
-            ¹else¹ ¹if¹ °(° token°.°StartsLine °)°
-            °{°
-                token °=° ¹new¹ ²²TOKEN²²°;°
-                token°.°Text °=° ²"&lt;tr&gt;&lt;td&gt;"²°;°
-                token_array°.°splice°(° token_index°,° ²0²°,° token °);°
-                °+\+°token_index°;°
-
-                it_is_in_row °=° ²true²°;°
-            °}°
-            ¹else¹ ¹if¹ °(° token°.°Text °==° ²"|"²
-                      °&&° °\!°token°.°IsEscaped °)°
-            °{°
-                token°.°Text °=° ²"&lt;/td&gt;&lt;td&gt;"²°;°
-            °}°
-            ¹else¹ ¹if¹ °(° token°.°Text °==° ²"\\n"² °)°
-            °{°
-                ¹if¹ °(° it_is_in_row °)°
-                °{°
-                    token °=° ¹new¹ ²²TOKEN²²°;°
-                    token°.°Text °=° ²"&lt;/td&gt;&lt;/tr&gt;"²°;°
-                    token_array°.°splice°(° token_index°,° ²0²°,° token °);°
-                    °+\+°token_index°;°
-
-                    it_is_in_row °=° ²false²°;°
-                °}°
-            °}°
-        °}°
-        ¹else¹
-        °{°
-            ¹if¹ °(° token°.°Text °==° ²"&lt;TABLE&gt;"² °)°
-            °{°
-                token°.°Text °=° ²"&lt;table&gt;"²°;°
-                
-                it_is_in_table °=° ²true²°;°
-            °}°
-        °}°
-    °}°
-°}°
-
-°// ~\~°
-
 ²void² MakeBreaks°(°
     ref ²²TOKEN²²°[]° token_array
     °)°
@@ -2726,7 +2646,6 @@
 
     MakeLists°(° token_array °);°
     MakeParagraphs°(° token_array °);°
-    MakeTables°(° token_array °);°
     MakeBreaks°(° token_array °);°
 
     ¹return¹ GetText°(° token_array °);°

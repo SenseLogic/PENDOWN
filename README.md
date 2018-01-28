@@ -161,13 +161,6 @@ Quote
 
 !! Table
 
-%%%
-      |Monday|Tuesday|Wednesday
-Apple |1     |2      |3
-Orange|1     |2      |3
-Banana|1     |2      |3
-%%%
-
 [[[
 ((      |Monday|Tuesday|Wednesday))
 ((Apple |1     |2      |3        ))
@@ -399,11 +392,11 @@ Converts a D source code file to a HTML file which imports the Pendown script an
 ## Limitations
 
 * Lists are not processed inside preformatted blocks.
-* The Pendown text can't contain the string `</xmp>` when it is converted by the web browser script.
+* The Pendown text can't contain `<xmp>` tags if it is converted to HTML by the web browser script.
 
 ## Version
 
-1.0
+2.0
 
 ## Author
 

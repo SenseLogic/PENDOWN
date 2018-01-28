@@ -1426,7 +1426,6 @@ String<span style="color:#888">.</span>prototype<span style="color:#888">.</span
         it_is_in_strike<span style="color:#888">,</span>
         it_is_in_sup<span style="color:#888">,</span>
         it_is_in_sub<span style="color:#888">,</span>
-        it_is_in_table<span style="color:#888">,</span>
         it_is_in_u<span style="color:#888">,</span>
         table_count<span style="color:#888">,</span>
         token<span style="color:#888">,</span>
@@ -1585,7 +1584,6 @@ String<span style="color:#888">.</span>prototype<span style="color:#888">.</span
 
     it_breaks_page <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     it_is_in_pre <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
-    it_is_in_table <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     it_is_in_blockquote <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     it_is_in_frame_div <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
     it_is_in_box_div <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
@@ -1762,14 +1760,6 @@ String<span style="color:#888">.</span>prototype<span style="color:#888">.</span
             it_is_in_pre <span style="color:#888">=</span> <span style="color:#888">!</span>it_is_in_pre<span style="color:#888">;</span>
 
             token<span style="color:#888">.</span>Text <span style="color:#888">=</span> it_is_in_pre <span style="color:#888">?</span> <span style="color:#f00">"&lt;pre&gt;"</span> <span style="color:#888">:</span> <span style="color:#f00">"&lt;/pre&gt;"</span><span style="color:#888">;</span>
-
-            character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
-        <span style="color:#888">}</span>
-        <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> text<span style="color:#888">.</span>slice<span style="color:#888">(</span> character_index<span style="color:#888">,</span> character_index <span style="color:#888">+</span> <span style="color:#f00">3</span> <span style="color:#888">)</span> <span style="color:#888">===</span> <span style="color:#f00">"%%%"</span> <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            it_is_in_table <span style="color:#888">=</span> <span style="color:#888">!</span>it_is_in_table<span style="color:#888">;</span>
-
-            token<span style="color:#888">.</span>Text <span style="color:#888">=</span> it_is_in_table <span style="color:#888">?</span> <span style="color:#f00">"&lt;TABLE&gt;"</span> <span style="color:#888">:</span> <span style="color:#f00">"&lt;/TABLE&gt;"</span><span style="color:#888">;</span>
 
             character_index <span style="color:#888">+=</span> <span style="color:#f00">3</span><span style="color:#888">;</span>
         <span style="color:#888">}</span>
@@ -2412,75 +2402,7 @@ String<span style="color:#888">.</span>prototype<span style="color:#888">.</span
 
 <span style="color:#888">// ~~</span>
 
-<span style="color:#f4a">function</span> MakeTables<span style="color:#888">(</span>
-    token_array
-    <span style="color:#888">)</span>
-<span style="color:#888">{</span>
-    <span style="color:#f4a">var</span>
-        it_is_in_row<span style="color:#888">,</span>
-        it_is_in_table<span style="color:#888">,</span>
-        token<span style="color:#888">,</span>
-        token_index<span style="color:#888">;</span>
-
-    it_is_in_table <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
-    it_is_in_row <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
-
-    <span style="color:#f4a">for</span> <span style="color:#888">(</span> token_index <span style="color:#888">=</span> <span style="color:#f00">0</span><span style="color:#888">;</span>
-          token_index <span style="color:#888">&lt;</span> token_array<span style="color:#888">.</span>length<span style="color:#888">;</span>
-          <span style="color:#888">++</span>token_index <span style="color:#888">)</span>
-    <span style="color:#888">{</span>
-        token <span style="color:#888">=</span> token_array<span style="color:#888">[</span> token_index <span style="color:#888">];</span>
-
-        <span style="color:#f4a">if</span> <span style="color:#888">(</span> it_is_in_table <span style="color:#888">)</span>
-        <span style="color:#888">{</span>
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text <span style="color:#888">===</span> <span style="color:#f00">"&lt;/TABLE&gt;"</span> <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/table&gt;"</span><span style="color:#888">;</span>
-
-                it_is_in_table <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>StartsLine <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">();</span>
-                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;tr&gt;&lt;td&gt;"</span><span style="color:#888">;</span>
-                token_array<span style="color:#888">.</span>splice<span style="color:#888">(</span> token_index<span style="color:#888">,</span> <span style="color:#f00">0</span><span style="color:#888">,</span> token <span style="color:#888">);</span>
-                <span style="color:#888">++</span>token_index<span style="color:#888">;</span>
-
-                it_is_in_row <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text <span style="color:#888">===</span> <span style="color:#f00">"|"</span>
-                      <span style="color:#888">&&</span> <span style="color:#888">!</span>token<span style="color:#888">.</span>IsEscaped <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/td&gt;&lt;td&gt;"</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-            <span style="color:#f4a">else</span> <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text <span style="color:#888">===</span> <span style="color:#f00">"\n"</span> <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                <span style="color:#f4a">if</span> <span style="color:#888">(</span> it_is_in_row <span style="color:#888">)</span>
-                <span style="color:#888">{</span>
-                    token <span style="color:#888">=</span> <span style="color:#f4a">new</span> <span style="color:#f80">TOKEN</span><span style="color:#888">();</span>
-                    token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;/td&gt;&lt;/tr&gt;"</span><span style="color:#888">;</span>
-                    token_array<span style="color:#888">.</span>splice<span style="color:#888">(</span> token_index<span style="color:#888">,</span> <span style="color:#f00">0</span><span style="color:#888">,</span> token <span style="color:#888">);</span>
-                    <span style="color:#888">++</span>token_index<span style="color:#888">;</span>
-
-                    it_is_in_row <span style="color:#888">=</span> <span style="color:#f00">false</span><span style="color:#888">;</span>
-                <span style="color:#888">}</span>
-            <span style="color:#888">}</span>
-        <span style="color:#888">}</span>
-        <span style="color:#f4a">else</span>
-        <span style="color:#888">{</span>
-            <span style="color:#f4a">if</span> <span style="color:#888">(</span> token<span style="color:#888">.</span>Text <span style="color:#888">===</span> <span style="color:#f00">"&lt;TABLE&gt;"</span> <span style="color:#888">)</span>
-            <span style="color:#888">{</span>
-                token<span style="color:#888">.</span>Text <span style="color:#888">=</span> <span style="color:#f00">"&lt;table&gt;"</span><span style="color:#888">;</span>
-
-                it_is_in_table <span style="color:#888">=</span> <span style="color:#f00">true</span><span style="color:#888">;</span>
-            <span style="color:#888">}</span>
-        <span style="color:#888">}</span>
-    <span style="color:#888">}</span>
-<span style="color:#888">}</span>
-
-<span style="color:#888">// ~~</span>
-
-<span style="color:#f4a">function</span> AddPageBreaks<span style="color:#888">(</span>
+<span style="color:#f4a">function</span> MakeBreaks<span style="color:#888">(</span>
     token_array
     <span style="color:#888">)</span>
 <span style="color:#888">{</span>
@@ -2570,9 +2492,7 @@ String<span style="color:#888">.</span>prototype<span style="color:#888">.</span
 
     MakeLists<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
     MakeParagraphs<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
-    MakeTables<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
-
-    AddPageBreaks<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
+    MakeBreaks<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
 
     <span style="color:#f4a">return</span> GetText<span style="color:#888">(</span> token_array <span style="color:#888">);</span>
 <span style="color:#888">}</span>

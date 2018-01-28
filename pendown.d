@@ -1572,7 +1572,6 @@ TOKEN[] GetTokenArray(
         it_is_in_strike,
         it_is_in_sup,
         it_is_in_sub,
-        it_is_in_table,
         it_is_in_u,
         token_starts_line;
     dstring
@@ -1751,7 +1750,6 @@ TOKEN[] GetTokenArray(
     closing_tag = "";
 
     it_is_in_pre = false;
-    it_is_in_table = false;
     it_is_in_blockquote = false;
     it_is_in_frame_div = false;
     it_is_in_box_div = false;
@@ -1928,14 +1926,6 @@ TOKEN[] GetTokenArray(
             it_is_in_pre = !it_is_in_pre;
 
             token.Text = it_is_in_pre ? "<pre>" : "</pre>";
-
-            character_index += 3;
-        }
-        else if ( text.slice( character_index, character_index + 3 ) == "%%%" )
-        {
-            it_is_in_table = !it_is_in_table;
-
-            token.Text = it_is_in_table ? "<TABLE>" : "</TABLE>";
 
             character_index += 3;
         }
@@ -2562,76 +2552,6 @@ void MakeParagraphs(
 
 // ~~
 
-void MakeTables(
-    ref TOKEN[] token_array
-    )
-{
-    bool
-        it_is_in_row,
-        it_is_in_table;
-    long
-        token_index;
-    TOKEN
-        token;
-
-    it_is_in_table = false;
-    it_is_in_row = false;
-
-    for ( token_index = 0;
-          token_index < token_array.length;
-          ++token_index )
-    {
-        token = token_array[ token_index ];
-
-        if ( it_is_in_table )
-        {
-            if ( token.Text == "</TABLE>" )
-            {
-                token.Text = "</table>";
-                
-                it_is_in_table = false;
-            }
-            else if ( token.StartsLine )
-            {
-                token = new TOKEN;
-                token.Text = "<tr><td>";
-                token_array.splice( token_index, 0, token );
-                ++token_index;
-
-                it_is_in_row = true;
-            }
-            else if ( token.Text == "|"
-                      && !token.IsEscaped )
-            {
-                token.Text = "</td><td>";
-            }
-            else if ( token.Text == "\n" )
-            {
-                if ( it_is_in_row )
-                {
-                    token = new TOKEN;
-                    token.Text = "</td></tr>";
-                    token_array.splice( token_index, 0, token );
-                    ++token_index;
-
-                    it_is_in_row = false;
-                }
-            }
-        }
-        else
-        {
-            if ( token.Text == "<TABLE>" )
-            {
-                token.Text = "<table>";
-                
-                it_is_in_table = true;
-            }
-        }
-    }
-}
-
-// ~~
-
 void MakeBreaks(
     ref TOKEN[] token_array
     )
@@ -2725,7 +2645,6 @@ dstring GetProcessedText(
 
     MakeLists( token_array );
     MakeParagraphs( token_array );
-    MakeTables( token_array );
     MakeBreaks( token_array );
 
     return GetText( token_array );
