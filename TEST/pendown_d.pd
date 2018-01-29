@@ -1408,7 +1408,7 @@
 
         colorized_text °~=° code_token°.°Text°;°
 
-        ¹if¹ °(° code_token_index °==° code_token_array°.°length °-° ²1²
+        ¹if¹ °(° code_token_index °==° code_token_array°.°length°.°to°\!°²long²°()° °-° ²1²
              °||° color_suffix_array°[° code_token°.°Type °]°
                 °\!=° color_suffix_array°[° code_token_array°[° code_token_index °+° ²1² °].°Type °]° °)°
         °{°
@@ -2591,7 +2591,7 @@
             °}°
             ¹else¹ ¹if¹ °(° token°.°Text°.°endsWith°(° ²"&gt;"² °)° °)°
             °{°
-                token_character_index °=° token°.°Text°.°length °-° ²1²°;°
+                token_character_index °=° token°.°Text°.°length°.°to°\!°²long²°()° °-° ²1²°;°
             °}°
             ¹else¹
             °{°

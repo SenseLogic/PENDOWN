@@ -1407,7 +1407,7 @@ dstring GetColorizedText(
 
         colorized_text ~= code_token.Text;
 
-        if ( code_token_index == code_token_array.length - 1
+        if ( code_token_index == code_token_array.length.to!long() - 1
              || color_suffix_array[ code_token.Type ]
                 != color_suffix_array[ code_token_array[ code_token_index + 1 ].Type ] )
         {
@@ -2590,7 +2590,7 @@ void MakeBreaks(
             }
             else if ( token.Text.endsWith( ">" ) )
             {
-                token_character_index = token.Text.length - 1;
+                token_character_index = token.Text.length.to!long() - 1;
             }
             else
             {
