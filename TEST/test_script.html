@@ -67,38 +67,52 @@ This is ##a highlighted text##.§
 This is <span class="mark">a highlighted text</span>.
 
 This is ##fce\a highlighted text##.§
-This is <span class="mark"style="background-color:#fce">a highlighted text</span>.
-
-This is {{0cc\a colored text}}.§
-This is <span style="color:#0cc">a colored text</span>.
+This is <span class="mark" style="background-color:#fce">a highlighted text</span>.
 
 This is {{6f42c1\a colored text}}.§
 This is <span style="color:#6f42c1">a colored text</span>.
 
+This is {{0cc\a colored text}}.§
+This is <span style="color:#0cc">a colored text</span>.
+
+This is {{f4f\^1.25\a colored text}}.§
+This is <span style="color:#f4f;font-size:1.25rem">a colored text</span>.
+
+This is {{80f\^large\a colored text}}.§
+This is <span class="large" style="color:#80f">a colored text</span>.
+
+This is {{^cyan\a colored text}}.§
+This is <span class="cyan">a colored text</span>.
+
+This is {{^pink\^1.25\a colored text}}.§
+This is <span class="pink" style="font-size:1.25rem">a colored text</span>.
+
+This is {{^blue+large\a colored text}}.§
+This is <span class="blue large">a colored text</span>.
+
 This is °°a black text°°.§
-This is <span style="color:#000">a black text</span>.
+This is <span class="black">a black text</span>.
 
 This is ¹¹a cyan text¹¹.§
-This is <span style="color:#0aa">a cyan text</span>.
+This is <span class="cyan">a cyan text</span>.
 
 This is ²²a orange text²².§
-This is <span style="color:#f80">a orange text</span>.
+This is <span class="orange">a orange text</span>.
 
 This is ³³a green text³³.§
-This is <span style="color:#0a0">a green text</span>.
+This is <span class="green">a green text</span>.
 
 This is °a gray text°.§
-This is <span style="color:#888">a gray text</span>.
+This is <span class="gray">a gray text</span>.
 
 This is ¹a pink text¹.§
-This is <span style="color:#f4a">a pink text</span>.
+This is <span class="pink">a pink text</span>.
 
 This is ²a red text².§
-This is <span style="color:#f00">a red text</span>.
+This is <span class="red">a red text</span>.
 
 This is ³a blue text³.§
-This is <span style="color:#00f">a blue text</span>.
-
+This is <span class="blue">a blue text</span>.
 
 ---
 
@@ -115,6 +129,14 @@ This is a text block.
 }}}
 
 <div class="block" style="background-color:#cfe">
+This is a text block.
+</div>
+
+{{{cfe\^black\
+This is a text block.
+}}}
+
+<div class="block black" style="background-color:#cfe">
 This is a text block.
 </div>
 
@@ -136,6 +158,14 @@ This is a text box.
 This is a text box.
 </div>
 
+###cfe\^black\
+This is a text box.
+###
+
+<div class="box black" style="background-color:#cfe">
+This is a text box.
+</div>
+
 ---
 
 +++
@@ -151,6 +181,14 @@ This is a text frame.
 +++
 
 <div class="frame" style="border-color:#f00">
+This is a text frame.
+</div>
+
++++f00\^black\
+This is a text frame.
++++
+
+<div class="frame black" style="border-color:#f00">
 This is a text frame.
 </div>
 
@@ -172,6 +210,14 @@ This is a text quote.
 This is a text quote.
 </blockquote>
 
+>>>f00\^black\
+This is a text quote.
+>>>
+
+<blockquote class="black" style="border-color:#f00">
+This is a text quote.
+</blockquote>
+
 ---
 
 This is the first line of the paragraph.§
@@ -186,7 +232,7 @@ This is @@http://www.senselogic.be a link@@§
 This is <a href="http://www.senselogic.be">a link</a>
 
 This is a link : @@http://www.senselogic.be [[../SAMPLE/image.jpg:20]]@@§
-This is a link : <a href="http://www.senselogic.be"><img style="height:20vw;width:auto" src="../SAMPLE/image.jpg"/></a>
+This is a link : <a href="http://www.senselogic.be"><img src="../SAMPLE/image.jpg" style="height:20vw;width:auto"/></a>
 
 This is a link : @@http://www.senselogic.be@@§
 This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
@@ -207,16 +253,16 @@ This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
 :::
 
 <pre>
-<span class="mark">// <span style="color:#f00">Colorized source code</span></span>
+<span class="mark">// <span class="red">Colorized source code</span></span>
 
-<span style="color:#f00">if</span> <span style="color:#00f">(</span> ... <span style="color:#00f">)</span>
-<span style="color:#00f">{</span>
+<span class="red">if</span> <span class="blue">(</span> ... <span class="blue">)</span>
+<span class="blue">{</span>
     ...
-<span style="color:#00f">}</span>
-<span style="color:#f00">else</span>
-<span style="color:#00f">{</span>
+<span class="blue">}</span>
+<span class="red">else</span>
+<span class="blue">{</span>
     ...
-<span style="color:#00f">}</span>
+<span class="blue">}</span>
 </pre>
 
 :::c++\
@@ -237,10 +283,10 @@ int main()
 ---
 
 [[[
-((                  |<<**First§Column**<<|$$**Second§Column**$$|>>**Third§Column**>>))
-((<<%%First Row%%<< |1                   |2                    |3))
-(($$%%Second Row%%$$|1                   |2                    |3))
-((>>%%Third Row%%>> |1                   |2                    |3))
+((|<<**First§Column**<<|$$**Second§Column**$$|>>**Third§Column**>>))
+((<<%%First Row%%<<|1|2|3))
+(($$%%Second Row%%$$|1|2|3))
+((>>%%Third Row%%>>|1|2|3))
 ]]]
 
 <table>
@@ -400,14 +446,14 @@ These are small images :
 [[../SAMPLE/image.jpg:20]][[../SAMPLE/image_2.jpg:20]]§
 [[../SAMPLE/image_3.jpg:20]][[../SAMPLE/image_4.jpg:20]][[../SAMPLE/image_5.jpg:20]]
 
-<img style="height:20vw;width:auto" src="../SAMPLE/image.jpg"/><img style="height:20vw;width:auto" src="../SAMPLE/image_2.jpg"/><br/>
-<img style="height:20vw;width:auto" src="../SAMPLE/image_3.jpg"/><img style="height:20vw;width:auto" src="../SAMPLE/image_4.jpg"/><img style="height:20vw;width:auto" src="../SAMPLE/image_5.jpg"/>
+<img src="../SAMPLE/image.jpg" style="height:20vw;width:auto"/><img src="../SAMPLE/image_2.jpg" style="height:20vw;width:auto"/><br/>
+<img src="../SAMPLE/image_3.jpg" style="height:20vw;width:auto"/><img src="../SAMPLE/image_4.jpg" style="height:20vw;width:auto"/><img src="../SAMPLE/image_5.jpg" style="height:20vw;width:auto"/>
 
 These are medium images :
 
 [[../SAMPLE/image_3.jpg:40]][[../SAMPLE/image_4.jpg:40]]
 
-<img style="height:40vw;width:auto" src="../SAMPLE/image_3.jpg"/><img style="height:40vw;width:auto" src="../SAMPLE/image_4.jpg"/>
+<img src="../SAMPLE/image_3.jpg" style="height:40vw;width:auto"/><img src="../SAMPLE/image_4.jpg" style="height:40vw;width:auto"/>
 
 These are large images :
 
@@ -415,14 +461,14 @@ These are large images :
 [[../SAMPLE/image_2.jpg:]]§
 [[../SAMPLE/image_4.jpg:,100]]
 
-<img style="height:auto;width:100%" src="../SAMPLE/image.jpg"/><br/>
-<img style="height:auto;width:100%" src="../SAMPLE/image_2.jpg"/><br/>
-<img style="height:auto;width:100%" src="../SAMPLE/image_4.jpg"/>
+<img src="../SAMPLE/image.jpg" style="height:auto;width:100%"/><br/>
+<img src="../SAMPLE/image_2.jpg" style="height:auto;width:100%"/><br/>
+<img src="../SAMPLE/image_4.jpg" style="height:auto;width:100%"/>
 
 This is a custom image :
 
 [[../SAMPLE/image_5.jpg:50vw,50%]]
 
-<img style="height:50vw;width:50%" src="../SAMPLE/image_5.jpg"/>
+<img src="../SAMPLE/image_5.jpg" style="height:50vw;width:50%"/>
 </xmp>
 <script src="../pendown.js"></script>

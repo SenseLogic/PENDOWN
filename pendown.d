@@ -970,6 +970,27 @@ dstring GetCleanedText(
 
 // ~~
 
+bool IsAlphabeticalCharacter(
+    dchar character
+    )
+{
+    return (
+        ( character >= 'a' && character <= 'z' )
+        || ( character >= 'A' && character <= 'Z' )
+        );
+}
+
+// ~~
+
+bool IsDecimalCharacter(
+    dchar character
+    )
+{
+    return character >= '0' && character <= '9';
+}
+
+// ~~
+
 bool IsHexadecimalCharacter(
     dchar character
     )
@@ -1575,7 +1596,7 @@ TOKEN[] GetTokenArray(
         it_is_in_u,
         token_starts_line;
     dstring
-        color,
+        attributes,
         closing_tag,
         url;
     long
@@ -1708,13 +1729,26 @@ TOKEN[] GetTokenArray(
         
         return image_text;
     }
-    
+
     // ~~
 
-    void ParseColor(
+    void ParseAttributes(
+        dstring classes,
+        dstring color_name
         )
     {
-        color = "";
+        dchar
+            character;
+        long
+            next_character_index;
+        dstring
+            found_classes,
+            found_size,
+            styles;
+        
+        attributes = "";
+                    
+        styles = "";
 
         if ( character_index + 3 < text.length
              && IsHexadecimalCharacter( text.charAt( character_index ) )
@@ -1723,7 +1757,7 @@ TOKEN[] GetTokenArray(
         {
             if ( text.charAt( character_index + 3 ) == '\\' )
             {
-                color = text.slice( character_index, character_index + 3 );
+                styles = color_name ~ ":#" ~ text.slice( character_index, character_index + 3 ); 
 
                 character_index += 4;
             }
@@ -1733,10 +1767,107 @@ TOKEN[] GetTokenArray(
                       && IsHexadecimalCharacter( text.charAt( character_index + 5 ) )
                       && text.charAt( character_index + 6 ) == '\\' )
             {
-                color = text.slice( character_index, character_index + 6 );
+                styles = color_name ~ ":#" ~ text.slice( character_index, character_index + 6 );
 
                 character_index += 7;
             }
+        }
+        
+        if ( character_index + 2 < text.length
+             && text.charAt( character_index ) == '^'
+             && IsAlphabeticalCharacter( text.charAt( character_index + 1 ) ) )
+        {
+            found_classes = "";
+            
+            for ( next_character_index = character_index + 1;
+                  next_character_index < text.length;
+                  ++next_character_index )
+            {
+                character = text.charAt( next_character_index );
+                
+                if ( IsAlphabeticalCharacter( character )
+                     || character == '_'
+                     || character == '-' )
+                {
+                    found_classes ~= character;
+                }
+                else if ( character == '+' )
+                {
+                    found_classes ~= ' ';
+                }
+                else if ( character == '\\' )
+                {        
+                    if ( found_classes != "" )
+                    {
+                        if ( classes == "" )
+                        {
+                            classes = found_classes;
+                        }
+                        else
+                        {
+                            classes ~= " " ~ found_classes;
+                        }
+                        
+                        character_index = next_character_index + 1;
+                    }
+                    
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        
+        if ( character_index + 2 < text.length
+             && text.charAt( character_index ) == '^'
+             && IsDecimalCharacter( text.charAt( character_index + 1 ) ) )
+        {
+            found_size = "";
+            
+            for ( next_character_index = character_index + 1;
+                  next_character_index < text.length;
+                  ++next_character_index )
+            {
+                character = text.charAt( next_character_index );
+                
+                if ( IsDecimalCharacter( character )
+                     || character == '.' )
+                {
+                    found_size ~= character;
+                }
+                else if ( character == '\\' )
+                {        
+                    if ( found_size != "" )
+                    {
+                        if ( styles != "" )
+                        {
+                            styles ~= ";";
+                        }
+                        
+                        styles ~= "font-size:" ~ found_size ~ "rem";
+                        
+                        character_index = next_character_index + 1;
+                    }
+                    
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        
+        if ( classes != "" )
+        {
+            attributes ~= " class=\"" ~ classes ~ "\"";
+        }
+        
+        if ( styles != "" )
+        {
+            attributes ~= " style=\"" ~ styles ~ "\"";
         }
     }
 
@@ -1937,16 +2068,9 @@ TOKEN[] GetTokenArray(
 
             if ( it_is_in_blockquote )
             {
-                ParseColor();
+                ParseAttributes( "", "border-color" );
 
-                if ( color == "" )
-                {
-                    token.Text = "<blockquote>";
-                }
-                else
-                {
-                    token.Text = "<blockquote style=\"border-color:#" ~ color ~ "\">";
-                }
+                token.Text = "<blockquote" ~ attributes ~ ">";
             }
             else
             {
@@ -1961,16 +2085,9 @@ TOKEN[] GetTokenArray(
 
             if ( it_is_in_frame_div )
             {
-                ParseColor();
+                ParseAttributes( "frame", "border-color" );
 
-                if ( color == "" )
-                {
-                    token.Text = "<div class=\"frame\">";
-                }
-                else
-                {
-                    token.Text = "<div class=\"frame\" style=\"border-color:#" ~ color ~ "\">";
-                }
+                token.Text = "<div" ~ attributes ~ ">";
             }
             else
             {
@@ -1985,16 +2102,9 @@ TOKEN[] GetTokenArray(
 
             if ( it_is_in_box_div )
             {
-                ParseColor();
+                ParseAttributes( "box", "background-color" );
 
-                if ( color == "" )
-                {
-                    token.Text = "<div class=\"box\">";
-                }
-                else
-                {
-                    token.Text = "<div class=\"box\" style=\"background-color:#" ~ color ~ "\">";
-                }
+                token.Text = "<div" ~ attributes ~ ">";
             }
             else
             {
@@ -2005,16 +2115,9 @@ TOKEN[] GetTokenArray(
         {
             character_index += 3;
 
-            ParseColor();
+            ParseAttributes( "block", "background-color" );
 
-            if ( color == "" )
-            {
-                token.Text = "<div class=\"block\">";
-            }
-            else
-            {
-                token.Text = "<div class=\"block\" style=\"background-color:" ~ color ~ "\">";
-            }
+            token.Text = "<div" ~ attributes ~ ">";
         }
         else if ( text.slice( character_index, character_index + 3 ) == "}}}" )
         {
@@ -2030,16 +2133,9 @@ TOKEN[] GetTokenArray(
 
             if ( it_is_in_mark_span )
             {
-                ParseColor();
+                ParseAttributes( "mark", "background-color" );
 
-                if ( color == "" )
-                {
-                    token.Text = "<span class=\"mark\">";
-                }
-                else
-                {
-                    token.Text = "<span class=\"mark\" style=\"background-color:" ~ color ~ "\">";
-                }
+                token.Text = "<span" ~ attributes ~ ">";
             }
             else
             {
@@ -2054,16 +2150,9 @@ TOKEN[] GetTokenArray(
 
             if ( it_is_in_u )
             {
-                ParseColor();
+                ParseAttributes( "", "text-decoration-color" );
 
-                if ( color == "" )
-                {
-                    token.Text = "<u>";
-                }
-                else
-                {
-                    token.Text = "<u style=\"text-decoration-color:#" ~ color ~ "\">";
-                }
+                token.Text = "<u" ~ attributes ~ ">";
             }
             else
             {
@@ -2074,16 +2163,9 @@ TOKEN[] GetTokenArray(
         {
             character_index += 2;
 
-            ParseColor();
+            ParseAttributes( "", "color" );
 
-            if ( color == "" )
-            {
-                token.Text = "<span style=\"color:#000\">";
-            }
-            else
-            {
-                token.Text = "<span style=\"color:#" ~ color ~ "\">";
-            }
+            token.Text = "<span" ~ attributes ~ ">";
         }
         else if ( text.slice( character_index, character_index + 2 ) == "}}" )
         {
@@ -2155,16 +2237,9 @@ TOKEN[] GetTokenArray(
 
             if ( it_is_in_strike )
             {
-                ParseColor();
+                ParseAttributes( "", "text-decoration-color" );
 
-                if ( color == "" )
-                {
-                    token.Text = "<strike>";
-                }
-                else
-                {
-                    token.Text = "<strike style=\"text-decoration-color:#" ~ color ~ "\">";
-                }
+                token.Text = "<strike" ~ attributes ~ ">";
             }
             else
             {
@@ -2176,7 +2251,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_black_span = !it_is_in_black_span;
 
-            token.Text = it_is_in_black_span ? "<span style=\"color:#000\">" : "</span>";
+            token.Text = it_is_in_black_span ? "<span class=\"black\">" : "</span>";
 
             character_index += 2;
         }
@@ -2185,7 +2260,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_cyan_span = !it_is_in_cyan_span;
 
-            token.Text = it_is_in_cyan_span ? "<span style=\"color:#0aa\">" : "</span>";
+            token.Text = it_is_in_cyan_span ? "<span class=\"cyan\">" : "</span>";
 
             character_index += 2;
         }
@@ -2194,7 +2269,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_orange_span = !it_is_in_orange_span;
 
-            token.Text = it_is_in_orange_span ? "<span style=\"color:#f80\">" : "</span>";
+            token.Text = it_is_in_orange_span ? "<span class=\"orange\">" : "</span>";
 
             character_index += 2;
         }
@@ -2203,7 +2278,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_green_span = !it_is_in_green_span;
 
-            token.Text = it_is_in_green_span ? "<span style=\"color:#0a0\">" : "</span>";
+            token.Text = it_is_in_green_span ? "<span class=\"green\">" : "</span>";
 
             character_index += 2;
         }
@@ -2211,7 +2286,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_gray_span = !it_is_in_gray_span;
 
-            token.Text = it_is_in_gray_span ? "<span style=\"color:#888\">" : "</span>";
+            token.Text = it_is_in_gray_span ? "<span class=\"gray\">" : "</span>";
 
             ++character_index;
         }
@@ -2219,7 +2294,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_pink_span = !it_is_in_pink_span;
 
-            token.Text = it_is_in_pink_span ? "<span style=\"color:#f4a\">" : "</span>";
+            token.Text = it_is_in_pink_span ? "<span class=\"pink\">" : "</span>";
 
             ++character_index;
         }
@@ -2227,7 +2302,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_red_span = !it_is_in_red_span;
 
-            token.Text = it_is_in_red_span ? "<span style=\"color:#f00\">" : "</span>";
+            token.Text = it_is_in_red_span ? "<span class=\"red\">" : "</span>";
 
             ++character_index;
         }
@@ -2235,7 +2310,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_blue_span = !it_is_in_blue_span;
 
-            token.Text = it_is_in_blue_span ? "<span style=\"color:#00f\">" : "</span>";
+            token.Text = it_is_in_blue_span ? "<span class=\"blue\">" : "</span>";
 
             ++character_index;
         }
