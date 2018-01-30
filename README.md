@@ -14,9 +14,13 @@ Lightweight markup for colored documents.
 
 ## Getting Started
 
-Install the Pendown installation files in a local folder on your computer, and open the "sample.html" file with a plain text editor like Geany or Notepad++.
+Install the Pendown installation files in a local folder on your computer.
 
-You will see that all its text is written using Pendown tags, which are automatically converted on-the-fly when the HTML file is opened.
+Open the "sample.html" file with a plain text editor like Geany or Notepad++.
+
+It contains the list of available Pendown tags which replace HTML tags.
+
+They are automatically converted to HTML tags by the web browser when the file is opened.
 
 ```html
 <meta charset="utf8"/>
@@ -26,17 +30,17 @@ You will see that all its text is written using Pendown tags, which are automati
 
 ---
 
-! Huge Title
+! Giant Title
 
-!! Big title
+!! Huge title
 
-!!! Medium title
+!!! Big title
 
-!!!! Small title
+!!!! Large title
 
-!!!!! Tiny title
+!!!!! Medium title
 
-!!!!!! Micro title
+!!!!!! Small title
 
 !! Line break
 
@@ -87,9 +91,19 @@ __f00\underlined__
 
 ##fce\highlighted##
 
+{{6f42c1\colored}}
+
 {{0cc\colored}}
 
-{{6f42c1\colored}}
+{{f4f\^1.25\colored}}
+
+{{80f\^large\colored}}
+
+{{^cyan\colored}}
+
+{{^pink\^1.25\colored}}
+
+{{^blue+large\colored}}
 
 °°black°°
 
@@ -117,6 +131,10 @@ Block
 Block
 }}}
 
+{{{cfe\^black\
+Block
+}}}
+
 !! Box
 
 ###
@@ -124,6 +142,10 @@ Box
 ###
 
 ###cfe\
+Box
+###
+
+###cfe\^black\
 Box
 ###
 
@@ -143,6 +165,12 @@ Frame
 +++
 }}}
 
+{{{ffd\
++++f00\^black\
+Frame
++++
+}}}
+
 !! Quote
 
 >>>
@@ -155,6 +183,12 @@ Quote
 
 {{{ffd\
 >>>f00\
+Quote
+>>>
+}}}
+
+{{{ffd\
+>>>f00\^black\
 Quote
 >>>
 }}}
@@ -251,9 +285,9 @@ Custom :
 <script src="../pendown.js"></script>
 ```
 
-Then open the "sample.html" file with a web-browser.
+Open the "sample.html" file with a web-browser like Firefox.
 
-You should see the following result if the Comic Sans and Consolas fonts are already installed on your system.
+If the Comic Sans and Consolas fonts are installed on your system, you should see the following result :
 
 ![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
 
