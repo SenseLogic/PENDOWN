@@ -10,7 +10,7 @@ Lightweight markup for colored documents.
 *   Complete : 
     *   styles, colors, sizes, classes, alignments
     *   spans, blocks, boxes, frames, quotes
-    *   lists, links, tables, images, breaks
+    *   breaks, lists, links, tables, images
 *   Source code syntax highlighting.
 *   Fast conversion to HTML by a standalone command line tool or by a web browser script.
 *   The generated files can be imported in LibreOffice Writer.
