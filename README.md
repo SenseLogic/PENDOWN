@@ -16,11 +16,9 @@ Lightweight markup for colored documents.
 
 Install the Pendown installation files in a local folder on your computer.
 
-Open the "sample.html" file with a plain text editor like Geany or Notepad++.
+Open the "sample.html" file with any plain text editor, like Geany or Notepad++.
 
-It contains the list of available Pendown tags which replace HTML tags.
-
-They are automatically converted to HTML tags by the web browser when the file is opened.
+It shows the available Pendown tags. They are converted to HTML tags when the file is opened in a web browser.
 
 ```html
 <meta charset="utf8"/>
