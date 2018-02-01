@@ -7,7 +7,7 @@ Lightweight markup for colored documents.
 ## Features
 
 * Simple, concise and consistent syntax to quickly write colored documents.
-* Complete : styles, colors, alignments, page breaks, links, lists, code blocks, tables, quotes, frames and images.
+* Complete : styles, colors, sizes, alignments, attributes, spans, blocks, boxes, frames, quotes, lists, links, tables, images, line and page breaks.
 * Source code syntax highlighting.
 * Fast conversion to HTML by a standalone command line tool or by a web browser script.
 * The generated files can be imported in LibreOffice Writer.
