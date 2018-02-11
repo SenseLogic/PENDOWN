@@ -782,6 +782,8 @@
     OutputFilePath°,°
     ScriptFolderPath°,°
     StyleFolderPath°;°
+²dstring²°[° ²dstring² °]°
+    DefinitionMap°;°
 
 °// -\- FUNCTIONS°
 
@@ -1735,6 +1737,36 @@
     °}°
 
     °// ~\~°
+    
+    ²dstring² ReplaceDefinitions°(°
+        ²dstring² classes
+        °)°
+    °{°
+        ²dstring²
+            class_name°;°
+        ²dstring²°[]°
+            class_name_array°;°
+        ²long²
+            class_name_index°;°
+            
+        class_name_array °=° classes°.°split°(° ²' '² °);°
+        
+        ¹for¹ °(° class_name_index °=° ²0²°;°
+              class_name_index °&lt;° class_name_array°.°length°;°
+              °+\+°class_name_index °)°
+        °{°
+            class_name °=° class_name_array°[° class_name_index °];°
+            
+            ¹if¹ °(° °(° class_name in DefinitionMap °)° °\!°is ²null² °)°
+            °{°
+                class_name_array°[° class_name_index °]° °=° DefinitionMap°[° class_name °];°
+            °}°
+        °}°
+            
+        ¹return¹ class_name_array°.°join°(° ²' '² °);°
+    °}°
+
+    °// ~\~°
 
     ²void² ParseAttributes°(°
         ²dstring² classes°,°
@@ -1749,6 +1781,8 @@
             found_classes°,°
             found_size°,°
             styles°;°
+        ²dstring²°[]°
+            part_array°;°
         
         attributes °=° ²""²°;°
                     
@@ -1791,7 +1825,8 @@
                 
                 ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
                      °||° character °==° ²'_'²
-                     °||° character °==° ²'-'² °)°
+                     °||° character °==° ²'-'²
+                     °||° character °==° ²'='² °)°
                 °{°
                     found_classes °~=° character°;°
                 °}°
@@ -1803,6 +1838,15 @@
                 °{°        
                     ¹if¹ °(° found_classes °\!=° ²""² °)°
                     °{°
+                        ¹if¹ °(° found_classes°.°indexOf°(° ²'='² °)° °&gt;=° ²0² °)°
+                        °{°
+                            part_array °=° found_classes°.°split°(° ²'='² °);°
+                            DefinitionMap°[° part_array°[° ²1² °]° °]° °=° part_array°[° ²0² °];°
+                            found_classes °=° part_array°[° ²0² °];°
+                        °}°
+                        
+                        found_classes °=° ReplaceDefinitions°(° found_classes °);°
+                        
                         ¹if¹ °(° classes °==° ²""² °)°
                         °{°
                             classes °=° found_classes°;°
@@ -2018,16 +2062,20 @@
         °{°
             °+\+°table_count°;°
             
-            token°.°Text °=° ²"&lt;table&gt;"²°;°
-            
             character_index °+=° ²3²°;°
+            
+            ParseAttributes°(° ²""²°,° ²"border-color"² °);°
+
+            token°.°Text °=° ²"&lt;table"² °~° attributes °~° ²"&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"(("²
                   °&&° table_count °&gt;° ²0² °)°
         °{°
-            token°.°Text °=° ²"&lt;tr&gt;&lt;td&gt;"²°;°
-            
             character_index °+=° ²2²°;°
+            
+            ParseAttributes°(° ²""²°,° ²"background-color"² °);°
+            
+            token°.°Text °=° ²"&lt;tr"² °~° attributes °~° ²"&gt;&lt;td&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °==° ²'|'²
                   °&&° table_count °&gt;° ²0² °)°
@@ -2119,7 +2167,7 @@
         °{°
             character_index °+=° ²3²°;°
 
-            ParseAttributes°(° ²"block"²°,° ²"background-color"² °);°
+            ParseAttributes°(° ²""²°,° ²"background-color"² °);°
 
             token°.°Text °=° ²"&lt;div"² °~° attributes °~° ²"&gt;"²°;°
         °}°

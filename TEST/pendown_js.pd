@@ -1560,6 +1560,34 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
         ¹return¹ image_text°;°
     °}°
+    
+    °// ~\~°
+    
+    ¹function¹ ReplaceDefinitions°(°
+        classes
+        °)°
+    °{°
+        ¹var¹
+            class_name°,°
+            class_name_array°,°
+            class_name_index°;°
+            
+        class_name_array °=° classes°.°split°(° ²' '² °);°
+        
+        ¹for¹ °(° class_name_index °=° ²0²°;°
+              class_name_index °&lt;° class_name_array°.°length°;°
+              °+\+°class_name_index °)°
+        °{°
+            class_name °=° class_name_array°[° class_name_index °];°
+            
+            ¹if¹ °(° DefinitionMap°.°hasOwnProperty°(° class_name °)° °)°
+            °{°
+                class_name_array°[° class_name_index °]° °=° DefinitionMap°[° class_name °];°
+            °}°
+        °}°
+            
+        ¹return¹ class_name_array°.°join°(° ²' '² °);°
+    °}°
 
     °// ~\~°
 
@@ -1573,6 +1601,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             found_classes°,°
             found_size°,°
             next_character_index°,°
+            part_array°,°
             styles°;°
         
         attributes °=° ²""²°;°
@@ -1616,7 +1645,8 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                 
                 ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
                      °||° character °===° ²'_'²
-                     °||° character °===° ²'-'² °)°
+                     °||° character °===° ²'-'²
+                     °||° character °===° ²'='² °)°
                 °{°
                     found_classes °+=° character°;°
                 °}°
@@ -1628,6 +1658,15 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                 °{°        
                     ¹if¹ °(° found_classes °\!==° ²""² °)°
                     °{°
+                        ¹if¹ °(° found_classes°.°indexOf°(° ²'='² °)° °&gt;=° ²0² °)°
+                        °{°
+                            part_array °=° found_classes°.°split°(° ²'='² °);°
+                            DefinitionMap°[° part_array°[° ²1² °]° °]° °=° part_array°[° ²0² °];°
+                            found_classes °=° part_array°[° ²0² °];°
+                        °}°
+                        
+                        found_classes °=° ReplaceDefinitions°(° found_classes °);°
+                        
                         ¹if¹ °(° classes °===° ²""² °)°
                         °{°
                             classes °=° found_classes°;°
@@ -1844,16 +1883,20 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             °+\+°table_count°;°
 
-            token°.°Text °=° ²"&lt;table&gt;"²°;°
-
             character_index °+=° ²3²°;°
+
+            ParseAttributes°(° ²""²°,° ²"border-color"² °);°
+
+            token°.°Text °=° ²"&lt;table"² °+° attributes °+° ²"&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"(("²
                   °&&° table_count °&gt;° ²0² °)°
         °{°
-            token°.°Text °=° ²"&lt;tr&gt;&lt;td&gt;"²°;°
-
             character_index °+=° ²2²°;°
+            
+            ParseAttributes°(° ²""²°,° ²"background-color"² °);°
+            
+            token°.°Text °=° ²"&lt;tr"² °+° attributes °+° ²"&gt;&lt;td&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'|'²
                   °&&° table_count °&gt;° ²0² °)°
@@ -1945,7 +1988,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             character_index °+=° ²3²°;°
 
-            ParseAttributes°(° ²"block"²°,° ²"background-color"² °);°
+            ParseAttributes°(° ²""²°,° ²"background-color"² °);°
 
             token°.°Text °=° ²"&lt;div"² °+° attributes °+° ²"&gt;"²°;°
         °}°
@@ -2609,6 +2652,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
 TabulationSpaceCount °=° ²4²°;°
 IndentationSpaceCount °=° ²4²°;°
+DefinitionMap °=° °[];°
 
 ProcessDocument°();°
 :::

@@ -778,6 +778,8 @@ string
     OutputFilePath,
     ScriptFolderPath,
     StyleFolderPath;
+dstring[ dstring ]
+    DefinitionMap;
 
 // -- FUNCTIONS
 
@@ -1731,6 +1733,36 @@ TOKEN[] GetTokenArray(
     }
 
     // ~~
+    
+    dstring ReplaceDefinitions(
+        dstring classes
+        )
+    {
+        dstring
+            class_name;
+        dstring[]
+            class_name_array;
+        long
+            class_name_index;
+            
+        class_name_array = classes.split( ' ' );
+        
+        for ( class_name_index = 0;
+              class_name_index < class_name_array.length;
+              ++class_name_index )
+        {
+            class_name = class_name_array[ class_name_index ];
+            
+            if ( ( class_name in DefinitionMap ) !is null )
+            {
+                class_name_array[ class_name_index ] = DefinitionMap[ class_name ];
+            }
+        }
+            
+        return class_name_array.join( ' ' );
+    }
+
+    // ~~
 
     void ParseAttributes(
         dstring classes,
@@ -1745,6 +1777,8 @@ TOKEN[] GetTokenArray(
             found_classes,
             found_size,
             styles;
+        dstring[]
+            part_array;
         
         attributes = "";
                     
@@ -1787,7 +1821,8 @@ TOKEN[] GetTokenArray(
                 
                 if ( IsAlphabeticalCharacter( character )
                      || character == '_'
-                     || character == '-' )
+                     || character == '-'
+                     || character == '=' )
                 {
                     found_classes ~= character;
                 }
@@ -1799,6 +1834,15 @@ TOKEN[] GetTokenArray(
                 {        
                     if ( found_classes != "" )
                     {
+                        if ( found_classes.indexOf( '=' ) >= 0 )
+                        {
+                            part_array = found_classes.split( '=' );
+                            DefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
+                            found_classes = part_array[ 0 ];
+                        }
+                        
+                        found_classes = ReplaceDefinitions( found_classes );
+                        
                         if ( classes == "" )
                         {
                             classes = found_classes;
@@ -2014,16 +2058,20 @@ TOKEN[] GetTokenArray(
         {
             ++table_count;
             
-            token.Text = "<table>";
-            
             character_index += 3;
+            
+            ParseAttributes( "", "border-color" );
+
+            token.Text = "<table" ~ attributes ~ ">";
         }
         else if ( text.slice( character_index, character_index + 2 ) == "(("
                   && table_count > 0 )
         {
-            token.Text = "<tr><td>";
-            
             character_index += 2;
+            
+            ParseAttributes( "", "background-color" );
+            
+            token.Text = "<tr" ~ attributes ~ "><td>";
         }
         else if ( text.charAt( character_index ) == '|'
                   && table_count > 0 )
@@ -2115,7 +2163,7 @@ TOKEN[] GetTokenArray(
         {
             character_index += 3;
 
-            ParseAttributes( "block", "background-color" );
+            ParseAttributes( "", "background-color" );
 
             token.Text = "<div" ~ attributes ~ ">";
         }

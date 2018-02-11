@@ -781,6 +781,8 @@
     OutputFilePath<span class="gray">,</span>
     ScriptFolderPath<span class="gray">,</span>
     StyleFolderPath<span class="gray">;</span>
+<span class="red">dstring</span><span class="gray">[</span> <span class="red">dstring</span> <span class="gray">]</span>
+    DefinitionMap<span class="gray">;</span>
 
 <span class="gray">// -- FUNCTIONS</span>
 
@@ -1735,6 +1737,36 @@
 
     <span class="gray">// ~~</span>
 
+    <span class="red">dstring</span> ReplaceDefinitions<span class="gray">(</span>
+        <span class="red">dstring</span> classes
+        <span class="gray">)</span>
+    <span class="gray">{</span>
+        <span class="red">dstring</span>
+            class_name<span class="gray">;</span>
+        <span class="red">dstring</span><span class="gray">[]</span>
+            class_name_array<span class="gray">;</span>
+        <span class="red">long</span>
+            class_name_index<span class="gray">;</span>
+
+        class_name_array <span class="gray">=</span> classes<span class="gray">.</span>split<span class="gray">(</span> <span class="red">' '</span> <span class="gray">);</span>
+
+        <span class="pink">for</span> <span class="gray">(</span> class_name_index <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
+              class_name_index <span class="gray">&lt;</span> class_name_array<span class="gray">.</span>length<span class="gray">;</span>
+              <span class="gray">++</span>class_name_index <span class="gray">)</span>
+        <span class="gray">{</span>
+            class_name <span class="gray">=</span> class_name_array<span class="gray">[</span> class_name_index <span class="gray">];</span>
+
+            <span class="pink">if</span> <span class="gray">(</span> <span class="gray">(</span> class_name in DefinitionMap <span class="gray">)</span> <span class="gray">!</span>is <span class="red">null</span> <span class="gray">)</span>
+            <span class="gray">{</span>
+                class_name_array<span class="gray">[</span> class_name_index <span class="gray">]</span> <span class="gray">=</span> DefinitionMap<span class="gray">[</span> class_name <span class="gray">];</span>
+            <span class="gray">}</span>
+        <span class="gray">}</span>
+
+        <span class="pink">return</span> class_name_array<span class="gray">.</span>join<span class="gray">(</span> <span class="red">' '</span> <span class="gray">);</span>
+    <span class="gray">}</span>
+
+    <span class="gray">// ~~</span>
+
     <span class="red">void</span> ParseAttributes<span class="gray">(</span>
         <span class="red">dstring</span> classes<span class="gray">,</span>
         <span class="red">dstring</span> color_name
@@ -1748,6 +1780,8 @@
             found_classes<span class="gray">,</span>
             found_size<span class="gray">,</span>
             styles<span class="gray">;</span>
+        <span class="red">dstring</span><span class="gray">[]</span>
+            part_array<span class="gray">;</span>
 
         attributes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
 
@@ -1790,7 +1824,8 @@
 
                 <span class="pink">if</span> <span class="gray">(</span> IsAlphabeticalCharacter<span class="gray">(</span> character <span class="gray">)</span>
                      <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'_'</span>
-                     <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'-'</span> <span class="gray">)</span>
+                     <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'-'</span>
+                     <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'='</span> <span class="gray">)</span>
                 <span class="gray">{</span>
                     found_classes <span class="gray">~=</span> character<span class="gray">;</span>
                 <span class="gray">}</span>
@@ -1802,6 +1837,15 @@
                 <span class="gray">{</span>        
                     <span class="pink">if</span> <span class="gray">(</span> found_classes <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
                     <span class="gray">{</span>
+                        <span class="pink">if</span> <span class="gray">(</span> found_classes<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">'='</span> <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
+                        <span class="gray">{</span>
+                            part_array <span class="gray">=</span> found_classes<span class="gray">.</span>split<span class="gray">(</span> <span class="red">'='</span> <span class="gray">);</span>
+                            DefinitionMap<span class="gray">[</span> part_array<span class="gray">[</span> <span class="red">1</span> <span class="gray">]</span> <span class="gray">]</span> <span class="gray">=</span> part_array<span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
+                            found_classes <span class="gray">=</span> part_array<span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
+                        <span class="gray">}</span>
+
+                        found_classes <span class="gray">=</span> ReplaceDefinitions<span class="gray">(</span> found_classes <span class="gray">);</span>
+
                         <span class="pink">if</span> <span class="gray">(</span> classes <span class="gray">==</span> <span class="red">""</span> <span class="gray">)</span>
                         <span class="gray">{</span>
                             classes <span class="gray">=</span> found_classes<span class="gray">;</span>
@@ -2017,16 +2061,20 @@
         <span class="gray">{</span>
             <span class="gray">++</span>table_count<span class="gray">;</span>
 
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;table&gt;"</span><span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
+
+            ParseAttributes<span class="gray">(</span> <span class="red">""</span><span class="gray">,</span> <span class="red">"border-color"</span> <span class="gray">);</span>
+
+            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;table"</span> <span class="gray">~</span> attributes <span class="gray">~</span> <span class="red">"&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">==</span> <span class="red">"(("</span>
                   <span class="gray">&&</span> table_count <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;tr&gt;&lt;td&gt;"</span><span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
+
+            ParseAttributes<span class="gray">(</span> <span class="red">""</span><span class="gray">,</span> <span class="red">"background-color"</span> <span class="gray">);</span>
+
+            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;tr"</span> <span class="gray">~</span> attributes <span class="gray">~</span> <span class="red">"&gt;&lt;td&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">==</span> <span class="red">'|'</span>
                   <span class="gray">&&</span> table_count <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
@@ -2118,7 +2166,7 @@
         <span class="gray">{</span>
             character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
 
-            ParseAttributes<span class="gray">(</span> <span class="red">"block"</span><span class="gray">,</span> <span class="red">"background-color"</span> <span class="gray">);</span>
+            ParseAttributes<span class="gray">(</span> <span class="red">""</span><span class="gray">,</span> <span class="red">"background-color"</span> <span class="gray">);</span>
 
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;div"</span> <span class="gray">~</span> attributes <span class="gray">~</span> <span class="red">"&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>

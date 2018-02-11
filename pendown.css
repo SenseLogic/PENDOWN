@@ -44,37 +44,31 @@ pre
 h1
 {
     font-size : 2.75rem;
-    font-family : "Comic Sans MS", sans-serif;
 }
 
 h2
 {
     font-size : 2.25rem;
-    font-family : "Comic Sans MS", sans-serif;
 }
 
 h3
 {
     font-size : 1.75rem;
-    font-family : "Comic Sans MS", sans-serif;
 }
 
 h4
 {
     font-size : 1.5rem;
-    font-family : "Comic Sans MS", sans-serif;
 }
 
 h5
 {
     font-size : 1.25rem;
-    font-family : "Comic Sans MS", sans-serif;
 }
 
 h6
 {
     font-size : 1rem;
-    font-family : "Comic Sans MS", sans-serif;
 }
 
 p, pre
@@ -119,19 +113,31 @@ li
     padding-left: 0.35rem;
 }
 
+table
+{
+    border-collapse : collapse;
+}
+
 td
 {
     padding : 0 0.35rem;
 }
 
-tr > td:first-child 
+tr > td:first-child
 {
     padding-left : 0;
 }
 
-tr > td:last-child 
+tr > td:last-child
 {
     padding-right : 0;
+}
+
+table.border td
+{
+    border-width : 1px;
+    border-style : solid;
+    padding : 0.5rem; 
 }
 
 hr
@@ -147,13 +153,6 @@ blockquote
     padding-left : 0.5rem;
 }
 
-.frame
-{
-    box-sizing : border-box;
-    border : 0.25rem solid #ccc;
-    padding : 0.5rem;
-}
-
 .box
 {
     box-sizing : border-box;
@@ -161,14 +160,16 @@ blockquote
     background-color : #eee;
 }
 
+.frame
+{
+    box-sizing : border-box;
+    border : 0.25rem solid #ccc;
+    padding : 0.5rem;
+}
+
 .mark
 {
     background-color : #ff0;
-}
-
-.block
-{
-    background-color : #eee;
 }
 
 .left
@@ -186,9 +187,69 @@ blockquote
     text-align : right;
 }
 
+.thin
+{
+    font-weight : 100;
+}
+
+.regular
+{
+    font-weight : 400;
+}
+
+.bold
+{
+    font-weight : 700;
+}
+
+.heavy
+{
+    font-weight : 900;
+}
+
+.straight
+{
+    font-style : normal;
+}
+
+.italic
+{
+    font-style : italic;
+}
+
+.oblique
+{
+    font-style : oblique;
+}
+
 .black
 {
     color : #000;
+}
+
+.black_background
+{
+    background-color : #000;
+}
+
+.black_border, .black_border *
+{
+    border-color : #000;
+}
+
+.dark_cyan
+{
+    color : #055;
+}
+
+.dark_cyan_background
+{
+    background-color : #055;
+}
+
+.dark_cyan_border, .dark_cyan_border *
+{
+    border-color : #055;
 }
 
 .cyan
@@ -196,9 +257,119 @@ blockquote
     color : #0aa;
 }
 
+.cyan_background
+{
+    background-color : #0aa;
+}
+
+.cyan_border, .cyan_border *
+{
+    border-color : #0aa;
+}
+
+.light_cyan
+{
+    color : #7dd;
+}
+
+.light_cyan_background
+{
+    background-color : #7dd;
+}
+
+.light_cyan_border, .light_cyan_border *
+{
+    border-color : #7dd;
+}
+
+.pastel_cyan
+{
+    color : #cee;
+}
+
+.pastel_cyan_background
+{
+    background-color : #cee;
+}
+
+.pastel_cyan_border, .pastel_cyan_border *
+{
+    border-color : #cee;
+}
+
+.dark_orange
+{
+    color : #730;
+}
+
+.dark_orange_background
+{
+    background-color : #730;
+}
+
+.dark_orange_border, .dark_orange_border *
+{
+    border-color : #730;
+}
+
 .orange
 {
-    color : #f80;
+    color : #e70;
+}
+
+.orange_background
+{
+    background-color : #e70;
+}
+
+.orange_border, .orange_border *
+{
+    border-color : #e70;
+}
+
+.light_orange
+{
+    color : #fb7;
+}
+
+.light_orange_background
+{
+    background-color : #fb7;
+}
+
+.light_orange_border, .light_orange_border *
+{
+    border-color : #fb7;
+}
+
+.pastel_orange
+{
+    color : #fec;
+}
+
+.pastel_orange_background
+{
+    background-color : #fec;
+}
+
+.pastel_orange_border, .pastel_orange_border *
+{
+    border-color : #fec;
+}
+
+.dark_green
+{
+    color : #050;
+}
+
+.dark_green_background
+{
+    background-color : #050;
+}
+
+.dark_green_border, .dark_green_border *
+{
+    border-color : #050;
 }
 
 .green
@@ -206,9 +377,119 @@ blockquote
     color : #0a0;
 }
 
+.green_background
+{
+    background-color : #0a0;
+}
+
+.green_border, .green_border *
+{
+    border-color : #0a0;
+}
+
+.light_green
+{
+    color : #7d7;
+}
+
+.light_green_background
+{
+    background-color : #7d7;
+}
+
+.light_green_border, .light_green_border *
+{
+    border-color : #7d7;
+}
+
+.pastel_green
+{
+    color : #cec;
+}
+
+.pastel_green_background
+{
+    background-color : #cec;
+}
+
+.pastel_green_border, .pastel_green_border *
+{
+    border-color : #cec;
+}
+
+.dark_gray
+{
+    color : #444;
+}
+
+.dark_gray_background
+{
+    background-color : #444;
+}
+
+.dark_gray_border, .dark_gray_border *
+{
+    border-color : #444;
+}
+
 .gray
 {
     color : #888;
+}
+
+.gray_background
+{
+    background-color : #888;
+}
+
+.gray_border, .gray_border *
+{
+    border-color : #888;
+}
+
+.light_gray
+{
+    color : #ccc;
+}
+
+.light_gray_background
+{
+    background-color : #ccc;
+}
+
+.light_gray_border, .light_gray_border *
+{
+    border-color : #ccc;
+}
+
+.pastel_gray
+{
+    color : #eee;
+}
+
+.pastel_gray_background
+{
+    background-color : #eee;
+}
+
+.pastel_gray_border, .pastel_gray_border *
+{
+    border-color : #eee;
+}
+
+.dark_pink
+{
+    color : #725;
+}
+
+.dark_pink_background
+{
+    background-color : #725;
+}
+
+.dark_pink_border, .dark_pink_border *
+{
+    border-color : #725;
 }
 
 .pink
@@ -216,14 +497,239 @@ blockquote
     color : #f4a;
 }
 
+.pink_background
+{
+    background-color : #f4a;
+}
+
+.pink_border, .pink_border *
+{
+    border-color : #f4a;
+}
+
+.light_pink
+{
+    color : #fad;
+}
+
+.light_pink_background
+{
+    background-color : #fad;
+}
+
+.light_pink_border, .light_pink_border *
+{
+    border-color : #fad;
+}
+
+.pastel_pink
+{
+    color : #fde;
+}
+
+.pastel_pink_background
+{
+    background-color : #fde;
+}
+
+.pastel_pink_border, .pastel_pink_border *
+{
+    border-color : #fde;
+}
+
+.dark_red
+{
+    color : #700;
+}
+
+.dark_red_background
+{
+    background-color : #700;
+}
+
+.dark_red_border, .dark_red_border *
+{
+    border-color : #700;
+}
+
 .red
 {
     color : #f00;
 }
 
+.red_background
+{
+    background-color : #f00;
+}
+
+.red_border, .red_border *
+{
+    border-color : #f00;
+}
+
+.light_red
+{
+    color : #f77;
+}
+
+.light_red_background
+{
+    background-color : #f77;
+}
+
+.light_red_border, .light_red_border *
+{
+    border-color : #f77;
+}
+
+.pastel_red
+{
+    color : #fcc;
+}
+
+.pastel_red_background
+{
+    background-color : #fcc;
+}
+
+.pastel_red_border, .pastel_red_border *
+{
+    border-color : #fcc;
+}
+
+.dark_blue
+{
+    color : #007;
+}
+
+.dark_blue_background
+{
+    background-color : #007;
+}
+
+.dark_blue_border, .dark_blue_border *
+{
+    border-color : #007;
+}
+
 .blue
 {
     color : #00f;
+}
+
+.blue_background
+{
+    background-color : #00f;
+}
+
+.blue_border, .blue_border *
+{
+    border-color : #00f;
+}
+
+.light_blue
+{
+    color : #77f;
+}
+
+.light_blue_background
+{
+    background-color : #77f;
+}
+
+.light_blue_border, .light_blue_border *
+{
+    border-color : #77f;
+}
+
+.pastel_blue
+{
+    color : #ccf;
+}
+
+.pastel_blue_background
+{
+    background-color : #ccf;
+}
+
+.pastel_blue_border, .pastel_blue_border *
+{
+    border-color : #ccf;
+}
+
+.dark_yellow
+{
+    color : #770;
+}
+
+.dark_yellow_background
+{
+    background-color : #770;
+}
+
+.dark_yellow_border, .dark_yellow_border *
+{
+    border-color : #770;
+}
+
+.yellow
+{
+    color : #ff0;
+}
+
+.yellow_background
+{
+    background-color : #ff0;
+}
+
+.yellow_border, .yellow_border *
+{
+    border-color : #ff0;
+}
+
+.light_yellow
+{
+    color : #ff7;
+}
+
+.light_yellow_background
+{
+    background-color : #ff7;
+}
+
+.light_yellow_border, .light_yellow_border *
+{
+    border-color : #ff7;
+}
+
+.pastel_yellow
+{
+    color : #ffc;
+}
+
+.pastel_yellow_background
+{
+    background-color : #ffc;
+}
+
+.pastel_yellow_border, .pastel_yellow_border *
+{
+    border-color : #ffc;
+}
+
+.white
+{
+    color : #fff;
+}
+
+.white_background
+{
+    background-color : #fff;
+}
+
+.white_border, .white_border *
+{
+    border-color : #fff;
 }
 
 .small

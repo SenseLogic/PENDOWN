@@ -1559,6 +1559,34 @@ function GetTokenArray(
 
         return image_text;
     }
+    
+    // ~~
+    
+    function ReplaceDefinitions(
+        classes
+        )
+    {
+        var
+            class_name,
+            class_name_array,
+            class_name_index;
+            
+        class_name_array = classes.split( ' ' );
+        
+        for ( class_name_index = 0;
+              class_name_index < class_name_array.length;
+              ++class_name_index )
+        {
+            class_name = class_name_array[ class_name_index ];
+            
+            if ( DefinitionMap.hasOwnProperty( class_name ) )
+            {
+                class_name_array[ class_name_index ] = DefinitionMap[ class_name ];
+            }
+        }
+            
+        return class_name_array.join( ' ' );
+    }
 
     // ~~
 
@@ -1572,6 +1600,7 @@ function GetTokenArray(
             found_classes,
             found_size,
             next_character_index,
+            part_array,
             styles;
         
         attributes = "";
@@ -1615,7 +1644,8 @@ function GetTokenArray(
                 
                 if ( IsAlphabeticalCharacter( character )
                      || character === '_'
-                     || character === '-' )
+                     || character === '-'
+                     || character === '=' )
                 {
                     found_classes += character;
                 }
@@ -1627,6 +1657,15 @@ function GetTokenArray(
                 {        
                     if ( found_classes !== "" )
                     {
+                        if ( found_classes.indexOf( '=' ) >= 0 )
+                        {
+                            part_array = found_classes.split( '=' );
+                            DefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
+                            found_classes = part_array[ 0 ];
+                        }
+                        
+                        found_classes = ReplaceDefinitions( found_classes );
+                        
                         if ( classes === "" )
                         {
                             classes = found_classes;
@@ -1843,16 +1882,20 @@ function GetTokenArray(
         {
             ++table_count;
 
-            token.Text = "<table>";
-
             character_index += 3;
+
+            ParseAttributes( "", "border-color" );
+
+            token.Text = "<table" + attributes + ">";
         }
         else if ( text.slice( character_index, character_index + 2 ) === "(("
                   && table_count > 0 )
         {
-            token.Text = "<tr><td>";
-
             character_index += 2;
+            
+            ParseAttributes( "", "background-color" );
+            
+            token.Text = "<tr" + attributes + "><td>";
         }
         else if ( text.charAt( character_index ) === '|'
                   && table_count > 0 )
@@ -1944,7 +1987,7 @@ function GetTokenArray(
         {
             character_index += 3;
 
-            ParseAttributes( "block", "background-color" );
+            ParseAttributes( "", "background-color" );
 
             token.Text = "<div" + attributes + ">";
         }
@@ -2608,5 +2651,6 @@ CODE_TOKEN_TYPE = new CODE_TOKEN_TYPE();
 
 TabulationSpaceCount = 4;
 IndentationSpaceCount = 4;
+DefinitionMap = [];
 
 ProcessDocument();
