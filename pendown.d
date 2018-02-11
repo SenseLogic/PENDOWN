@@ -1807,7 +1807,7 @@ TOKEN[] GetTokenArray(
             }
         }
         
-        if ( character_index + 2 < text.length
+        while ( character_index + 2 < text.length
              && text.charAt( character_index ) == '^'
              && IsAlphabeticalCharacter( text.charAt( character_index + 1 ) ) )
         {

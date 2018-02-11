@@ -1631,7 +1631,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             °}°
         °}°
         
-        ¹if¹ °(° character_index °+° ²2² °&lt;° text°.°length
+        ¹while¹ °(° character_index °+° ²2² °&lt;° text°.°length
              °&&° text°.°charAt°(° character_index °)° °===° ²'^'²
              °&&° IsAlphabeticalCharacter°(° text°.°charAt°(° character_index °+° ²1² °)° °)° °)°
         °{°
