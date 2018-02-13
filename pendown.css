@@ -109,8 +109,48 @@ li > ul, li > ol
 
 li
 {
-    margin-left: 0.5rem;
-    padding-left: 0.35rem;
+    margin-left : 0.5rem;
+    padding-left : 0.35rem;
+}
+
+.disc, .circle, .square
+{
+    margin : -0.25rem;
+}
+
+.disc ul
+{
+    list-style-type : disc;
+}
+
+.circle ul
+{
+    list-style-type : circle;
+}
+
+.square ul
+{
+    list-style-type : square;
+}
+
+.dash
+{
+    margin-left : -0.75rem;
+}
+
+.dash ul
+{
+    list-style-type : '-';
+}
+
+.dash ul > li
+{
+    padding-left : 0.75rem;
+}
+
+.dash li > ul
+{
+    margin-left : -0.1rem;
 }
 
 table
