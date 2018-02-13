@@ -1821,9 +1821,7 @@
                 character °=° text°.°charAt°(° next_character_index °);°
                 
                 ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
-                     °||° character °==° ²'_'²
-                     °||° character °==° ²'-'²
-                     °||° character °==° ²'='² °)°
+                     °||° ²"_-=\°\¹\²\³"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
                 °{°
                     found_classes °~=° character°;°
                 °}°
@@ -2300,7 +2298,7 @@
         °{°
             it_is_in_black_span °=° °\!°it_is_in_black_span°;°
 
-            token°.°Text °=° it_is_in_black_span °?° ²"&lt;span class=\\"black\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
+            token°.°Text °=° it_is_in_black_span °?° ²"&lt;span class=\\""² °~° ReplaceDefinitions°(° ²"\°\°"² °)° °~° ²"\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
 
             character_index °+=° ²2²°;°
         °}°
@@ -2309,7 +2307,7 @@
         °{°
             it_is_in_cyan_span °=° °\!°it_is_in_cyan_span°;°
 
-            token°.°Text °=° it_is_in_cyan_span °?° ²"&lt;span class=\\"cyan\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
+            token°.°Text °=° it_is_in_cyan_span °?° ²"&lt;span class=\\""² °~° ReplaceDefinitions°(° ²"\¹\¹"² °)° °~° ²"\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
 
             character_index °+=° ²2²°;°
         °}°
@@ -2318,7 +2316,7 @@
         °{°
             it_is_in_orange_span °=° °\!°it_is_in_orange_span°;°
 
-            token°.°Text °=° it_is_in_orange_span °?° ²"&lt;span class=\\"orange\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
+            token°.°Text °=° it_is_in_orange_span °?° ²"&lt;span class=\\""² °~° ReplaceDefinitions°(° ²"\²\²"² °)° °~° ²"\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
 
             character_index °+=° ²2²°;°
         °}°
@@ -2327,7 +2325,7 @@
         °{°
             it_is_in_green_span °=° °\!°it_is_in_green_span°;°
 
-            token°.°Text °=° it_is_in_green_span °?° ²"&lt;span class=\\"green\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
+            token°.°Text °=° it_is_in_green_span °?° ²"&lt;span class=\\""² °~° ReplaceDefinitions°(° ²"\³\³"² °)° °~° ²"\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
 
             character_index °+=° ²2²°;°
         °}°
@@ -2335,7 +2333,7 @@
         °{°
             it_is_in_gray_span °=° °\!°it_is_in_gray_span°;°
 
-            token°.°Text °=° it_is_in_gray_span °?° ²"&lt;span class=\\"gray\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
+            token°.°Text °=° it_is_in_gray_span °?° ²"&lt;span class=\\""² °~° ReplaceDefinitions°(° ²"\°"² °)° °~° ²"\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
 
             °+\+°character_index°;°
         °}°
@@ -2343,7 +2341,7 @@
         °{°
             it_is_in_pink_span °=° °\!°it_is_in_pink_span°;°
 
-            token°.°Text °=° it_is_in_pink_span °?° ²"&lt;span class=\\"pink\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
+            token°.°Text °=° it_is_in_pink_span °?° ²"&lt;span class=\\""² °~° ReplaceDefinitions°(° ²"\¹"² °)° °~° ²"\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
 
             °+\+°character_index°;°
         °}°
@@ -2351,7 +2349,7 @@
         °{°
             it_is_in_red_span °=° °\!°it_is_in_red_span°;°
 
-            token°.°Text °=° it_is_in_red_span °?° ²"&lt;span class=\\"red\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
+            token°.°Text °=° it_is_in_red_span °?° ²"&lt;span class=\\""² °~° ReplaceDefinitions°(° ²"\²"² °)° °~° ²"\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
 
             °+\+°character_index°;°
         °}°
@@ -2359,7 +2357,7 @@
         °{°
             it_is_in_blue_span °=° °\!°it_is_in_blue_span°;°
 
-            token°.°Text °=° it_is_in_blue_span °?° ²"&lt;span class=\\"blue\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
+            token°.°Text °=° it_is_in_blue_span °?° ²"&lt;span class=\\""² °~° ReplaceDefinitions°(° ²"\³"² °)° °~° ²"\\"&gt;"² °:° ²"&lt;/span&gt;"²°;°
 
             °+\+°character_index°;°
         °}°
@@ -2830,8 +2828,19 @@
     ScriptOptionIsEnabled °=° ²false²°;°
     StyleOptionIsEnabled °=° ²false²°;°
     LanguageName °=° ²""²°;°
+    
     TabulationSpaceCount °=° ²4²°;°
-    IndentationSpaceCount °=° ²4²°;°
+    IndentationSpaceCount °=° ²4²°;°    
+    
+    DefinitionMap°[° ²"\°\°"² °]° °=° ²"black"²°;°
+    DefinitionMap°[° ²"\¹\¹"² °]° °=° ²"cyan"²°;°
+    DefinitionMap°[° ²"\²\²"² °]° °=° ²"orange"²°;°
+    DefinitionMap°[° ²"\³\³"² °]° °=° ²"green"²°;°
+    DefinitionMap°[° ²"\°"² °]° °=° ²"gray"²°;°
+    DefinitionMap°[° ²"\¹"² °]° °=° ²"pink"²°;°
+    DefinitionMap°[° ²"\²"² °]° °=° ²"red"²°;°
+    DefinitionMap°[° ²"\³"² °]° °=° ²"blue"²°;°
+    
     PageOptionIsEnabled °=° ²false²°;°
     PageWidth °=° ²21.0²°;°
     PageHeight °=° ²29.7²°;°

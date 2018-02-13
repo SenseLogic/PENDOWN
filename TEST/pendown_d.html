@@ -1823,9 +1823,7 @@
                 character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> next_character_index <span class="gray">);</span>
 
                 <span class="pink">if</span> <span class="gray">(</span> IsAlphabeticalCharacter<span class="gray">(</span> character <span class="gray">)</span>
-                     <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'_'</span>
-                     <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'-'</span>
-                     <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'='</span> <span class="gray">)</span>
+                     <span class="gray">||</span> <span class="red">"_-=°¹²³"</span><span class="gray">.</span>indexOf<span class="gray">(</span> character <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
                 <span class="gray">{</span>
                     found_classes <span class="gray">~=</span> character<span class="gray">;</span>
                 <span class="gray">}</span>
@@ -2302,7 +2300,7 @@
         <span class="gray">{</span>
             it_is_in_black_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_black_span<span class="gray">;</span>
 
-            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_black_span <span class="gray">?</span> <span class="red">"&lt;span class=\"black\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_black_span <span class="gray">?</span> <span class="red">"&lt;span class=\""</span> <span class="gray">~</span> ReplaceDefinitions<span class="gray">(</span> <span class="red">"°°"</span> <span class="gray">)</span> <span class="gray">~</span> <span class="red">"\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
 
             character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
         <span class="gray">}</span>
@@ -2311,7 +2309,7 @@
         <span class="gray">{</span>
             it_is_in_cyan_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_cyan_span<span class="gray">;</span>
 
-            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_cyan_span <span class="gray">?</span> <span class="red">"&lt;span class=\"cyan\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_cyan_span <span class="gray">?</span> <span class="red">"&lt;span class=\""</span> <span class="gray">~</span> ReplaceDefinitions<span class="gray">(</span> <span class="red">"¹¹"</span> <span class="gray">)</span> <span class="gray">~</span> <span class="red">"\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
 
             character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
         <span class="gray">}</span>
@@ -2320,7 +2318,7 @@
         <span class="gray">{</span>
             it_is_in_orange_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_orange_span<span class="gray">;</span>
 
-            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_orange_span <span class="gray">?</span> <span class="red">"&lt;span class=\"orange\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_orange_span <span class="gray">?</span> <span class="red">"&lt;span class=\""</span> <span class="gray">~</span> ReplaceDefinitions<span class="gray">(</span> <span class="red">"²²"</span> <span class="gray">)</span> <span class="gray">~</span> <span class="red">"\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
 
             character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
         <span class="gray">}</span>
@@ -2329,7 +2327,7 @@
         <span class="gray">{</span>
             it_is_in_green_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_green_span<span class="gray">;</span>
 
-            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_green_span <span class="gray">?</span> <span class="red">"&lt;span class=\"green\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_green_span <span class="gray">?</span> <span class="red">"&lt;span class=\""</span> <span class="gray">~</span> ReplaceDefinitions<span class="gray">(</span> <span class="red">"³³"</span> <span class="gray">)</span> <span class="gray">~</span> <span class="red">"\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
 
             character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
         <span class="gray">}</span>
@@ -2337,7 +2335,7 @@
         <span class="gray">{</span>
             it_is_in_gray_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_gray_span<span class="gray">;</span>
 
-            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_gray_span <span class="gray">?</span> <span class="red">"&lt;span class=\"gray\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_gray_span <span class="gray">?</span> <span class="red">"&lt;span class=\""</span> <span class="gray">~</span> ReplaceDefinitions<span class="gray">(</span> <span class="red">"°"</span> <span class="gray">)</span> <span class="gray">~</span> <span class="red">"\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
 
             <span class="gray">++</span>character_index<span class="gray">;</span>
         <span class="gray">}</span>
@@ -2345,7 +2343,7 @@
         <span class="gray">{</span>
             it_is_in_pink_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_pink_span<span class="gray">;</span>
 
-            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_pink_span <span class="gray">?</span> <span class="red">"&lt;span class=\"pink\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_pink_span <span class="gray">?</span> <span class="red">"&lt;span class=\""</span> <span class="gray">~</span> ReplaceDefinitions<span class="gray">(</span> <span class="red">"¹"</span> <span class="gray">)</span> <span class="gray">~</span> <span class="red">"\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
 
             <span class="gray">++</span>character_index<span class="gray">;</span>
         <span class="gray">}</span>
@@ -2353,7 +2351,7 @@
         <span class="gray">{</span>
             it_is_in_red_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_red_span<span class="gray">;</span>
 
-            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_red_span <span class="gray">?</span> <span class="red">"&lt;span class=\"red\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_red_span <span class="gray">?</span> <span class="red">"&lt;span class=\""</span> <span class="gray">~</span> ReplaceDefinitions<span class="gray">(</span> <span class="red">"²"</span> <span class="gray">)</span> <span class="gray">~</span> <span class="red">"\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
 
             <span class="gray">++</span>character_index<span class="gray">;</span>
         <span class="gray">}</span>
@@ -2361,7 +2359,7 @@
         <span class="gray">{</span>
             it_is_in_blue_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_blue_span<span class="gray">;</span>
 
-            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_blue_span <span class="gray">?</span> <span class="red">"&lt;span class=\"blue\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_blue_span <span class="gray">?</span> <span class="red">"&lt;span class=\""</span> <span class="gray">~</span> ReplaceDefinitions<span class="gray">(</span> <span class="red">"³"</span> <span class="gray">)</span> <span class="gray">~</span> <span class="red">"\"&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
 
             <span class="gray">++</span>character_index<span class="gray">;</span>
         <span class="gray">}</span>
@@ -2832,8 +2830,19 @@
     ScriptOptionIsEnabled <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     StyleOptionIsEnabled <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     LanguageName <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+
     TabulationSpaceCount <span class="gray">=</span> <span class="red">4</span><span class="gray">;</span>
-    IndentationSpaceCount <span class="gray">=</span> <span class="red">4</span><span class="gray">;</span>
+    IndentationSpaceCount <span class="gray">=</span> <span class="red">4</span><span class="gray">;</span>    
+
+    DefinitionMap<span class="gray">[</span> <span class="red">"°°"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"black"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"¹¹"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"cyan"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"²²"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"orange"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"³³"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"green"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"°"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"gray"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"¹"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"pink"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"²"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"red"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"³"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"blue"</span><span class="gray">;</span>
+
     PageOptionIsEnabled <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     PageWidth <span class="gray">=</span> <span class="red">21.0</span><span class="gray">;</span>
     PageHeight <span class="gray">=</span> <span class="red">29.7</span><span class="gray">;</span>
