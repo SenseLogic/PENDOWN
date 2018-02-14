@@ -206,8 +206,8 @@ Quote
 ]]]
 
 {{^orange+bold=²\}}
-[[[^border+orange_border+black\
-((^orange_background+white+bold+center\ Pronoun | -AR§cantar | -ER§comer | -IR§vivir ))
+[[[^orange_border+tiny_border+padding+black\
+((^no_top_left_border\ |^orange_background+white+bold+center=title\ -AR§cantar |^title\ -ER§comer |^title\ -IR§vivir ))
 (( °(yo)° | cant²o² | com²o² | viv²o² ))
 (( °(tú)° | cant²as² | com²es² | viv²es² ))
 (( °(él,ella,usted)° | cant²a² | com²e² | viv²e² ))
@@ -217,11 +217,41 @@ Quote
 ]]]
 {{^red=²\}}
 
-[[[
-((
+[[[^grid\
+((^top=column\
++++
+Boq cha'bip dav jajvam jij mughato' qawhaq qughdo qaw' qun tennus tlhoy' sas 'entepray'.
+Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh natlis ngij.
+Pivchem qid red rutlh saqjan say'qu'moh siq torgh tlhach mu'mey vilinhod vithay' yem 'iqnah 'irneh.
++++
+|^column\
++++
+Bi'rel tlharghduj ghubdaq jer nav habli' pirmus qan qa'hom tlhot tlhup 'irneh.
+Bahjan boqha' hu'tegh jaj jer lo'lahbe'ghach mil natlh nguq quv bey' taq yatqap 'aqtu' 'e'mamnal.
+Chang'eng chas denib ghuy' heghba' holqed mellota' nav habli' piq qay'wi' rech ril serrum siqwi' tagh.
++++
+|^column\
++++
+Beb chaw' cha'do' ghochwi' huchqed hutvagh loghqam lolmoh lorbe' matlh me' mughato' mu'qad ves.
+Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej tlhoy' sas valqis 'och.
+Be'joy' boqha''egh bur cha'par dor hom lih lir natlis ngun pirmus qeli'qam ril ruq tatlh tlhoy'.
++++
+))
+]]]
 
-|
-
+[[[^grid+compact+border+light_gray_border+padding\
+((^top=column\
+Boq cha'bip dav jajvam jij mughato' qawhaq qughdo qaw' qun tennus tlhoy' sas 'entepray'.
+Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh natlis ngij.
+Pivchem qid red rutlh saqjan say'qu'moh siq torgh tlhach mu'mey vilinhod vithay' yem 'iqnah 'irneh.
+|^column\
+Bi'rel tlharghduj ghubdaq jer nav habli' pirmus qan qa'hom tlhot tlhup 'irneh.
+Bahjan boqha' hu'tegh jaj jer lo'lahbe'ghach mil natlh nguq quv bey' taq yatqap 'aqtu' 'e'mamnal.
+Chang'eng chas denib ghuy' heghba' holqed mellota' nav habli' piq qay'wi' rech ril serrum siqwi' tagh.
+|^column\
+Beb chaw' cha'do' ghochwi' huchqed hutvagh loghqam lolmoh lorbe' matlh me' mughato' mu'qad ves.
+Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej tlhoy' sas valqis 'och.
+Be'joy' boqha''egh bur cha'par dor hom lih lir natlis ngun pirmus qeli'qam ril ruq tatlh tlhoy'.
 ))
 ]]]
 
@@ -278,7 +308,7 @@ Four spaces per level.
         *   Sub-list
 *   List§
     ...
-    
+
 {{{^dash\
 *   List
 *   List
