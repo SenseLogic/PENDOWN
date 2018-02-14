@@ -2060,7 +2060,7 @@ TOKEN[] GetTokenArray(
             
             ParseAttributes( "", "border-color" );
 
-            token.Text = "<table" ~ attributes ~ ">";
+            token.Text = "<table" ~ attributes ~ "><tbody>";
         }
         else if ( text.slice( character_index, character_index + 2 ) == "(("
                   && table_count > 0 )
@@ -2069,14 +2069,16 @@ TOKEN[] GetTokenArray(
             
             ParseAttributes( "", "background-color" );
             
-            token.Text = "<tr" ~ attributes ~ "><td>";
+            token.Text = "<tr><td" ~ attributes ~ ">";
         }
         else if ( text.charAt( character_index ) == '|'
                   && table_count > 0 )
         {
-            token.Text = "</td><td>";
-            
             ++character_index;
+            
+            ParseAttributes( "", "background-color" );
+            
+            token.Text = "</td><td" ~ attributes ~ ">";
         }
         else if ( text.slice( character_index, character_index + 2 ) == "))"
                   && table_count > 0 )
@@ -2090,7 +2092,7 @@ TOKEN[] GetTokenArray(
         {
             --table_count;
             
-            token.Text = "</table>";
+            token.Text = "</tbody></table>";
             
             character_index += 3;
         }

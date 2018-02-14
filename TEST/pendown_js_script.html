@@ -1888,7 +1888,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
             ParseAttributes°(° ²""²°,° ²"border-color"² °);°
 
-            token°.°Text °=° ²"&lt;table"² °+° attributes °+° ²"&gt;"²°;°
+            token°.°Text °=° ²"&lt;table"² °+° attributes °+° ²"&gt;&lt;tbody&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"(("²
                   °&&° table_count °&gt;° ²0² °)°
@@ -1896,15 +1896,17 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             character_index °+=° ²2²°;°
             
             ParseAttributes°(° ²""²°,° ²"background-color"² °);°
-            
-            token°.°Text °=° ²"&lt;tr"² °+° attributes °+° ²"&gt;&lt;td&gt;"²°;°
+        
+            token°.°Text °=° ²"&lt;tr&gt;&lt;td"² °+° attributes °+° ²"&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'|'²
                   °&&° table_count °&gt;° ²0² °)°
         °{°
-            token°.°Text °=° ²"&lt;/td&gt;&lt;td&gt;"²°;°
-
             °+\+°character_index°;°
+            
+            ParseAttributes°(° ²""²°,° ²"background-color"² °);°
+            
+            token°.°Text °=° ²"&lt;/td&gt;&lt;td"² °+° attributes °+° ²"&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"))"²
                   °&&° table_count °&gt;° ²0² °)°
@@ -1918,7 +1920,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             °-\-°table_count°;°
 
-            token°.°Text °=° ²"&lt;/table&gt;"²°;°
+            token°.°Text °=° ²"&lt;/tbody&gt;&lt;/table&gt;"²°;°
 
             character_index °+=° ²3²°;°
         °}°
