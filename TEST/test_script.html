@@ -347,6 +347,13 @@ int main()
     </tr>
 </table>
 
+[[[
+    ((        | Monday | Tuesday | Wednesday ))
+    (( Apple  | 1      | 2       | 3         ))
+    (( Orange | 1      | 2       | 3         ))
+    (( Banana | 1      | 2       | 3         ))
+]]]
+
 {{^orange+bold=²\}}
 [[[^orange_border+tiny_border+padding+black\
 ((^no_top_left_border\ |^orange_background+white+bold+center=title\ -AR§cantar |^title\ -ER§comer |^title\ -IR§vivir ))
@@ -369,6 +376,70 @@ int main()
 ((^top=column\ Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh natlis ngij.
 |^column\ Pivchem qid red rutlh saqjan say'qu'moh siq torgh tlhach mu'mey vilinhod vithay' yem 'iqnah 'irneh.
 |^column\ Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej tlhoy' sas valqis 'och. ))
+]]]
+
+[[[^grid+no_padding\
+((
+    [[[^grid+padding+black+small=table\
+    ((^black_background+white\ black ))
+    ]]]
+|
+    [[[^table\
+    ((^dark_gray_background\ dark gray ))
+    ((^dark_orange_background\ dark orange ))
+    ((^dark_red_background\ dark red ))
+    ((^dark_pink_background\ dark pink ))
+    ((^dark_violet_background\ dark violet ))
+    ((^dark_blue_background\ dark blue ))
+    ((^dark_cyan_background\ dark cyan ))
+    ((^dark_green_background\ dark green ))
+    ((^dark_lawn_background\ dark lawn ))
+    ((^dark_yellow_background\ dark yellow ))
+    ]]]
+|
+    [[[^table\
+    ((^gray_background\ gray ))
+    ((^orange_background\ orange ))
+    ((^red_background\ red ))
+    ((^pink_background\ pink ))
+    ((^violet_background\ violet ))
+    ((^blue_background\ blue ))
+    ((^cyan_background\ cyan ))
+    ((^green_background\ green ))
+    ((^lawn_background\ lawn ))
+    ((^yellow_background\ yellow ))
+    ]]]
+|
+    [[[^table\
+    ((^light_gray_background\ light gray ))
+    ((^light_orange_background\ light orange ))
+    ((^light_red_background\ light red ))
+    ((^light_pink_background\ light pink ))
+    ((^light_violet_background\ light violet ))
+    ((^light_blue_background\ light blue ))
+    ((^light_cyan_background\ light cyan ))
+    ((^light_green_background\ light green ))
+    ((^light_lawn_background\ light lawn ))
+    ((^light_yellow_background\ light yellow ))
+    ]]]
+|
+    [[[^table\
+    ((^pastel_gray_background\ pastel gray ))
+    ((^pastel_orange_background\ pastel orange ))
+    ((^pastel_red_background\ pastel red ))
+    ((^pastel_pink_background\ pastel pink ))
+    ((^pastel_violet_background\ pastel violet ))
+    ((^pastel_blue_background\ pastel blue ))
+    ((^pastel_cyan_background\ pastel cyan ))
+    ((^pastel_green_background\ pastel green ))
+    ((^pastel_lawn_background\ pastel lawn ))
+    ((^pastel_yellow_background\ pastel yellow ))
+    ]]]
+|
+    [[[^table\
+    ((^white_background\ white ))
+    ]]]
+))
 ]]]
 
 ---
@@ -419,52 +490,6 @@ int main()
 
 ---
 
-*   List
-*   List
-    *   Sub-list
-    *   Sub-list
-        #   Numbered sub-list
-        #   Numbered sub-list
-            #   Numbered sub-list
-            #   Numbered sub-list
-        #   Numbered
-            sub-list
-*   List
-    *   Sub-list
-        *   Sub-list
-        *   Sub-list
-    *   Sub-list
-        *   Sub-list
-        *   Sub-list
-*   List§
-    ...
-
----
-
-{{{^dash\
-*   List
-*   List
-    *   Sub-list
-    *   Sub-list
-        #   Numbered sub-list
-        #   Numbered sub-list
-            #   Numbered sub-list
-            #   Numbered sub-list
-        #   Numbered
-            sub-list
-*   List
-    *   Sub-list
-        *   Sub-list
-        *   Sub-list
-    *   Sub-list
-        *   Sub-list
-        *   Sub-list
-*   List§
-    ...
-}}}
-
----
-
 #   Numbered list
 #   Numbered list
     #   Numbered sub-list§
@@ -508,6 +533,52 @@ int main()
         Numbered list
     </li>
 </ol>
+
+---
+
+*   List
+*   List
+    *   Sub-list
+    *   Sub-list
+        #   Numbered sub-list
+        #   Numbered sub-list
+            #   Numbered sub-list
+            #   Numbered sub-list
+        #   Numbered
+            sub-list
+*   List
+    *   Sub-list
+        *   Sub-list
+        *   Sub-list
+    *   Sub-list
+        *   Sub-list
+        *   Sub-list
+*   List§
+    ...
+
+---
+
+{{{^dash\
+*   List
+*   List
+    *   Sub-list
+    *   Sub-list
+        #   Numbered sub-list
+        #   Numbered sub-list
+            #   Numbered sub-list
+            #   Numbered sub-list
+        #   Numbered
+            sub-list
+*   List
+    *   Sub-list
+        *   Sub-list
+        *   Sub-list
+    *   Sub-list
+        *   Sub-list
+        *   Sub-list
+*   List§
+    ...
+}}}
 
 ---
 
