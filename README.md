@@ -199,10 +199,10 @@ Quote
 !! Table
 
 [[[
-((        | Monday | Tuesday | Wednesday ))
-(( Apple  | 1      | 2       | 3         ))
-(( Orange | 1      | 2       | 3         ))
-(( Banana | 1      | 2       | 3         ))
+    ((        | Monday | Tuesday | Wednesday ))
+    (( Apple  | 1      | 2       | 3         ))
+    (( Orange | 1      | 2       | 3         ))
+    (( Banana | 1      | 2       | 3         ))
 ]]]
 
 {{^orange+bold=²\}}
@@ -227,6 +227,70 @@ Quote
 ((^top=column\ Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh natlis ngij.
 |^column\ Pivchem qid red rutlh saqjan say'qu'moh siq torgh tlhach mu'mey vilinhod vithay' yem 'iqnah 'irneh.
 |^column\ Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej tlhoy' sas valqis 'och. ))
+]]]
+
+[[[^grid+no_padding\
+((
+    [[[^grid+padding+small=table\
+    ((^black_background+white\ black ))
+    ]]]
+|
+    [[[^table\
+    ((^dark_gray_background+gray\ dark gray ))
+    ((^dark_orange_background+orange\ dark orange ))
+    ((^dark_red_background+red\ dark red ))
+    ((^dark_pink_background+pink\ dark pink ))
+    ((^dark_violet_background+violet\ dark violet ))
+    ((^dark_blue_background+blue\ dark blue ))
+    ((^dark_cyan_background+cyan\ dark cyan ))
+    ((^dark_green_background+green\ dark green ))
+    ((^dark_lawn_background+lawn\ dark lawn ))
+    ((^dark_yellow_background+yellow\ dark yellow ))
+    ]]]
+|
+    [[[^table\
+    ((^gray_background+light_gray\ gray ))
+    ((^orange_background+light_orange\ orange ))
+    ((^red_background+light_red\ red ))
+    ((^pink_background+light_pink\ pink ))
+    ((^violet_background+light_violet\ violet ))
+    ((^blue_background+light_blue\ blue ))
+    ((^cyan_background+light_cyan\ cyan ))
+    ((^green_background+light_green\ green ))
+    ((^lawn_background+light_lawn\ lawn ))
+    ((^yellow_background+white\ yellow ))
+    ]]]
+|
+    [[[^table\
+    ((^light_gray_background+pastel_gray\ light gray ))
+    ((^light_orange_background+pastel_orange\ light orange ))
+    ((^light_red_background+pastel_red\ light red ))
+    ((^light_pink_background+pastel_pink\ light pink ))
+    ((^light_violet_background+pastel_violet\ light violet ))
+    ((^light_blue_background+pastel_blue\ light blue ))
+    ((^light_cyan_background+pastel_cyan\ light cyan ))
+    ((^light_green_background+pastel_green\ light green ))
+    ((^light_lawn_background+pastel_lawn\ light lawn ))
+    ((^light_yellow_background+white\ light yellow ))
+    ]]]
+|
+    [[[^table\
+    ((^pastel_gray_background+white\ pastel gray ))
+    ((^pastel_orange_background+white\ pastel orange ))
+    ((^pastel_red_background+white\ pastel red ))
+    ((^pastel_pink_background+white\ pastel pink ))
+    ((^pastel_violet_background+white\ pastel violet ))
+    ((^pastel_blue_background+white\ pastel blue ))
+    ((^pastel_cyan_background+white\ pastel cyan ))
+    ((^pastel_green_background+white\ pastel green ))
+    ((^pastel_lawn_background+white\ pastel lawn ))
+    ((^pastel_yellow_background+white\ pastel yellow ))
+    ]]]
+|
+    [[[^table\
+    ((^white_background+black\ white ))
+    ]]]
+))
 ]]]
 
 !! Code
