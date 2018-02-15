@@ -232,7 +232,7 @@ Quote
 [[[^grid+no_padding\
 ((
     [[[^grid+padding+small=table\
-    ((^black_background+white\ black ))
+    ((^black_background+dark_gray\ black ))
     ]]]
 |
     [[[^table\
@@ -288,7 +288,7 @@ Quote
     ]]]
 |
     [[[^table\
-    ((^white_background+black\ white ))
+    ((^white_background+pastel_gray\ white ))
     ]]]
 ))
 ]]]
