@@ -1772,6 +1772,8 @@
         <span class="red">dstring</span> color_name
         <span class="gray">)</span>
     <span class="gray">{</span>
+        <span class="red">bool</span>
+            command_is_valid<span class="gray">;</span>
         <span class="red">dchar</span>
             character<span class="gray">;</span>
         <span class="red">long</span>
@@ -1779,6 +1781,8 @@
         <span class="red">dstring</span>
             found_classes<span class="gray">,</span>
             found_size<span class="gray">,</span>
+            found_span<span class="gray">,</span>
+            span<span class="gray">,</span>
             styles<span class="gray">;</span>
         <span class="red">dstring</span><span class="gray">[]</span>
             part_array<span class="gray">;</span>
@@ -1787,128 +1791,170 @@
 
         styles <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
 
-        <span class="pink">if</span> <span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
-             <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">)</span>
-             <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">)</span>
-             <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">)</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
-            <span class="gray">{</span>
-                styles <span class="gray">=</span> color_name <span class="gray">~</span> <span class="red">":#"</span> <span class="gray">~</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">);</span> 
+        span <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
 
-                character_index <span class="gray">+=</span> <span class="red">4</span><span class="gray">;</span>
+        command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+
+        <span class="pink">while</span> <span class="gray">(</span> character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length
+                <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">==</span> <span class="red">'^'</span>
+                <span class="gray">&&</span> command_is_valid <span class="gray">)</span>
+        <span class="gray">{</span>
+            command_is_valid <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
+
+            <span class="pink">if</span> <span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">5</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
+                 <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">==</span> <span class="red">'#'</span>
+                 <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">)</span>
+                 <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">)</span>
+                 <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">4</span> <span class="gray">)</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="gray">{</span>
+                <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">5</span> <span class="gray">)</span> <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
+                <span class="gray">{</span>
+                    styles <span class="gray">=</span> color_name <span class="gray">~</span> <span class="red">":"</span> <span class="gray">~</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">5</span> <span class="gray">);</span> 
+
+                    character_index <span class="gray">+=</span> <span class="red">6</span><span class="gray">;</span>
+                    command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+                <span class="gray">}</span>
+                <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">8</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
+                          <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">5</span> <span class="gray">)</span> <span class="gray">)</span>
+                          <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">6</span> <span class="gray">)</span> <span class="gray">)</span>
+                          <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">7</span> <span class="gray">)</span> <span class="gray">)</span>
+                          <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">8</span> <span class="gray">)</span> <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
+                <span class="gray">{</span>
+                    styles <span class="gray">=</span> color_name <span class="gray">~</span> <span class="red">":"</span> <span class="gray">~</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">8</span> <span class="gray">);</span>
+
+                    character_index <span class="gray">+=</span> <span class="red">9</span><span class="gray">;</span>
+                    command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+                <span class="gray">}</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
+                      <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">==</span> <span class="red">'^'</span>
+                      <span class="gray">&&</span> IsAlphabeticalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="gray">{</span>
+                found_classes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+
+                <span class="pink">for</span> <span class="gray">(</span> next_character_index <span class="gray">=</span> character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
+                      next_character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length<span class="gray">;</span>
+                      <span class="gray">++</span>next_character_index <span class="gray">)</span>
+                <span class="gray">{</span>
+                    character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> next_character_index <span class="gray">);</span>
+
+                    <span class="pink">if</span> <span class="gray">(</span> IsAlphabeticalCharacter<span class="gray">(</span> character <span class="gray">)</span>
+                         <span class="gray">||</span> IsDecimalCharacter<span class="gray">(</span> character <span class="gray">)</span>
+                         <span class="gray">||</span> <span class="red">"_-=°¹²³"</span><span class="gray">.</span>indexOf<span class="gray">(</span> character <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
+                    <span class="gray">{</span>
+                        found_classes <span class="gray">~=</span> character<span class="gray">;</span>
+                    <span class="gray">}</span>
+                    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'+'</span> <span class="gray">)</span>
+                    <span class="gray">{</span>
+                        found_classes <span class="gray">~=</span> <span class="red">' '</span><span class="gray">;</span>
+                    <span class="gray">}</span>
+                    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
+                    <span class="gray">{</span>        
+                        <span class="pink">if</span> <span class="gray">(</span> found_classes <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+                        <span class="gray">{</span>
+                            <span class="pink">if</span> <span class="gray">(</span> found_classes<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">'='</span> <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
+                            <span class="gray">{</span>
+                                part_array <span class="gray">=</span> found_classes<span class="gray">.</span>split<span class="gray">(</span> <span class="red">'='</span> <span class="gray">);</span>
+                                DefinitionMap<span class="gray">[</span> part_array<span class="gray">[</span> <span class="red">1</span> <span class="gray">]</span> <span class="gray">]</span> <span class="gray">=</span> part_array<span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
+                                found_classes <span class="gray">=</span> part_array<span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
+                            <span class="gray">}</span>
+
+                            found_classes <span class="gray">=</span> ReplaceDefinitions<span class="gray">(</span> found_classes <span class="gray">);</span>
+
+                            <span class="pink">if</span> <span class="gray">(</span> classes <span class="gray">==</span> <span class="red">""</span> <span class="gray">)</span>
+                            <span class="gray">{</span>
+                                classes <span class="gray">=</span> found_classes<span class="gray">;</span>
+                            <span class="gray">}</span>
+                            <span class="pink">else</span>
+                            <span class="gray">{</span>
+                                classes <span class="gray">~=</span> <span class="red">" "</span> <span class="gray">~</span> found_classes<span class="gray">;</span>
+                            <span class="gray">}</span>
+
+                            character_index <span class="gray">=</span> next_character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
+                            command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+                        <span class="gray">}</span>
+
+                        <span class="pink">break</span><span class="gray">;</span>
+                    <span class="gray">}</span>
+                    <span class="pink">else</span>
+                    <span class="gray">{</span>
+                        <span class="pink">break</span><span class="gray">;</span>
+                    <span class="gray">}</span>
+                <span class="gray">}</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
+                      <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">==</span> <span class="red">'^'</span>
+                      <span class="gray">&&</span> IsDecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="gray">{</span>
+                found_size <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+
+                <span class="pink">for</span> <span class="gray">(</span> next_character_index <span class="gray">=</span> character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
+                      next_character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length<span class="gray">;</span>
+                      <span class="gray">++</span>next_character_index <span class="gray">)</span>
+                <span class="gray">{</span>
+                    character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> next_character_index <span class="gray">);</span>
+
+                    <span class="pink">if</span> <span class="gray">(</span> IsDecimalCharacter<span class="gray">(</span> character <span class="gray">)</span>
+                         <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'.'</span> <span class="gray">)</span>
+                    <span class="gray">{</span>
+                        found_size <span class="gray">~=</span> character<span class="gray">;</span>
+                    <span class="gray">}</span>
+                    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
+                    <span class="gray">{</span>        
+                        <span class="pink">if</span> <span class="gray">(</span> found_size <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+                        <span class="gray">{</span>
+                            <span class="pink">if</span> <span class="gray">(</span> styles <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+                            <span class="gray">{</span>
+                                styles <span class="gray">~=</span> <span class="red">";"</span><span class="gray">;</span>
+                            <span class="gray">}</span>
+
+                            styles <span class="gray">~=</span> <span class="red">"font-size:"</span> <span class="gray">~</span> found_size <span class="gray">~</span> <span class="red">"rem"</span><span class="gray">;</span>
+
+                            character_index <span class="gray">=</span> next_character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
+                            command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+                        <span class="gray">}</span>
+
+                        <span class="pink">break</span><span class="gray">;</span>
+                    <span class="gray">}</span>
+                    <span class="pink">else</span>
+                    <span class="gray">{</span>
+                        <span class="pink">break</span><span class="gray">;</span>
+                    <span class="gray">}</span>
+                <span class="gray">}</span>
             <span class="gray">}</span>
             <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
-                      <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">)</span>
-                      <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">4</span> <span class="gray">)</span> <span class="gray">)</span>
-                      <span class="gray">&&</span> IsHexadecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">5</span> <span class="gray">)</span> <span class="gray">)</span>
-                      <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">6</span> <span class="gray">)</span> <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
+                      <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">==</span> <span class="red">'^'</span>
+                      <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">==</span> <span class="red">'='</span>
+                      <span class="gray">&&</span> IsDecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
-                styles <span class="gray">=</span> color_name <span class="gray">~</span> <span class="red">":#"</span> <span class="gray">~</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">6</span> <span class="gray">);</span>
+                found_span <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
 
-                character_index <span class="gray">+=</span> <span class="red">7</span><span class="gray">;</span>
-            <span class="gray">}</span>
-        <span class="gray">}</span>
-
-        <span class="pink">while</span> <span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
-             <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">==</span> <span class="red">'^'</span>
-             <span class="gray">&&</span> IsAlphabeticalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">)</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            found_classes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
-
-            <span class="pink">for</span> <span class="gray">(</span> next_character_index <span class="gray">=</span> character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
-                  next_character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length<span class="gray">;</span>
-                  <span class="gray">++</span>next_character_index <span class="gray">)</span>
-            <span class="gray">{</span>
-                character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> next_character_index <span class="gray">);</span>
-
-                <span class="pink">if</span> <span class="gray">(</span> IsAlphabeticalCharacter<span class="gray">(</span> character <span class="gray">)</span>
-                     <span class="gray">||</span> IsDecimalCharacter<span class="gray">(</span> character <span class="gray">)</span>
-                     <span class="gray">||</span> <span class="red">"_-=°¹²³"</span><span class="gray">.</span>indexOf<span class="gray">(</span> character <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
+                <span class="pink">for</span> <span class="gray">(</span> next_character_index <span class="gray">=</span> character_index <span class="gray">+</span> <span class="red">2</span><span class="gray">;</span>
+                      next_character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length<span class="gray">;</span>
+                      <span class="gray">++</span>next_character_index <span class="gray">)</span>
                 <span class="gray">{</span>
-                    found_classes <span class="gray">~=</span> character<span class="gray">;</span>
-                <span class="gray">}</span>
-                <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'+'</span> <span class="gray">)</span>
-                <span class="gray">{</span>
-                    found_classes <span class="gray">~=</span> <span class="red">' '</span><span class="gray">;</span>
-                <span class="gray">}</span>
-                <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
-                <span class="gray">{</span>        
-                    <span class="pink">if</span> <span class="gray">(</span> found_classes <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+                    character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> next_character_index <span class="gray">);</span>
+
+                    <span class="pink">if</span> <span class="gray">(</span> IsDecimalCharacter<span class="gray">(</span> character <span class="gray">)</span> <span class="gray">)</span>
                     <span class="gray">{</span>
-                        <span class="pink">if</span> <span class="gray">(</span> found_classes<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">'='</span> <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
-                        <span class="gray">{</span>
-                            part_array <span class="gray">=</span> found_classes<span class="gray">.</span>split<span class="gray">(</span> <span class="red">'='</span> <span class="gray">);</span>
-                            DefinitionMap<span class="gray">[</span> part_array<span class="gray">[</span> <span class="red">1</span> <span class="gray">]</span> <span class="gray">]</span> <span class="gray">=</span> part_array<span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
-                            found_classes <span class="gray">=</span> part_array<span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
-                        <span class="gray">}</span>
-
-                        found_classes <span class="gray">=</span> ReplaceDefinitions<span class="gray">(</span> found_classes <span class="gray">);</span>
-
-                        <span class="pink">if</span> <span class="gray">(</span> classes <span class="gray">==</span> <span class="red">""</span> <span class="gray">)</span>
-                        <span class="gray">{</span>
-                            classes <span class="gray">=</span> found_classes<span class="gray">;</span>
-                        <span class="gray">}</span>
-                        <span class="pink">else</span>
-                        <span class="gray">{</span>
-                            classes <span class="gray">~=</span> <span class="red">" "</span> <span class="gray">~</span> found_classes<span class="gray">;</span>
-                        <span class="gray">}</span>
-
-                        character_index <span class="gray">=</span> next_character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
+                        found_span <span class="gray">~=</span> character<span class="gray">;</span>
                     <span class="gray">}</span>
+                    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
+                    <span class="gray">{</span>        
+                        <span class="pink">if</span> <span class="gray">(</span> found_span <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+                        <span class="gray">{</span>
+                            span <span class="gray">=</span> found_span<span class="gray">;</span>
 
-                    <span class="pink">break</span><span class="gray">;</span>
-                <span class="gray">}</span>
-                <span class="pink">else</span>
-                <span class="gray">{</span>
-                    found_classes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+                            character_index <span class="gray">=</span> next_character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
+                            command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+                        <span class="gray">}</span>
 
-                    <span class="pink">break</span><span class="gray">;</span>
-                <span class="gray">}</span>
-            <span class="gray">}</span>
-
-            <span class="pink">if</span> <span class="gray">(</span> found_classes <span class="gray">==</span> <span class="red">""</span> <span class="gray">)</span>
-            <span class="gray">{</span>
-                <span class="pink">break</span><span class="gray">;</span>
-            <span class="gray">}</span>
-        <span class="gray">}</span>
-
-        <span class="pink">if</span> <span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
-             <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">==</span> <span class="red">'^'</span>
-             <span class="gray">&&</span> IsDecimalCharacter<span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">)</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            found_size <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
-
-            <span class="pink">for</span> <span class="gray">(</span> next_character_index <span class="gray">=</span> character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
-                  next_character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length<span class="gray">;</span>
-                  <span class="gray">++</span>next_character_index <span class="gray">)</span>
-            <span class="gray">{</span>
-                character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> next_character_index <span class="gray">);</span>
-
-                <span class="pink">if</span> <span class="gray">(</span> IsDecimalCharacter<span class="gray">(</span> character <span class="gray">)</span>
-                     <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'.'</span> <span class="gray">)</span>
-                <span class="gray">{</span>
-                    found_size <span class="gray">~=</span> character<span class="gray">;</span>
-                <span class="gray">}</span>
-                <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
-                <span class="gray">{</span>        
-                    <span class="pink">if</span> <span class="gray">(</span> found_size <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+                        <span class="pink">break</span><span class="gray">;</span>
+                    <span class="gray">}</span>
+                    <span class="pink">else</span>
                     <span class="gray">{</span>
-                        <span class="pink">if</span> <span class="gray">(</span> styles <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
-                        <span class="gray">{</span>
-                            styles <span class="gray">~=</span> <span class="red">";"</span><span class="gray">;</span>
-                        <span class="gray">}</span>
-
-                        styles <span class="gray">~=</span> <span class="red">"font-size:"</span> <span class="gray">~</span> found_size <span class="gray">~</span> <span class="red">"rem"</span><span class="gray">;</span>
-
-                        character_index <span class="gray">=</span> next_character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
+                        <span class="pink">break</span><span class="gray">;</span>
                     <span class="gray">}</span>
-
-                    <span class="pink">break</span><span class="gray">;</span>
-                <span class="gray">}</span>
-                <span class="pink">else</span>
-                <span class="gray">{</span>
-                    <span class="pink">break</span><span class="gray">;</span>
                 <span class="gray">}</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
@@ -1921,6 +1967,11 @@
         <span class="pink">if</span> <span class="gray">(</span> styles <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
         <span class="gray">{</span>
             attributes <span class="gray">~=</span> <span class="red">" style=\""</span> <span class="gray">~</span> styles <span class="gray">~</span> <span class="red">"\""</span><span class="gray">;</span>
+        <span class="gray">}</span>
+
+        <span class="pink">if</span> <span class="gray">(</span> span <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+        <span class="gray">{</span>
+            attributes <span class="gray">~=</span> <span class="red">" colspan=\""</span> <span class="gray">~</span> span <span class="gray">~</span> <span class="red">"\""</span><span class="gray">;</span>
         <span class="gray">}</span>
     <span class="gray">}</span>
 

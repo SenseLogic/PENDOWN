@@ -82,23 +82,23 @@ $$center$$
 
 ~~strikethrough~~
 
-~~f00\strikethrough~~
+~~^#f00\strikethrough~~
 
 __underlined__
 
-__f00\underlined__
+__^#f00\underlined__
 
 ##highlighted##
 
-##fce\highlighted##
+##^#fce\highlighted##
 
-{{6f42c1\colored}}
+{{^#6f42c1\colored}}
 
-{{0cc\colored}}
+{{^#0cc\colored}}
 
-{{f4f\^1.25\colored}}
+{{^#f4f\^1.25\colored}}
 
-{{80f\^large\colored}}
+{{^#80f\^large\colored}}
 
 {{^cyan\colored}}
 
@@ -130,11 +130,11 @@ __f00\underlined__
 Block
 }}}
 
-{{{cfe\
+{{{^#cfe\
 Block
 }}}
 
-{{{cfe\^black\
+{{{^#cfe\^black\
 Block
 }}}
 
@@ -144,11 +144,11 @@ Block
 Box
 ###
 
-###cfe\
+###^#cfe\
 Box
 ###
 
-###cfe\^black\
+###^#cfe\^black\
 Box
 ###
 
@@ -158,18 +158,18 @@ Box
 Frame
 +++
 
-+++f00\
++++^#f00\
 Frame
 +++
 
-{{{ffd\
-+++f00\
+{{{^#ffd\
++++^#f00\
 Frame
 +++
 }}}
 
-{{{ffd\
-+++f00\^black\
+{{{^#ffd\
++++^#f00\^black\
 Frame
 +++
 }}}
@@ -180,18 +180,18 @@ Frame
 Quote
 >>>
 
->>>f00\
+>>>^#f00\
 Quote
 >>>
 
-{{{ffd\
->>>f00\
+{{{^#ffd\
+>>>^#f00\
 Quote
 >>>
 }}}
 
-{{{ffd\
->>>f00\^black\
+{{{^#ffd\
+>>>^#f00\^black\
 Quote
 >>>
 }}}
@@ -206,8 +206,18 @@ Quote
 ]]]
 
 {{^orange+bold=²\}}
-[[[^orange_border+tiny_border+padding+black\
-((^no_top_left_border\ |^orange_fill+white+bold+center=title\ -AR§cantar |^title\ -ER§comer |^title\ -IR§vivir ))
+[[[^orange_border+tiny_border+padding+black=table\
+((^orange_fill+white+bold+center=title\^=2\ Subject pronouns ))
+(( ²yo² | I ))
+(( ²tú² | you ))
+(( ²él², ²ella², ²usted² | he, she, %%you%% ))
+(( ²nosotros², ²nosotras² | we ))
+(( ²vosotros², ²vosotras² | you ))
+(( ²ellos², ²ellas², ²ustedes² | they, %%you%% ))
+]]]
+
+[[[^table\
+((^no_top_left_border\ |^title\ -AR§cantar |^title\ -ER§comer |^title\ -IR§vivir ))
 (( °(yo)° | cant²o² | com²o² | viv²o² ))
 (( °(tú)° | cant²as² | com²es² | viv²es² ))
 (( °(él,ella,usted)° | cant²a² | com²e² | viv²e² ))
@@ -553,7 +563,7 @@ Converts a D source code file to a HTML file which imports the Pendown script an
 
 ## Version
 
-2.0
+2.1
 
 ## Author
 

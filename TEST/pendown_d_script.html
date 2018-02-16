@@ -1773,6 +1773,8 @@
         ²dstring² color_name
         °)°
     °{°
+        ²bool²
+            command_is_valid°;°
         ²dchar²
             character°;°
         ²long²
@@ -1780,6 +1782,8 @@
         ²dstring²
             found_classes°,°
             found_size°,°
+            found_span°,°
+            span°,°
             styles°;°
         ²dstring²°[]°
             part_array°;°
@@ -1787,129 +1791,171 @@
         attributes °=° ²""²°;°
                     
         styles °=° ²""²°;°
-
-        ¹if¹ °(° character_index °+° ²3² °&lt;° text°.°length
-             °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °)° °)°
-             °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²1² °)° °)°
-             °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²2² °)° °)° °)°
+        
+        span °=° ²""²°;°
+        
+        command_is_valid °=° ²true²°;°
+        
+        ¹while¹ °(° character_index °&lt;° text°.°length
+                °&&° text°.°charAt°(° character_index °)° °==° ²'^'²
+                °&&° command_is_valid °)°
         °{°
-            ¹if¹ °(° text°.°charAt°(° character_index °+° ²3² °)° °==° ²'\\\\'² °)°
-            °{°
-                styles °=° color_name °~° ²":\#"² °~° text°.°slice°(° character_index°,° character_index °+° ²3² °);° 
+            command_is_valid °=° ²false²°;°
 
-                character_index °+=° ²4²°;°
+            ¹if¹ °(° character_index °+° ²5² °&lt;° text°.°length
+                 °&&° text°.°charAt°(° character_index °+° ²1² °)° °==° ²'\#'²
+                 °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²2² °)° °)°
+                 °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²3² °)° °)°
+                 °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²4² °)° °)° °)°
+            °{°
+                ¹if¹ °(° text°.°charAt°(° character_index °+° ²5² °)° °==° ²'\\\\'² °)°
+                °{°
+                    styles °=° color_name °~° ²":"² °~° text°.°slice°(° character_index °+° ²1²°,° character_index °+° ²5² °);° 
+
+                    character_index °+=° ²6²°;°
+                    command_is_valid °=° ²true²°;°
+                °}°
+                ¹else¹ ¹if¹ °(° character_index °+° ²8² °&lt;° text°.°length
+                          °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²5² °)° °)°
+                          °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²6² °)° °)°
+                          °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²7² °)° °)°
+                          °&&° text°.°charAt°(° character_index °+° ²8² °)° °==° ²'\\\\'² °)°
+                °{°
+                    styles °=° color_name °~° ²":"² °~° text°.°slice°(° character_index °+° ²1²°,° character_index °+° ²8² °);°
+
+                    character_index °+=° ²9²°;°
+                    command_is_valid °=° ²true²°;°
+                °}°
+            °}°
+            ¹else¹ ¹if¹ °(° character_index °+° ²2² °&lt;° text°.°length
+                      °&&° text°.°charAt°(° character_index °)° °==° ²'^'²
+                      °&&° IsAlphabeticalCharacter°(° text°.°charAt°(° character_index °+° ²1² °)° °)° °)°
+            °{°
+                found_classes °=° ²""²°;°
+                
+                ¹for¹ °(° next_character_index °=° character_index °+° ²1²°;°
+                      next_character_index °&lt;° text°.°length°;°
+                      °+\+°next_character_index °)°
+                °{°
+                    character °=° text°.°charAt°(° next_character_index °);°
+                    
+                    ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
+                         °||° IsDecimalCharacter°(° character °)°
+                         °||° ²"_-=\°\¹\²\³"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
+                    °{°
+                        found_classes °~=° character°;°
+                    °}°
+                    ¹else¹ ¹if¹ °(° character °==° ²'+'² °)°
+                    °{°
+                        found_classes °~=° ²' '²°;°
+                    °}°
+                    ¹else¹ ¹if¹ °(° character °==° ²'\\\\'² °)°
+                    °{°        
+                        ¹if¹ °(° found_classes °\!=° ²""² °)°
+                        °{°
+                            ¹if¹ °(° found_classes°.°indexOf°(° ²'='² °)° °&gt;=° ²0² °)°
+                            °{°
+                                part_array °=° found_classes°.°split°(° ²'='² °);°
+                                DefinitionMap°[° part_array°[° ²1² °]° °]° °=° part_array°[° ²0² °];°
+                                found_classes °=° part_array°[° ²0² °];°
+                            °}°
+                            
+                            found_classes °=° ReplaceDefinitions°(° found_classes °);°
+                            
+                            ¹if¹ °(° classes °==° ²""² °)°
+                            °{°
+                                classes °=° found_classes°;°
+                            °}°
+                            ¹else¹
+                            °{°
+                                classes °~=° ²" "² °~° found_classes°;°
+                            °}°
+                            
+                            character_index °=° next_character_index °+° ²1²°;°
+                            command_is_valid °=° ²true²°;°
+                        °}°
+                        
+                        ¹break¹°;°
+                    °}°
+                    ¹else¹
+                    °{°
+                        ¹break¹°;°
+                    °}°
+                °}°
+            °}°
+            ¹else¹ ¹if¹ °(° character_index °+° ²2² °&lt;° text°.°length
+                      °&&° text°.°charAt°(° character_index °)° °==° ²'^'²
+                      °&&° IsDecimalCharacter°(° text°.°charAt°(° character_index °+° ²1² °)° °)° °)°
+            °{°
+                found_size °=° ²""²°;°
+                
+                ¹for¹ °(° next_character_index °=° character_index °+° ²1²°;°
+                      next_character_index °&lt;° text°.°length°;°
+                      °+\+°next_character_index °)°
+                °{°
+                    character °=° text°.°charAt°(° next_character_index °);°
+                    
+                    ¹if¹ °(° IsDecimalCharacter°(° character °)°
+                         °||° character °==° ²'.'² °)°
+                    °{°
+                        found_size °~=° character°;°
+                    °}°
+                    ¹else¹ ¹if¹ °(° character °==° ²'\\\\'² °)°
+                    °{°        
+                        ¹if¹ °(° found_size °\!=° ²""² °)°
+                        °{°
+                            ¹if¹ °(° styles °\!=° ²""² °)°
+                            °{°
+                                styles °~=° ²";"²°;°
+                            °}°
+                            
+                            styles °~=° ²"font-size:"² °~° found_size °~° ²"rem"²°;°
+                            
+                            character_index °=° next_character_index °+° ²1²°;°
+                            command_is_valid °=° ²true²°;°
+                        °}°
+                        
+                        ¹break¹°;°
+                    °}°
+                    ¹else¹
+                    °{°
+                        ¹break¹°;°
+                    °}°
+                °}°
             °}°
             ¹else¹ ¹if¹ °(° character_index °+° ²3² °&lt;° text°.°length
-                      °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²3² °)° °)°
-                      °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²4² °)° °)°
-                      °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²5² °)° °)°
-                      °&&° text°.°charAt°(° character_index °+° ²6² °)° °==° ²'\\\\'² °)°
+                      °&&° text°.°charAt°(° character_index °)° °==° ²'^'²
+                      °&&° text°.°charAt°(° character_index °+° ²1² °)° °==° ²'='²
+                      °&&° IsDecimalCharacter°(° text°.°charAt°(° character_index °+° ²2² °)° °)° °)°
             °{°
-                styles °=° color_name °~° ²":\#"² °~° text°.°slice°(° character_index°,° character_index °+° ²6² °);°
-
-                character_index °+=° ²7²°;°
-            °}°
-        °}°
-        
-        ¹while¹ °(° character_index °+° ²2² °&lt;° text°.°length
-             °&&° text°.°charAt°(° character_index °)° °==° ²'^'²
-             °&&° IsAlphabeticalCharacter°(° text°.°charAt°(° character_index °+° ²1² °)° °)° °)°
-        °{°
-            found_classes °=° ²""²°;°
-            
-            ¹for¹ °(° next_character_index °=° character_index °+° ²1²°;°
-                  next_character_index °&lt;° text°.°length°;°
-                  °+\+°next_character_index °)°
-            °{°
-                character °=° text°.°charAt°(° next_character_index °);°
+                found_span °=° ²""²°;°
                 
-                ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
-                     °||° IsDecimalCharacter°(° character °)°
-                     °||° ²"_-=\°\¹\²\³"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
+                ¹for¹ °(° next_character_index °=° character_index °+° ²2²°;°
+                      next_character_index °&lt;° text°.°length°;°
+                      °+\+°next_character_index °)°
                 °{°
-                    found_classes °~=° character°;°
-                °}°
-                ¹else¹ ¹if¹ °(° character °==° ²'+'² °)°
-                °{°
-                    found_classes °~=° ²' '²°;°
-                °}°
-                ¹else¹ ¹if¹ °(° character °==° ²'\\\\'² °)°
-                °{°        
-                    ¹if¹ °(° found_classes °\!=° ²""² °)°
-                    °{°
-                        ¹if¹ °(° found_classes°.°indexOf°(° ²'='² °)° °&gt;=° ²0² °)°
-                        °{°
-                            part_array °=° found_classes°.°split°(° ²'='² °);°
-                            DefinitionMap°[° part_array°[° ²1² °]° °]° °=° part_array°[° ²0² °];°
-                            found_classes °=° part_array°[° ²0² °];°
-                        °}°
-                        
-                        found_classes °=° ReplaceDefinitions°(° found_classes °);°
-                        
-                        ¹if¹ °(° classes °==° ²""² °)°
-                        °{°
-                            classes °=° found_classes°;°
-                        °}°
-                        ¹else¹
-                        °{°
-                            classes °~=° ²" "² °~° found_classes°;°
-                        °}°
-                        
-                        character_index °=° next_character_index °+° ²1²°;°
-                    °}°
+                    character °=° text°.°charAt°(° next_character_index °);°
                     
-                    ¹break¹°;°
-                °}°
-                ¹else¹
-                °{°
-                    found_classes °=° ²""²°;°
-                
-                    ¹break¹°;°
-                °}°
-            °}°
-            
-            ¹if¹ °(° found_classes °==° ²""² °)°
-            °{°
-                ¹break¹°;°
-            °}°
-        °}°
-        
-        ¹if¹ °(° character_index °+° ²2² °&lt;° text°.°length
-             °&&° text°.°charAt°(° character_index °)° °==° ²'^'²
-             °&&° IsDecimalCharacter°(° text°.°charAt°(° character_index °+° ²1² °)° °)° °)°
-        °{°
-            found_size °=° ²""²°;°
-            
-            ¹for¹ °(° next_character_index °=° character_index °+° ²1²°;°
-                  next_character_index °&lt;° text°.°length°;°
-                  °+\+°next_character_index °)°
-            °{°
-                character °=° text°.°charAt°(° next_character_index °);°
-                
-                ¹if¹ °(° IsDecimalCharacter°(° character °)°
-                     °||° character °==° ²'.'² °)°
-                °{°
-                    found_size °~=° character°;°
-                °}°
-                ¹else¹ ¹if¹ °(° character °==° ²'\\\\'² °)°
-                °{°        
-                    ¹if¹ °(° found_size °\!=° ²""² °)°
+                    ¹if¹ °(° IsDecimalCharacter°(° character °)° °)°
                     °{°
-                        ¹if¹ °(° styles °\!=° ²""² °)°
+                        found_span °~=° character°;°
+                    °}°
+                    ¹else¹ ¹if¹ °(° character °==° ²'\\\\'² °)°
+                    °{°        
+                        ¹if¹ °(° found_span °\!=° ²""² °)°
                         °{°
-                            styles °~=° ²";"²°;°
+                            span °=° found_span°;°
+                            
+                            character_index °=° next_character_index °+° ²1²°;°
+                            command_is_valid °=° ²true²°;°
                         °}°
                         
-                        styles °~=° ²"font-size:"² °~° found_size °~° ²"rem"²°;°
-                        
-                        character_index °=° next_character_index °+° ²1²°;°
+                        ¹break¹°;°
                     °}°
-                    
-                    ¹break¹°;°
-                °}°
-                ¹else¹
-                °{°
-                    ¹break¹°;°
+                    ¹else¹
+                    °{°
+                        ¹break¹°;°
+                    °}°
                 °}°
             °}°
         °}°
@@ -1922,6 +1968,11 @@
         ¹if¹ °(° styles °\!=° ²""² °)°
         °{°
             attributes °~=° ²" style=\\""² °~° styles °~° ²"\\""²°;°
+        °}°
+        
+        ¹if¹ °(° span °\!=° ²""² °)°
+        °{°
+            attributes °~=° ²" colspan=\\""² °~° span °~° ²"\\""²°;°
         °}°
     °}°
 

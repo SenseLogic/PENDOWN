@@ -1597,138 +1597,183 @@ function GetTokenArray(
     {
         var
             character,
+            command_is_valid,
             found_classes,
             found_size,
+            found_span,
             next_character_index,
             part_array,
+            span,
             styles;
         
         attributes = "";
                     
         styles = "";
-
-        if ( character_index + 3 < text.length
-             && IsHexadecimalCharacter( text.charAt( character_index ) )
-             && IsHexadecimalCharacter( text.charAt( character_index + 1 ) )
-             && IsHexadecimalCharacter( text.charAt( character_index + 2 ) ) )
+        
+        span = "";
+        
+        command_is_valid = true;
+        
+        while ( character_index < text.length
+                && text.charAt( character_index ) === '^'
+                && command_is_valid )
         {
-            if ( text.charAt( character_index + 3 ) === '\\' )
+            command_is_valid = false;
+            
+            if ( character_index + 5 < text.length
+                 && text.charAt( character_index + 1 ) === '#'
+                 && IsHexadecimalCharacter( text.charAt( character_index + 2 ) )
+                 && IsHexadecimalCharacter( text.charAt( character_index + 3 ) )
+                 && IsHexadecimalCharacter( text.charAt( character_index + 4 ) ) )
             {
-                styles = color_name + ":#" + text.slice( character_index, character_index + 3 ); 
+                if ( text.charAt( character_index + 5 ) === '\\' )
+                {
+                    styles = color_name + ":" + text.slice( character_index + 1, character_index + 5 );
+                    
+                    character_index += 6;
+                    command_is_valid = true;
+                }
+                else if ( character_index + 8 < text.length
+                          && IsHexadecimalCharacter( text.charAt( character_index + 5 ) )
+                          && IsHexadecimalCharacter( text.charAt( character_index + 6 ) )
+                          && IsHexadecimalCharacter( text.charAt( character_index + 7 ) )
+                          && text.charAt( character_index + 8 ) === '\\' )
+                {
+                    styles = color_name + ":" + text.slice( character_index + 1, character_index + 8 );
 
-                character_index += 4;
+                    character_index += 9;
+                    command_is_valid = true;
+                }
+            }
+            else if ( character_index + 2 < text.length
+                      && text.charAt( character_index ) === '^'
+                      && IsAlphabeticalCharacter( text.charAt( character_index + 1 ) ) )
+            {
+                found_classes = "";
+                
+                for ( next_character_index = character_index + 1;
+                      next_character_index < text.length;
+                      ++next_character_index )
+                {
+                    character = text.charAt( next_character_index );
+                    
+                    if ( IsAlphabeticalCharacter( character )
+                         || IsDecimalCharacter( character )
+                         || "_-=°¹²³".indexOf( character ) >= 0 )
+                    {
+                        found_classes += character;
+                    }
+                    else if ( character === '+' )
+                    {
+                        found_classes += ' ';
+                    }
+                    else if ( character === '\\' )
+                    {        
+                        if ( found_classes !== "" )
+                        {
+                            if ( found_classes.indexOf( '=' ) >= 0 )
+                            {
+                                part_array = found_classes.split( '=' );
+                                DefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
+                                found_classes = part_array[ 0 ];
+                            }
+                            
+                            found_classes = ReplaceDefinitions( found_classes );
+                            
+                            if ( classes === "" )
+                            {
+                                classes = found_classes;
+                            }
+                            else
+                            {
+                                classes += " " + found_classes;
+                            }
+                            
+                            character_index = next_character_index + 1;
+                            command_is_valid = true;
+                        }
+                        
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            else if ( character_index + 2 < text.length
+                      && text.charAt( character_index ) === '^'
+                      && IsDecimalCharacter( text.charAt( character_index + 1 ) ) )
+            {
+                found_size = "";
+                
+                for ( next_character_index = character_index + 1;
+                      next_character_index < text.length;
+                      ++next_character_index )
+                {
+                    character = text.charAt( next_character_index );
+                    
+                    if ( IsDecimalCharacter( character )
+                         || character === '.' )
+                    {
+                        found_size += character;
+                    }
+                    else if ( character === '\\' )
+                    {        
+                        if ( found_size !== "" )
+                        {
+                            if ( styles !== "" )
+                            {
+                                styles += ";";
+                            }
+                            
+                            styles += "font-size:" + found_size + "rem";
+                            
+                            character_index = next_character_index + 1;
+                            command_is_valid = true;
+                        }
+                        
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
             else if ( character_index + 3 < text.length
-                      && IsHexadecimalCharacter( text.charAt( character_index + 3 ) )
-                      && IsHexadecimalCharacter( text.charAt( character_index + 4 ) )
-                      && IsHexadecimalCharacter( text.charAt( character_index + 5 ) )
-                      && text.charAt( character_index + 6 ) === '\\' )
+                      && text.charAt( character_index ) === '^'
+                      && text.charAt( character_index + 1 ) === '='
+                      && IsDecimalCharacter( text.charAt( character_index + 2 ) ) )
             {
-                styles = color_name + ":#" + text.slice( character_index, character_index + 6 );
-
-                character_index += 7;
-            }
-        }
-        
-        while ( character_index + 2 < text.length
-             && text.charAt( character_index ) === '^'
-             && IsAlphabeticalCharacter( text.charAt( character_index + 1 ) ) )
-        {
-            found_classes = "";
-            
-            for ( next_character_index = character_index + 1;
-                  next_character_index < text.length;
-                  ++next_character_index )
-            {
-                character = text.charAt( next_character_index );
+                found_span = "";
                 
-                if ( IsAlphabeticalCharacter( character )
-                     || IsDecimalCharacter( character )
-                     || "_-=°¹²³".indexOf( character ) >= 0 )
+                for ( next_character_index = character_index + 2;
+                      next_character_index < text.length;
+                      ++next_character_index )
                 {
-                    found_classes += character;
-                }
-                else if ( character === '+' )
-                {
-                    found_classes += ' ';
-                }
-                else if ( character === '\\' )
-                {        
-                    if ( found_classes !== "" )
+                    character = text.charAt( next_character_index );
+                    
+                    if ( IsDecimalCharacter( character ) )
                     {
-                        if ( found_classes.indexOf( '=' ) >= 0 )
-                        {
-                            part_array = found_classes.split( '=' );
-                            DefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
-                            found_classes = part_array[ 0 ];
-                        }
-                        
-                        found_classes = ReplaceDefinitions( found_classes );
-                        
-                        if ( classes === "" )
-                        {
-                            classes = found_classes;
-                        }
-                        else
-                        {
-                            classes += " " + found_classes;
-                        }
-                        
-                        character_index = next_character_index + 1;
+                        found_span += character;
                     }
-                    
-                    break;
-                }
-                else
-                {
-                    found_classes = "";
-                    
-                    break;
-                }
-            }
-            
-            if ( found_classes === "" )
-            {
-                break;
-            }
-        }
-        
-        if ( character_index + 2 < text.length
-             && text.charAt( character_index ) === '^'
-             && IsDecimalCharacter( text.charAt( character_index + 1 ) ) )
-        {
-            found_size = "";
-            
-            for ( next_character_index = character_index + 1;
-                  next_character_index < text.length;
-                  ++next_character_index )
-            {
-                character = text.charAt( next_character_index );
-                
-                if ( IsDecimalCharacter( character )
-                     || character === '.' )
-                {
-                    found_size += character;
-                }
-                else if ( character === '\\' )
-                {        
-                    if ( found_size !== "" )
+                    else if ( character === '\\' )
+                    {        
+                        if ( found_span !== "" )
+                        {
+                            span = found_span;
+                            
+                            character_index = next_character_index + 1;
+                            command_is_valid = true;
+                        }
+                        
+                        break;
+                    }
+                    else
                     {
-                        if ( styles !== "" )
-                        {
-                            styles += ";";
-                        }
-                        
-                        styles += "font-size:" + found_size + "rem";
-                        
-                        character_index = next_character_index + 1;
+                        break;
                     }
-                    
-                    break;
-                }
-                else
-                {
-                    break;
                 }
             }
         }
@@ -1741,6 +1786,11 @@ function GetTokenArray(
         if ( styles !== "" )
         {
             attributes += " style=\"" + styles + "\"";
+        }
+
+        if ( span !== "" )
+        {
+            attributes += " colspan=\"" + span + "\"";
         }
     }
 

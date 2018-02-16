@@ -51,31 +51,31 @@ This is <sub>a subscript text</sub>.
 This is ~~a strikethrough text~~.§
 This is <strike>a strikethrough text</strike>.
 
-This is ~~f00\a strikethrough text~~.§
+This is ~~^#f00\a strikethrough text~~.§
 This is <strike style="text-decoration-color:#f00">a strikethrough text</strike>.
 
 This is __an underlined text__.§
 This is <u>an underlined text</u>.
 
-This is __f00\an underlined text__.§
+This is __^#f00\an underlined text__.§
 This is <u style="text-decoration-color:#f00">an underlined text</u>.
 
 This is ##a highlighted text##.§
 This is <span class="mark">a highlighted text</span>.
 
-This is ##fce\a highlighted text##.§
+This is ##^#fce\a highlighted text##.§
 This is <span class="mark" style="background-color:#fce">a highlighted text</span>.
 
-This is {{6f42c1\a colored text}}.§
+This is {{^#6f42c1\a colored text}}.§
 This is <span style="color:#6f42c1">a colored text</span>.
 
-This is {{0cc\a colored text}}.§
+This is {{^#0cc\a colored text}}.§
 This is <span style="color:#0cc">a colored text</span>.
 
-This is {{f4f\^1.25\a colored text}}.§
+This is {{^#f4f\^1.25\a colored text}}.§
 This is <span style="color:#f4f;font-size:1.25rem">a colored text</span>.
 
-This is {{80f\^large\a colored text}}.§
+This is {{^#80f\^large\a colored text}}.§
 This is <span class="large" style="color:#80f">a colored text</span>.
 
 This is {{^cyan\a colored text}}.§
@@ -121,7 +121,7 @@ This is a text block.
 This is a text block.
 </div>
 
-{{{cfe\
+{{{^#cfe\
 This is a text block.
 }}}
 
@@ -129,7 +129,7 @@ This is a text block.
 This is a text block.
 </div>
 
-{{{cfe\^black\
+{{{^#cfe\^black\
 This is a text block.
 }}}
 
@@ -147,7 +147,7 @@ This is a text box.
 This is a text box.
 </div>
 
-###cfe\
+###^#cfe\
 This is a text box.
 ###
 
@@ -155,7 +155,7 @@ This is a text box.
 This is a text box.
 </div>
 
-###cfe\^black\
+###^#cfe\^black\
 This is a text box.
 ###
 
@@ -173,7 +173,7 @@ This is a text frame.
 This is a text frame.
 </div>
 
-+++f00\
++++^#f00\
 This is a text frame.
 +++
 
@@ -181,7 +181,7 @@ This is a text frame.
 This is a text frame.
 </div>
 
-+++f00\^black\
++++^#f00\^black\
 This is a text frame.
 +++
 
@@ -199,7 +199,7 @@ This is a text quote.
 This is a text quote.
 </blockquote>
 
->>>f00\
+>>>^#f00\
 This is a text quote.
 >>>
 
@@ -207,7 +207,7 @@ This is a text quote.
 This is a text quote.
 </blockquote>
 
->>>f00\^black\
+>>>^#f00\^black\
 This is a text quote.
 >>>
 
@@ -344,6 +344,8 @@ int main()
     </tr>
 </table>
 
+---
+
 [[[
     ((        | Monday | Tuesday | Wednesday ))
     (( Apple  | 1      | 2       | 3         ))
@@ -352,8 +354,18 @@ int main()
 ]]]
 
 {{^orange+bold=²\}}
-[[[^orange_border+tiny_border+padding+black\
-((^no_top_left_border\ |^orange_fill+white+bold+center=title\ -AR§cantar |^title\ -ER§comer |^title\ -IR§vivir ))
+[[[^orange_border+tiny_border+padding+black=table\
+((^orange_fill+white+bold+center=title\^=2\ Subject pronouns ))
+(( ²yo² | I ))
+(( ²tú² | you ))
+(( ²él², ²ella², ²usted² | he, she, %%you%% ))
+(( ²nosotros², ²nosotras² | we ))
+(( ²vosotros², ²vosotras² | you ))
+(( ²ellos², ²ellas², ²ustedes² | they, %%you%% ))
+]]]
+
+[[[^table\
+((^no_top_left_border\ |^title\ -AR§cantar |^title\ -ER§comer |^title\ -IR§vivir ))
 (( °(yo)° | cant²o² | com²o² | viv²o² ))
 (( °(tú)° | cant²as² | com²es² | viv²es² ))
 (( °(él,ella,usted)° | cant²a² | com²e² | viv²e² ))
