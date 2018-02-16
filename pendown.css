@@ -243,12 +243,6 @@ tr > td:last-child
     border-style : solid;
 }
 
-.grid
-{
-    table-layout : fixed;
-    width : 100%;
-}
-
 .width_5
 {
     width : 5%;
@@ -388,6 +382,40 @@ tr > td:last-child
 {
     width : 87.5%;
 }
+
+.fixed_width,
+table.width_5,
+table.width_10,
+table.width_15,
+table.width_20,
+table.width_25,
+table.width_30,
+table.width_35,
+table.width_40,
+table.width_45,
+table.width_50,
+table.width_55,
+table.width_60,
+table.width_65,
+table.width_70,
+table.width_75,
+table.width_80,
+table.width_85,
+table.width_90,
+table.width_95,
+table.width_100,
+table.width_1_3,
+table.width_2_3,
+table.width_1_6,
+table.width_5_6,
+table.width_1_8,
+table.width_3_8,
+table.width_5_8,
+table.width_7_8
+{
+    table-layout : fixed;
+}
+
 
 .no_padding, .no_padding > tbody > tr > td
 {
