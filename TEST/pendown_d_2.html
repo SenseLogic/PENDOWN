@@ -1823,6 +1823,7 @@
                 character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> next_character_index <span class="gray">);</span>
 
                 <span class="pink">if</span> <span class="gray">(</span> IsAlphabeticalCharacter<span class="gray">(</span> character <span class="gray">)</span>
+                     <span class="gray">||</span> IsDecimalCharacter<span class="gray">(</span> character <span class="gray">)</span>
                      <span class="gray">||</span> <span class="red">"_-=°¹²³"</span><span class="gray">.</span>indexOf<span class="gray">(</span> character <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
                 <span class="gray">{</span>
                     found_classes <span class="gray">~=</span> character<span class="gray">;</span>
@@ -1860,8 +1861,15 @@
                 <span class="gray">}</span>
                 <span class="pink">else</span>
                 <span class="gray">{</span>
+                    found_classes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+
                     <span class="pink">break</span><span class="gray">;</span>
                 <span class="gray">}</span>
+            <span class="gray">}</span>
+
+            <span class="pink">if</span> <span class="gray">(</span> found_classes <span class="gray">==</span> <span class="red">""</span> <span class="gray">)</span>
+            <span class="gray">{</span>
+                <span class="pink">break</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
 

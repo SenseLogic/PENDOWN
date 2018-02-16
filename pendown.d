@@ -1820,6 +1820,7 @@ TOKEN[] GetTokenArray(
                 character = text.charAt( next_character_index );
                 
                 if ( IsAlphabeticalCharacter( character )
+                     || IsDecimalCharacter( character )
                      || "_-=°¹²³".indexOf( character ) >= 0 )
                 {
                     found_classes ~= character;
@@ -1857,8 +1858,15 @@ TOKEN[] GetTokenArray(
                 }
                 else
                 {
+                    found_classes = "";
+                
                     break;
                 }
+            }
+            
+            if ( found_classes == "" )
+            {
+                break;
             }
         }
         

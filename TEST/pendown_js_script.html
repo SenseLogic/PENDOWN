@@ -1647,6 +1647,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                 character °=° text°.°charAt°(° next_character_index °);°
                 
                 ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
+                     °||° IsDecimalCharacter°(° character °)°
                      °||° ²"_-=\°\¹\²\³"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
                 °{°
                     found_classes °+=° character°;°
@@ -1684,8 +1685,15 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                 °}°
                 ¹else¹
                 °{°
+                    found_classes °=° ²""²°;°
+                    
                     ¹break¹°;°
                 °}°
+            °}°
+            
+            ¹if¹ °(° found_classes °===° ²""² °)°
+            °{°
+                ¹break¹°;°
             °}°
         °}°
         

@@ -243,10 +243,150 @@ tr > td:last-child
     border-style : solid;
 }
 
-table.grid
+.grid
 {
     table-layout : fixed;
     width : 100%;
+}
+
+.width_5
+{
+    width : 5%;
+}
+
+.width_10
+{
+    width : 10%;
+}
+
+.width_15
+{
+    width : 15%;
+}
+
+.width_20
+{
+    width : 20%;
+}
+
+.width_25
+{
+    width : 25%;
+}
+
+.width_30
+{
+    width : 30%;
+}
+
+.width_35
+{
+    width : 35%;
+}
+
+.width_40
+{
+    width : 40%;
+}
+
+.width_45
+{
+    width : 45%;
+}
+
+.width_50
+{
+    width : 50%;
+}
+
+.width_55
+{
+    width : 55%;
+}
+
+.width_60
+{
+    width : 60%;
+}
+
+.width_65
+{
+    width : 65%;
+}
+
+.width_70
+{
+    width : 70%;
+}
+
+.width_75
+{
+    width : 75%;
+}
+
+.width_80
+{
+    width : 80%;
+}
+
+.width_85
+{
+    width : 85%;
+}
+
+.width_90
+{
+    width : 90%;
+}
+
+.width_95
+{
+    width : 95%;
+}
+
+.width_100
+{
+    width : 100%;
+}
+
+.width_1_3
+{
+    width : 33.333333%;
+}
+
+.width_2_3
+{
+    width : 66.666666%;
+}
+
+.width_1_6
+{
+    width : 16.666666%;
+}
+
+.width_5_6
+{
+    width : 83.333333%;
+}
+
+.width_1_8
+{
+    width : 12.5%;
+}
+
+.width_3_8
+{
+    width : 37.5%;
+}
+
+.width_5_8
+{
+    width : 62.5%;
+}
+
+.width_7_8
+{
+    width : 87.5%;
 }
 
 .no_padding, .no_padding > tbody > tr > td
@@ -401,7 +541,7 @@ blockquote
     color : #000;
 }
 
-.black_background
+.black_fill
 {
     background-color : #000;
 }
@@ -439,7 +579,7 @@ blockquote
     color : #444;
 }
 
-.dark_gray_background
+.dark_gray_fill
 {
     background-color : #444;
 }
@@ -477,7 +617,7 @@ blockquote
     color : #888;
 }
 
-.gray_background
+.gray_fill
 {
     background-color : #888;
 }
@@ -515,7 +655,7 @@ blockquote
     color : #ccc;
 }
 
-.light_gray_background
+.light_gray_fill
 {
     background-color : #ccc;
 }
@@ -553,7 +693,7 @@ blockquote
     color : #eee;
 }
 
-.pastel_gray_background
+.pastel_gray_fill
 {
     background-color : #eee;
 }
@@ -591,7 +731,7 @@ blockquote
     color : #730;
 }
 
-.dark_orange_background
+.dark_orange_fill
 {
     background-color : #730;
 }
@@ -629,7 +769,7 @@ blockquote
     color : #e70;
 }
 
-.orange_background
+.orange_fill
 {
     background-color : #e70;
 }
@@ -667,7 +807,7 @@ blockquote
     color : #fb7;
 }
 
-.light_orange_background
+.light_orange_fill
 {
     background-color : #fb7;
 }
@@ -705,7 +845,7 @@ blockquote
     color : #fdb;
 }
 
-.pastel_orange_background
+.pastel_orange_fill
 {
     background-color : #fdb;
 }
@@ -743,7 +883,7 @@ blockquote
     color : #700;
 }
 
-.dark_red_background
+.dark_red_fill
 {
     background-color : #700;
 }
@@ -781,7 +921,7 @@ blockquote
     color : #f00;
 }
 
-.red_background
+.red_fill
 {
     background-color : #f00;
 }
@@ -819,7 +959,7 @@ blockquote
     color : #f77;
 }
 
-.light_red_background
+.light_red_fill
 {
     background-color : #f77;
 }
@@ -857,7 +997,7 @@ blockquote
     color : #fcc;
 }
 
-.pastel_red_background
+.pastel_red_fill
 {
     background-color : #fcc;
 }
@@ -895,7 +1035,7 @@ blockquote
     color : #725;
 }
 
-.dark_pink_background
+.dark_pink_fill
 {
     background-color : #725;
 }
@@ -933,7 +1073,7 @@ blockquote
     color : #f4a;
 }
 
-.pink_background
+.pink_fill
 {
     background-color : #f4a;
 }
@@ -971,7 +1111,7 @@ blockquote
     color : #fad;
 }
 
-.light_pink_background
+.light_pink_fill
 {
     background-color : #fad;
 }
@@ -1009,7 +1149,7 @@ blockquote
     color : #fde;
 }
 
-.pastel_pink_background
+.pastel_pink_fill
 {
     background-color : #fde;
 }
@@ -1047,7 +1187,7 @@ blockquote
     color : #316;
 }
 
-.dark_violet_background
+.dark_violet_fill
 {
     background-color : #316;
 }
@@ -1085,7 +1225,7 @@ blockquote
     color : #72c;
 }
 
-.violet_background
+.violet_fill
 {
     background-color : #72c;
 }
@@ -1123,7 +1263,7 @@ blockquote
     color : #b9e;
 }
 
-.light_violet_background
+.light_violet_fill
 {
     background-color : #b9e;
 }
@@ -1161,7 +1301,7 @@ blockquote
     color : #dbe;
 }
 
-.pastel_violet_background
+.pastel_violet_fill
 {
     background-color : #dbe;
 }
@@ -1199,7 +1339,7 @@ blockquote
     color : #007;
 }
 
-.dark_blue_background
+.dark_blue_fill
 {
     background-color : #007;
 }
@@ -1237,7 +1377,7 @@ blockquote
     color : #00f;
 }
 
-.blue_background
+.blue_fill
 {
     background-color : #00f;
 }
@@ -1275,7 +1415,7 @@ blockquote
     color : #77f;
 }
 
-.light_blue_background
+.light_blue_fill
 {
     background-color : #77f;
 }
@@ -1313,7 +1453,7 @@ blockquote
     color : #ccf;
 }
 
-.pastel_blue_background
+.pastel_blue_fill
 {
     background-color : #ccf;
 }
@@ -1351,7 +1491,7 @@ blockquote
     color : #044;
 }
 
-.dark_cyan_background
+.dark_cyan_fill
 {
     background-color : #044;
 }
@@ -1389,7 +1529,7 @@ blockquote
     color : #099;
 }
 
-.cyan_background
+.cyan_fill
 {
     background-color : #099;
 }
@@ -1427,7 +1567,7 @@ blockquote
     color : #7cc;
 }
 
-.light_cyan_background
+.light_cyan_fill
 {
     background-color : #7cc;
 }
@@ -1465,7 +1605,7 @@ blockquote
     color : #bee;
 }
 
-.pastel_cyan_background
+.pastel_cyan_fill
 {
     background-color : #bee;
 }
@@ -1503,7 +1643,7 @@ blockquote
     color : #050;
 }
 
-.dark_green_background
+.dark_green_fill
 {
     background-color : #050;
 }
@@ -1541,7 +1681,7 @@ blockquote
     color : #0a0;
 }
 
-.green_background
+.green_fill
 {
     background-color : #0a0;
 }
@@ -1579,7 +1719,7 @@ blockquote
     color : #7d7;
 }
 
-.light_green_background
+.light_green_fill
 {
     background-color : #7d7;
 }
@@ -1617,7 +1757,7 @@ blockquote
     color : #cec;
 }
 
-.pastel_green_background
+.pastel_green_fill
 {
     background-color : #cec;
 }
@@ -1655,7 +1795,7 @@ blockquote
     color : #450;
 }
 
-.dark_lawn_background
+.dark_lawn_fill
 {
     background-color : #450;
 }
@@ -1693,7 +1833,7 @@ blockquote
     color : #8b0;
 }
 
-.lawn_background
+.lawn_fill
 {
     background-color : #8b0;
 }
@@ -1731,7 +1871,7 @@ blockquote
     color : #cd7;
 }
 
-.light_lawn_background
+.light_lawn_fill
 {
     background-color : #cd7;
 }
@@ -1769,7 +1909,7 @@ blockquote
     color : #deb;
 }
 
-.pastel_lawn_background
+.pastel_lawn_fill
 {
     background-color : #deb;
 }
@@ -1807,7 +1947,7 @@ blockquote
     color : #770;
 }
 
-.dark_yellow_background
+.dark_yellow_fill
 {
     background-color : #770;
 }
@@ -1845,7 +1985,7 @@ blockquote
     color : #ff0;
 }
 
-.yellow_background
+.yellow_fill
 {
     background-color : #ff0;
 }
@@ -1883,7 +2023,7 @@ blockquote
     color : #ff7;
 }
 
-.light_yellow_background
+.light_yellow_fill
 {
     background-color : #ff7;
 }
@@ -1921,7 +2061,7 @@ blockquote
     color : #ffc;
 }
 
-.pastel_yellow_background
+.pastel_yellow_fill
 {
     background-color : #ffc;
 }
@@ -1959,7 +2099,7 @@ blockquote
     color : #fff;
 }
 
-.white_background
+.white_fill
 {
     background-color : #fff;
 }
@@ -1997,7 +2137,7 @@ blockquote
     color : transparent;
 }
 
-.no_background
+.no_fill
 {
     background-color : transparent;
 }
