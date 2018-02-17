@@ -1453,114 +1453,6 @@ function GetTokenArray(
         url;
 
     // ~~
-
-    function ParseImage(
-        )
-    {
-        var
-            character,
-            height,
-            image_text,
-            size_array,
-            size_is_parsed,
-            size_text,
-            width;
-
-        character_index += 2;
-
-        image_text = "<img src=\"";
-        size_text = "";
-        size_is_parsed = false;
-
-        while ( character_index < text.length )
-        {
-            character = text.charAt( character_index );
-
-            if ( character === '\\'
-                 && character_index + 1 < text.length )
-            {
-                ++character_index;
-
-                image_text += text.charAt( character_index );
-            }
-            else if ( character === ']'
-                      && character_index + 1 < text.length
-                      && text.charAt( character_index + 1 ) === ']' )
-            {
-                character_index += 2;
-
-                break;
-            }
-            else if ( size_is_parsed )
-            {
-                size_text += character;
-            }
-            else
-            {
-                if ( character === ':' )
-                {
-                    size_is_parsed = true;
-                }
-                else if ( character === '\"' )
-                {
-                    image_text += "&quot;";
-                }
-                else
-                {
-                    image_text += character;
-                }
-            }
-
-            ++character_index;
-        }
-
-        if ( size_text === "" )
-        {
-            size_text = ",100";
-        }
-
-        size_array = size_text.split( ',' );
-
-        if ( size_array.length === 1 )
-        {
-            height = size_array[ 0 ];
-            width = "";
-        }
-        else if ( size_array.length === 2 )
-        {
-            height = size_array[ 0 ];
-            width = size_array[ 1 ];
-        }
-        else
-        {
-            height = "";
-            width = "100";
-        }
-
-        if ( height === "" )
-        {
-            height = "auto";
-        }
-        else if ( !HasUnit( height ) )
-        {
-            height += "vw";
-        }
-
-        if ( width === "" )
-        {
-            width = "auto";
-        }
-        else if ( !HasUnit( width ) )
-        {
-            width += "%";
-        }
-
-        image_text += "\" style=\"height:" + height + ";width:" + width + "\"/>";
-
-        return image_text;
-    }
-    
-    // ~~
     
     function ReplaceDefinitions(
         classes
@@ -1794,6 +1686,116 @@ function GetTokenArray(
         }
     }
 
+    // ~~
+
+    function ParseImage(
+        )
+    {
+        var
+            character,
+            height,
+            image_text,
+            size_array,
+            size_is_parsed,
+            size_text,
+            width;
+
+        character_index += 2;
+            
+        ParseAttributes( "", "background-color" );
+
+        image_text = "<img src=\"";
+        size_text = "";
+        size_is_parsed = false;
+
+        while ( character_index < text.length )
+        {
+            character = text.charAt( character_index );
+
+            if ( character === '\\'
+                 && character_index + 1 < text.length )
+            {
+                ++character_index;
+
+                image_text += text.charAt( character_index );
+            }
+            else if ( character === ']'
+                      && character_index + 1 < text.length
+                      && text.charAt( character_index + 1 ) === ']' )
+            {
+                character_index += 2;
+
+                break;
+            }
+            else if ( size_is_parsed )
+            {
+                size_text += character;
+            }
+            else
+            {
+                if ( character === ':' )
+                {
+                    size_is_parsed = true;
+                }
+                else if ( character === '\"' )
+                {
+                    image_text += "&quot;";
+                }
+                else
+                {
+                    image_text += character;
+                }
+            }
+
+            ++character_index;
+        }
+
+        if ( size_text === "" )
+        {
+            size_text = ",100";
+        }
+
+        size_array = size_text.split( ',' );
+
+        if ( size_array.length === 1 )
+        {
+            height = size_array[ 0 ];
+            width = "";
+        }
+        else if ( size_array.length === 2 )
+        {
+            height = size_array[ 0 ];
+            width = size_array[ 1 ];
+        }
+        else
+        {
+            height = "";
+            width = "100";
+        }
+
+        if ( height === "" )
+        {
+            height = "auto";
+        }
+        else if ( !HasUnit( height ) )
+        {
+            height += "vw";
+        }
+
+        if ( width === "" )
+        {
+            width = "auto";
+        }
+        else if ( !HasUnit( width ) )
+        {
+            width += "%";
+        }
+
+        image_text += "\"" + attributes + " style=\"height:" + height + ";width:" + width + "\"/>";
+
+        return image_text;
+    }
+    
     // ~~
 
     text = GetCleanedText( text );

@@ -1454,114 +1454,6 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         url°;°
 
     °// ~\~°
-
-    ¹function¹ ParseImage°(°
-        °)°
-    °{°
-        ¹var¹
-            character°,°
-            height°,°
-            image_text°,°
-            size_array°,°
-            size_is_parsed°,°
-            size_text°,°
-            width°;°
-
-        character_index °+=° ²2²°;°
-
-        image_text °=° ²"&lt;img src=\\""²°;°
-        size_text °=° ²""²°;°
-        size_is_parsed °=° ²false²°;°
-
-        ¹while¹ °(° character_index °&lt;° text°.°length °)°
-        °{°
-            character °=° text°.°charAt°(° character_index °);°
-
-            ¹if¹ °(° character °===° ²'\\\\'²
-                 °&&° character_index °+° ²1² °&lt;° text°.°length °)°
-            °{°
-                °+\+°character_index°;°
-
-                image_text °+=° text°.°charAt°(° character_index °);°
-            °}°
-            ¹else¹ ¹if¹ °(° character °===° ²']'²
-                      °&&° character_index °+° ²1² °&lt;° text°.°length
-                      °&&° text°.°charAt°(° character_index °+° ²1² °)° °===° ²']'² °)°
-            °{°
-                character_index °+=° ²2²°;°
-
-                ¹break¹°;°
-            °}°
-            ¹else¹ ¹if¹ °(° size_is_parsed °)°
-            °{°
-                size_text °+=° character°;°
-            °}°
-            ¹else¹
-            °{°
-                ¹if¹ °(° character °===° ²':'² °)°
-                °{°
-                    size_is_parsed °=° ²true²°;°
-                °}°
-                ¹else¹ ¹if¹ °(° character °===° ²'\\"'² °)°
-                °{°
-                    image_text °+=° ²"&quot;"²°;°
-                °}°
-                ¹else¹
-                °{°
-                    image_text °+=° character°;°
-                °}°
-            °}°
-
-            °+\+°character_index°;°
-        °}°
-
-        ¹if¹ °(° size_text °===° ²""² °)°
-        °{°
-            size_text °=° ²",100"²°;°
-        °}°
-
-        size_array °=° size_text°.°split°(° ²','² °);°
-
-        ¹if¹ °(° size_array°.°length °===° ²1² °)°
-        °{°
-            height °=° size_array°[° ²0² °];°
-            width °=° ²""²°;°
-        °}°
-        ¹else¹ ¹if¹ °(° size_array°.°length °===° ²2² °)°
-        °{°
-            height °=° size_array°[° ²0² °];°
-            width °=° size_array°[° ²1² °];°
-        °}°
-        ¹else¹
-        °{°
-            height °=° ²""²°;°
-            width °=° ²"100"²°;°
-        °}°
-
-        ¹if¹ °(° height °===° ²""² °)°
-        °{°
-            height °=° ²"auto"²°;°
-        °}°
-        ¹else¹ ¹if¹ °(° °\!°HasUnit°(° height °)° °)°
-        °{°
-            height °+=° ²"vw"²°;°
-        °}°
-
-        ¹if¹ °(° width °===° ²""² °)°
-        °{°
-            width °=° ²"auto"²°;°
-        °}°
-        ¹else¹ ¹if¹ °(° °\!°HasUnit°(° width °)° °)°
-        °{°
-            width °+=° ²"%"²°;°
-        °}°
-
-        image_text °+=° ²"\\" style=\\"height:"² °+° height °+° ²";width:"² °+° width °+° ²"\\"/&gt;"²°;°
-
-        ¹return¹ image_text°;°
-    °}°
-    
-    °// ~\~°
     
     ¹function¹ ReplaceDefinitions°(°
         classes
@@ -1795,6 +1687,116 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °}°
     °}°
 
+    °// ~\~°
+
+    ¹function¹ ParseImage°(°
+        °)°
+    °{°
+        ¹var¹
+            character°,°
+            height°,°
+            image_text°,°
+            size_array°,°
+            size_is_parsed°,°
+            size_text°,°
+            width°;°
+
+        character_index °+=° ²2²°;°
+            
+        ParseAttributes°(° ²""²°,° ²"background-color"² °);°
+
+        image_text °=° ²"&lt;img src=\\""²°;°
+        size_text °=° ²""²°;°
+        size_is_parsed °=° ²false²°;°
+
+        ¹while¹ °(° character_index °&lt;° text°.°length °)°
+        °{°
+            character °=° text°.°charAt°(° character_index °);°
+
+            ¹if¹ °(° character °===° ²'\\\\'²
+                 °&&° character_index °+° ²1² °&lt;° text°.°length °)°
+            °{°
+                °+\+°character_index°;°
+
+                image_text °+=° text°.°charAt°(° character_index °);°
+            °}°
+            ¹else¹ ¹if¹ °(° character °===° ²']'²
+                      °&&° character_index °+° ²1² °&lt;° text°.°length
+                      °&&° text°.°charAt°(° character_index °+° ²1² °)° °===° ²']'² °)°
+            °{°
+                character_index °+=° ²2²°;°
+
+                ¹break¹°;°
+            °}°
+            ¹else¹ ¹if¹ °(° size_is_parsed °)°
+            °{°
+                size_text °+=° character°;°
+            °}°
+            ¹else¹
+            °{°
+                ¹if¹ °(° character °===° ²':'² °)°
+                °{°
+                    size_is_parsed °=° ²true²°;°
+                °}°
+                ¹else¹ ¹if¹ °(° character °===° ²'\\"'² °)°
+                °{°
+                    image_text °+=° ²"&quot;"²°;°
+                °}°
+                ¹else¹
+                °{°
+                    image_text °+=° character°;°
+                °}°
+            °}°
+
+            °+\+°character_index°;°
+        °}°
+
+        ¹if¹ °(° size_text °===° ²""² °)°
+        °{°
+            size_text °=° ²",100"²°;°
+        °}°
+
+        size_array °=° size_text°.°split°(° ²','² °);°
+
+        ¹if¹ °(° size_array°.°length °===° ²1² °)°
+        °{°
+            height °=° size_array°[° ²0² °];°
+            width °=° ²""²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° size_array°.°length °===° ²2² °)°
+        °{°
+            height °=° size_array°[° ²0² °];°
+            width °=° size_array°[° ²1² °];°
+        °}°
+        ¹else¹
+        °{°
+            height °=° ²""²°;°
+            width °=° ²"100"²°;°
+        °}°
+
+        ¹if¹ °(° height °===° ²""² °)°
+        °{°
+            height °=° ²"auto"²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° °\!°HasUnit°(° height °)° °)°
+        °{°
+            height °+=° ²"vw"²°;°
+        °}°
+
+        ¹if¹ °(° width °===° ²""² °)°
+        °{°
+            width °=° ²"auto"²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° °\!°HasUnit°(° width °)° °)°
+        °{°
+            width °+=° ²"%"²°;°
+        °}°
+
+        image_text °+=° ²"\\""² °+° attributes °+° ²" style=\\"height:"² °+° height °+° ²";width:"² °+° width °+° ²"\\"/&gt;"²°;°
+
+        ¹return¹ image_text°;°
+    °}°
+    
     °// ~\~°
 
     text °=° GetCleanedText°(° text °);°
