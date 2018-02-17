@@ -243,6 +243,21 @@ tr > td:last-child
     border-style : solid;
 }
 
+.stretched
+{
+    object-fit : fill;
+}
+
+.contained
+{
+    object-fit : contain;
+}
+
+.cropped
+{
+    object-fit : cover;
+}
+
 .rounded_5
 {
     border-radius : 5%;
