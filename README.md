@@ -199,10 +199,10 @@ Quote
 !! Table
 
 [[[
-    ((        | Monday | Tuesday | Wednesday ))
-    (( Apple  | 1      | 2       | 3         ))
-    (( Orange | 1      | 2       | 3         ))
-    (( Banana | 1      | 2       | 3         ))
+((        | Monday | Tuesday | Wednesday ))
+(( Apple  | 1      | 2       | 3         ))
+(( Orange | 1      | 2       | 3         ))
+(( Banana | 1      | 2       | 3         ))
 ]]]
 
 {{^orange+bold=²\}}
