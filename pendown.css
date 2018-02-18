@@ -142,7 +142,7 @@ ul, ol
     margin-left : 1rem;
 }
 
-article > ul, article > ol
+* > ul, * > ol
 {
     margin-left : 0.75rem;
 }
@@ -156,11 +156,6 @@ li
 {
     margin-left : 0.5rem;
     padding-left : 0.35rem;
-}
-
-.disc, .circle, .square, .dash
-{
-    margin : -0.25rem;
 }
 
 .disc ul
@@ -187,7 +182,7 @@ li
 {
     content: "-";
     margin-left : -1.25rem;
-    margin-right : 0.8rem;
+    margin-right : 0.85rem;
 }
 
 table

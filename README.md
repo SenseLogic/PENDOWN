@@ -513,7 +513,7 @@ Replace `<xmp>` by `<xmp style="display:none">` in the HTML file.
 
 > How can I generate a PDF file from my Pendown HTML file ?
 
-* Open your it in Chromium
+* Open it in Chrome or Chromium.
 * Press `Ctrl-P`.
 * Select the PDF printer.
 * Click on `More settings` to enable `Background graphics` and disable `Headers and footers`.
