@@ -22,6 +22,12 @@
 ---
 <hr/>
 
+This is the first line of the paragraph.§
+This is the second line of the paragraph.
+
+This is the first line of the paragraph.<br/>
+This is the second line of the paragraph.
+
 ~~~
 
 This is an escaped text : \_\_ `** <b>not bold</b> **`.
@@ -113,6 +119,49 @@ This is <span class="red">a red text</span>.
 
 This is ³a blue text³.§
 This is <span class="blue">a blue text</span>.
+
+---
+
+:::
+##// ²Colorized source code²##
+
+²if² ³(³ ... ³)³
+³{³
+    ...
+³}³
+²else²
+³{³
+    ...
+³}³
+:::
+
+<pre>
+<span class="mark">// <span class="red">Colorized source code</span></span>
+
+<span class="red">if</span> <span class="blue">(</span> ... <span class="blue">)</span>
+<span class="blue">{</span>
+    ...
+<span class="blue">}</span>
+<span class="red">else</span>
+<span class="blue">{</span>
+    ...
+<span class="blue">}</span>
+</pre>
+
+:::c++\
+// Colorized source code
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "Hello world!";
+
+    return 0;
+}
+:::
 
 ---
 
@@ -220,65 +269,19 @@ This is a text quote.
 
 ---
 
-This is the first line of the paragraph.§
-This is the second line of the paragraph.
++++^column_2\
+Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh.
+Qan siqwi' tuj muvwi' wogh yor 'o'megh be'etor boqha''egh lodni'pu' jij laq lol lo' law' mevyap.
 
-This is the first line of the paragraph.<br/>
-This is the second line of the paragraph.
+Pivchem qid red rutlh saqjan say'qu'moh siq torgh tlhach mu'mey vilinhod vithay' yem 'iqnah 'irneh.
+Ghitlhwi' jer loghqam me'nal nav habli' notqa' podmoh qaywi' qin qi'tu' red ril siqwi' tagh tahqeq.
 
----
+Tiqnagh lemdu' 'och 'orghen rojmab 'urwi' bop chevwi' tlhoy' der mara nuh bey' peghmey vittlhegh.
+Qa'meh quv qep'it qid qin ros saqjan serrum tahqeq tatlh toq van yu'egh 'aqtu' em.
 
-This is @@http://www.senselogic.be a link@@§
-This is <a href="http://www.senselogic.be">a link</a>
-
-This is a link : @@http://www.senselogic.be [[../SAMPLE/image.jpg:20]]@@§
-This is a link : <a href="http://www.senselogic.be"><img src="../SAMPLE/image.jpg" style="height:20vw;width:auto"/></a>
-
-This is a link : @@http://www.senselogic.be@@§
-This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
-
----
-
-:::
-##// ²Colorized source code²##
-
-²if² ³(³ ... ³)³
-³{³
-    ...
-³}³
-²else²
-³{³
-    ...
-³}³
-:::
-
-<pre>
-<span class="mark">// <span class="red">Colorized source code</span></span>
-
-<span class="red">if</span> <span class="blue">(</span> ... <span class="blue">)</span>
-<span class="blue">{</span>
-    ...
-<span class="blue">}</span>
-<span class="red">else</span>
-<span class="blue">{</span>
-    ...
-<span class="blue">}</span>
-</pre>
-
-:::c++\
-// Colorized source code
-
-#include <iostream>
-
-using namespace std;
-
-int main()
-{
-    cout << "Hello world!";
-
-    return 0;
-}
-:::
+Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej.
+Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos chohwi' janluq.
++++
 
 ---
 
@@ -380,15 +383,15 @@ int main()
 
 [[[^width_5_6+border+light_gray_border+padding\
 ((^width_20\
-    Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh.§    
+    Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh.§
     Qan siqwi' tuj muvwi' wogh yor 'o'megh be'etor boqha''egh lodni'pu' jij laq lol lo' law' mevyap.
 |
-    Pivchem qid red rutlh saqjan say'qu'moh siq torgh tlhach mu'mey vilinhod vithay' yem 'iqnah 'irneh.§    
-    Ghitlhwi' jer loghqam me'nal nav habli' notqa' podmoh qaywi' qin qi'tu' red ril siqwi' tagh tahqeq.§    
-    Tiqnagh lemdu' 'och 'orghen rojmab 'urwi' bop chevwi' tlhoy' der mara nuh bey' peghmey vittlhegh.§    
-    Qa'meh quv qep'it qid qin ros saqjan serrum tahqeq tatlh toq van yu'egh 'aqtu' em. 
+    Pivchem qid red rutlh saqjan say'qu'moh siq torgh tlhach mu'mey vilinhod vithay' yem 'iqnah 'irneh.§
+    Ghitlhwi' jer loghqam me'nal nav habli' notqa' podmoh qaywi' qin qi'tu' red ril siqwi' tagh tahqeq.§
+    Tiqnagh lemdu' 'och 'orghen rojmab 'urwi' bop chevwi' tlhoy' der mara nuh bey' peghmey vittlhegh.§
+    Qa'meh quv qep'it qid qin ros saqjan serrum tahqeq tatlh toq van yu'egh 'aqtu' em.
 |^width_20\
-    Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej.§    
+    Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej.§
     Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos chohwi' janluq.
 ))
 ]]]
@@ -597,6 +600,17 @@ int main()
 
 ---
 
+This is @@http://www.senselogic.be a link@@§
+This is <a href="http://www.senselogic.be">a link</a>
+
+This is a link : @@http://www.senselogic.be [[../SAMPLE/image.jpg:20]]@@§
+This is a link : <a href="http://www.senselogic.be"><img src="../SAMPLE/image.jpg" style="height:20vw;width:auto"/></a>
+
+This is a link : @@http://www.senselogic.be@@§
+This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
+
+---
+
 These are small images :
 
 [[../SAMPLE/image.jpg:20]][[../SAMPLE/image_2.jpg:20]]§
@@ -629,9 +643,9 @@ This is a custom image :
 
 These are image effects :
 
-[[^shadow_3\../SAMPLE/image_6.jpg:20]] [[^shadow_6\../SAMPLE/image_6.jpg:20]] [[^shadow_20\../SAMPLE/image_6.jpg:20]] [[^shadow_-6\../SAMPLE/image_6.jpg:20]] 
+[[^shadow_3\../SAMPLE/image_6.jpg:20]] [[^shadow_6\../SAMPLE/image_6.jpg:20]] [[^shadow_20\../SAMPLE/image_6.jpg:20]] [[^shadow_-6\../SAMPLE/image_6.jpg:20]]
 
-[[../SAMPLE/image_6.jpg:20]] [[^rounded_5\../SAMPLE/image_6.jpg:20]] [[^rounded_50\../SAMPLE/image_6.jpg:20]] [[^opacity_50\../SAMPLE/image_6.jpg:20]] 
+[[../SAMPLE/image_6.jpg:20]] [[^rounded_5\../SAMPLE/image_6.jpg:20]] [[^rounded_50\../SAMPLE/image_6.jpg:20]] [[^opacity_50\../SAMPLE/image_6.jpg:20]]
 
 [[^blurred_1\../SAMPLE/image_6.jpg:20]] [[^lighted_130\../SAMPLE/image_6.jpg:20]] [[^contrasted_180\../SAMPLE/image_6.jpg:20]] [[^saturated_200\../SAMPLE/image_6.jpg:20]]
 

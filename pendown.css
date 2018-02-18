@@ -1037,6 +1037,56 @@ tr > td:last-child
     box-shadow : 0 1.0vw 2.0vw rgba( 0, 0, 0, 0.20 ), 0 0.6vw 0.6vw rgba( 0, 0, 0, 0.25 );
 }
 
+.column_1
+{
+    column-count : 1;
+}
+
+.column_2
+{
+    column-count : 2;
+}
+
+.column_3
+{
+    column-count : 3;
+}
+
+.column_4
+{
+    column-count : 4;
+}
+
+.column_5
+{
+    column-count : 5;
+}
+
+.column_6
+{
+    column-count : 6;
+}
+
+.column_7
+{
+    column-count : 7;
+}
+
+.column_8
+{
+    column-count : 8;
+}
+
+.column_9
+{
+    column-count : 9;
+}
+
+.column_10
+{
+    column-count : 10;
+}
+
 .width_5
 {
     width : 5%;
