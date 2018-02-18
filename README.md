@@ -446,7 +446,7 @@ Effects :
 
 Open the "sample.html" file with a web-browser like Firefox.
 
-If the Comic Sans and Consolas fonts are installed on your system, you should see the following result :
+If the Comic Sans and Consolas fonts are installed on your system, you should see the following result in Firefox or Chromium :
 
 ![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
 
@@ -510,6 +510,14 @@ Replace `<xmp>` by `<xmp class="black">` in the HTML file.
 > How can I hide the Pendown text until it has been converted into HTML ?
 
 Replace `<xmp>` by `<xmp style="display:none">` in the HTML file.
+
+> How can I generate a PDF file from my Pendown HTML file ?
+
+* Open your it in Chromium
+* Press `Ctrl-P`.
+* Select the PDF printer.
+* Click on `More settings` to enable `Background graphics` and disable `Headers and footers`.
+* Click on `Print`.
 
 ## Server-side compiler
 

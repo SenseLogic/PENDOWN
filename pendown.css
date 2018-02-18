@@ -158,7 +158,7 @@ li
     padding-left : 0.35rem;
 }
 
-.disc, .circle, .square
+.disc, .circle, .square, .dash
 {
     margin : -0.25rem;
 }
@@ -178,24 +178,16 @@ li
     list-style-type : square;
 }
 
-.dash
+.dash ul 
 {
-    margin-left : -0.75rem;
+    list-style: none;
 }
 
-.dash ul
+.dash ul > li:before 
 {
-    list-style-type : '-';
-}
-
-.dash ul > li
-{
-    padding-left : 0.75rem;
-}
-
-.dash li > ul
-{
-    margin-left : -0.1rem;
+    content: "-";
+    margin-left : -1.25rem;
+    margin-right : 0.8rem;
 }
 
 table
