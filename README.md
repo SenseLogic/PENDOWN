@@ -446,7 +446,7 @@ Effects :
 
 Open the "sample.html" file with a web-browser like Firefox.
 
-If the Comic Sans and Consolas fonts are installed on your system, you should see the following result in Firefox or Chromium :
+If the Comic Sans and Consolas fonts are installed on your system, you should see the following result :
 
 ![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
 
