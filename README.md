@@ -124,6 +124,36 @@ __^#f00\underlined__
 
 ³blue³
 
+!! Code
+
+:::
+##// ²Colorized source code²##
+
+²if² ³(³ ... ³)³
+³{³
+    ...
+³}³
+²else²
+³{³
+    ...
+³}³
+:::
+
+:::c++\
+// Colorized source code
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "Hello world!";
+
+    return 0;
+}
+:::
+
 !! Block
 
 {{{^pastel_gray_fill\
@@ -196,6 +226,22 @@ Quote
 >>>
 }}}
 
+!! Column
+
++++^column_2\
+Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh.
+Qan siqwi' tuj muvwi' wogh yor 'o'megh be'etor boqha''egh lodni'pu' jij laq lol lo' law' mevyap.
+
+Pivchem qid red rutlh saqjan say'qu'moh siq torgh tlhach mu'mey vilinhod vithay' yem 'iqnah 'irneh.
+Ghitlhwi' jer loghqam me'nal nav habli' notqa' podmoh qaywi' qin qi'tu' red ril siqwi' tagh tahqeq.
+
+Tiqnagh lemdu' 'och 'orghen rojmab 'urwi' bop chevwi' tlhoy' der mara nuh bey' peghmey vittlhegh.
+Qa'meh quv qep'it qid qin ros saqjan serrum tahqeq tatlh toq van yu'egh 'aqtu' em.
+
+Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej.
+Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos chohwi' janluq.
++++
+
 !! Table
 
 [[[
@@ -229,15 +275,15 @@ Quote
 
 [[[^width_5_6+border+light_gray_border+padding\
 ((^width_20\
-    Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh.§    
+    Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh.§
     Qan siqwi' tuj muvwi' wogh yor 'o'megh be'etor boqha''egh lodni'pu' jij laq lol lo' law' mevyap.
 |
-    Pivchem qid red rutlh saqjan say'qu'moh siq torgh tlhach mu'mey vilinhod vithay' yem 'iqnah 'irneh.§    
-    Ghitlhwi' jer loghqam me'nal nav habli' notqa' podmoh qaywi' qin qi'tu' red ril siqwi' tagh tahqeq.§    
-    Tiqnagh lemdu' 'och 'orghen rojmab 'urwi' bop chevwi' tlhoy' der mara nuh bey' peghmey vittlhegh.§    
-    Qa'meh quv qep'it qid qin ros saqjan serrum tahqeq tatlh toq van yu'egh 'aqtu' em. 
+    Pivchem qid red rutlh saqjan say'qu'moh siq torgh tlhach mu'mey vilinhod vithay' yem 'iqnah 'irneh.§
+    Ghitlhwi' jer loghqam me'nal nav habli' notqa' podmoh qaywi' qin qi'tu' red ril siqwi' tagh tahqeq.§
+    Tiqnagh lemdu' 'och 'orghen rojmab 'urwi' bop chevwi' tlhoy' der mara nuh bey' peghmey vittlhegh.§
+    Qa'meh quv qep'it qid qin ros saqjan serrum tahqeq tatlh toq van yu'egh 'aqtu' em.
 |^width_20\
-    Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej.§    
+    Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej.§
     Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos chohwi' janluq.
 ))
 ]]]
@@ -305,36 +351,6 @@ Quote
     ]]]
 ))
 ]]]
-
-!! Code
-
-:::
-##// ²Colorized source code²##
-
-²if² ³(³ ... ³)³
-³{³
-    ...
-³}³
-²else²
-³{³
-    ...
-³}³
-:::
-
-:::c++\
-// Colorized source code
-
-#include <iostream>
-
-using namespace std;
-
-int main()
-{
-    cout << "Hello world!";
-
-    return 0;
-}
-:::
 
 !! List
 
@@ -413,9 +429,9 @@ Custom :
 
 Effects :
 
-[[^shadow_3\image_6.jpg:20]] [[^shadow_6\image_6.jpg:20]] [[^shadow_20\image_6.jpg:20]] [[^shadow_-6\image_6.jpg:20]] 
+[[^shadow_3\image_6.jpg:20]] [[^shadow_6\image_6.jpg:20]] [[^shadow_20\image_6.jpg:20]] [[^shadow_-6\image_6.jpg:20]]
 
-[[image_6.jpg:20]] [[^rounded_5\image_6.jpg:20]] [[^rounded_50\image_6.jpg:20]] [[^opacity_50\image_6.jpg:20]] 
+[[image_6.jpg:20]] [[^rounded_5\image_6.jpg:20]] [[^rounded_50\image_6.jpg:20]] [[^opacity_50\image_6.jpg:20]]
 
 [[^blurred_1\image_6.jpg:20]] [[^lighted_130\image_6.jpg:20]] [[^contrasted_180\image_6.jpg:20]] [[^saturated_200\image_6.jpg:20]]
 
