@@ -1495,6 +1495,21 @@ blockquote
     font-style : oblique;
 }
 
+.overline
+{
+    text-decoration : overline;
+}
+
+.crossline
+{
+    text-decoration : line-through;
+}
+
+.underline
+{
+    text-decoration : underline;
+}
+
 .black
 {
     color : #000;

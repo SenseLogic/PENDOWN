@@ -1,8 +1,8 @@
-!^violet,bold:violet_bold\ TITLE 1
-<h1 class="violet bold">TITLE 1</h1>
+!^violet,@5rem:violet_5rem\ TITLE 1
+<h1 class="violet" style="font-size:5rem">TITLE 1</h1>
 
-!!^violet_bold\ TITLE 2
-<h2 class="violet bold">TITLE 2</h2>
+!!^violet_5rem,@4rem\ TITLE 2
+<h2 class="violet" style="font-size:5rem;font-size:4rem">TITLE 2</h2>
 
 !!! TITLE 3
 <h3>TITLE 3</h3>

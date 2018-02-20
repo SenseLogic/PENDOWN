@@ -4,7 +4,7 @@
 
 *   Class definition syntax : `^class1,class2,class3:definition\`
 *   Text color syntax : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
-*   Text decoration color syntax : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
+*   Underline/strikethrough color syntax : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
 *   Background color syntax : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
 *   Border color syntax : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
 *   Font size color syntax : `@1.25` `@1.25rem` `@1.25vw`

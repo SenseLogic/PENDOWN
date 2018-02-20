@@ -1552,7 +1552,7 @@ function GetTokenArray(
 
     function ParseAttributes(
         classes,
-        color_name
+        skipped_character
         )
     {
         var
@@ -1720,6 +1720,15 @@ function GetTokenArray(
         if ( span !== "" )
         {
             attributes += " colspan=\"" + span + "\"";
+        }
+        
+        if ( skipped_character !== undefined )
+        {
+            while ( character_index < text.length
+                    && text.charAt( character_index ) === skipped_character )
+            {
+                ++character_index;
+            }
         }
     }
 

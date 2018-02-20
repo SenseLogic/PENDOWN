@@ -1732,7 +1732,7 @@ TOKEN[] GetTokenArray(
 
     void ParseAttributes(
         dstring classes,
-        char separator_character = 0
+        char skipped_character = 0
         )
     {
         bool
@@ -1904,6 +1904,15 @@ TOKEN[] GetTokenArray(
         if ( span != "" )
         {
             attributes ~= " colspan=\"" ~ span ~ "\"";
+        }
+        
+        if ( skipped_character != 0 )
+        {
+            while ( character_index < text.length
+                    && text.charAt( character_index ) == skipped_character )
+            {
+                ++character_index;
+            }
         }
     }
 

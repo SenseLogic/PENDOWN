@@ -1733,7 +1733,7 @@
 
     ²void² ParseAttributes°(°
         ²dstring² classes°,°
-        ²char² separator_character °=° ²0²
+        ²char² skipped_character °=° ²0²
         °)°
     °{°
         ²bool²
@@ -1905,6 +1905,15 @@
         ¹if¹ °(° span °\!=° ²""² °)°
         °{°
             attributes °~=° ²" colspan=\\""² °~° span °~° ²"\\""²°;°
+        °}°
+        
+        ¹if¹ °(° skipped_character °\!=° ²0² °)°
+        °{°
+            ¹while¹ °(° character_index °&lt;° text°.°length
+                    °&&° text°.°charAt°(° character_index °)° °==° skipped_character °)°
+            °{°
+                °+\+°character_index°;°
+            °}°
         °}°
     °}°
 

@@ -1553,7 +1553,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
     ¹function¹ ParseAttributes°(°
         classes°,°
-        color_name
+        skipped_character
         °)°
     °{°
         ¹var¹
@@ -1721,6 +1721,15 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         ¹if¹ °(° span °\!==° ²""² °)°
         °{°
             attributes °+=° ²" colspan=\\""² °+° span °+° ²"\\""²°;°
+        °}°
+        
+        ¹if¹ °(° skipped_character °\!==° ²undefined² °)°
+        °{°
+            ¹while¹ °(° character_index °&lt;° text°.°length
+                    °&&° text°.°charAt°(° character_index °)° °===° skipped_character °)°
+            °{°
+                °+\+°character_index°;°
+            °}°
         °}°
     °}°
 

@@ -470,16 +470,16 @@ When colorizing a source code file, its programming language is deduced from the
 
 ## Style customization
 
-*   Styling classes can be applied to titles, blocks, boxes, frames, spans, etc : `!!^violet,bold\ Some title`
-*   Custom colors, font sizes and column spans can also be specified :
-    *   Text colors : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
-    *   Text decoration colors : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
-    *   Background colors : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
-    *   Border colors : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
-    *   Font sizes : `@1.25` `@1.25rem` `@1.25vw`
-    *   Column spans : `=2`
-*   They can be stored in custom classes : `^$841,bold:brown_bold\`
-*   Color tags can be redefined too : `^yellow_fill,$82f:²\`
+*   Styling classes and attributes can be applied to containers : `!!^violet,@5rem\ A big violet title`
+*   The following attributes can be explicitely specified :
+    *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
+    *   Underline/strikethrough color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
+    *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
+    *   Border color : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
+    *   Font size : `@1.25` `@1.25rem` `@1.25vw`
+    *   Column span : `=2`
+*   Custom classes can be created from combinations of existing classes : `^bold,$841:bold_brown\`
+*   The color tags can be redefined too : `^yellow_fill,$82f:²\`
 
 ## Client-side compiler
 
