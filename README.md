@@ -456,8 +456,8 @@ If the Comic Sans and Consolas fonts are installed on your system, you should se
 
 ## Custom styling
 
-*   CSS classes can be added to the block tags : `!!^violet,italic\ A violet italic title`
-*   The following attributes are also be specified :
+*   One or several CSS classes can be specified right after the block tags : `!!^violet,italic\ A violet italic title`
+*   The following attributes can also be specified :
     *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
     *   Underline/strikethrough color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
     *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
