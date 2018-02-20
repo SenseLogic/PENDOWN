@@ -833,7 +833,7 @@ dstring slice(
     {
         post_character_index += text.length;
     }
-    
+
     if ( post_character_index > text.length )
     {
         post_character_index = text.length;
@@ -858,7 +858,7 @@ dstring slice(
     {
         first_character_index = text.length;
     }
-    
+
     return text[ first_character_index .. $ ];
 }
 
@@ -922,7 +922,7 @@ dstring ReplaceTabulations(
     long
         character_index,
         line_character_index;
-        
+
     text = text.replace( "\t\t", "\t    " ).replace( "\n\t", "\n    " );
 
     if ( text.indexOf( '\t' ) >= 0 )
@@ -930,19 +930,19 @@ dstring ReplaceTabulations(
         replaced_text = "";
 
         line_character_index = 0;
-        
+
         for ( character_index = 0;
               character_index < text.length;
               ++character_index )
         {
             character = text.charAt( character_index );
-            
+
             if ( character == '\t' )
             {
                 do
                 {
                     replaced_text ~= ' ';
-                    
+
                     ++line_character_index;
                 }
                 while ( ( line_character_index % TabulationSpaceCount ) != 0 );
@@ -950,7 +950,7 @@ dstring ReplaceTabulations(
             else
             {
                 replaced_text ~= character;
-                
+
                 if ( character == '\n' )
                 {
                     line_character_index = 0;
@@ -961,7 +961,7 @@ dstring ReplaceTabulations(
                 }
             }
         }
-        
+
         return replaced_text;
     }
     else
@@ -978,7 +978,7 @@ dstring GetCleanedText(
 {
     dstring
         cleaned_text;
-        
+
     cleaned_text = ReplaceTabulations( text ).replace( "\r", "" );
 
     if ( !cleaned_text.endsWith( '\n' ) )
@@ -986,7 +986,7 @@ dstring GetCleanedText(
         cleaned_text ~= '\n';
     }
 
-    return cleaned_text;    
+    return cleaned_text;
 }
 
 // ~~
@@ -1061,19 +1061,19 @@ dstring GetColor(
         green,
         blue,
         alpha;
-        
+
     if ( color.length == 4 )
     {
         red = GetHexadecimalCharacterValue( color.charAt( 0 ) );
         green = GetHexadecimalCharacterValue( color.charAt( 1 ) );
         blue = GetHexadecimalCharacterValue( color.charAt( 2 ) );
         alpha = GetHexadecimalCharacterValue( color.charAt( 3 ) );
-        
+
         red += red * 16;
         green += green * 16;
         blue += blue * 16;
         alpha += alpha * 16;
-        
+
         return ( "rgba(" ~ red.to!dstring() ~ "," ~ green.to!dstring() ~ "," ~ blue.to!dstring() ~ "," ~ ( alpha / 255.0 ).to!dstring() ~ ")" );
     }
     else if ( color.length == 8 )
@@ -1082,11 +1082,11 @@ dstring GetColor(
         green = GetHexadecimalCharacterValue( color.charAt( 2 ) ) * 16 + GetHexadecimalCharacterValue( color.charAt( 3 ) );
         blue = GetHexadecimalCharacterValue( color.charAt( 4 ) ) * 16 + GetHexadecimalCharacterValue( color.charAt( 5 ) );
         alpha = GetHexadecimalCharacterValue( color.charAt( 6 ) ) * 16 + GetHexadecimalCharacterValue( color.charAt( 7 ) );
-        
+
         return "rgba(" ~ red.to!dstring() ~ "," ~ green.to!dstring() ~ "," ~ blue.to!dstring() ~ "," ~ ( alpha / 255.0 ).to!dstring() ~ ")";
     }
     else
-    {   
+    {
         return "#" ~ color;
     }
 }
@@ -1139,7 +1139,7 @@ LANGUAGE GetLanguage(
     if ( file_path.endsWith( ".c" )
          || file_path.endsWith( ".h" ) )
     {
-        return new C_LANGUAGE;
+        return new C_LANGUAGE();
     }
     else if ( file_path.endsWith( ".c++" )
               || file_path.endsWith( ".h++" )
@@ -1148,32 +1148,32 @@ LANGUAGE GetLanguage(
               || file_path.endsWith( ".cxx" )
               || file_path.endsWith( ".hxx" ) )
     {
-        return new CPP_LANGUAGE;
+        return new CPP_LANGUAGE();
     }
     else if ( file_path.endsWith( ".c#" )
               || file_path.endsWith( ".cs" ) )
     {
-        return new CSHARP_LANGUAGE;
+        return new CSHARP_LANGUAGE();
     }
     else if ( file_path.endsWith( ".d" ) )
     {
-        return new D_LANGUAGE;
+        return new D_LANGUAGE();
     }
     else if ( file_path.endsWith( ".java" ) )
     {
-        return new JAVA_LANGUAGE;
+        return new JAVA_LANGUAGE();
     }
     else if ( file_path.endsWith( ".js" ) )
     {
-        return new JAVASCRIPT_LANGUAGE;
+        return new JAVASCRIPT_LANGUAGE();
     }
     else if ( file_path.endsWith( ".ts" ) )
     {
-        return new TYPESCRIPT_LANGUAGE;
+        return new TYPESCRIPT_LANGUAGE();
     }
     else
     {
-        return new LANGUAGE;
+        return new LANGUAGE();
     }
 }
 
@@ -1337,7 +1337,7 @@ CODE_TOKEN[] GetCodeTokenArray(
         if ( code_token is null
              && character != 0 )
         {
-            code_token = new CODE_TOKEN;
+            code_token = new CODE_TOKEN();
 
             if ( character == '/'
                  && next_character == '/' )
@@ -1585,7 +1585,7 @@ dstring GetPreprocessedText(
           ++line_index )
     {
         line = line_array[ line_index ].trim();
-        
+
         if ( line == "" )
         {
             line_array[ line_index ] = "";
@@ -1699,33 +1699,42 @@ TOKEN[] GetTokenArray(
         token_array;
 
     // ~~
-    
+
     dstring ReplaceClassDefinitions(
         dstring classes
         )
     {
         dstring
-            class_name;
+            class_name,
+            old_classes;
         dstring[]
             class_name_array;
         long
             class_name_index;
             
-        class_name_array = classes.split( ' ' );
-        
-        for ( class_name_index = 0;
-              class_name_index < class_name_array.length;
-              ++class_name_index )
+        do
         {
-            class_name = class_name_array[ class_name_index ];
-            
-            if ( ( class_name in ClassDefinitionMap ) !is null )
+            old_classes = classes;
+
+            class_name_array = classes.split( ' ' );
+
+            for ( class_name_index = 0;
+                  class_name_index < class_name_array.length;
+                  ++class_name_index )
             {
-                class_name_array[ class_name_index ] = ClassDefinitionMap[ class_name ];
+                class_name = class_name_array[ class_name_index ];
+
+                if ( ( class_name in ClassDefinitionMap ) !is null )
+                {
+                    class_name_array[ class_name_index ] = ClassDefinitionMap[ class_name ];
+                }
             }
+
+            classes = class_name_array.join( ' ' );
         }
-            
-        return class_name_array.join( ' ' );
+        while ( classes != old_classes );
+        
+        return classes;
     }
 
     // ~~
@@ -1751,27 +1760,27 @@ TOKEN[] GetTokenArray(
         dstring[]
             class_name_array,
             part_array;
-                    
+
         attributes = "";
         styles = "";
         span = "";
-        
+
         command_is_valid = true;
-        
+
         while ( character_index < text.length
                 && text.charAt( character_index ) == '^'
                 && command_is_valid )
         {
             command_is_valid = false;
-            
+
             parsed_classes = "";
-            
+
             for ( next_character_index = character_index + 1;
                   next_character_index < text.length;
                   ++next_character_index )
             {
                 character = text.charAt( next_character_index );
-                
+
                 if ( IsAlphabeticalCharacter( character )
                      || IsDecimalCharacter( character )
                      || "$~#+@=_-.:°¹²³".indexOf( character ) >= 0 )
@@ -1783,7 +1792,7 @@ TOKEN[] GetTokenArray(
                     parsed_classes ~= ' ';
                 }
                 else if ( character == '\\' )
-                {        
+                {
                     if ( parsed_classes != "" )
                     {
                         if ( parsed_classes.indexOf( ':' ) >= 0 )
@@ -1792,20 +1801,18 @@ TOKEN[] GetTokenArray(
                             ClassDefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
                             parsed_classes = part_array[ 0 ];
                         }
-                        
-                        parsed_classes = ReplaceClassDefinitions( parsed_classes );
-                        
+
                         if ( classes != "" )
                         {
                             classes ~= " ";
                         }
 
                         classes ~= parsed_classes;
-                        
+
                         character_index = next_character_index + 1;
                         command_is_valid = true;
                     }
-                    
+
                     break;
                 }
                 else
@@ -1814,23 +1821,25 @@ TOKEN[] GetTokenArray(
                 }
             }
         }
+
+        classes = ReplaceClassDefinitions( classes );
         
         class_name_array = classes.split( ' ' );
         classes = "";
-        
+
         for ( class_name_index = 0;
               class_name_index < class_name_array.length;
               ++class_name_index )
         {
             class_name = class_name_array[ class_name_index ];
-            
+
             if ( class_name.startsWith( '$' ) )
             {
                 if ( styles != "" )
                 {
                     styles ~= ";";
                 }
-                
+
                 styles ~= "color:" ~ GetColor( class_name.slice( 1 ) );
             }
             else if ( class_name.startsWith( '~' ) )
@@ -1839,7 +1848,7 @@ TOKEN[] GetTokenArray(
                 {
                     styles ~= ";";
                 }
-                
+
                 styles ~= "text-decoration-color:" ~ GetColor( class_name.slice( 1 ) );
             }
             else if ( class_name.startsWith( '#' ) )
@@ -1848,7 +1857,7 @@ TOKEN[] GetTokenArray(
                 {
                     styles ~= ";";
                 }
-                
+
                 styles ~= "background-color:" ~ GetColor( class_name.slice( 1 ) );
             }
             else if ( class_name.startsWith( '+' ) )
@@ -1857,23 +1866,23 @@ TOKEN[] GetTokenArray(
                 {
                     styles ~= ";";
                 }
-                
+
                 styles ~= "border-color:" ~ GetColor( class_name.slice( 1 ) );
             }
             else if ( class_name.startsWith( '@' ) )
             {
                 size = class_name.slice( 1 );
-                
+
                 if ( !HasUnit( size ) )
                 {
                     size ~= "rem";
                 }
-                
+
                 if ( styles != "" )
                 {
                     styles ~= ";";
                 }
-                
+
                 styles ~= "font-size:" ~ size;
             }
             else if ( class_name.startsWith( '=' ) )
@@ -1886,16 +1895,16 @@ TOKEN[] GetTokenArray(
                 {
                     classes ~= " ";
                 }
-                
+
                 classes ~= class_name;
             }
         }
-        
+
         if ( classes != "" )
         {
             attributes ~= " class=\"" ~ classes ~ "\"";
         }
-        
+
         if ( styles != "" )
         {
             attributes ~= " style=\"" ~ styles ~ "\"";
@@ -1905,7 +1914,7 @@ TOKEN[] GetTokenArray(
         {
             attributes ~= " colspan=\"" ~ span ~ "\"";
         }
-        
+
         if ( skipped_character != 0 )
         {
             while ( character_index < text.length
@@ -1917,7 +1926,7 @@ TOKEN[] GetTokenArray(
     }
 
     // ~~
-    
+
     dstring ParseImage(
         )
     {
@@ -1934,22 +1943,22 @@ TOKEN[] GetTokenArray(
             size_array;
 
         character_index += 2;
-            
+
         ParseAttributes( "" );
-        
-        image_text = "<img src=\"";
+
+        image_text = "<img" ~ attributes ~ " src=\"";
         size_text = "";
         size_is_parsed = false;
-        
+
         while ( character_index < text.length )
         {
             character = text.charAt( character_index );
-            
+
             if ( character == '\\'
                  && character_index + 1 < text.length )
             {
                 ++character_index;
-                
+
                 image_text ~= text.charAt( character_index );
             }
             else if ( character == ']'
@@ -1957,7 +1966,7 @@ TOKEN[] GetTokenArray(
                       && text.charAt( character_index + 1 ) == ']' )
             {
                 character_index += 2;
-                
+
                 break;
             }
             else if ( size_is_parsed )
@@ -1979,17 +1988,17 @@ TOKEN[] GetTokenArray(
                     image_text ~= character;
                 }
             }
-            
+
             ++character_index;
         }
-        
+
         if ( size_text == "" )
         {
             size_text = ",100";
         }
-     
+
         size_array = size_text.split( ',' );
-        
+
         if ( size_array.length == 1 )
         {
             height = size_array[ 0 ];
@@ -2005,7 +2014,7 @@ TOKEN[] GetTokenArray(
             height = "";
             width = "100";
         }
-        
+
         if ( height == "" )
         {
             height = "auto";
@@ -2014,9 +2023,9 @@ TOKEN[] GetTokenArray(
         {
             if ( PageOptionIsEnabled )
             {
-                height 
-                    = ( height.to!double() 
-                        * ( PageWidth - PageLeftMargin - PageRightMargin ) 
+                height
+                    = ( height.to!double()
+                        * ( PageWidth - PageLeftMargin - PageRightMargin )
                         / ( PageHeight - PageTopMargin - PageBottomMargin ) ).to!dstring() ~ "%";
             }
             else
@@ -2024,7 +2033,7 @@ TOKEN[] GetTokenArray(
                 height ~= "vw";
             }
         }
-        
+
         if ( width == "" )
         {
             width = "auto";
@@ -2033,9 +2042,9 @@ TOKEN[] GetTokenArray(
         {
             width ~= "%";
         }
-        
-        image_text ~= "\"" ~ attributes ~ " style=\"height:" ~ height ~ ";width:" ~ width ~ "\"/>";
-        
+
+        image_text ~= "\" style=\"height:" ~ height ~ ";width:" ~ width ~ "\"/>";
+
         return image_text;
     }
 
@@ -2077,7 +2086,7 @@ TOKEN[] GetTokenArray(
 
     while ( character_index < text.length )
     {
-        token = new TOKEN;
+        token = new TOKEN();
         token.StartsLine = token_starts_line;
         token_starts_line = false;
 
@@ -2116,9 +2125,9 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 2 ) == "!^" )
         {
             character_index += 1;
-            
+
             ParseAttributes( "", ' ' );
-            
+
             token.Text = "<h1" ~ attributes ~ ">";
             closing_tag = "</h1>";
         }
@@ -2126,7 +2135,7 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 2 ) == "! " )
         {
             character_index += 2;
-            
+
             token.Text = "<h1>";
             closing_tag = "</h1>";
         }
@@ -2134,9 +2143,9 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 3 ) == "!!^" )
         {
             character_index += 2;
-            
+
             ParseAttributes( "", ' ' );
-            
+
             token.Text = "<h2" ~ attributes ~ ">";
             closing_tag = "</h2>";
         }
@@ -2144,7 +2153,7 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 3 ) == "!! " )
         {
             character_index += 3;
-            
+
             token.Text = "<h2>";
             closing_tag = "</h2>";
         }
@@ -2152,9 +2161,9 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 4 ) == "!!!^" )
         {
             character_index += 3;
-            
+
             ParseAttributes( "", ' ' );
-            
+
             token.Text = "<h3" ~ attributes ~ ">";
             closing_tag = "</h3>";
         }
@@ -2162,7 +2171,7 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 4 ) == "!!! " )
         {
             character_index += 4;
-            
+
             token.Text = "<h3>";
             closing_tag = "</h3>";
         }
@@ -2170,9 +2179,9 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 5 ) == "!!!!^" )
         {
             character_index += 4;
-            
+
             ParseAttributes( "", ' ' );
-            
+
             token.Text = "<h4" ~ attributes ~ ">";
             closing_tag = "</h4>";
         }
@@ -2180,7 +2189,7 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 5 ) == "!!!! " )
         {
             character_index += 5;
-            
+
             token.Text = "<h4>";
             closing_tag = "</h4>";
         }
@@ -2188,9 +2197,9 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 6 ) == "!!!!!^" )
         {
             character_index += 5;
-            
+
             ParseAttributes( "", ' ' );
-            
+
             token.Text = "<h5" ~ attributes ~ ">";
             closing_tag = "</h5>";
         }
@@ -2198,7 +2207,7 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 6 ) == "!!!!! " )
         {
             character_index += 6;
-            
+
             token.Text = "<h5>";
             closing_tag = "</h5>";
         }
@@ -2206,9 +2215,9 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 7 ) == "!!!!!!^" )
         {
             character_index += 6;
-            
+
             ParseAttributes( "", ' ' );
-            
+
             token.Text = "<h6" ~ attributes ~ ">";
             closing_tag = "</h6>";
         }
@@ -2216,24 +2225,24 @@ TOKEN[] GetTokenArray(
                   && text.slice( character_index, character_index + 7 ) == "!!!!!! " )
         {
             character_index += 7;
-            
+
             token.Text = "<h6>";
             closing_tag = "</h6>";
         }
         else if ( text.slice( character_index, character_index + 3 ) == "---" )
         {
             character_index += 3;
-            
+
             ParseAttributes( "" );
-            
+
             token.Text = "<hr" ~ attributes ~ "/>";
         }
         else if ( text.slice( character_index, character_index + 3 ) == "~~~" )
         {
             character_index += 3;
-            
+
             ParseAttributes( "" );
-            
+
             token.Text = "<pb" ~ attributes ~ "/>";
         }
         else if ( text.charAt( character_index ) == '§' )
@@ -2245,9 +2254,9 @@ TOKEN[] GetTokenArray(
         else if ( text.slice( character_index, character_index + 3 ) == "[[[" )
         {
             ++table_count;
-            
+
             character_index += 3;
-            
+
             ParseAttributes( "" );
 
             token.Text = "<table" ~ attributes ~ "><tbody>";
@@ -2256,34 +2265,34 @@ TOKEN[] GetTokenArray(
                   && table_count > 0 )
         {
             character_index += 2;
-            
+
             ParseAttributes( "" );
-            
+
             token.Text = "<tr><td" ~ attributes ~ ">";
         }
         else if ( text.charAt( character_index ) == '|'
                   && table_count > 0 )
         {
             ++character_index;
-            
+
             ParseAttributes( "" );
-            
+
             token.Text = "</td><td" ~ attributes ~ ">";
         }
         else if ( text.slice( character_index, character_index + 2 ) == "))"
                   && table_count > 0 )
         {
             token.Text = "</td></tr>";
-            
+
             character_index += 2;
         }
         else if ( text.slice( character_index, character_index + 3 ) == "]]]"
                   && table_count > 0 )
         {
             --table_count;
-            
+
             token.Text = "</tbody></table>";
-            
+
             character_index += 3;
         }
         else if ( text.slice( character_index, character_index + 2 ) == "[[" )
@@ -2413,65 +2422,128 @@ TOKEN[] GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 2 ) == "<<" )
         {
+            character_index += 2;
+
             it_is_in_left_div = !it_is_in_left_div;
 
-            token.Text = it_is_in_left_div ? "<div class=\"left\">" : "</div>";
-
-            character_index += 2;
+            if ( it_is_in_left_div )
+            {
+                ParseAttributes( "left" );
+                
+                token.Text = "<div" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</div>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) == "$$" )
         {
+            character_index += 2;
+
             it_is_in_center_div = !it_is_in_center_div;
 
-            token.Text = it_is_in_center_div ? "<div class=\"center\">" : "</div>";
+            if ( it_is_in_center_div )
+            {
+                ParseAttributes( "center" );
 
-            character_index += 2;
+                token.Text = "<div" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</div>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) == ">>" )
         {
+            character_index += 2;
+
             it_is_in_right_div = !it_is_in_right_div;
 
-            token.Text = it_is_in_right_div ? "<div class=\"right\">" : "</div>";
+            if ( it_is_in_right_div )
+            {
+                ParseAttributes( "right" );
 
-            character_index += 2;
+                token.Text = "<div" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</div>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) == "**" )
         {
+            character_index += 2;
+
             it_is_in_b = !it_is_in_b;
 
-            token.Text = it_is_in_b ? "<b>" : "</b>";
+            if ( it_is_in_b )
+            {
+                ParseAttributes( "" );
 
-            character_index += 2;
+                token.Text = "<b" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</b>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) == "%%" )
         {
+            character_index += 2;
+
             it_is_in_i = !it_is_in_i;
 
-            token.Text = it_is_in_i ? "<i>" : "</i>";
+            if ( it_is_in_i )
+            {
+                ParseAttributes( "" );
 
-            character_index += 2;
+                token.Text = "<i" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</i>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) == "^^" )
         {
+            character_index += 2;
+
             it_is_in_sup = !it_is_in_sup;
 
-            token.Text = it_is_in_sup ? "<sup>" : "</sup>";
+            if ( it_is_in_sup )
+            {
+                ParseAttributes( "" );
 
-            character_index += 2;
+                token.Text = "<sup" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</sup>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) == ",," )
         {
+            character_index += 2;
+
             it_is_in_sub = !it_is_in_sub;
 
-            token.Text = it_is_in_sub ? "<sub>" : "</sub>";
+            if ( it_is_in_sub )
+            {
+                ParseAttributes( "" );
 
-            character_index += 2;
+                token.Text = "<sub" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</sub>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) == "~~" )
         {
-            it_is_in_strike = !it_is_in_strike;
-
             character_index += 2;
+
+            it_is_in_strike = !it_is_in_strike;
 
             if ( it_is_in_strike )
             {
@@ -2487,93 +2559,167 @@ TOKEN[] GetTokenArray(
         else if ( text.slice( character_index, character_index + 2 ) == "°°"
                   && !it_is_in_gray_span )
         {
+            character_index += 2;
+
             it_is_in_black_span = !it_is_in_black_span;
 
-            token.Text = it_is_in_black_span ? "<span class=\"" ~ ReplaceClassDefinitions( "°°" ) ~ "\">" : "</span>";
+            if ( it_is_in_black_span )
+            {
+                ParseAttributes( "°°" );
 
-            character_index += 2;
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) == "¹¹"
                   && !it_is_in_pink_span )
         {
+            character_index += 2;
+
             it_is_in_cyan_span = !it_is_in_cyan_span;
 
-            token.Text = it_is_in_cyan_span ? "<span class=\"" ~ ReplaceClassDefinitions( "¹¹" ) ~ "\">" : "</span>";
+            if ( it_is_in_cyan_span )
+            {
+                ParseAttributes( "¹¹" );
 
-            character_index += 2;
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) == "²²"
                   && !it_is_in_red_span )
         {
+            character_index += 2;
+
             it_is_in_orange_span = !it_is_in_orange_span;
 
-            token.Text = it_is_in_orange_span ? "<span class=\"" ~ ReplaceClassDefinitions( "²²" ) ~ "\">" : "</span>";
+            if ( it_is_in_orange_span )
+            {
+                ParseAttributes( "²²" );
 
-            character_index += 2;
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
         }
         else if ( text.slice( character_index, character_index + 2 ) == "³³"
                   && !it_is_in_blue_span )
         {
+            character_index += 2;
+
             it_is_in_green_span = !it_is_in_green_span;
 
-            token.Text = it_is_in_green_span ? "<span class=\"" ~ ReplaceClassDefinitions( "³³" ) ~ "\">" : "</span>";
+            if ( it_is_in_green_span )
+            {
+                ParseAttributes( "³³" );
 
-            character_index += 2;
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
         }
         else if ( text.charAt( character_index ) == '°' )
         {
+            ++character_index;
+
             it_is_in_gray_span = !it_is_in_gray_span;
 
-            token.Text = it_is_in_gray_span ? "<span class=\"" ~ ReplaceClassDefinitions( "°" ) ~ "\">" : "</span>";
+            if ( it_is_in_gray_span )
+            {
+                ParseAttributes( "°" );
 
-            ++character_index;
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
         }
         else if ( text.charAt( character_index ) == '¹' )
         {
+            ++character_index;
+
             it_is_in_pink_span = !it_is_in_pink_span;
 
-            token.Text = it_is_in_pink_span ? "<span class=\"" ~ ReplaceClassDefinitions( "¹" ) ~ "\">" : "</span>";
+            if ( it_is_in_pink_span )
+            {
+                ParseAttributes( "¹" );
 
-            ++character_index;
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
         }
         else if ( text.charAt( character_index ) == '²' )
         {
+            ++character_index;
+
             it_is_in_red_span = !it_is_in_red_span;
 
-            token.Text = it_is_in_red_span ? "<span class=\"" ~ ReplaceClassDefinitions( "²" ) ~ "\">" : "</span>";
+            if ( it_is_in_red_span )
+            {
+                ParseAttributes( "²" );
 
-            ++character_index;
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
         }
         else if ( text.charAt( character_index ) == '³' )
         {
+            ++character_index;
+
             it_is_in_blue_span = !it_is_in_blue_span;
 
-            token.Text = it_is_in_blue_span ? "<span class=\"" ~ ReplaceClassDefinitions( "³" ) ~ "\">" : "</span>";
+            if ( it_is_in_blue_span )
+            {
+                ParseAttributes( "³" );
 
-            ++character_index;
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
         }
         else if ( text.slice( character_index, character_index + 5 ) == "<pre>" )
         {
-            token.Text = "<pre>";
-
             character_index += 5;
+
+            token.Text = "<pre>";
         }
         else if ( text.slice( character_index, character_index + 6 ) == "</pre>" )
         {
-            token.Text = "</pre>";
-
             character_index += 6;
+
+            token.Text = "</pre>";
         }
         else if ( text.slice( character_index, character_index + 2 ) == "@@" )
         {
-            it_is_in_a = !it_is_in_a;
-
-            token.Text = it_is_in_a ? "<a href=\"" : "</a>";
-
             character_index += 2;
+
+            it_is_in_a = !it_is_in_a;
 
             if ( it_is_in_a )
             {
+                ParseAttributes( "" );
+                
+                token.Text = "<a" ~ attributes ~ " href=\"";
+                
                 url = "";
 
                 while ( character_index < text.length )
@@ -2604,12 +2750,16 @@ TOKEN[] GetTokenArray(
                     }
                 }
             }
+            else
+            {
+                token.Text = "</a>";
+            }
         }
         else if ( text.charAt( character_index ) == ' ' )
         {
-            token.Text = " ";
-
             ++character_index;
+
+            token.Text = " ";
 
             while ( character_index < text.length
                     && text.charAt( character_index ) == ' ' )
@@ -2625,7 +2775,7 @@ TOKEN[] GetTokenArray(
         {
             if ( closing_tag != "" )
             {
-                closing_token = new TOKEN;
+                closing_token = new TOKEN();
                 closing_token.Text = closing_tag;
                 closing_tag = "";
 
@@ -2800,7 +2950,7 @@ void MakeLists(
 
                     if ( tag_token_text != "" )
                     {
-                        token = new TOKEN;
+                        token = new TOKEN();
                         token.Text = tag_token_text;
                         token_array.splice( tag_token_index, 0, token );
 
@@ -2825,7 +2975,7 @@ void MakeParagraphs(
     TOKEN
         token;
 
-    token = new TOKEN;
+    token = new TOKEN();
     token.Text = "<p>";
     token_array.splice( 0, 0, token );
 
@@ -2858,7 +3008,7 @@ void MakeParagraphs(
         }
     }
 
-    token = new TOKEN;
+    token = new TOKEN();
     token.Text = "</p>";
     token_array.push( token );
 }
@@ -3019,10 +3169,10 @@ void main(
     ScriptOptionIsEnabled = false;
     StyleOptionIsEnabled = false;
     LanguageName = "";
-    
+
     TabulationSpaceCount = 4;
-    IndentationSpaceCount = 4;    
-    
+    IndentationSpaceCount = 4;
+
     ClassDefinitionMap[ "°°" ] = "black";
     ClassDefinitionMap[ "¹¹" ] = "cyan";
     ClassDefinitionMap[ "²²" ] = "orange";
@@ -3031,7 +3181,7 @@ void main(
     ClassDefinitionMap[ "¹" ] = "pink";
     ClassDefinitionMap[ "²" ] = "red";
     ClassDefinitionMap[ "³" ] = "blue";
-    
+
     PageOptionIsEnabled = false;
     PageWidth = 21.0;
     PageHeight = 29.7;
@@ -3090,7 +3240,7 @@ void main(
                   && argument_array.length >= 6 )
         {
             PageOptionIsEnabled = true;
-            
+
             PageWidth = argument_array[ 0 ].to!double();
             PageHeight = argument_array[ 1 ].to!double();
             PageLeftMargin = argument_array[ 2 ].to!double();
