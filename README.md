@@ -454,6 +454,19 @@ If the Comic Sans and Consolas fonts are installed on your system, you should se
 
 ![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
 
+## Custom styling
+
+*   CSS classes can be added to the block tags : `!!^violet,italic\ A violet italic title`
+*   The following attributes are also be specified :
+    *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
+    *   Underline/strikethrough color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
+    *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
+    *   Border color : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
+    *   Font size : `@1.25` `@1.25rem` `@1.25vw`
+    *   Column span : `=2`
+*   Custom classes can be created from other classes and attributes : `^bold,$841:bold_brown\`
+*   The default color tags can also be redefined : `^yellow_fill,$82f:²\`
+
 ## Syntax highlighting
 
 The source code programming language can be specified with the following keywords :
@@ -467,19 +480,6 @@ The source code programming language can be specified with the following keyword
 * TypeScript : ts
 
 When colorizing a source code file, its programming language is deduced from the file extension if it matches one of the above keywords.
-
-## Custom styling
-
-*   CSS classes can be added to the block tags : `!!^violet,italic\ A violet italic title`
-*   The following attributes are also be specified :
-    *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
-    *   Underline/strikethrough color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
-    *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
-    *   Border color : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
-    *   Font size : `@1.25` `@1.25rem` `@1.25vw`
-    *   Column span : `=2`
-*   Custom classes can be created from other classes and attributes : `^bold,$841:bold_brown\`
-*   The default color tags can also be redefined : `^yellow_fill,$82f:²\`
 
 ## Client-side compiler
 
