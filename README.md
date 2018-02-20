@@ -470,7 +470,7 @@ When colorizing a source code file, its programming language is deduced from the
 
 ## Styling
 
-*   Classes and attributes can be applied to containers : `!!^violet,@5rem\ A big violet title`
+*   Block tags may have suffixes defining their CSS classes and attributes : `!!^violet,@5rem\ A big violet title`
 *   The following attributes are supported :
     *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
     *   Underline/strikethrough color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
