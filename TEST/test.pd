@@ -57,13 +57,13 @@ This is <sub>a subscript text</sub>.
 This is ~~a strikethrough text~~.§
 This is <strike>a strikethrough text</strike>.
 
-This is ~~^#f00\a strikethrough text~~.§
+This is ~~^~f00\a strikethrough text~~.§
 This is <strike style="text-decoration-color:#f00">a strikethrough text</strike>.
 
 This is __an underlined text__.§
 This is <u>an underlined text</u>.
 
-This is __^#f00\an underlined text__.§
+This is __^~f00\an underlined text__.§
 This is <u style="text-decoration-color:#f00">an underlined text</u>.
 
 This is ##a highlighted text##.§
@@ -72,26 +72,35 @@ This is <span class="mark">a highlighted text</span>.
 This is ##^#fce\a highlighted text##.§
 This is <span class="mark" style="background-color:#fce">a highlighted text</span>.
 
-This is {{^#6f42c1\a colored text}}.§
+This is ##^#0f02\a highlighted text##.§
+This is <span class="mark" style="background-color:rgba(0,255,0,0.1333333)">a highlighted text</span>.
+
+This is {{^$6f42c1\a colored text}}.§
 This is <span style="color:#6f42c1">a colored text</span>.
 
-This is {{^#0cc\a colored text}}.§
+This is {{^$0cc\a colored text}}.§
 This is <span style="color:#0cc">a colored text</span>.
 
-This is {{^#f4f\^1.25\a colored text}}.§
+This is {{^$f4f,@1.25\a colored text}}.§
 This is <span style="color:#f4f;font-size:1.25rem">a colored text</span>.
 
-This is {{^#80f\^large\a colored text}}.§
+This is {{^$80f,large:violet_large\a colored text}}.§
 This is <span class="large" style="color:#80f">a colored text</span>.
+
+This is {{^violet_large,bold\a colored text}}.§
+This is <span class="large bold" style="color:#80f">a colored text</span>.
 
 This is {{^cyan\a colored text}}.§
 This is <span class="cyan">a colored text</span>.
 
-This is {{^pink\^1.25\a colored text}}.§
+This is {{^pink,@1.25\a colored text}}.§
 This is <span class="pink" style="font-size:1.25rem">a colored text</span>.
 
-This is {{^blue+large\a colored text}}.§
+This is {{^blue,large:blue_large\a colored text}}.§
 This is <span class="blue large">a colored text</span>.
+
+This is {{^blue_large,bold\a colored text}}.§
+This is <span class="blue large bold">a colored text</span>.
 
 This is °°a black text°°.§
 This is <span class="black">a black text</span>.
@@ -162,11 +171,19 @@ int main()
 
 ---
 
-{{{
+{{{^pastel_gray_fill\
 This is a text block.
 }}}
 
-<div class="block">
+<div class="pastel_gray_fill">
+This is a text block.
+</div>
+
+{{{^pastel_gray_fill,black\
+This is a text block.
+}}}
+
+<div class="pastel_gray_fill black">
 This is a text block.
 </div>
 
@@ -174,15 +191,15 @@ This is a text block.
 This is a text block.
 }}}
 
-<div class="block" style="background-color:#cfe">
+<div style="background-color:#cfe">
 This is a text block.
 </div>
 
-{{{^#cfe\^black\
+{{{^#cfe,$000\
 This is a text block.
 }}}
 
-<div class="block black" style="background-color:#cfe">
+<div style="background-color:#cfe;color:#000">
 This is a text block.
 </div>
 
@@ -196,6 +213,14 @@ This is a text box.
 This is a text box.
 </div>
 
+###^black\
+This is a text box.
+###
+
+<div class="box black">
+This is a text box.
+</div>
+
 ###^#cfe\
 This is a text box.
 ###
@@ -204,7 +229,7 @@ This is a text box.
 This is a text box.
 </div>
 
-###^#cfe\^black\
+###^#cfe,black\
 This is a text box.
 ###
 
@@ -222,19 +247,27 @@ This is a text frame.
 This is a text frame.
 </div>
 
-+++^#f00\
++++^red_border\
 This is a text frame.
 +++
 
-<div class="frame" style="border-color:#f00">
+<div class="frame red_border">
 This is a text frame.
 </div>
 
-+++^#f00\^black\
++++^+f00,#ffd\
 This is a text frame.
 +++
 
-<div class="frame black" style="border-color:#f00">
+<div class="frame" style="border-color:#f00;background-color:#ffd">
+This is a text frame.
+</div>
+
++++^+f00,#ffd,$000\
+This is a text frame.
++++
+
+<div class="frame" style="border-color:#f00;background-color:#ffd;color:#000">
 This is a text frame.
 </div>
 
@@ -248,7 +281,7 @@ This is a text quote.
 This is a text quote.
 </blockquote>
 
->>>^#f00\
+>>>^+f00\
 This is a text quote.
 >>>
 
@@ -256,11 +289,19 @@ This is a text quote.
 This is a text quote.
 </blockquote>
 
->>>^#f00\^black\
+>>>^+f00,#ffd\
 This is a text quote.
 >>>
 
-<blockquote class="black" style="border-color:#f00">
+<blockquote style="border-color:#f00;background-color:#ffd">
+This is a text quote.
+</blockquote>
+
+>>>^+f00,#ffd,$000\
+This is a text quote.
+>>>
+
+<blockquote style="border-color:#f00;background-color:#ffd;color:#000">
 This is a text quote.
 </blockquote>
 
@@ -356,9 +397,9 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
 (( Banana | 1      | 2       | 3         ))
 ]]]
 
-{{^orange+bold=²\}}
-[[[^orange_border+tiny_border+padding+black=table\
-((^orange_fill+white+bold+center=title\^=2\ Subject pronouns ))
+{{^orange,bold:²\}}
+[[[^orange_border,tiny_border,padding,black:table\
+((^orange_fill,white,bold,center:title\^=2\ Subject pronouns ))
 (( ²yo² | I ))
 (( ²tú² | you ))
 (( ²él², ²ella², ²usted² | he, she, %%you%% ))
@@ -376,9 +417,9 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
 (( °(vosotros,-as)° | cant²áis² | com²éis² | viv²ís² ))
 (( °(ellos,-as,uds)° | cant²an² | com²en² | viv²en² ))
 ]]]
-{{^red=²\}}
+{{^red:²\}}
 
-[[[^width_5_6+border+light_gray_border+padding\
+[[[^width_5_6,border,light_gray_border,padding\
 ((^width_20\
     Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh.§
     Qan siqwi' tuj muvwi' wogh yor 'o'megh be'etor boqha''egh lodni'pu' jij laq lol lo' law' mevyap.
@@ -393,66 +434,66 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
 ))
 ]]]
 
-[[[^width_100+no_padding\
+[[[^width_100,no_padding\
 ((
-    [[[^width_100+padding+small=table\
-    ((^black_fill+dark_gray\ black ))
+    [[[^width_100,padding,small:table\
+    ((^black_fill,dark_gray\ black ))
     ]]]
 |
     [[[^table\
-    ((^dark_gray_fill+gray\ dark gray ))
-    ((^dark_orange_fill+orange\ dark orange ))
-    ((^dark_red_fill+red\ dark red ))
-    ((^dark_pink_fill+pink\ dark pink ))
-    ((^dark_violet_fill+violet\ dark violet ))
-    ((^dark_blue_fill+blue\ dark blue ))
-    ((^dark_cyan_fill+cyan\ dark cyan ))
-    ((^dark_green_fill+green\ dark green ))
-    ((^dark_lawn_fill+lawn\ dark lawn ))
-    ((^dark_yellow_fill+yellow\ dark yellow ))
+    ((^dark_gray_fill,gray\ dark gray ))
+    ((^dark_orange_fill,orange\ dark orange ))
+    ((^dark_red_fill,red\ dark red ))
+    ((^dark_pink_fill,pink\ dark pink ))
+    ((^dark_violet_fill,violet\ dark violet ))
+    ((^dark_blue_fill,blue\ dark blue ))
+    ((^dark_cyan_fill,cyan\ dark cyan ))
+    ((^dark_green_fill,green\ dark green ))
+    ((^dark_lawn_fill,lawn\ dark lawn ))
+    ((^dark_yellow_fill,yellow\ dark yellow ))
     ]]]
 |
     [[[^table\
-    ((^gray_fill+light_gray\ gray ))
-    ((^orange_fill+light_orange\ orange ))
-    ((^red_fill+light_red\ red ))
-    ((^pink_fill+light_pink\ pink ))
-    ((^violet_fill+light_violet\ violet ))
-    ((^blue_fill+light_blue\ blue ))
-    ((^cyan_fill+light_cyan\ cyan ))
-    ((^green_fill+light_green\ green ))
-    ((^lawn_fill+light_lawn\ lawn ))
-    ((^yellow_fill+white\ yellow ))
+    ((^gray_fill,light_gray\ gray ))
+    ((^orange_fill,light_orange\ orange ))
+    ((^red_fill,light_red\ red ))
+    ((^pink_fill,light_pink\ pink ))
+    ((^violet_fill,light_violet\ violet ))
+    ((^blue_fill,light_blue\ blue ))
+    ((^cyan_fill,light_cyan\ cyan ))
+    ((^green_fill,light_green\ green ))
+    ((^lawn_fill,light_lawn\ lawn ))
+    ((^yellow_fill,white\ yellow ))
     ]]]
 |
     [[[^table\
-    ((^light_gray_fill+pastel_gray\ light gray ))
-    ((^light_orange_fill+pastel_orange\ light orange ))
-    ((^light_red_fill+pastel_red\ light red ))
-    ((^light_pink_fill+pastel_pink\ light pink ))
-    ((^light_violet_fill+pastel_violet\ light violet ))
-    ((^light_blue_fill+pastel_blue\ light blue ))
-    ((^light_cyan_fill+pastel_cyan\ light cyan ))
-    ((^light_green_fill+pastel_green\ light green ))
-    ((^light_lawn_fill+pastel_lawn\ light lawn ))
-    ((^light_yellow_fill+white\ light yellow ))
+    ((^light_gray_fill,pastel_gray\ light gray ))
+    ((^light_orange_fill,pastel_orange\ light orange ))
+    ((^light_red_fill,pastel_red\ light red ))
+    ((^light_pink_fill,pastel_pink\ light pink ))
+    ((^light_violet_fill,pastel_violet\ light violet ))
+    ((^light_blue_fill,pastel_blue\ light blue ))
+    ((^light_cyan_fill,pastel_cyan\ light cyan ))
+    ((^light_green_fill,pastel_green\ light green ))
+    ((^light_lawn_fill,pastel_lawn\ light lawn ))
+    ((^light_yellow_fill,white\ light yellow ))
     ]]]
 |
     [[[^table\
-    ((^pastel_gray_fill+white\ pastel gray ))
-    ((^pastel_orange_fill+white\ pastel orange ))
-    ((^pastel_red_fill+white\ pastel red ))
-    ((^pastel_pink_fill+white\ pastel pink ))
-    ((^pastel_violet_fill+white\ pastel violet ))
-    ((^pastel_blue_fill+white\ pastel blue ))
-    ((^pastel_cyan_fill+white\ pastel cyan ))
-    ((^pastel_green_fill+white\ pastel green ))
-    ((^pastel_lawn_fill+white\ pastel lawn ))
-    ((^pastel_yellow_fill+white\ pastel yellow ))
+    ((^pastel_gray_fill,white\ pastel gray ))
+    ((^pastel_orange_fill,white\ pastel orange ))
+    ((^pastel_red_fill,white\ pastel red ))
+    ((^pastel_pink_fill,white\ pastel pink ))
+    ((^pastel_violet_fill,white\ pastel violet ))
+    ((^pastel_blue_fill,white\ pastel blue ))
+    ((^pastel_cyan_fill,white\ pastel cyan ))
+    ((^pastel_green_fill,white\ pastel green ))
+    ((^pastel_lawn_fill,white\ pastel lawn ))
+    ((^pastel_yellow_fill,white\ pastel yellow ))
     ]]]
 |
     [[[^table\
-    ((^white_fill+pastel_gray\ white ))
+    ((^white_fill,pastel_gray\ white ))
     ]]]
 ))
 ]]]

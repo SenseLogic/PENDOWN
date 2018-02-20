@@ -863,6 +863,100 @@ function IsHexadecimalCharacter(
 
 // ~~
 
+function GetHexadecimalCharacterValue(
+    character
+    )
+{
+    if ( character >= '0'
+         && character <= '9' )
+    {
+        return character.charCodeAt( 0 ) - 48;
+    }
+    else if ( character >= 'a'
+              && character <= 'f' )
+    {
+        return character.charCodeAt( 0 ) - 87;
+    }
+    else if ( character >= 'A'
+              && character <= 'F' )
+    {
+        return character.charCodeAt( 0 ) - 55;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+// ~~
+
+function GetColor(
+    color
+    )
+{
+    var
+        red,
+        green,
+        blue,
+        alpha;
+        
+    if ( color.length === 4 )
+    {
+        red = GetHexadecimalCharacterValue( color.charAt( 0 ) );
+        green = GetHexadecimalCharacterValue( color.charAt( 1 ) );
+        blue = GetHexadecimalCharacterValue( color.charAt( 2 ) );
+        alpha = GetHexadecimalCharacterValue( color.charAt( 3 ) );
+        
+        red += red * 16;
+        green += green * 16;
+        blue += blue * 16;
+        alpha += alpha * 16;
+        
+        return "rgba(" + red + "," + green + "," + blue + "," + ( alpha / 255.0 ) + ")";
+    }
+    else if ( color.length === 8 )
+    {
+        red = GetHexadecimalCharacterValue( color.charAt( 0 ) ) * 16 + GetHexadecimalCharacterValue( color.charAt( 1 ) );
+        green = GetHexadecimalCharacterValue( color.charAt( 2 ) ) * 16 + GetHexadecimalCharacterValue( color.charAt( 3 ) );
+        blue = GetHexadecimalCharacterValue( color.charAt( 4 ) ) * 16 + GetHexadecimalCharacterValue( color.charAt( 5 ) );
+        alpha = GetHexadecimalCharacterValue( color.charAt( 6 ) ) * 16 + GetHexadecimalCharacterValue( color.charAt( 7 ) );
+        
+        return "rgba(" + red + "," + green + "," + blue + "," + ( alpha / 255.0 ) + ")";
+    }
+    else
+    {   
+        return "#" + color;
+    }
+}
+
+// ~~
+
+function HasUnit(
+    size
+    )
+{
+    return (
+        size === "auto"
+        || size.endsWith( "%" )
+        || size.endsWith( "ch" )
+        || size.endsWith( "cm" )
+        || size.endsWith( "em" )
+        || size.endsWith( "ex" )
+        || size.endsWith( "in" )
+        || size.endsWith( "mm" )
+        || size.endsWith( "pc" )
+        || size.endsWith( "pt" )
+        || size.endsWith( "px" )
+        || size.endsWith( "rem" )
+        || size.endsWith( "vh" )
+        || size.endsWith( "vmax" )
+        || size.endsWith( "vmin" )
+        || size.endsWith( "vw" )
+        );
+}
+
+// ~~
+
 function GetLanguage(
     file_path,
     file_extension
@@ -1386,32 +1480,6 @@ function GetPreprocessedText(
 
 // ~~
 
-function HasUnit(
-    size
-    )
-{
-    return (
-        size === "auto"
-        || size.endsWith( "%" )
-        || size.endsWith( "ch" )
-        || size.endsWith( "cm" )
-        || size.endsWith( "em" )
-        || size.endsWith( "ex" )
-        || size.endsWith( "in" )
-        || size.endsWith( "mm" )
-        || size.endsWith( "pc" )
-        || size.endsWith( "pt" )
-        || size.endsWith( "px" )
-        || size.endsWith( "rem" )
-        || size.endsWith( "vh" )
-        || size.endsWith( "vmax" )
-        || size.endsWith( "vmin" )
-        || size.endsWith( "vw" )
-        );
-}
-
-// ~~
-
 function GetTokenArray(
     text
     )
@@ -1489,19 +1557,19 @@ function GetTokenArray(
     {
         var
             character,
+            class_name,
+            class_name_array,
+            class_name_index,
             command_is_valid,
-            found_classes,
-            found_size,
-            found_span,
             next_character_index,
+            parsed_classes,
             part_array,
+            size,
             span,
             styles;
         
         attributes = "";
-                    
         styles = "";
-        
         span = "";
         
         command_is_valid = true;
@@ -1512,161 +1580,130 @@ function GetTokenArray(
         {
             command_is_valid = false;
             
-            if ( character_index + 5 < text.length
-                 && text.charAt( character_index + 1 ) === '#'
-                 && IsHexadecimalCharacter( text.charAt( character_index + 2 ) )
-                 && IsHexadecimalCharacter( text.charAt( character_index + 3 ) )
-                 && IsHexadecimalCharacter( text.charAt( character_index + 4 ) ) )
+            parsed_classes = "";
+            
+            for ( next_character_index = character_index + 1;
+                  next_character_index < text.length;
+                  ++next_character_index )
             {
-                if ( text.charAt( character_index + 5 ) === '\\' )
+                character = text.charAt( next_character_index );
+                
+                if ( IsAlphabeticalCharacter( character )
+                     || IsDecimalCharacter( character )
+                     || "$~#+@=_-.:°¹²³".indexOf( character ) >= 0 )
                 {
-                    styles = color_name + ":" + text.slice( character_index + 1, character_index + 5 );
-                    
-                    character_index += 6;
-                    command_is_valid = true;
+                    parsed_classes += character;
                 }
-                else if ( character_index + 8 < text.length
-                          && IsHexadecimalCharacter( text.charAt( character_index + 5 ) )
-                          && IsHexadecimalCharacter( text.charAt( character_index + 6 ) )
-                          && IsHexadecimalCharacter( text.charAt( character_index + 7 ) )
-                          && text.charAt( character_index + 8 ) === '\\' )
+                else if ( character === ',' )
                 {
-                    styles = color_name + ":" + text.slice( character_index + 1, character_index + 8 );
+                    parsed_classes += ' ';
+                }
+                else if ( character === '\\' )
+                {        
+                    if ( parsed_classes !== "" )
+                    {
+                        if ( parsed_classes.indexOf( ':' ) >= 0 )
+                        {
+                            part_array = parsed_classes.split( ':' );
+                            DefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
+                            parsed_classes = part_array[ 0 ];
+                        }
+                        
+                        parsed_classes = ReplaceDefinitions( parsed_classes );
+                        
+                        if ( classes !== "" )
+                        {
+                            classes += " ";
+                        }
 
-                    character_index += 9;
-                    command_is_valid = true;
+                        classes += parsed_classes;
+                        
+                        character_index = next_character_index + 1;
+                        command_is_valid = true;
+                    }
+                    
+                    break;
+                }
+                else
+                {
+                    break;
                 }
             }
-            else if ( character_index + 2 < text.length
-                      && text.charAt( character_index ) === '^'
-                      && IsAlphabeticalCharacter( text.charAt( character_index + 1 ) ) )
+        }
+        
+        class_name_array = classes.split( ' ' );
+        classes = "";
+        
+        for ( class_name_index = 0;
+              class_name_index < class_name_array.length;
+              ++class_name_index )
+        {
+            class_name = class_name_array[ class_name_index ];
+            
+            if ( class_name.startsWith( '$' ) )
             {
-                found_classes = "";
-                
-                for ( next_character_index = character_index + 1;
-                      next_character_index < text.length;
-                      ++next_character_index )
+                if ( styles !== "" )
                 {
-                    character = text.charAt( next_character_index );
-                    
-                    if ( IsAlphabeticalCharacter( character )
-                         || IsDecimalCharacter( character )
-                         || "_-=°¹²³".indexOf( character ) >= 0 )
-                    {
-                        found_classes += character;
-                    }
-                    else if ( character === '+' )
-                    {
-                        found_classes += ' ';
-                    }
-                    else if ( character === '\\' )
-                    {        
-                        if ( found_classes !== "" )
-                        {
-                            if ( found_classes.indexOf( '=' ) >= 0 )
-                            {
-                                part_array = found_classes.split( '=' );
-                                DefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
-                                found_classes = part_array[ 0 ];
-                            }
-                            
-                            found_classes = ReplaceDefinitions( found_classes );
-                            
-                            if ( classes === "" )
-                            {
-                                classes = found_classes;
-                            }
-                            else
-                            {
-                                classes += " " + found_classes;
-                            }
-                            
-                            character_index = next_character_index + 1;
-                            command_is_valid = true;
-                        }
-                        
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    styles += ";";
                 }
+                
+                styles += "color:" + GetColor( class_name.slice( 1 ) );
             }
-            else if ( character_index + 2 < text.length
-                      && text.charAt( character_index ) === '^'
-                      && IsDecimalCharacter( text.charAt( character_index + 1 ) ) )
+            else if ( class_name.startsWith( '~' ) )
             {
-                found_size = "";
-                
-                for ( next_character_index = character_index + 1;
-                      next_character_index < text.length;
-                      ++next_character_index )
+                if ( styles !== "" )
                 {
-                    character = text.charAt( next_character_index );
-                    
-                    if ( IsDecimalCharacter( character )
-                         || character === '.' )
-                    {
-                        found_size += character;
-                    }
-                    else if ( character === '\\' )
-                    {        
-                        if ( found_size !== "" )
-                        {
-                            if ( styles !== "" )
-                            {
-                                styles += ";";
-                            }
-                            
-                            styles += "font-size:" + found_size + "rem";
-                            
-                            character_index = next_character_index + 1;
-                            command_is_valid = true;
-                        }
-                        
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    styles += ";";
                 }
+                
+                styles += "text-decoration-color:" + GetColor( class_name.slice( 1 ) );
             }
-            else if ( character_index + 3 < text.length
-                      && text.charAt( character_index ) === '^'
-                      && text.charAt( character_index + 1 ) === '='
-                      && IsDecimalCharacter( text.charAt( character_index + 2 ) ) )
+            else if ( class_name.startsWith( '#' ) )
             {
-                found_span = "";
-                
-                for ( next_character_index = character_index + 2;
-                      next_character_index < text.length;
-                      ++next_character_index )
+                if ( styles !== "" )
                 {
-                    character = text.charAt( next_character_index );
-                    
-                    if ( IsDecimalCharacter( character ) )
-                    {
-                        found_span += character;
-                    }
-                    else if ( character === '\\' )
-                    {        
-                        if ( found_span !== "" )
-                        {
-                            span = found_span;
-                            
-                            character_index = next_character_index + 1;
-                            command_is_valid = true;
-                        }
-                        
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    styles += ";";
                 }
+                
+                styles += "background-color:" + GetColor( class_name.slice( 1 ) );
+            }
+            else if ( class_name.startsWith( '+' ) )
+            {
+                if ( styles !== "" )
+                {
+                    styles += ";";
+                }
+                
+                styles += "border-color:" + GetColor( class_name.slice( 1 ) );
+            }
+            else if ( class_name.startsWith( '@' ) )
+            {
+                size = class_name.slice( 1 );
+                
+                if ( !HasUnit( size ) )
+                {
+                    size += "rem";
+                }
+                
+                if ( styles !== "" )
+                {
+                    styles += ";";
+                }
+                
+                styles += "font-size:" + size;
+            }
+            else if ( class_name.startsWith( '=' ) )
+            {
+                span = class_name.slice( 1 );
+            }
+            else
+            {
+                if ( classes !== "" )
+                {
+                    classes += " ";
+                }
+                
+                classes += class_name;
             }
         }
         
@@ -1702,7 +1739,7 @@ function GetTokenArray(
 
         character_index += 2;
             
-        ParseAttributes( "", "background-color" );
+        ParseAttributes( "" );
 
         image_text = "<img src=\"";
         size_text = "";
@@ -1871,64 +1908,128 @@ function GetTokenArray(
             token.IsEscaped = true;
         }
         else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 2 ) === "!^" )
+        {
+            character_index += 1;
+            
+            ParseAttributes( "", ' ' );
+            
+            token.Text = "<h1" + attributes + ">";
+            closing_tag = "</h1>";
+        }
+        else if ( token.StartsLine
                   && text.slice( character_index, character_index + 2 ) === "! " )
         {
+            character_index += 2;
+            
             token.Text = "<h1>";
             closing_tag = "</h1>";
-
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 3 ) === "!!^" )
+        {
             character_index += 2;
+            
+            ParseAttributes( "", ' ' );
+            
+            token.Text = "<h2" + attributes + ">";
+            closing_tag = "</h2>";
         }
         else if ( token.StartsLine
                   && text.slice( character_index, character_index + 3 ) === "!! " )
         {
+            character_index += 3;
+            
             token.Text = "<h2>";
             closing_tag = "</h2>";
-
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 4 ) === "!!!^" )
+        {
             character_index += 3;
+            
+            ParseAttributes( "", ' ' );
+            
+            token.Text = "<h3" + attributes + ">";
+            closing_tag = "</h3>";
         }
         else if ( token.StartsLine
                   && text.slice( character_index, character_index + 4 ) === "!!! " )
         {
+            character_index += 4;
+            
             token.Text = "<h3>";
             closing_tag = "</h3>";
-
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 5 ) === "!!!!^" )
+        {
             character_index += 4;
+            
+            ParseAttributes( "", ' ' );
+            
+            token.Text = "<h4" + attributes + ">";
+            closing_tag = "</h4>";
         }
         else if ( token.StartsLine
                   && text.slice( character_index, character_index + 5 ) === "!!!! " )
         {
+            character_index += 5;
+            
             token.Text = "<h4>";
             closing_tag = "</h4>";
-
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 6 ) === "!!!!!^" )
+        {
             character_index += 5;
+            
+            ParseAttributes( "", ' ' );
+            
+            token.Text = "<h5" + attributes + ">";
+            closing_tag = "</h5>";
         }
         else if ( token.StartsLine
                   && text.slice( character_index, character_index + 6 ) === "!!!!! " )
         {
+            character_index += 6;
+            
             token.Text = "<h5>";
             closing_tag = "</h5>";
-
+        }
+        else if ( token.StartsLine
+                  && text.slice( character_index, character_index + 7 ) === "!!!!!!^" )
+        {
             character_index += 6;
+            
+            ParseAttributes( "", ' ' );
+            
+            token.Text = "<h6" + attributes + ">";
+            closing_tag = "</h6>";
         }
         else if ( token.StartsLine
                   && text.slice( character_index, character_index + 7 ) === "!!!!!! " )
         {
+            character_index += 7;
+            
             token.Text = "<h6>";
             closing_tag = "</h6>";
-
-            character_index += 7;
         }
         else if ( text.slice( character_index, character_index + 3 ) === "---" )
         {
-            token.Text = "<hr/>";
-
             character_index += 3;
+            
+            ParseAttributes( "" );
+            
+            token.Text = "<hr" + attributes + "/>";
         }
         else if ( text.slice( character_index, character_index + 3 ) === "~~~" )
         {
-            token.Text = "<pb/>";
-
             character_index += 3;
+            
+            ParseAttributes( "" );
+            
+            token.Text = "<pb" + attributes + "/>";
         }
         else if ( text.charAt( character_index ) === '§' )
         {
@@ -1942,7 +2043,7 @@ function GetTokenArray(
 
             character_index += 3;
 
-            ParseAttributes( "", "border-color" );
+            ParseAttributes( "" );
 
             token.Text = "<table" + attributes + "><tbody>";
         }
@@ -1951,7 +2052,7 @@ function GetTokenArray(
         {
             character_index += 2;
             
-            ParseAttributes( "", "background-color" );
+            ParseAttributes( "" );
         
             token.Text = "<tr><td" + attributes + ">";
         }
@@ -1960,7 +2061,7 @@ function GetTokenArray(
         {
             ++character_index;
             
-            ParseAttributes( "", "background-color" );
+            ParseAttributes( "" );
             
             token.Text = "</td><td" + attributes + ">";
         }
@@ -2000,7 +2101,7 @@ function GetTokenArray(
 
             if ( it_is_in_blockquote )
             {
-                ParseAttributes( "", "border-color" );
+                ParseAttributes( "" );
 
                 token.Text = "<blockquote" + attributes + ">";
             }
@@ -2017,7 +2118,7 @@ function GetTokenArray(
 
             if ( it_is_in_frame_div )
             {
-                ParseAttributes( "frame", "border-color" );
+                ParseAttributes( "frame" );
 
                 token.Text = "<div" + attributes + ">";
             }
@@ -2034,7 +2135,7 @@ function GetTokenArray(
 
             if ( it_is_in_box_div )
             {
-                ParseAttributes( "box", "background-color" );
+                ParseAttributes( "box" );
 
                 token.Text = "<div" + attributes + ">";
             }
@@ -2047,7 +2148,7 @@ function GetTokenArray(
         {
             character_index += 3;
 
-            ParseAttributes( "", "background-color" );
+            ParseAttributes( "" );
 
             token.Text = "<div" + attributes + ">";
         }
@@ -2065,7 +2166,7 @@ function GetTokenArray(
 
             if ( it_is_in_mark_span )
             {
-                ParseAttributes( "mark", "background-color" );
+                ParseAttributes( "mark" );
                 
                 token.Text = "<span" + attributes + ">";
             }
@@ -2082,7 +2183,7 @@ function GetTokenArray(
 
             if ( it_is_in_u )
             {
-                ParseAttributes( "", "text-decoration-color" );
+                ParseAttributes( "" );
                 
                 token.Text = "<u" + attributes + ">";
             }
@@ -2095,7 +2196,7 @@ function GetTokenArray(
         {
             character_index += 2;
 
-            ParseAttributes( "", "color" );
+            ParseAttributes( "" );
 
             token.Text = "<span" + attributes + ">";
         }
@@ -2169,7 +2270,7 @@ function GetTokenArray(
 
             if ( it_is_in_strike )
             {
-                ParseAttributes( "", "text-decoration-color" );
+                ParseAttributes( "" );
 
                 token.Text = "<strike" + attributes + ">";
             }

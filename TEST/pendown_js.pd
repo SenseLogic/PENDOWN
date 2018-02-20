@@ -864,6 +864,100 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
 °// ~\~°
 
+¹function¹ GetHexadecimalCharacterValue°(°
+    character
+    °)°
+°{°
+    ¹if¹ °(° character °&gt;=° ²'0'²
+         °&&° character °&lt;=° ²'9'² °)°
+    °{°
+        ¹return¹ character°.°charCodeAt°(° ²0² °)° °-° ²48²°;°
+    °}°
+    ¹else¹ ¹if¹ °(° character °&gt;=° ²'a'²
+              °&&° character °&lt;=° ²'f'² °)°
+    °{°
+        ¹return¹ character°.°charCodeAt°(° ²0² °)° °-° ²87²°;°
+    °}°
+    ¹else¹ ¹if¹ °(° character °&gt;=° ²'A'²
+              °&&° character °&lt;=° ²'F'² °)°
+    °{°
+        ¹return¹ character°.°charCodeAt°(° ²0² °)° °-° ²55²°;°
+    °}°
+    ¹else¹
+    °{°
+        ¹return¹ ²0²°;°
+    °}°
+°}°
+
+°// ~\~°
+
+¹function¹ GetColor°(°
+    color
+    °)°
+°{°
+    ¹var¹
+        red°,°
+        green°,°
+        blue°,°
+        alpha°;°
+        
+    ¹if¹ °(° color°.°length °===° ²4² °)°
+    °{°
+        red °=° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²0² °)° °);°
+        green °=° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²1² °)° °);°
+        blue °=° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²2² °)° °);°
+        alpha °=° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²3² °)° °);°
+        
+        red °+=° red °*° ²16²°;°
+        green °+=° green °*° ²16²°;°
+        blue °+=° blue °*° ²16²°;°
+        alpha °+=° alpha °*° ²16²°;°
+        
+        ¹return¹ ²"rgba("² °+° red °+° ²","² °+° green °+° ²","² °+° blue °+° ²","² °+° °(° alpha °/° ²255.0² °)° °+° ²")"²°;°
+    °}°
+    ¹else¹ ¹if¹ °(° color°.°length °===° ²8² °)°
+    °{°
+        red °=° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²0² °)° °)° °*° ²16² °+° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²1² °)° °);°
+        green °=° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²2² °)° °)° °*° ²16² °+° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²3² °)° °);°
+        blue °=° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²4² °)° °)° °*° ²16² °+° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²5² °)° °);°
+        alpha °=° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²6² °)° °)° °*° ²16² °+° GetHexadecimalCharacterValue°(° color°.°charAt°(° ²7² °)° °);°
+        
+        ¹return¹ ²"rgba("² °+° red °+° ²","² °+° green °+° ²","² °+° blue °+° ²","² °+° °(° alpha °/° ²255.0² °)° °+° ²")"²°;°
+    °}°
+    ¹else¹
+    °{°   
+        ¹return¹ ²"\#"² °+° color°;°
+    °}°
+°}°
+
+°// ~\~°
+
+¹function¹ HasUnit°(°
+    size
+    °)°
+°{°
+    ¹return¹ °(°
+        size °===° ²"auto"²
+        °||° size°.°endsWith°(° ²"%"² °)°
+        °||° size°.°endsWith°(° ²"ch"² °)°
+        °||° size°.°endsWith°(° ²"cm"² °)°
+        °||° size°.°endsWith°(° ²"em"² °)°
+        °||° size°.°endsWith°(° ²"ex"² °)°
+        °||° size°.°endsWith°(° ²"in"² °)°
+        °||° size°.°endsWith°(° ²"mm"² °)°
+        °||° size°.°endsWith°(° ²"pc"² °)°
+        °||° size°.°endsWith°(° ²"pt"² °)°
+        °||° size°.°endsWith°(° ²"px"² °)°
+        °||° size°.°endsWith°(° ²"rem"² °)°
+        °||° size°.°endsWith°(° ²"vh"² °)°
+        °||° size°.°endsWith°(° ²"vmax"² °)°
+        °||° size°.°endsWith°(° ²"vmin"² °)°
+        °||° size°.°endsWith°(° ²"vw"² °)°
+        °);°
+°}°
+
+°// ~\~°
+
 ¹function¹ GetLanguage°(°
     file_path°,°
     file_extension
@@ -1387,32 +1481,6 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
 °// ~\~°
 
-¹function¹ HasUnit°(°
-    size
-    °)°
-°{°
-    ¹return¹ °(°
-        size °===° ²"auto"²
-        °||° size°.°endsWith°(° ²"%"² °)°
-        °||° size°.°endsWith°(° ²"ch"² °)°
-        °||° size°.°endsWith°(° ²"cm"² °)°
-        °||° size°.°endsWith°(° ²"em"² °)°
-        °||° size°.°endsWith°(° ²"ex"² °)°
-        °||° size°.°endsWith°(° ²"in"² °)°
-        °||° size°.°endsWith°(° ²"mm"² °)°
-        °||° size°.°endsWith°(° ²"pc"² °)°
-        °||° size°.°endsWith°(° ²"pt"² °)°
-        °||° size°.°endsWith°(° ²"px"² °)°
-        °||° size°.°endsWith°(° ²"rem"² °)°
-        °||° size°.°endsWith°(° ²"vh"² °)°
-        °||° size°.°endsWith°(° ²"vmax"² °)°
-        °||° size°.°endsWith°(° ²"vmin"² °)°
-        °||° size°.°endsWith°(° ²"vw"² °)°
-        °);°
-°}°
-
-°// ~\~°
-
 ¹function¹ GetTokenArray°(°
     text
     °)°
@@ -1490,19 +1558,19 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     °{°
         ¹var¹
             character°,°
+            class_name°,°
+            class_name_array°,°
+            class_name_index°,°
             command_is_valid°,°
-            found_classes°,°
-            found_size°,°
-            found_span°,°
             next_character_index°,°
+            parsed_classes°,°
             part_array°,°
+            size°,°
             span°,°
             styles°;°
         
         attributes °=° ²""²°;°
-                    
         styles °=° ²""²°;°
-        
         span °=° ²""²°;°
         
         command_is_valid °=° ²true²°;°
@@ -1513,161 +1581,130 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             command_is_valid °=° ²false²°;°
             
-            ¹if¹ °(° character_index °+° ²5² °&lt;° text°.°length
-                 °&&° text°.°charAt°(° character_index °+° ²1² °)° °===° ²'\#'²
-                 °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²2² °)° °)°
-                 °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²3² °)° °)°
-                 °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²4² °)° °)° °)°
+            parsed_classes °=° ²""²°;°
+            
+            ¹for¹ °(° next_character_index °=° character_index °+° ²1²°;°
+                  next_character_index °&lt;° text°.°length°;°
+                  °+\+°next_character_index °)°
             °{°
-                ¹if¹ °(° text°.°charAt°(° character_index °+° ²5² °)° °===° ²'\\\\'² °)°
+                character °=° text°.°charAt°(° next_character_index °);°
+                
+                ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
+                     °||° IsDecimalCharacter°(° character °)°
+                     °||° ²"$~\#+\@=_-.:\°\¹\²\³"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
                 °{°
-                    styles °=° color_name °+° ²":"² °+° text°.°slice°(° character_index °+° ²1²°,° character_index °+° ²5² °);°
-                    
-                    character_index °+=° ²6²°;°
-                    command_is_valid °=° ²true²°;°
+                    parsed_classes °+=° character°;°
                 °}°
-                ¹else¹ ¹if¹ °(° character_index °+° ²8² °&lt;° text°.°length
-                          °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²5² °)° °)°
-                          °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²6² °)° °)°
-                          °&&° IsHexadecimalCharacter°(° text°.°charAt°(° character_index °+° ²7² °)° °)°
-                          °&&° text°.°charAt°(° character_index °+° ²8² °)° °===° ²'\\\\'² °)°
+                ¹else¹ ¹if¹ °(° character °===° ²','² °)°
                 °{°
-                    styles °=° color_name °+° ²":"² °+° text°.°slice°(° character_index °+° ²1²°,° character_index °+° ²8² °);°
+                    parsed_classes °+=° ²' '²°;°
+                °}°
+                ¹else¹ ¹if¹ °(° character °===° ²'\\\\'² °)°
+                °{°        
+                    ¹if¹ °(° parsed_classes °\!==° ²""² °)°
+                    °{°
+                        ¹if¹ °(° parsed_classes°.°indexOf°(° ²':'² °)° °&gt;=° ²0² °)°
+                        °{°
+                            part_array °=° parsed_classes°.°split°(° ²':'² °);°
+                            DefinitionMap°[° part_array°[° ²1² °]° °]° °=° part_array°[° ²0² °];°
+                            parsed_classes °=° part_array°[° ²0² °];°
+                        °}°
+                        
+                        parsed_classes °=° ReplaceDefinitions°(° parsed_classes °);°
+                        
+                        ¹if¹ °(° classes °\!==° ²""² °)°
+                        °{°
+                            classes °+=° ²" "²°;°
+                        °}°
 
-                    character_index °+=° ²9²°;°
-                    command_is_valid °=° ²true²°;°
+                        classes °+=° parsed_classes°;°
+                        
+                        character_index °=° next_character_index °+° ²1²°;°
+                        command_is_valid °=° ²true²°;°
+                    °}°
+                    
+                    ¹break¹°;°
+                °}°
+                ¹else¹
+                °{°
+                    ¹break¹°;°
                 °}°
             °}°
-            ¹else¹ ¹if¹ °(° character_index °+° ²2² °&lt;° text°.°length
-                      °&&° text°.°charAt°(° character_index °)° °===° ²'^'²
-                      °&&° IsAlphabeticalCharacter°(° text°.°charAt°(° character_index °+° ²1² °)° °)° °)°
+        °}°
+        
+        class_name_array °=° classes°.°split°(° ²' '² °);°
+        classes °=° ²""²°;°
+        
+        ¹for¹ °(° class_name_index °=° ²0²°;°
+              class_name_index °&lt;° class_name_array°.°length°;°
+              °+\+°class_name_index °)°
+        °{°
+            class_name °=° class_name_array°[° class_name_index °];°
+            
+            ¹if¹ °(° class_name°.°startsWith°(° ²'$'² °)° °)°
             °{°
-                found_classes °=° ²""²°;°
-                
-                ¹for¹ °(° next_character_index °=° character_index °+° ²1²°;°
-                      next_character_index °&lt;° text°.°length°;°
-                      °+\+°next_character_index °)°
+                ¹if¹ °(° styles °\!==° ²""² °)°
                 °{°
-                    character °=° text°.°charAt°(° next_character_index °);°
-                    
-                    ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
-                         °||° IsDecimalCharacter°(° character °)°
-                         °||° ²"_-=\°\¹\²\³"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
-                    °{°
-                        found_classes °+=° character°;°
-                    °}°
-                    ¹else¹ ¹if¹ °(° character °===° ²'+'² °)°
-                    °{°
-                        found_classes °+=° ²' '²°;°
-                    °}°
-                    ¹else¹ ¹if¹ °(° character °===° ²'\\\\'² °)°
-                    °{°        
-                        ¹if¹ °(° found_classes °\!==° ²""² °)°
-                        °{°
-                            ¹if¹ °(° found_classes°.°indexOf°(° ²'='² °)° °&gt;=° ²0² °)°
-                            °{°
-                                part_array °=° found_classes°.°split°(° ²'='² °);°
-                                DefinitionMap°[° part_array°[° ²1² °]° °]° °=° part_array°[° ²0² °];°
-                                found_classes °=° part_array°[° ²0² °];°
-                            °}°
-                            
-                            found_classes °=° ReplaceDefinitions°(° found_classes °);°
-                            
-                            ¹if¹ °(° classes °===° ²""² °)°
-                            °{°
-                                classes °=° found_classes°;°
-                            °}°
-                            ¹else¹
-                            °{°
-                                classes °+=° ²" "² °+° found_classes°;°
-                            °}°
-                            
-                            character_index °=° next_character_index °+° ²1²°;°
-                            command_is_valid °=° ²true²°;°
-                        °}°
-                        
-                        ¹break¹°;°
-                    °}°
-                    ¹else¹
-                    °{°
-                        ¹break¹°;°
-                    °}°
+                    styles °+=° ²";"²°;°
                 °}°
+                
+                styles °+=° ²"color:"² °+° GetColor°(° class_name°.°slice°(° ²1² °)° °);°
             °}°
-            ¹else¹ ¹if¹ °(° character_index °+° ²2² °&lt;° text°.°length
-                      °&&° text°.°charAt°(° character_index °)° °===° ²'^'²
-                      °&&° IsDecimalCharacter°(° text°.°charAt°(° character_index °+° ²1² °)° °)° °)°
+            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'~'² °)° °)°
             °{°
-                found_size °=° ²""²°;°
-                
-                ¹for¹ °(° next_character_index °=° character_index °+° ²1²°;°
-                      next_character_index °&lt;° text°.°length°;°
-                      °+\+°next_character_index °)°
+                ¹if¹ °(° styles °\!==° ²""² °)°
                 °{°
-                    character °=° text°.°charAt°(° next_character_index °);°
-                    
-                    ¹if¹ °(° IsDecimalCharacter°(° character °)°
-                         °||° character °===° ²'.'² °)°
-                    °{°
-                        found_size °+=° character°;°
-                    °}°
-                    ¹else¹ ¹if¹ °(° character °===° ²'\\\\'² °)°
-                    °{°        
-                        ¹if¹ °(° found_size °\!==° ²""² °)°
-                        °{°
-                            ¹if¹ °(° styles °\!==° ²""² °)°
-                            °{°
-                                styles °+=° ²";"²°;°
-                            °}°
-                            
-                            styles °+=° ²"font-size:"² °+° found_size °+° ²"rem"²°;°
-                            
-                            character_index °=° next_character_index °+° ²1²°;°
-                            command_is_valid °=° ²true²°;°
-                        °}°
-                        
-                        ¹break¹°;°
-                    °}°
-                    ¹else¹
-                    °{°
-                        ¹break¹°;°
-                    °}°
+                    styles °+=° ²";"²°;°
                 °}°
+                
+                styles °+=° ²"text-decoration-color:"² °+° GetColor°(° class_name°.°slice°(° ²1² °)° °);°
             °}°
-            ¹else¹ ¹if¹ °(° character_index °+° ²3² °&lt;° text°.°length
-                      °&&° text°.°charAt°(° character_index °)° °===° ²'^'²
-                      °&&° text°.°charAt°(° character_index °+° ²1² °)° °===° ²'='²
-                      °&&° IsDecimalCharacter°(° text°.°charAt°(° character_index °+° ²2² °)° °)° °)°
+            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'\#'² °)° °)°
             °{°
-                found_span °=° ²""²°;°
-                
-                ¹for¹ °(° next_character_index °=° character_index °+° ²2²°;°
-                      next_character_index °&lt;° text°.°length°;°
-                      °+\+°next_character_index °)°
+                ¹if¹ °(° styles °\!==° ²""² °)°
                 °{°
-                    character °=° text°.°charAt°(° next_character_index °);°
-                    
-                    ¹if¹ °(° IsDecimalCharacter°(° character °)° °)°
-                    °{°
-                        found_span °+=° character°;°
-                    °}°
-                    ¹else¹ ¹if¹ °(° character °===° ²'\\\\'² °)°
-                    °{°        
-                        ¹if¹ °(° found_span °\!==° ²""² °)°
-                        °{°
-                            span °=° found_span°;°
-                            
-                            character_index °=° next_character_index °+° ²1²°;°
-                            command_is_valid °=° ²true²°;°
-                        °}°
-                        
-                        ¹break¹°;°
-                    °}°
-                    ¹else¹
-                    °{°
-                        ¹break¹°;°
-                    °}°
+                    styles °+=° ²";"²°;°
                 °}°
+                
+                styles °+=° ²"background-color:"² °+° GetColor°(° class_name°.°slice°(° ²1² °)° °);°
+            °}°
+            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'+'² °)° °)°
+            °{°
+                ¹if¹ °(° styles °\!==° ²""² °)°
+                °{°
+                    styles °+=° ²";"²°;°
+                °}°
+                
+                styles °+=° ²"border-color:"² °+° GetColor°(° class_name°.°slice°(° ²1² °)° °);°
+            °}°
+            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'\@'² °)° °)°
+            °{°
+                size °=° class_name°.°slice°(° ²1² °);°
+                
+                ¹if¹ °(° °\!°HasUnit°(° size °)° °)°
+                °{°
+                    size °+=° ²"rem"²°;°
+                °}°
+                
+                ¹if¹ °(° styles °\!==° ²""² °)°
+                °{°
+                    styles °+=° ²";"²°;°
+                °}°
+                
+                styles °+=° ²"font-size:"² °+° size°;°
+            °}°
+            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'='² °)° °)°
+            °{°
+                span °=° class_name°.°slice°(° ²1² °);°
+            °}°
+            ¹else¹
+            °{°
+                ¹if¹ °(° classes °\!==° ²""² °)°
+                °{°
+                    classes °+=° ²" "²°;°
+                °}°
+                
+                classes °+=° class_name°;°
             °}°
         °}°
         
@@ -1703,7 +1740,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
         character_index °+=° ²2²°;°
             
-        ParseAttributes°(° ²""²°,° ²"background-color"² °);°
+        ParseAttributes°(° ²""² °);°
 
         image_text °=° ²"&lt;img src=\\""²°;°
         size_text °=° ²""²°;°
@@ -1872,64 +1909,128 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             token°.°IsEscaped °=° ²true²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
+                  °&&° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"\!^"² °)°
+        °{°
+            character_index °+=° ²1²°;°
+            
+            ParseAttributes°(° ²""²°,° ²' '² °);°
+            
+            token°.°Text °=° ²"&lt;h1"² °+° attributes °+° ²"&gt;"²°;°
+            closing_tag °=° ²"&lt;/h1&gt;"²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° token°.°StartsLine
                   °&&° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"\! "² °)°
         °{°
+            character_index °+=° ²2²°;°
+            
             token°.°Text °=° ²"&lt;h1&gt;"²°;°
             closing_tag °=° ²"&lt;/h1&gt;"²°;°
-
+        °}°
+        ¹else¹ ¹if¹ °(° token°.°StartsLine
+                  °&&° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °===° ²"\!\!^"² °)°
+        °{°
             character_index °+=° ²2²°;°
+            
+            ParseAttributes°(° ²""²°,° ²' '² °);°
+            
+            token°.°Text °=° ²"&lt;h2"² °+° attributes °+° ²"&gt;"²°;°
+            closing_tag °=° ²"&lt;/h2&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
                   °&&° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °===° ²"\!\! "² °)°
         °{°
+            character_index °+=° ²3²°;°
+            
             token°.°Text °=° ²"&lt;h2&gt;"²°;°
             closing_tag °=° ²"&lt;/h2&gt;"²°;°
-
+        °}°
+        ¹else¹ ¹if¹ °(° token°.°StartsLine
+                  °&&° text°.°slice°(° character_index°,° character_index °+° ²4² °)° °===° ²"\!\!\!^"² °)°
+        °{°
             character_index °+=° ²3²°;°
+            
+            ParseAttributes°(° ²""²°,° ²' '² °);°
+            
+            token°.°Text °=° ²"&lt;h3"² °+° attributes °+° ²"&gt;"²°;°
+            closing_tag °=° ²"&lt;/h3&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
                   °&&° text°.°slice°(° character_index°,° character_index °+° ²4² °)° °===° ²"\!\!\! "² °)°
         °{°
+            character_index °+=° ²4²°;°
+            
             token°.°Text °=° ²"&lt;h3&gt;"²°;°
             closing_tag °=° ²"&lt;/h3&gt;"²°;°
-
+        °}°
+        ¹else¹ ¹if¹ °(° token°.°StartsLine
+                  °&&° text°.°slice°(° character_index°,° character_index °+° ²5² °)° °===° ²"\!\!\!\!^"² °)°
+        °{°
             character_index °+=° ²4²°;°
+            
+            ParseAttributes°(° ²""²°,° ²' '² °);°
+            
+            token°.°Text °=° ²"&lt;h4"² °+° attributes °+° ²"&gt;"²°;°
+            closing_tag °=° ²"&lt;/h4&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
                   °&&° text°.°slice°(° character_index°,° character_index °+° ²5² °)° °===° ²"\!\!\!\! "² °)°
         °{°
+            character_index °+=° ²5²°;°
+            
             token°.°Text °=° ²"&lt;h4&gt;"²°;°
             closing_tag °=° ²"&lt;/h4&gt;"²°;°
-
+        °}°
+        ¹else¹ ¹if¹ °(° token°.°StartsLine
+                  °&&° text°.°slice°(° character_index°,° character_index °+° ²6² °)° °===° ²"\!\!\!\!\!^"² °)°
+        °{°
             character_index °+=° ²5²°;°
+            
+            ParseAttributes°(° ²""²°,° ²' '² °);°
+            
+            token°.°Text °=° ²"&lt;h5"² °+° attributes °+° ²"&gt;"²°;°
+            closing_tag °=° ²"&lt;/h5&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
                   °&&° text°.°slice°(° character_index°,° character_index °+° ²6² °)° °===° ²"\!\!\!\!\! "² °)°
         °{°
+            character_index °+=° ²6²°;°
+            
             token°.°Text °=° ²"&lt;h5&gt;"²°;°
             closing_tag °=° ²"&lt;/h5&gt;"²°;°
-
+        °}°
+        ¹else¹ ¹if¹ °(° token°.°StartsLine
+                  °&&° text°.°slice°(° character_index°,° character_index °+° ²7² °)° °===° ²"\!\!\!\!\!\!^"² °)°
+        °{°
             character_index °+=° ²6²°;°
+            
+            ParseAttributes°(° ²""²°,° ²' '² °);°
+            
+            token°.°Text °=° ²"&lt;h6"² °+° attributes °+° ²"&gt;"²°;°
+            closing_tag °=° ²"&lt;/h6&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
                   °&&° text°.°slice°(° character_index°,° character_index °+° ²7² °)° °===° ²"\!\!\!\!\!\! "² °)°
         °{°
+            character_index °+=° ²7²°;°
+            
             token°.°Text °=° ²"&lt;h6&gt;"²°;°
             closing_tag °=° ²"&lt;/h6&gt;"²°;°
-
-            character_index °+=° ²7²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °===° ²"-\-\-"² °)°
         °{°
-            token°.°Text °=° ²"&lt;hr/&gt;"²°;°
-
             character_index °+=° ²3²°;°
+            
+            ParseAttributes°(° ²""² °);°
+            
+            token°.°Text °=° ²"&lt;hr"² °+° attributes °+° ²"/&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °===° ²"~\~\~"² °)°
         °{°
-            token°.°Text °=° ²"&lt;pb/&gt;"²°;°
-
             character_index °+=° ²3²°;°
+            
+            ParseAttributes°(° ²""² °);°
+            
+            token°.°Text °=° ²"&lt;pb"² °+° attributes °+° ²"/&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'§'² °)°
         °{°
@@ -1943,7 +2044,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
             character_index °+=° ²3²°;°
 
-            ParseAttributes°(° ²""²°,° ²"border-color"² °);°
+            ParseAttributes°(° ²""² °);°
 
             token°.°Text °=° ²"&lt;table"² °+° attributes °+° ²"&gt;&lt;tbody&gt;"²°;°
         °}°
@@ -1952,7 +2053,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             character_index °+=° ²2²°;°
             
-            ParseAttributes°(° ²""²°,° ²"background-color"² °);°
+            ParseAttributes°(° ²""² °);°
         
             token°.°Text °=° ²"&lt;tr&gt;&lt;td"² °+° attributes °+° ²"&gt;"²°;°
         °}°
@@ -1961,7 +2062,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             °+\+°character_index°;°
             
-            ParseAttributes°(° ²""²°,° ²"background-color"² °);°
+            ParseAttributes°(° ²""² °);°
             
             token°.°Text °=° ²"&lt;/td&gt;&lt;td"² °+° attributes °+° ²"&gt;"²°;°
         °}°
@@ -2001,7 +2102,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
             ¹if¹ °(° it_is_in_blockquote °)°
             °{°
-                ParseAttributes°(° ²""²°,° ²"border-color"² °);°
+                ParseAttributes°(° ²""² °);°
 
                 token°.°Text °=° ²"&lt;blockquote"² °+° attributes °+° ²"&gt;"²°;°
             °}°
@@ -2018,7 +2119,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
             ¹if¹ °(° it_is_in_frame_div °)°
             °{°
-                ParseAttributes°(° ²"frame"²°,° ²"border-color"² °);°
+                ParseAttributes°(° ²"frame"² °);°
 
                 token°.°Text °=° ²"&lt;div"² °+° attributes °+° ²"&gt;"²°;°
             °}°
@@ -2035,7 +2136,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
             ¹if¹ °(° it_is_in_box_div °)°
             °{°
-                ParseAttributes°(° ²"box"²°,° ²"background-color"² °);°
+                ParseAttributes°(° ²"box"² °);°
 
                 token°.°Text °=° ²"&lt;div"² °+° attributes °+° ²"&gt;"²°;°
             °}°
@@ -2048,7 +2149,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             character_index °+=° ²3²°;°
 
-            ParseAttributes°(° ²""²°,° ²"background-color"² °);°
+            ParseAttributes°(° ²""² °);°
 
             token°.°Text °=° ²"&lt;div"² °+° attributes °+° ²"&gt;"²°;°
         °}°
@@ -2066,7 +2167,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
             ¹if¹ °(° it_is_in_mark_span °)°
             °{°
-                ParseAttributes°(° ²"mark"²°,° ²"background-color"² °);°
+                ParseAttributes°(° ²"mark"² °);°
                 
                 token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
             °}°
@@ -2083,7 +2184,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
             ¹if¹ °(° it_is_in_u °)°
             °{°
-                ParseAttributes°(° ²""²°,° ²"text-decoration-color"² °);°
+                ParseAttributes°(° ²""² °);°
                 
                 token°.°Text °=° ²"&lt;u"² °+° attributes °+° ²"&gt;"²°;°
             °}°
@@ -2096,7 +2197,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             character_index °+=° ²2²°;°
 
-            ParseAttributes°(° ²""²°,° ²"color"² °);°
+            ParseAttributes°(° ²""² °);°
 
             token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
         °}°
@@ -2170,7 +2271,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
             ¹if¹ °(° it_is_in_strike °)°
             °{°
-                ParseAttributes°(° ²""²°,° ²"text-decoration-color"² °);°
+                ParseAttributes°(° ²""² °);°
 
                 token°.°Text °=° ²"&lt;strike"² °+° attributes °+° ²"&gt;"²°;°
             °}°

@@ -56,31 +56,35 @@ $$center$$
 
 ~~strikethrough~~
 
-~~^#f00\strikethrough~~
+~~^~f00\strikethrough~~
 
 __underlined__
 
-__^#f00\underlined__
+__^~f00\underlined__
 
 ##highlighted##
 
 ##^#fce\highlighted##
 
-{{^#6f42c1\colored}}
+##^#0f02\highlighted##
 
-{{^#0cc\colored}}
+{{^$6f42c1\colored}}
 
-{{^#f4f\^1.25\colored}}
+{{^$0cc\colored}}
 
-{{^#80f\^large\colored}}
+{{^$f4f,@1.25\colored}}
+
+{{^$80f,large:violet_large\colored}}
+
+{{^violet_large,bold\colored}}
 
 {{^cyan\colored}}
 
-{{^pink\^1.25\colored}}
+{{^pink,@1.25\colored}}
 
-{{^blue+large=blue_large\colored}}
+{{^blue,large:blue_large\colored}}
 
-{{^blue_large+bold\colored}}
+{{^blue_large,bold\colored}}
 
 °°black°°
 
@@ -134,11 +138,15 @@ int main()
 Block
 }}}
 
+{{{^pastel_gray_fill,black\
+Block
+}}}
+
 {{{^#cfe\
 Block
 }}}
 
-{{{^#cfe\^black\
+{{{^#cfe,$000\
 Block
 }}}
 
@@ -148,11 +156,15 @@ Block
 Box
 ###
 
+###^black\
+Box
+###
+
 ###^#cfe\
 Box
 ###
 
-###^#cfe\^black\
+###^#cfe,$000\
 Box
 ###
 
@@ -162,21 +174,17 @@ Box
 Frame
 +++
 
-+++^#f00\
++++^red_border\
 Frame
 +++
 
-{{{^#ffd\
-+++^#f00\
++++^+f00,#ffd\
 Frame
 +++
-}}}
 
-{{{^#ffd\
-+++^#f00\^black\
++++^+f00,#ffd,$000\
 Frame
 +++
-}}}
 
 !! Quote
 
@@ -184,21 +192,17 @@ Frame
 Quote
 >>>
 
->>>^#f00\
+>>>^+f00\
 Quote
 >>>
 
-{{{^#ffd\
->>>^#f00\
+>>>^+f00,#ffd\
 Quote
 >>>
-}}}
 
-{{{^#ffd\
->>>^#f00\^black\
+>>>^+f00,#ffd,$000\
 Quote
 >>>
-}}}
 
 !! Column
 
@@ -225,9 +229,9 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
 (( Banana | 1      | 2       | 3         ))
 ]]]
 
-{{^orange+bold=²\}}
-[[[^orange_border+tiny_border+padding+black=table\
-((^orange_fill+white+bold+center=title\^=2\ Subject pronouns ))
+{{^orange,bold:²\}}
+[[[^orange_border,tiny_border,padding,black:table\
+((^orange_fill,white,bold,center:title\^=2\ Subject pronouns ))
 (( ²yo² | I ))
 (( ²tú² | you ))
 (( ²él², ²ella², ²usted² | he, she, %%you%% ))
@@ -245,9 +249,9 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
 (( °(vosotros,-as)° | cant²áis² | com²éis² | viv²ís² ))
 (( °(ellos,-as,uds)° | cant²an² | com²en² | viv²en² ))
 ]]]
-{{^red=²\}}
+{{^red:²\}}
 
-[[[^width_5_6+border+light_gray_border+padding\
+[[[^width_5_6,border,light_gray_border,padding\
 ((^width_20\
     Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh.§
     Qan siqwi' tuj muvwi' wogh yor 'o'megh be'etor boqha''egh lodni'pu' jij laq lol lo' law' mevyap.
@@ -262,66 +266,66 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
 ))
 ]]]
 
-[[[^width_100+no_padding\
+[[[^width_100,no_padding\
 ((
-    [[[^width_100+padding+small=table\
-    ((^black_fill+dark_gray\ black ))
+    [[[^width_100,padding,small:table\
+    ((^black_fill,dark_gray\ black ))
     ]]]
 |
     [[[^table\
-    ((^dark_gray_fill+gray\ dark gray ))
-    ((^dark_orange_fill+orange\ dark orange ))
-    ((^dark_red_fill+red\ dark red ))
-    ((^dark_pink_fill+pink\ dark pink ))
-    ((^dark_violet_fill+violet\ dark violet ))
-    ((^dark_blue_fill+blue\ dark blue ))
-    ((^dark_cyan_fill+cyan\ dark cyan ))
-    ((^dark_green_fill+green\ dark green ))
-    ((^dark_lawn_fill+lawn\ dark lawn ))
-    ((^dark_yellow_fill+yellow\ dark yellow ))
+    ((^dark_gray_fill,gray\ dark gray ))
+    ((^dark_orange_fill,orange\ dark orange ))
+    ((^dark_red_fill,red\ dark red ))
+    ((^dark_pink_fill,pink\ dark pink ))
+    ((^dark_violet_fill,violet\ dark violet ))
+    ((^dark_blue_fill,blue\ dark blue ))
+    ((^dark_cyan_fill,cyan\ dark cyan ))
+    ((^dark_green_fill,green\ dark green ))
+    ((^dark_lawn_fill,lawn\ dark lawn ))
+    ((^dark_yellow_fill,yellow\ dark yellow ))
     ]]]
 |
     [[[^table\
-    ((^gray_fill+light_gray\ gray ))
-    ((^orange_fill+light_orange\ orange ))
-    ((^red_fill+light_red\ red ))
-    ((^pink_fill+light_pink\ pink ))
-    ((^violet_fill+light_violet\ violet ))
-    ((^blue_fill+light_blue\ blue ))
-    ((^cyan_fill+light_cyan\ cyan ))
-    ((^green_fill+light_green\ green ))
-    ((^lawn_fill+light_lawn\ lawn ))
-    ((^yellow_fill+white\ yellow ))
+    ((^gray_fill,light_gray\ gray ))
+    ((^orange_fill,light_orange\ orange ))
+    ((^red_fill,light_red\ red ))
+    ((^pink_fill,light_pink\ pink ))
+    ((^violet_fill,light_violet\ violet ))
+    ((^blue_fill,light_blue\ blue ))
+    ((^cyan_fill,light_cyan\ cyan ))
+    ((^green_fill,light_green\ green ))
+    ((^lawn_fill,light_lawn\ lawn ))
+    ((^yellow_fill,white\ yellow ))
     ]]]
 |
     [[[^table\
-    ((^light_gray_fill+pastel_gray\ light gray ))
-    ((^light_orange_fill+pastel_orange\ light orange ))
-    ((^light_red_fill+pastel_red\ light red ))
-    ((^light_pink_fill+pastel_pink\ light pink ))
-    ((^light_violet_fill+pastel_violet\ light violet ))
-    ((^light_blue_fill+pastel_blue\ light blue ))
-    ((^light_cyan_fill+pastel_cyan\ light cyan ))
-    ((^light_green_fill+pastel_green\ light green ))
-    ((^light_lawn_fill+pastel_lawn\ light lawn ))
-    ((^light_yellow_fill+white\ light yellow ))
+    ((^light_gray_fill,pastel_gray\ light gray ))
+    ((^light_orange_fill,pastel_orange\ light orange ))
+    ((^light_red_fill,pastel_red\ light red ))
+    ((^light_pink_fill,pastel_pink\ light pink ))
+    ((^light_violet_fill,pastel_violet\ light violet ))
+    ((^light_blue_fill,pastel_blue\ light blue ))
+    ((^light_cyan_fill,pastel_cyan\ light cyan ))
+    ((^light_green_fill,pastel_green\ light green ))
+    ((^light_lawn_fill,pastel_lawn\ light lawn ))
+    ((^light_yellow_fill,white\ light yellow ))
     ]]]
 |
     [[[^table\
-    ((^pastel_gray_fill+white\ pastel gray ))
-    ((^pastel_orange_fill+white\ pastel orange ))
-    ((^pastel_red_fill+white\ pastel red ))
-    ((^pastel_pink_fill+white\ pastel pink ))
-    ((^pastel_violet_fill+white\ pastel violet ))
-    ((^pastel_blue_fill+white\ pastel blue ))
-    ((^pastel_cyan_fill+white\ pastel cyan ))
-    ((^pastel_green_fill+white\ pastel green ))
-    ((^pastel_lawn_fill+white\ pastel lawn ))
-    ((^pastel_yellow_fill+white\ pastel yellow ))
+    ((^pastel_gray_fill,white\ pastel gray ))
+    ((^pastel_orange_fill,white\ pastel orange ))
+    ((^pastel_red_fill,white\ pastel red ))
+    ((^pastel_pink_fill,white\ pastel pink ))
+    ((^pastel_violet_fill,white\ pastel violet ))
+    ((^pastel_blue_fill,white\ pastel blue ))
+    ((^pastel_cyan_fill,white\ pastel cyan ))
+    ((^pastel_green_fill,white\ pastel green ))
+    ((^pastel_lawn_fill,white\ pastel lawn ))
+    ((^pastel_yellow_fill,white\ pastel yellow ))
     ]]]
 |
     [[[^table\
-    ((^white_fill+pastel_gray\ white ))
+    ((^white_fill,pastel_gray\ white ))
     ]]]
 ))
 ]]]
