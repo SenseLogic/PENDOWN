@@ -1105,24 +1105,34 @@ tr > td:last-child
     filter : sepia( 100% );
 }
 
+.shadow_-3 
+{
+    box-shadow : 0 0.4vw 0.3vw -0.3vw rgba( 0, 0, 0, 0.50 );
+}
+
 .shadow_-6 
 {
     box-shadow : 0 0.8vw 0.6vw -0.6vw rgba( 0, 0, 0, 0.50 );
 }
 
+.shadow_-9 
+{
+    box-shadow : 0 1.2vw 0.9vw -0.9vw rgba( 0, 0, 0, 0.50 );
+}
+
 .shadow_3 
 {
-    box-shadow : 0 0.1vw 0.3vw rgba( 0, 0, 0, 0.10 ), 0 0.1vw 0.2vw rgba( 0, 0, 0, 0.25 );
+    box-shadow : 0 0.15vw 0.3vw rgba( 0, 0, 0, 0.25 ), 0 0.15vw 0.3vw rgba( 0, 0, 0, 0.25 );
 }
 
 .shadow_6 
 {
-    box-shadow : 0 0.3vw 0.6vw rgba( 0, 0, 0, 0.15 ), 0 0.3vw 0.6vw rgba( 0, 0, 0, 0.25 );
+    box-shadow : 0 0.3vw 0.6vw rgba( 0, 0, 0, 0.25 ), 0 0.3vw 0.6vw rgba( 0, 0, 0, 0.25 );
 }
 
-.shadow_20 
+.shadow_9 
 {
-    box-shadow : 0 1.0vw 2.0vw rgba( 0, 0, 0, 0.20 ), 0 0.6vw 0.6vw rgba( 0, 0, 0, 0.25 );
+    box-shadow : 0 0.45vw 0.9vw rgba( 0, 0, 0, 0.25 ), 0 0.45vw 0.9vw rgba( 0, 0, 0, 0.25 );
 }
 
 .column_1

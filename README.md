@@ -433,9 +433,9 @@ Custom :
 
 Effects :
 
-[[^shadow_3\image_6.jpg:20]] [[^shadow_6\image_6.jpg:20]] [[^shadow_20\image_6.jpg:20]] [[^shadow_-6\image_6.jpg:20]]
+[[^shadow_3\image_6.jpg:20]] [[^shadow_6\image_6.jpg:20]] [[^shadow_9\image_6.jpg:20]] [[^shadow_-6\image_6.jpg:20]]
 
-[[image_6.jpg:20]] [[^round_5\image_6.jpg:20]] [[^round_50\image_6.jpg:20]] [[^opacity_50\image_6.jpg:20]]
+[[^round_10\image_6.jpg:20]] [[^round_20\image_6.jpg:20]] [[^round_50\image_6.jpg:20]] [[^opacity_50\image_6.jpg:20]]
 
 [[^blur_1\image_6.jpg:20]] [[^lightness_130\image_6.jpg:20]] [[^contrast_180\image_6.jpg:20]] [[^saturation_200\image_6.jpg:20]]
 

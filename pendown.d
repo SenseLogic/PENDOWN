@@ -779,7 +779,7 @@ string
     ScriptFolderPath,
     StyleFolderPath;
 dstring[ dstring ]
-    DefinitionMap;
+    ClassDefinitionMap;
 
 // -- FUNCTIONS
 
@@ -1700,7 +1700,7 @@ TOKEN[] GetTokenArray(
 
     // ~~
     
-    dstring ReplaceDefinitions(
+    dstring ReplaceClassDefinitions(
         dstring classes
         )
     {
@@ -1719,9 +1719,9 @@ TOKEN[] GetTokenArray(
         {
             class_name = class_name_array[ class_name_index ];
             
-            if ( ( class_name in DefinitionMap ) !is null )
+            if ( ( class_name in ClassDefinitionMap ) !is null )
             {
-                class_name_array[ class_name_index ] = DefinitionMap[ class_name ];
+                class_name_array[ class_name_index ] = ClassDefinitionMap[ class_name ];
             }
         }
             
@@ -1789,11 +1789,11 @@ TOKEN[] GetTokenArray(
                         if ( parsed_classes.indexOf( ':' ) >= 0 )
                         {
                             part_array = parsed_classes.split( ':' );
-                            DefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
+                            ClassDefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
                             parsed_classes = part_array[ 0 ];
                         }
                         
-                        parsed_classes = ReplaceDefinitions( parsed_classes );
+                        parsed_classes = ReplaceClassDefinitions( parsed_classes );
                         
                         if ( classes != "" )
                         {
@@ -2489,7 +2489,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_black_span = !it_is_in_black_span;
 
-            token.Text = it_is_in_black_span ? "<span class=\"" ~ ReplaceDefinitions( "°°" ) ~ "\">" : "</span>";
+            token.Text = it_is_in_black_span ? "<span class=\"" ~ ReplaceClassDefinitions( "°°" ) ~ "\">" : "</span>";
 
             character_index += 2;
         }
@@ -2498,7 +2498,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_cyan_span = !it_is_in_cyan_span;
 
-            token.Text = it_is_in_cyan_span ? "<span class=\"" ~ ReplaceDefinitions( "¹¹" ) ~ "\">" : "</span>";
+            token.Text = it_is_in_cyan_span ? "<span class=\"" ~ ReplaceClassDefinitions( "¹¹" ) ~ "\">" : "</span>";
 
             character_index += 2;
         }
@@ -2507,7 +2507,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_orange_span = !it_is_in_orange_span;
 
-            token.Text = it_is_in_orange_span ? "<span class=\"" ~ ReplaceDefinitions( "²²" ) ~ "\">" : "</span>";
+            token.Text = it_is_in_orange_span ? "<span class=\"" ~ ReplaceClassDefinitions( "²²" ) ~ "\">" : "</span>";
 
             character_index += 2;
         }
@@ -2516,7 +2516,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_green_span = !it_is_in_green_span;
 
-            token.Text = it_is_in_green_span ? "<span class=\"" ~ ReplaceDefinitions( "³³" ) ~ "\">" : "</span>";
+            token.Text = it_is_in_green_span ? "<span class=\"" ~ ReplaceClassDefinitions( "³³" ) ~ "\">" : "</span>";
 
             character_index += 2;
         }
@@ -2524,7 +2524,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_gray_span = !it_is_in_gray_span;
 
-            token.Text = it_is_in_gray_span ? "<span class=\"" ~ ReplaceDefinitions( "°" ) ~ "\">" : "</span>";
+            token.Text = it_is_in_gray_span ? "<span class=\"" ~ ReplaceClassDefinitions( "°" ) ~ "\">" : "</span>";
 
             ++character_index;
         }
@@ -2532,7 +2532,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_pink_span = !it_is_in_pink_span;
 
-            token.Text = it_is_in_pink_span ? "<span class=\"" ~ ReplaceDefinitions( "¹" ) ~ "\">" : "</span>";
+            token.Text = it_is_in_pink_span ? "<span class=\"" ~ ReplaceClassDefinitions( "¹" ) ~ "\">" : "</span>";
 
             ++character_index;
         }
@@ -2540,7 +2540,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_red_span = !it_is_in_red_span;
 
-            token.Text = it_is_in_red_span ? "<span class=\"" ~ ReplaceDefinitions( "²" ) ~ "\">" : "</span>";
+            token.Text = it_is_in_red_span ? "<span class=\"" ~ ReplaceClassDefinitions( "²" ) ~ "\">" : "</span>";
 
             ++character_index;
         }
@@ -2548,7 +2548,7 @@ TOKEN[] GetTokenArray(
         {
             it_is_in_blue_span = !it_is_in_blue_span;
 
-            token.Text = it_is_in_blue_span ? "<span class=\"" ~ ReplaceDefinitions( "³" ) ~ "\">" : "</span>";
+            token.Text = it_is_in_blue_span ? "<span class=\"" ~ ReplaceClassDefinitions( "³" ) ~ "\">" : "</span>";
 
             ++character_index;
         }
@@ -3023,14 +3023,14 @@ void main(
     TabulationSpaceCount = 4;
     IndentationSpaceCount = 4;    
     
-    DefinitionMap[ "°°" ] = "black";
-    DefinitionMap[ "¹¹" ] = "cyan";
-    DefinitionMap[ "²²" ] = "orange";
-    DefinitionMap[ "³³" ] = "green";
-    DefinitionMap[ "°" ] = "gray";
-    DefinitionMap[ "¹" ] = "pink";
-    DefinitionMap[ "²" ] = "red";
-    DefinitionMap[ "³" ] = "blue";
+    ClassDefinitionMap[ "°°" ] = "black";
+    ClassDefinitionMap[ "¹¹" ] = "cyan";
+    ClassDefinitionMap[ "²²" ] = "orange";
+    ClassDefinitionMap[ "³³" ] = "green";
+    ClassDefinitionMap[ "°" ] = "gray";
+    ClassDefinitionMap[ "¹" ] = "pink";
+    ClassDefinitionMap[ "²" ] = "red";
+    ClassDefinitionMap[ "³" ] = "blue";
     
     PageOptionIsEnabled = false;
     PageWidth = 21.0;
