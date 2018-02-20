@@ -468,6 +468,19 @@ The source code programming language can be specified with the following keyword
 
 When colorizing a source code file, its programming language is deduced from the file extension if it matches one of the above keywords.
 
+## Style customization
+
+*   Styling classes can be applied to titles, blocks, boxes, frames, spans, etc : `!!^violet,bold\ Some title`
+*   Custom colors, font sizes and column spans can also be specified :
+    *   Text colors : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
+    *   Text decoration colors : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
+    *   Background colors : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
+    *   Border colors : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
+    *   Font sizes : `@1.25` `@1.25rem` `@1.25vw`
+    *   Column spans : `=2`
+*   They can be stored in custom classes : `^$841,bold:brown_bold\`
+*   Color tags can be redefined too : `^yellow_fill,$82f:²\`
+
 ## Client-side compiler
 
 ### Installation

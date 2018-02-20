@@ -2,18 +2,20 @@
 
 ## v3.0
 
-* ^$rgb,$rgba,$rrggbb,$rrggbbaa\ for custom text colors
-* ^+rgb,+rgba,+rrggbb,+rrggbbaa\ for custom border colors
-* ^#rgb,#rgba,#rrggbb,#rrggbbaa\ for custom background colors
-* ^~rgb,~rgba,~rrggbb,~rrggbbaa\ for custom decoration colors
-* ^@1,@1rem,@1vw\ for font sizes
-* ^=2\ for column spans
-* custom colors/sizes/spans can be stored/reused through definitions (^#eee,$f02,@1.25=²\)
+*   Class definition syntax : `^class1,class2,class3:definition\`
+*   Text color syntax : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
+*   Text decoration color syntax : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
+*   Background color syntax : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
+*   Border color syntax : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
+*   Font size color syntax : `@1.25` `@1.25rem` `@1.25vw`
+*   Column span syntax : `=2`
+*   Custom colors/sizes/spans are treated as classes, and can be stored/reused in custom classes : `^#eee,$f02,@1.25,bold:²\`
 
 ## v2.0
 
-* ^#rgb\ for custom text/border/background/decoration colors
+*   Class definition syntax : `^class1+class2+class3=definition\`
+*   Text/border/background/decoration color syntax : `^#rgb\`
 
 ## v1.0
 
-* rgb\ for custom text/border/background/decoration colors
+*   Text/border/background/decoration color syntax : `rgb\`
