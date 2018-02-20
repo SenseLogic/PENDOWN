@@ -470,8 +470,8 @@ When colorizing a source code file, its programming language is deduced from the
 
 ## Styling
 
-*   Block tags may have suffixes defining their CSS classes and attributes : `!!^violet,@5rem\ A big violet title`
-*   The following attributes are supported :
+*   Block tags may have suffixes defining their CSS classes : `!!^violet,italic\ A violet italic title`
+*   The following attributes are also supported :
     *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
     *   Underline/strikethrough color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
     *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
@@ -479,7 +479,7 @@ When colorizing a source code file, its programming language is deduced from the
     *   Font size : `@1.25` `@1.25rem` `@1.25vw`
     *   Column span : `=2`
 *   Custom classes can be created from other classes and attributes : `^bold,$841:bold_brown\`
-*   The default color tags can be redefined : `^yellow_fill,$82f:²\`
+*   The default color tags can also be redefined : `^yellow_fill,$82f:²\`
 
 ## Client-side compiler
 
