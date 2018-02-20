@@ -1510,7 +1510,7 @@ blockquote
     text-decoration : overline;
 }
 
-.crossline
+.crossout
 {
     text-decoration : line-through;
 }
