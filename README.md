@@ -464,7 +464,7 @@ If the Comic Sans and Consolas fonts are installed on your system, you should se
     *   Border color : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
     *   Font size : `@1.25` `@1.25rem` `@1.25vw`
     *   Column span : `=2`
-*   Custom classes can be created from other classes and attributes : `^bold,$841:bold_brown\`
+*   Custom classes can be dynamically created from other classes and attributes : `^bold,$841:bold_brown\`
 *   The default color tags can also be redefined : `^yellow_fill,$82f:²\`
 
 ## Syntax highlighting
