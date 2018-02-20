@@ -468,10 +468,10 @@ The source code programming language can be specified with the following keyword
 
 When colorizing a source code file, its programming language is deduced from the file extension if it matches one of the above keywords.
 
-## Styling
+## Custom styling
 
-*   Block tags may have suffixes defining their CSS classes : `!!^violet,italic\ A violet italic title`
-*   The following attributes are also supported :
+*   CSS classes can be added to the block tags : `!!^violet,italic\ A violet italic title`
+*   The following attributes are also be specified :
     *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
     *   Underline/strikethrough color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
     *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
