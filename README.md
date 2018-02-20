@@ -456,7 +456,8 @@ If the Comic Sans and Consolas fonts are installed on your system, you should se
 
 ## Custom styling
 
-*   After a Pendown tag, one or several CSS classes can be specified between `^' and `\` : `!!^violet,italic\ A violet italic title`
+*   After a Pendown tag, one or several CSS classes can be specified between `^' and `\` :
+    <br/>`!!^violet,italic\ A violet italic title`
 *   The following attributes can also be specified :
     *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
     *   Underline/strikethrough color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
