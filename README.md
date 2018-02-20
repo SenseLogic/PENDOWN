@@ -468,18 +468,18 @@ The source code programming language can be specified with the following keyword
 
 When colorizing a source code file, its programming language is deduced from the file extension if it matches one of the above keywords.
 
-## Style customization
+## Styling
 
-*   Styling classes and attributes can be applied to containers : `!!^violet,@5rem\ A big violet title`
-*   The following attributes can be explicitely specified :
+*   Classes and attributes can be applied to containers : `!!^violet,@5rem\ A big violet title`
+*   The following attributes are supported :
     *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
     *   Underline/strikethrough color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
     *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
     *   Border color : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
     *   Font size : `@1.25` `@1.25rem` `@1.25vw`
     *   Column span : `=2`
-*   Custom classes can be created from combinations of existing classes : `^bold,$841:bold_brown\`
-*   The color tags can be redefined too : `^yellow_fill,$82f:²\`
+*   Custom classes can be created from other classes and attributes : `^bold,$841:bold_brown\`
+*   The default color tags can be redefined : `^yellow_fill,$82f:²\`
 
 ## Client-side compiler
 
