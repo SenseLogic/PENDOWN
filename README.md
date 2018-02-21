@@ -130,7 +130,7 @@ __^~f00\underlined__
 ³}³
 :::
 
-:::c++\
+:::^cpp\
 // Colorized source code
 
 #include <iostream>
@@ -459,8 +459,8 @@ If the Comic Sans and Consolas fonts are installed on your system, you should se
 The source code programming language can be specified with the following keywords :
 
 * C : c h
-* C++ : c++ h++ cpp hpp cxx hxx
-* C# : c# cs
+* C++ : cpp hpp cxx hxx
+* C# : cs
 * D : d
 * Java : java
 * JavaScript : js
@@ -549,7 +549,7 @@ pendown [options] input_file output_file
 --loadable : make the HTML file loadable in LibreOffice Writer
 --script : make the HTML file import the Pendown script file
 --style : make the HTML file import the Pendown style file
---language c|c++|cpp|c#|cs|d|java|js|ts : set the source code language
+--language c|cpp|cs|d|java|js|ts : set the source code language
 --tabulation 4 : set the text tabulation space count
 --indentation 4 : set the list indentation space count
 --page 21 29.7 2 1 1 1 : resize the images for a LibreOffice Writer document of this page width, height, left margin, right margin, top margin and bottom margin

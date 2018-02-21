@@ -982,17 +982,14 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
     <span class="gray">{</span>
         <span class="pink">return</span> <span class="pink">new</span> <span class="orange">C_LANGUAGE</span><span class="gray">();</span>
     <span class="gray">}</span>
-    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> file_path<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">".c++"</span> <span class="gray">)</span>
-              <span class="gray">||</span> file_path<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">".h++"</span> <span class="gray">)</span>
-              <span class="gray">||</span> file_path<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">".cpp"</span> <span class="gray">)</span>
+    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> file_path<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">".cpp"</span> <span class="gray">)</span>
               <span class="gray">||</span> file_path<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">".hpp"</span> <span class="gray">)</span>
               <span class="gray">||</span> file_path<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">".cxx"</span> <span class="gray">)</span>
               <span class="gray">||</span> file_path<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">".hxx"</span> <span class="gray">)</span> <span class="gray">)</span>
     <span class="gray">{</span>
         <span class="pink">return</span> <span class="pink">new</span> <span class="orange">CPP_LANGUAGE</span><span class="gray">();</span>
     <span class="gray">}</span>
-    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> file_path<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">".c#"</span> <span class="gray">)</span>
-              <span class="gray">||</span> file_path<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">".cs"</span> <span class="gray">)</span> <span class="gray">)</span>
+    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> file_path<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">".cs"</span> <span class="gray">)</span> <span class="gray">)</span>
     <span class="gray">{</span>
         <span class="pink">return</span> <span class="pink">new</span> <span class="orange">CSHARP_LANGUAGE</span><span class="gray">();</span>
     <span class="gray">}</span>
@@ -1315,7 +1312,8 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 <span class="pink">function</span> GetColorizedText<span class="gray">(</span>
     text<span class="gray">,</span>
     file_path<span class="gray">,</span>
-    file_extension
+    file_extension<span class="gray">,</span>
+    style
     <span class="gray">)</span>
 <span class="gray">{</span>
     <span class="pink">var</span>
@@ -1357,7 +1355,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
     color_suffix_array <span class="gray">=</span> color_prefix_array<span class="gray">;</span>
 
-    colorized_text <span class="gray">=</span> <span class="red">":::\n"</span><span class="gray">;</span>
+    colorized_text <span class="gray">=</span> <span class="red">":::"</span> <span class="gray">+</span> style <span class="gray">+</span> <span class="red">"\n"</span><span class="gray">;</span>
 
     <span class="pink">for</span> <span class="gray">(</span> code_token_index <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
           code_token_index <span class="gray">&lt;</span> code_token_array<span class="gray">.</span>length<span class="gray">;</span>
@@ -1402,7 +1400,8 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         line<span class="gray">,</span>
         line_array<span class="gray">,</span>
         line_index<span class="gray">,</span>
-        post_line_index<span class="gray">;</span>
+        post_line_index<span class="gray">,</span>
+        style<span class="gray">;</span>
 
     text <span class="gray">=</span> GetCleanedText<span class="gray">(</span> text <span class="gray">);</span>
 
@@ -1420,22 +1419,20 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::"</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="pink">if</span> <span class="gray">(</span> line <span class="gray">===</span> <span class="red">":::c\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::h\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::c++\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::h++\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::cpp\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::hpp\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::cxx\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::hxx\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::c#\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::cs\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::d\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::java\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::js\\"</span>
-                 <span class="gray">||</span> line <span class="gray">===</span> <span class="red">":::ts\\"</span> <span class="gray">)</span>
+            <span class="pink">if</span> <span class="gray">(</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^c\\"</span> <span class="gray">)</span>
+                 <span class="gray">||</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^h\\"</span> <span class="gray">)</span>
+                 <span class="gray">||</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^cpp\\"</span> <span class="gray">)</span>
+                 <span class="gray">||</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^hpp\\"</span> <span class="gray">)</span>
+                 <span class="gray">||</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^cxx\\"</span> <span class="gray">)</span>
+                 <span class="gray">||</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^hxx\\"</span> <span class="gray">)</span>
+                 <span class="gray">||</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^cs\\"</span> <span class="gray">)</span>
+                 <span class="gray">||</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^d\\"</span> <span class="gray">)</span>
+                 <span class="gray">||</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^java\\"</span> <span class="gray">)</span>
+                 <span class="gray">||</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^js\\"</span> <span class="gray">)</span>
+                 <span class="gray">||</span> line<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">":::^ts\\"</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
-                file_extension <span class="gray">=</span> line<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">3</span><span class="gray">,</span> <span class="red">-1</span> <span class="gray">);</span>
+                file_extension <span class="gray">=</span> line<span class="gray">.</span>split<span class="gray">(</span> <span class="red">'\\'</span> <span class="gray">)[</span> <span class="red">0</span> <span class="gray">].</span>slice<span class="gray">(</span> <span class="red">4</span> <span class="gray">);</span>
+                style <span class="gray">=</span> line<span class="gray">.</span>slice<span class="gray">(</span> line<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">'\\'</span> <span class="gray">)</span> <span class="gray">+</span> <span class="red">1</span> <span class="gray">);</span>
 
                 code_text <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
 
@@ -1458,7 +1455,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
                 <span class="pink">if</span> <span class="gray">(</span> code_text <span class="gray">!==</span> <span class="red">""</span> <span class="gray">)</span>
                 <span class="gray">{</span>
-                    code_text <span class="gray">=</span> GetColorizedText<span class="gray">(</span> code_text<span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> file_extension <span class="gray">);</span>
+                    code_text <span class="gray">=</span> GetColorizedText<span class="gray">(</span> code_text<span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> file_extension<span class="gray">,</span> style <span class="gray">);</span>
 
                     code_line_array <span class="gray">=</span> code_text<span class="gray">.</span>split<span class="gray">(</span> <span class="red">'\n'</span> <span class="gray">);</span>
 
@@ -2118,7 +2115,16 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
             it_is_in_pre <span class="gray">=</span> <span class="gray">!</span>it_is_in_pre<span class="gray">;</span>
 
-            token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_pre <span class="gray">?</span> <span class="red">"&lt;pre&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/pre&gt;"</span><span class="gray">;</span>
+            <span class="pink">if</span> <span class="gray">(</span> it_is_in_pre <span class="gray">)</span>
+            <span class="gray">{</span>
+                ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
+
+                token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;pre"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span>
+            <span class="gray">{</span>
+                token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/pre&gt;"</span><span class="gray">;</span>
+            <span class="gray">}</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"&gt;&gt;&gt;"</span> <span class="gray">)</span>
         <span class="gray">{</span>
@@ -2872,7 +2878,8 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">}</span>
         <span class="pink">else</span>
         <span class="gray">{</span>
-            <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>Text <span class="gray">===</span> <span class="red">"&lt;pre&gt;"</span> <span class="gray">)</span>
+            <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>Text <span class="gray">===</span> <span class="red">"&lt;pre&gt;"</span>
+                 <span class="gray">||</span> token<span class="gray">.</span>Text<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">"&lt;pre "</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
                 it_is_in_pre <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
             <span class="gray">}</span>

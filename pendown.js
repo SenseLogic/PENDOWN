@@ -979,17 +979,14 @@ function GetLanguage(
     {
         return new C_LANGUAGE();
     }
-    else if ( file_path.endsWith( ".c++" )
-              || file_path.endsWith( ".h++" )
-              || file_path.endsWith( ".cpp" )
+    else if ( file_path.endsWith( ".cpp" )
               || file_path.endsWith( ".hpp" )
               || file_path.endsWith( ".cxx" )
               || file_path.endsWith( ".hxx" ) )
     {
         return new CPP_LANGUAGE();
     }
-    else if ( file_path.endsWith( ".c#" )
-              || file_path.endsWith( ".cs" ) )
+    else if ( file_path.endsWith( ".cs" ) )
     {
         return new CSHARP_LANGUAGE();
     }
@@ -1312,7 +1309,8 @@ function EscapeSpecialCharacters(
 function GetColorizedText(
     text,
     file_path,
-    file_extension
+    file_extension,
+    style
     )
 {
     var
@@ -1354,7 +1352,7 @@ function GetColorizedText(
 
     color_suffix_array = color_prefix_array;
 
-    colorized_text = ":::\n";
+    colorized_text = ":::" + style + "\n";
 
     for ( code_token_index = 0;
           code_token_index < code_token_array.length;
@@ -1399,7 +1397,8 @@ function GetPreprocessedText(
         line,
         line_array,
         line_index,
-        post_line_index;
+        post_line_index,
+        style;
 
     text = GetCleanedText( text );
 
@@ -1417,22 +1416,20 @@ function GetPreprocessedText(
         }
         else if ( line.startsWith( ":::" ) )
         {
-            if ( line === ":::c\\"
-                 || line === ":::h\\"
-                 || line === ":::c++\\"
-                 || line === ":::h++\\"
-                 || line === ":::cpp\\"
-                 || line === ":::hpp\\"
-                 || line === ":::cxx\\"
-                 || line === ":::hxx\\"
-                 || line === ":::c#\\"
-                 || line === ":::cs\\"
-                 || line === ":::d\\"
-                 || line === ":::java\\"
-                 || line === ":::js\\"
-                 || line === ":::ts\\" )
+            if ( line.startsWith( ":::^c\\" )
+                 || line.startsWith( ":::^h\\" )
+                 || line.startsWith( ":::^cpp\\" )
+                 || line.startsWith( ":::^hpp\\" )
+                 || line.startsWith( ":::^cxx\\" )
+                 || line.startsWith( ":::^hxx\\" )
+                 || line.startsWith( ":::^cs\\" )
+                 || line.startsWith( ":::^d\\" )
+                 || line.startsWith( ":::^java\\" )
+                 || line.startsWith( ":::^js\\" )
+                 || line.startsWith( ":::^ts\\" ) )
             {
-                file_extension = line.slice( 3, -1 );
+                file_extension = line.split( '\\' )[ 0 ].slice( 4 );
+                style = line.slice( line.indexOf( '\\' ) + 1 );
 
                 code_text = "";
 
@@ -1455,7 +1452,7 @@ function GetPreprocessedText(
 
                 if ( code_text !== "" )
                 {
-                    code_text = GetColorizedText( code_text, "", file_extension );
+                    code_text = GetColorizedText( code_text, "", file_extension, style );
 
                     code_line_array = code_text.split( '\n' );
 
@@ -2115,7 +2112,16 @@ function GetTokenArray(
             
             it_is_in_pre = !it_is_in_pre;
 
-            token.Text = it_is_in_pre ? "<pre>" : "</pre>";
+            if ( it_is_in_pre )
+            {
+                ParseAttributes( "" );
+
+                token.Text = "<pre" + attributes + ">";
+            }
+            else
+            {
+                token.Text = "</pre>";
+            }
         }
         else if ( text.slice( character_index, character_index + 3 ) === ">>>" )
         {
@@ -2869,7 +2875,8 @@ function MakeParagraphs(
         }
         else
         {
-            if ( token.Text === "<pre>" )
+            if ( token.Text === "<pre>"
+                 || token.Text.startsWith( "<pre " ) )
             {
                 it_is_in_pre = true;
             }

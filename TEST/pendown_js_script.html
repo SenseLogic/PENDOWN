@@ -983,17 +983,14 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     °{°
         ¹return¹ ¹new¹ ⁰C_LANGUAGE⁰°();°
     °}°
-    ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".c+\+"² °)°
-              °||° file_path°.°endsWith°(° ²".h+\+"² °)°
-              °||° file_path°.°endsWith°(° ²".cpp"² °)°
+    ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".cpp"² °)°
               °||° file_path°.°endsWith°(° ²".hpp"² °)°
               °||° file_path°.°endsWith°(° ²".cxx"² °)°
               °||° file_path°.°endsWith°(° ²".hxx"² °)° °)°
     °{°
         ¹return¹ ¹new¹ ⁰CPP_LANGUAGE⁰°();°
     °}°
-    ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".c\#"² °)°
-              °||° file_path°.°endsWith°(° ²".cs"² °)° °)°
+    ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".cs"² °)° °)°
     °{°
         ¹return¹ ¹new¹ ⁰CSHARP_LANGUAGE⁰°();°
     °}°
@@ -1316,7 +1313,8 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 ¹function¹ GetColorizedText°(°
     text°,°
     file_path°,°
-    file_extension
+    file_extension°,°
+    style
     °)°
 °{°
     ¹var¹
@@ -1358,7 +1356,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
     color_suffix_array °=° color_prefix_array°;°
 
-    colorized_text °=° ²":\:\:\\n"²°;°
+    colorized_text °=° ²":\:\:"² °+° style °+° ²"\\n"²°;°
 
     ¹for¹ °(° code_token_index °=° ²0²°;°
           code_token_index °&lt;° code_token_array°.°length°;°
@@ -1403,7 +1401,8 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         line°,°
         line_array°,°
         line_index°,°
-        post_line_index°;°
+        post_line_index°,°
+        style°;°
 
     text °=° GetCleanedText°(° text °);°
 
@@ -1421,22 +1420,20 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °}°
         ¹else¹ ¹if¹ °(° line°.°startsWith°(° ²":\:\:"² °)° °)°
         °{°
-            ¹if¹ °(° line °===° ²":\:\:c\\\\"²
-                 °||° line °===° ²":\:\:h\\\\"²
-                 °||° line °===° ²":\:\:c+\+\\\\"²
-                 °||° line °===° ²":\:\:h+\+\\\\"²
-                 °||° line °===° ²":\:\:cpp\\\\"²
-                 °||° line °===° ²":\:\:hpp\\\\"²
-                 °||° line °===° ²":\:\:cxx\\\\"²
-                 °||° line °===° ²":\:\:hxx\\\\"²
-                 °||° line °===° ²":\:\:c\#\\\\"²
-                 °||° line °===° ²":\:\:cs\\\\"²
-                 °||° line °===° ²":\:\:d\\\\"²
-                 °||° line °===° ²":\:\:java\\\\"²
-                 °||° line °===° ²":\:\:js\\\\"²
-                 °||° line °===° ²":\:\:ts\\\\"² °)°
+            ¹if¹ °(° line°.°startsWith°(° ²":\:\:^c\\\\"² °)°
+                 °||° line°.°startsWith°(° ²":\:\:^h\\\\"² °)°
+                 °||° line°.°startsWith°(° ²":\:\:^cpp\\\\"² °)°
+                 °||° line°.°startsWith°(° ²":\:\:^hpp\\\\"² °)°
+                 °||° line°.°startsWith°(° ²":\:\:^cxx\\\\"² °)°
+                 °||° line°.°startsWith°(° ²":\:\:^hxx\\\\"² °)°
+                 °||° line°.°startsWith°(° ²":\:\:^cs\\\\"² °)°
+                 °||° line°.°startsWith°(° ²":\:\:^d\\\\"² °)°
+                 °||° line°.°startsWith°(° ²":\:\:^java\\\\"² °)°
+                 °||° line°.°startsWith°(° ²":\:\:^js\\\\"² °)°
+                 °||° line°.°startsWith°(° ²":\:\:^ts\\\\"² °)° °)°
             °{°
-                file_extension °=° line°.°slice°(° ²3²°,° ²-1² °);°
+                file_extension °=° line°.°split°(° ²'\\\\'² °)[° ²0² °].°slice°(° ²4² °);°
+                style °=° line°.°slice°(° line°.°indexOf°(° ²'\\\\'² °)° °+° ²1² °);°
 
                 code_text °=° ²""²°;°
 
@@ -1459,7 +1456,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
                 ¹if¹ °(° code_text °\!==° ²""² °)°
                 °{°
-                    code_text °=° GetColorizedText°(° code_text°,° ²""²°,° file_extension °);°
+                    code_text °=° GetColorizedText°(° code_text°,° ²""²°,° file_extension°,° style °);°
 
                     code_line_array °=° code_text°.°split°(° ²'\\n'² °);°
 
@@ -2119,7 +2116,16 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             
             it_is_in_pre °=° °\!°it_is_in_pre°;°
 
-            token°.°Text °=° it_is_in_pre °?° ²"&lt;pre&gt;"² °:° ²"&lt;/pre&gt;"²°;°
+            ¹if¹ °(° it_is_in_pre °)°
+            °{°
+                ParseAttributes°(° ²""² °);°
+
+                token°.°Text °=° ²"&lt;pre"² °+° attributes °+° ²"&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/pre&gt;"²°;°
+            °}°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °===° ²"&gt;&gt;&gt;"² °)°
         °{°
@@ -2873,7 +2879,8 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °}°
         ¹else¹
         °{°
-            ¹if¹ °(° token°.°Text °===° ²"&lt;pre&gt;"² °)°
+            ¹if¹ °(° token°.°Text °===° ²"&lt;pre&gt;"²
+                 °||° token°.°Text°.°startsWith°(° ²"&lt;pre "² °)° °)°
             °{°
                 it_is_in_pre °=° ²true²°;°
             °}°
