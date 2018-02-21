@@ -7,20 +7,26 @@ Lightweight markup for colored documents.
 ## Features
 
 *   Simple, concise and consistent syntax to quickly write colored documents.
-*   Customizable : 
-    *   text styles, colors, sizes, alignments;
+*   Fast conversion to HTML through a web browser script or a standalone command line tool.
+*   Complete : 
+    *   custom styles, colors, sizes, alignments;
     *   spans, blocks, boxes, frames, quotes, tables;
     *   titles, lists, links, images, page breaks;
     *   syntax highlighting.
-*   Direct conversion to HTML through a web browser script or a standalone command line tool.
 
 ## Getting Started
 
 Install the Pendown installation files in a local folder on your computer.
 
-Open the "sample.html" file with any plain text editor, like Geany or Notepad++.
+In the `SAMPLE/` subfolder, open `sample.html` with a web-browser.
 
-It shows the available Pendown tags. They are converted to HTML tags when the file is opened in a web browser.
+If the Comic Sans and Consolas fonts are installed on your system, you should see the following result :
+
+![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
+
+Now open this file with a plain text editor, like Geany or Notepad++.
+
+You will see this document was entirely made using Pendown tags. 
 
 ```html
 <meta charset="utf8"/>
@@ -451,11 +457,7 @@ Effects :
 <script src="../pendown.js"></script>
 ```
 
-Open the "sample.html" file with a web-browser like Firefox.
-
-If the Comic Sans and Consolas fonts are installed on your system, you should see the following result :
-
-![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
+They are automatically converted to HTML tags when the file is opened in a web browser.
 
 ## Custom styling
 
