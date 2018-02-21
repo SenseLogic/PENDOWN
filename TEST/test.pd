@@ -458,7 +458,6 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
     ((^dark_blue_fill,blue\ dark blue ))
     ((^dark_cyan_fill,cyan\ dark cyan ))
     ((^dark_green_fill,green\ dark green ))
-    ((^dark_lawn_fill,lawn\ dark lawn ))
     ((^dark_yellow_fill,yellow\ dark yellow ))
     ]]]
 |
@@ -471,7 +470,6 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
     ((^blue_fill,light_blue\ blue ))
     ((^cyan_fill,light_cyan\ cyan ))
     ((^green_fill,light_green\ green ))
-    ((^lawn_fill,light_lawn\ lawn ))
     ((^yellow_fill,white\ yellow ))
     ]]]
 |
@@ -484,7 +482,6 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
     ((^light_blue_fill,pastel_blue\ light blue ))
     ((^light_cyan_fill,pastel_cyan\ light cyan ))
     ((^light_green_fill,pastel_green\ light green ))
-    ((^light_lawn_fill,pastel_lawn\ light lawn ))
     ((^light_yellow_fill,white\ light yellow ))
     ]]]
 |
@@ -497,7 +494,6 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
     ((^pastel_blue_fill,white\ pastel blue ))
     ((^pastel_cyan_fill,white\ pastel cyan ))
     ((^pastel_green_fill,white\ pastel green ))
-    ((^pastel_lawn_fill,white\ pastel lawn ))
     ((^pastel_yellow_fill,white\ pastel yellow ))
     ]]]
 |

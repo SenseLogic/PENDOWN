@@ -1527,7 +1527,7 @@ blockquote
 
 .black_outline
 {
-    text-shadow : -1px 0 #000, 1px 0 #000, 0 -1px #000, 0 -1px #000;
+    text-shadow : -1px 0px #000, 1px 0px #000, 0px -1px #000, 0px 1px #000;
 }
 
 .black_border, .black_border > tbody > tr > td
@@ -1570,7 +1570,7 @@ blockquote
 
 .dark_gray_outline
 {
-    text-shadow : -1px 0 #444, 1px 0 #444, 0 -1px #444, 0 1px #444;
+    text-shadow : -1px 0px #444, 1px 0px #444, 0px -1px #444, 0px 1px #444;
 }
 
 .dark_gray_border, .dark_gray_border > tbody > tr > td
@@ -1613,7 +1613,7 @@ blockquote
 
 .gray_outline
 {
-    text-shadow : -1px 0 #888, 1px 0 #888, 0 -1px #888, 0 1px #888;
+    text-shadow : -1px 0px #888, 1px 0px #888, 0px -1px #888, 0px 1px #888;
 }
 
 .gray_border, .gray_border > tbody > tr > td
@@ -1656,7 +1656,7 @@ blockquote
 
 .light_gray_outline
 {
-    text-shadow : -1px 0 #ccc, 1px 0 #ccc, 0 -1px #ccc, 0 1px #ccc;
+    text-shadow : -1px 0px #ccc, 1px 0px #ccc, 0px -1px #ccc, 0px 1px #ccc;
 }
 
 .light_gray_border, .light_gray_border > tbody > tr > td
@@ -1699,7 +1699,7 @@ blockquote
 
 .pastel_gray_outline
 {
-    text-shadow : -1px 0 #eee, 1px 0 #eee, 0 -1px #eee, 0 1px #eee;
+    text-shadow : -1px 0px #eee, 1px 0px #eee, 0px -1px #eee, 0px 1px #eee;
 }
 
 .pastel_gray_border, .pastel_gray_border > tbody > tr > td
@@ -1742,7 +1742,7 @@ blockquote
 
 .dark_orange_outline
 {
-    text-shadow : -1px 0 #730, 1px 0 #730, 0 -1px #730, 0 1px #730;
+    text-shadow : -1px 0px #730, 1px 0px #730, 0px -1px #730, 0px 1px #730;
 }
 
 .dark_orange_border, .dark_orange_border > tbody > tr > td
@@ -1785,7 +1785,7 @@ blockquote
 
 .orange_outline
 {
-    text-shadow : -1px 0 #e70, 1px 0 #e70, 0 -1px #e70, 0 1px #e70;
+    text-shadow : -1px 0px #e70, 1px 0px #e70, 0px -1px #e70, 0px 1px #e70;
 }
 
 .orange_border, .orange_border > tbody > tr > td
@@ -1828,7 +1828,7 @@ blockquote
 
 .light_orange_outline
 {
-    text-shadow : -1px 0 #fb7, 1px 0 #fb7, 0 -1px #fb7, 0 1px #fb7;
+    text-shadow : -1px 0px #fb7, 1px 0px #fb7, 0px -1px #fb7, 0px 1px #fb7;
 }
 
 .light_orange_border, .light_orange_border > tbody > tr > td
@@ -1871,7 +1871,7 @@ blockquote
 
 .pastel_orange_outline
 {
-    text-shadow : -1px 0 #fdb, 1px 0 #fdb, 0 -1px #fdb, 0 1px #fdb;
+    text-shadow : -1px 0px #fdb, 1px 0px #fdb, 0px -1px #fdb, 0px 1px #fdb;
 }
 
 .pastel_orange_border, .pastel_orange_border > tbody > tr > td
@@ -1914,7 +1914,7 @@ blockquote
 
 .dark_red_outline
 {
-    text-shadow : -1px 0 #700, 1px 0 #700, 0 -1px #700, 0 1px #700;
+    text-shadow : -1px 0px #700, 1px 0px #700, 0px -1px #700, 0px 1px #700;
 }
 
 .dark_red_border, .dark_red_border > tbody > tr > td
@@ -1957,7 +1957,7 @@ blockquote
 
 .red_outline
 {
-    text-shadow : -1px 0 #f00, 1px 0 #f00, 0 -1px #f00, 0 1px #f00;
+    text-shadow : -1px 0px #f00, 1px 0px #f00, 0px -1px #f00, 0px 1px #f00;
 }
 
 .red_border, .red_border > tbody > tr > td
@@ -2000,7 +2000,7 @@ blockquote
 
 .light_red_outline
 {
-    text-shadow : -1px 0 #f77, 1px 0 #f77, 0 -1px #f77, 0 1px #f77;
+    text-shadow : -1px 0px #f77, 1px 0px #f77, 0px -1px #f77, 0px 1px #f77;
 }
 
 .light_red_border, .light_red_border > tbody > tr > td
@@ -2043,7 +2043,7 @@ blockquote
 
 .pastel_red_outline
 {
-    text-shadow : -1px 0 #fcc, 1px 0 #fcc, 0 -1px #fcc, 0 1px #fcc;
+    text-shadow : -1px 0px #fcc, 1px 0px #fcc, 0px -1px #fcc, 0px 1px #fcc;
 }
 
 .pastel_red_border, .pastel_red_border > tbody > tr > td
@@ -2086,7 +2086,7 @@ blockquote
 
 .dark_pink_outline
 {
-    text-shadow : -1px 0 #725, 1px 0 #725, 0 -1px #725, 0 1px #725;
+    text-shadow : -1px 0px #725, 1px 0px #725, 0px -1px #725, 0px 1px #725;
 }
 
 .dark_pink_border, .dark_pink_border > tbody > tr > td
@@ -2129,7 +2129,7 @@ blockquote
 
 .pink_outline
 {
-    text-shadow : -1px 0 #f4a, 1px 0 #f4a, 0 -1px #f4a, 0 1px #f4a;
+    text-shadow : -1px 0px #f4a, 1px 0px #f4a, 0px -1px #f4a, 0px 1px #f4a;
 }
 
 .pink_border, .pink_border > tbody > tr > td
@@ -2172,7 +2172,7 @@ blockquote
 
 .light_pink_outline
 {
-    text-shadow : -1px 0 #fad, 1px 0 #fad, 0 -1px #fad, 0 1px #fad;
+    text-shadow : -1px 0px #fad, 1px 0px #fad, 0px -1px #fad, 0px 1px #fad;
 }
 
 .light_pink_border, .light_pink_border > tbody > tr > td
@@ -2215,7 +2215,7 @@ blockquote
 
 .pastel_pink_outline
 {
-    text-shadow : -1px 0 #fde, 1px 0 #fde, 0 -1px #fde, 0 1px #fde;
+    text-shadow : -1px 0px #fde, 1px 0px #fde, 0px -1px #fde, 0px 1px #fde;
 }
 
 .pastel_pink_border, .pastel_pink_border > tbody > tr > td
@@ -2258,7 +2258,7 @@ blockquote
 
 .dark_violet_outline
 {
-    text-shadow : -1px 0 #316, 1px 0 #316, 0 -1px #316, 0 1px #316;
+    text-shadow : -1px 0px #316, 1px 0px #316, 0px -1px #316, 0px 1px #316;
 }
 
 .dark_violet_border, .dark_violet_border > tbody > tr > td
@@ -2301,7 +2301,7 @@ blockquote
 
 .violet_outline
 {
-    text-shadow : -1px 0 #72c, 1px 0 #72c, 0 -1px #72c, 0 1px #72c;
+    text-shadow : -1px 0px #72c, 1px 0px #72c, 0px -1px #72c, 0px 1px #72c;
 }
 
 .violet_border, .violet_border > tbody > tr > td
@@ -2344,7 +2344,7 @@ blockquote
 
 .light_violet_outline
 {
-    text-shadow : -1px 0 #b9e, 1px 0 #b9e, 0 -1px #b9e, 0 1px #b9e;
+    text-shadow : -1px 0px #b9e, 1px 0px #b9e, 0px -1px #b9e, 0px 1px #b9e;
 }
 
 .light_violet_border, .light_violet_border > tbody > tr > td
@@ -2387,7 +2387,7 @@ blockquote
 
 .pastel_violet_outline
 {
-    text-shadow : -1px 0 #dbe, 1px 0 #dbe, 0 -1px #dbe, 0 1px #dbe;
+    text-shadow : -1px 0px #dbe, 1px 0px #dbe, 0px -1px #dbe, 0px 1px #dbe;
 }
 
 .pastel_violet_border, .pastel_violet_border > tbody > tr > td
@@ -2430,7 +2430,7 @@ blockquote
 
 .dark_blue_outline
 {
-    text-shadow : -1px 0 #007, 1px 0 #007, 0 -1px #007, 0 1px #007;
+    text-shadow : -1px 0px #007, 1px 0px #007, 0px -1px #007, 0px 1px #007;
 }
 
 .dark_blue_border, .dark_blue_border > tbody > tr > td
@@ -2473,7 +2473,7 @@ blockquote
 
 .blue_outline
 {
-    text-shadow : -1px 0 #00f, 1px 0 #00f, 0 -1px #00f, 0 1px #00f;
+    text-shadow : -1px 0px #00f, 1px 0px #00f, 0px -1px #00f, 0px 1px #00f;
 }
 
 .blue_border, .blue_border > tbody > tr > td
@@ -2516,7 +2516,7 @@ blockquote
 
 .light_blue_outline
 {
-    text-shadow : -1px 0 #77f, 1px 0 #77f, 0 -1px #77f, 0 1px #77f;
+    text-shadow : -1px 0px #77f, 1px 0px #77f, 0px -1px #77f, 0px 1px #77f;
 }
 
 .light_blue_border, .light_blue_border > tbody > tr > td
@@ -2559,7 +2559,7 @@ blockquote
 
 .pastel_blue_outline
 {
-    text-shadow : -1px 0 #ccf, 1px 0 #ccf, 0 -1px #ccf, 0 1px #ccf;
+    text-shadow : -1px 0px #ccf, 1px 0px #ccf, 0px -1px #ccf, 0px 1px #ccf;
 }
 
 .pastel_blue_border, .pastel_blue_border > tbody > tr > td
@@ -2602,7 +2602,7 @@ blockquote
 
 .dark_cyan_outline
 {
-    text-shadow : -1px 0 #044, 1px 0 #044, 0 -1px #044, 0 1px #044;
+    text-shadow : -1px 0px #044, 1px 0px #044, 0px -1px #044, 0px 1px #044;
 }
 
 .dark_cyan_border, .dark_cyan_border > tbody > tr > td
@@ -2645,7 +2645,7 @@ blockquote
 
 .cyan_outline
 {
-    text-shadow : -1px 0 #099, 1px 0 #099, 0 -1px #099, 0 1px #099;
+    text-shadow : -1px 0px #099, 1px 0px #099, 0px -1px #099, 0px 1px #099;
 }
 
 .cyan_border, .cyan_border > tbody > tr > td
@@ -2688,7 +2688,7 @@ blockquote
 
 .light_cyan_outline
 {
-    text-shadow : -1px 0 #7cc, 1px 0 #7cc, 0 -1px #7cc, 0 1px #7cc;
+    text-shadow : -1px 0px #7cc, 1px 0px #7cc, 0px -1px #7cc, 0px 1px #7cc;
 }
 
 .light_cyan_border, .light_cyan_border > tbody > tr > td
@@ -2731,7 +2731,7 @@ blockquote
 
 .pastel_cyan_outline
 {
-    text-shadow : -1px 0 #bee, 1px 0 #bee, 0 -1px #bee, 0 1px #bee;
+    text-shadow : -1px 0px #bee, 1px 0px #bee, 0px -1px #bee, 0px 1px #bee;
 }
 
 .pastel_cyan_border, .pastel_cyan_border > tbody > tr > td
@@ -2774,7 +2774,7 @@ blockquote
 
 .dark_green_outline
 {
-    text-shadow : -1px 0 #050, 1px 0 #050, 0 -1px #050, 0 1px #050;
+    text-shadow : -1px 0px #050, 1px 0px #050, 0px -1px #050, 0px 1px #050;
 }
 
 .dark_green_border, .dark_green_border > tbody > tr > td
@@ -2817,7 +2817,7 @@ blockquote
 
 .green_outline
 {
-    text-shadow : -1px 0 #0a0, 1px 0 #0a0, 0 -1px #0a0, 0 1px #0a0;
+    text-shadow : -1px 0px #0a0, 1px 0px #0a0, 0px -1px #0a0, 0px 1px #0a0;
 }
 
 .green_border, .green_border > tbody > tr > td
@@ -2860,7 +2860,7 @@ blockquote
 
 .light_green_outline
 {
-    text-shadow : -1px 0 #7d7, 1px 0 #7d7, 0 -1px #7d7, 0 1px #7d7;
+    text-shadow : -1px 0px #7d7, 1px 0px #7d7, 0px -1px #7d7, 0px 1px #7d7;
 }
 
 .light_green_border, .light_green_border > tbody > tr > td
@@ -2903,7 +2903,7 @@ blockquote
 
 .pastel_green_outline
 {
-    text-shadow : -1px 0 #cec, 1px 0 #cec, 0 -1px #cec, 0 1px #cec;
+    text-shadow : -1px 0px #cec, 1px 0px #cec, 0px -1px #cec, 0px 1px #cec;
 }
 
 .pastel_green_border, .pastel_green_border > tbody > tr > td
@@ -2934,178 +2934,6 @@ blockquote
     border-right-color : #cec !important;
 }
 
-.dark_lawn
-{
-    color : #450;
-}
-
-.dark_lawn_fill
-{
-    background-color : #450;
-}
-
-.dark_lawn_outline
-{
-    text-shadow : -1px 0 #450, 1px 0 #450, 0 -1px #450, 0 1px #450;
-}
-
-.dark_lawn_border, .dark_lawn_border > tbody > tr > td
-{
-    border-bottom-color : #450;
-    border-top-color : #450;
-    border-left-color : #450;
-    border-right-color : #450;
-}
-
-.dark_lawn_bottom_border
-{
-    border-bottom-color : #450 !important;
-}
-
-.dark_lawn_top_border
-{
-    border-top-color : #450 !important;
-}
-
-.dark_lawn_left_border
-{
-    border-left-color : #450 !important;
-}
-
-.dark_lawn_right_border
-{
-    border-right-color : #450 !important;
-}
-
-.lawn
-{
-    color : #8b0;
-}
-
-.lawn_fill
-{
-    background-color : #8b0;
-}
-
-.lawn_outline
-{
-    text-shadow : -1px 0 #8b0, 1px 0 #8b0, 0 -1px #8b0, 0 1px #8b0;
-}
-
-.lawn_border, .lawn_border > tbody > tr > td
-{
-    border-bottom-color : #8b0;
-    border-top-color : #8b0;
-    border-left-color : #8b0;
-    border-right-color : #8b0;
-}
-
-.lawn_bottom_border
-{
-    border-bottom-color : #8b0 !important;
-}
-
-.lawn_top_border
-{
-    border-top-color : #8b0 !important;
-}
-
-.lawn_left_border
-{
-    border-left-color : #8b0 !important;
-}
-
-.lawn_right_border
-{
-    border-right-color : #8b0 !important;
-}
-
-.light_lawn
-{
-    color : #cd7;
-}
-
-.light_lawn_fill
-{
-    background-color : #cd7;
-}
-
-.light_lawn_outline
-{
-    text-shadow : -1px 0 #cd7, 1px 0 #cd7, 0 -1px #cd7, 0 1px #cd7;
-}
-
-.light_lawn_border, .light_lawn_border > tbody > tr > td
-{
-    border-bottom-color : #cd7;
-    border-top-color : #cd7;
-    border-left-color : #cd7;
-    border-right-color : #cd7;
-}
-
-.light_lawn_bottom_border
-{
-    border-bottom-color : #cd7 !important;
-}
-
-.light_lawn_top_border
-{
-    border-top-color : #cd7 !important;
-}
-
-.light_lawn_left_border
-{
-    border-left-color : #cd7 !important;
-}
-
-.light_lawn_right_border
-{
-    border-right-color : #cd7 !important;
-}
-
-.pastel_lawn
-{
-    color : #deb;
-}
-
-.pastel_lawn_fill
-{
-    background-color : #deb;
-}
-
-.pastel_lawn_outline
-{
-    text-shadow : -1px 0 #deb, 1px 0 #deb, 0 -1px #deb, 0 1px #deb;
-}
-
-.pastel_lawn_border, .pastel_lawn_border > tbody > tr > td
-{
-    border-bottom-color : #deb;
-    border-top-color : #deb;
-    border-left-color : #deb;
-    border-right-color : #deb;
-}
-
-.pastel_lawn_bottom_border
-{
-    border-bottom-color : #deb !important;
-}
-
-.pastel_lawn_top_border
-{
-    border-top-color : #deb !important;
-}
-
-.pastel_lawn_left_border
-{
-    border-left-color : #deb !important;
-}
-
-.pastel_lawn_right_border
-{
-    border-right-color : #deb !important;
-}
-
 .dark_yellow
 {
     color : #770;
@@ -3118,7 +2946,7 @@ blockquote
 
 .dark_yellow_outline
 {
-    text-shadow : -1px 0 #770, 1px 0 #770, 0 -1px #770, 0 1px #770;
+    text-shadow : -1px 0px #770, 1px 0px #770, 0px -1px #770, 0px 1px #770;
 }
 
 .dark_yellow_border, .dark_yellow_border > tbody > tr > td
@@ -3161,7 +2989,7 @@ blockquote
 
 .yellow_outline
 {
-    text-shadow : -1px 0 #ff0, 1px 0 #ff0, 0 -1px #ff0, 0 1px #ff0;
+    text-shadow : -1px 0px #ff0, 1px 0px #ff0, 0px -1px #ff0, 0px 1px #ff0;
 }
 
 .yellow_border, .yellow_border > tbody > tr > td
@@ -3204,7 +3032,7 @@ blockquote
 
 .light_yellow_outline
 {
-    text-shadow : -1px 0 #ff7, 1px 0 #ff7, 0 -1px #ff7, 0 1px #ff7;
+    text-shadow : -1px 0px #ff7, 1px 0px #ff7, 0px -1px #ff7, 0px 1px #ff7;
 }
 
 .light_yellow_border, .light_yellow_border > tbody > tr > td
@@ -3247,7 +3075,7 @@ blockquote
 
 .pastel_yellow_outline
 {
-    text-shadow : -1px 0 #ffc, 1px 0 #ffc, 0 -1px #ffc, 0 1px #ffc;
+    text-shadow : -1px 0px #ffc, 1px 0px #ffc, 0px -1px #ffc, 0px 1px #ffc;
 }
 
 .pastel_yellow_border, .pastel_yellow_border > tbody > tr > td
@@ -3290,7 +3118,7 @@ blockquote
 
 .white_outline
 {
-    text-shadow : -1px 0 #fff, 1px 0 #fff, 0 -1px #fff, 0 1px #fff;
+    text-shadow : -1px 0px #fff, 1px 0px #fff, 0px -1px #fff, 0px 1px #fff;
 }
 
 .white_border, .white_border > tbody > tr > td

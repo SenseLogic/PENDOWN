@@ -111,13 +111,33 @@ __^~f00\underlined__
 
 {{^blue_large,bold\colored}}
 
-{{^pastel_gray_outline,large\
-°gray° ⁰orange⁰ ¹pink¹ ²red² ³blue³ ⁴violet⁴ ⁵cyan⁵ ⁶black⁶ ⁷yellow⁷ ⁸white⁸ ⁹green⁹
+{{{^black_outline,large,bold\
+°gray°
+
+⁰orange⁰
+
+¹pink¹
+
+²red²
+
+³blue³
+
+⁴violet⁴
+
+⁵cyan⁵
+
+⁶black⁶
+
+⁷yellow⁷
+
+⁸white⁸
+
+⁹green⁹
 }}}
 
 !! Code
 
-:::^#eee,padding\
+:::
 ##// ²Colorized source code²##
 
 ²if² ³(³ ... ³)³
@@ -130,7 +150,7 @@ __^~f00\underlined__
 ³}³
 :::
 
-:::^cpp\^#eee,padding\
+:::^cpp\
 // Colorized source code
 
 #include <iostream>
@@ -294,7 +314,6 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
     ((^dark_blue_fill,blue\ dark blue ))
     ((^dark_cyan_fill,cyan\ dark cyan ))
     ((^dark_green_fill,green\ dark green ))
-    ((^dark_lawn_fill,lawn\ dark lawn ))
     ((^dark_yellow_fill,yellow\ dark yellow ))
     ]]]
 |
@@ -307,7 +326,6 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
     ((^blue_fill,light_blue\ blue ))
     ((^cyan_fill,light_cyan\ cyan ))
     ((^green_fill,light_green\ green ))
-    ((^lawn_fill,light_lawn\ lawn ))
     ((^yellow_fill,white\ yellow ))
     ]]]
 |
@@ -320,7 +338,6 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
     ((^light_blue_fill,pastel_blue\ light blue ))
     ((^light_cyan_fill,pastel_cyan\ light cyan ))
     ((^light_green_fill,pastel_green\ light green ))
-    ((^light_lawn_fill,pastel_lawn\ light lawn ))
     ((^light_yellow_fill,white\ light yellow ))
     ]]]
 |
@@ -333,7 +350,6 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
     ((^pastel_blue_fill,white\ pastel blue ))
     ((^pastel_cyan_fill,white\ pastel cyan ))
     ((^pastel_green_fill,white\ pastel green ))
-    ((^pastel_lawn_fill,white\ pastel lawn ))
     ((^pastel_yellow_fill,white\ pastel yellow ))
     ]]]
 |
