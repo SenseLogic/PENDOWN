@@ -10,6 +10,7 @@
 *   Font size color syntax : `@1.25` `@1.25rem` `@1.25vw`
 *   Column span syntax : `=2`
 *   Custom colors/sizes/spans can be stored/reused in custom classes : `^#eee,$f02,@1.25,bold:²\`
+*   Single character color tags : °gray° ⁰orange⁰ ¹pink¹ ²red² ³blue³ ⁴violet⁴ ⁵cyan⁵ ⁶black⁶ ⁷yellow⁷ ⁸white⁸ ⁹green⁹
 
 ## v2.0
 

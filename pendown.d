@@ -1458,7 +1458,7 @@ void EscapeSpecialCharacters(
             }
             else
             {
-                if ( "\\`°¹²³!#@".indexOf( character ) >= 0
+                if ( "\\`°⁰¹²³⁴⁵⁶⁷⁸⁹!#@".indexOf( character ) >= 0
                      || ( "+-$*%^,~_{}[]:".indexOf( character ) >= 0
                           && character == prior_character ) )
                 {
@@ -1514,7 +1514,7 @@ dstring GetColorizedText(
     color_prefix_array[ CODE_TOKEN_TYPE.Keyword ] = "¹";
     color_prefix_array[ CODE_TOKEN_TYPE.Pragma ] = "²";
     color_prefix_array[ CODE_TOKEN_TYPE.LowerCaseIdentifier ] = "";
-    color_prefix_array[ CODE_TOKEN_TYPE.UpperCaseIdentifier ] = "²²";
+    color_prefix_array[ CODE_TOKEN_TYPE.UpperCaseIdentifier ] = "⁰";
     color_prefix_array[ CODE_TOKEN_TYPE.MinorCaseIdentifier ] = "";
     color_prefix_array[ CODE_TOKEN_TYPE.MajorCaseIdentifier ] = "";
     color_prefix_array[ CODE_TOKEN_TYPE.Identifier ] = "²";
@@ -1683,6 +1683,9 @@ TOKEN[] GetTokenArray(
         it_is_in_sup,
         it_is_in_sub,
         it_is_in_u,
+        it_is_in_violet_span,
+        it_is_in_white_span,
+        it_is_in_yellow_span,
         token_starts_line;
     dstring
         attributes,
@@ -1783,7 +1786,7 @@ TOKEN[] GetTokenArray(
 
                 if ( IsAlphabeticalCharacter( character )
                      || IsDecimalCharacter( character )
-                     || "$~#+@=_-.:°¹²³".indexOf( character ) >= 0 )
+                     || "$~#+@=_-.:°⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf( character ) >= 0 )
                 {
                     parsed_classes ~= character;
                 }
@@ -2071,14 +2074,17 @@ TOKEN[] GetTokenArray(
     it_is_in_sup = false;
     it_is_in_sub = false;
     it_is_in_strike = false;
-    it_is_in_black_span = false;
-    it_is_in_cyan_span = false;
-    it_is_in_orange_span = false;
-    it_is_in_green_span = false;
     it_is_in_gray_span = false;
+    it_is_in_orange_span = false;
     it_is_in_pink_span = false;
     it_is_in_red_span = false;
     it_is_in_blue_span = false;
+    it_is_in_violet_span = false;
+    it_is_in_cyan_span = false;
+    it_is_in_black_span = false;
+    it_is_in_yellow_span = false;
+    it_is_in_white_span = false;
+    it_is_in_green_span = false;
     it_is_in_a = false;
 
     table_count = 0;
@@ -2556,78 +2562,6 @@ TOKEN[] GetTokenArray(
                 token.Text = "</strike>";
             }
         }
-        else if ( text.slice( character_index, character_index + 2 ) == "°°"
-                  && !it_is_in_gray_span )
-        {
-            character_index += 2;
-
-            it_is_in_black_span = !it_is_in_black_span;
-
-            if ( it_is_in_black_span )
-            {
-                ParseAttributes( "°°" );
-
-                token.Text = "<span" ~ attributes ~ ">";
-            }
-            else
-            {
-                token.Text = "</span>";
-            }
-        }
-        else if ( text.slice( character_index, character_index + 2 ) == "¹¹"
-                  && !it_is_in_pink_span )
-        {
-            character_index += 2;
-
-            it_is_in_cyan_span = !it_is_in_cyan_span;
-
-            if ( it_is_in_cyan_span )
-            {
-                ParseAttributes( "¹¹" );
-
-                token.Text = "<span" ~ attributes ~ ">";
-            }
-            else
-            {
-                token.Text = "</span>";
-            }
-        }
-        else if ( text.slice( character_index, character_index + 2 ) == "²²"
-                  && !it_is_in_red_span )
-        {
-            character_index += 2;
-
-            it_is_in_orange_span = !it_is_in_orange_span;
-
-            if ( it_is_in_orange_span )
-            {
-                ParseAttributes( "²²" );
-
-                token.Text = "<span" ~ attributes ~ ">";
-            }
-            else
-            {
-                token.Text = "</span>";
-            }
-        }
-        else if ( text.slice( character_index, character_index + 2 ) == "³³"
-                  && !it_is_in_blue_span )
-        {
-            character_index += 2;
-
-            it_is_in_green_span = !it_is_in_green_span;
-
-            if ( it_is_in_green_span )
-            {
-                ParseAttributes( "³³" );
-
-                token.Text = "<span" ~ attributes ~ ">";
-            }
-            else
-            {
-                token.Text = "</span>";
-            }
-        }
         else if ( text.charAt( character_index ) == '°' )
         {
             ++character_index;
@@ -2637,6 +2571,23 @@ TOKEN[] GetTokenArray(
             if ( it_is_in_gray_span )
             {
                 ParseAttributes( "°" );
+
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
+        }
+        else if ( text.charAt( character_index ) == '⁰' )
+        {
+            ++character_index;
+
+            it_is_in_orange_span = !it_is_in_orange_span;
+
+            if ( it_is_in_orange_span )
+            {
+                ParseAttributes( "⁰" );
 
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2688,6 +2639,108 @@ TOKEN[] GetTokenArray(
             if ( it_is_in_blue_span )
             {
                 ParseAttributes( "³" );
+
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
+        }
+        else if ( text.charAt( character_index ) == '⁴' )
+        {
+            ++character_index;
+
+            it_is_in_violet_span = !it_is_in_violet_span;
+
+            if ( it_is_in_violet_span )
+            {
+                ParseAttributes( "⁴" );
+
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
+        }
+        else if ( text.charAt( character_index ) == '⁵' )
+        {
+            ++character_index;
+
+            it_is_in_cyan_span = !it_is_in_cyan_span;
+
+            if ( it_is_in_cyan_span )
+            {
+                ParseAttributes( "⁵" );
+
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
+        }
+        else if ( text.charAt( character_index ) == '⁶' )
+        {
+            ++character_index;
+
+            it_is_in_black_span = !it_is_in_black_span;
+
+            if ( it_is_in_black_span )
+            {
+                ParseAttributes( "⁶" );
+
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
+        }
+        else if ( text.charAt( character_index ) == '⁷' )
+        {
+            ++character_index;
+
+            it_is_in_yellow_span = !it_is_in_yellow_span;
+
+            if ( it_is_in_yellow_span )
+            {
+                ParseAttributes( "⁷" );
+
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
+        }
+        else if ( text.charAt( character_index ) == '⁸' )
+        {
+            ++character_index;
+
+            it_is_in_white_span = !it_is_in_white_span;
+
+            if ( it_is_in_white_span )
+            {
+                ParseAttributes( "⁸" );
+
+                token.Text = "<span" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
+        }
+        else if ( text.charAt( character_index ) == '⁹' )
+        {
+            ++character_index;
+
+            it_is_in_green_span = !it_is_in_green_span;
+
+            if ( it_is_in_green_span )
+            {
+                ParseAttributes( "⁹" );
 
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -3173,14 +3226,17 @@ void main(
     TabulationSpaceCount = 4;
     IndentationSpaceCount = 4;
 
-    ClassDefinitionMap[ "°°" ] = "black";
-    ClassDefinitionMap[ "¹¹" ] = "cyan";
-    ClassDefinitionMap[ "²²" ] = "orange";
-    ClassDefinitionMap[ "³³" ] = "green";
     ClassDefinitionMap[ "°" ] = "gray";
+    ClassDefinitionMap[ "⁰" ] = "orange";
     ClassDefinitionMap[ "¹" ] = "pink";
     ClassDefinitionMap[ "²" ] = "red";
     ClassDefinitionMap[ "³" ] = "blue";
+    ClassDefinitionMap[ "⁴" ] = "violet";
+    ClassDefinitionMap[ "⁵" ] = "cyan";
+    ClassDefinitionMap[ "⁶" ] = "black";
+    ClassDefinitionMap[ "⁷" ] = "yellow";
+    ClassDefinitionMap[ "⁸" ] = "white";
+    ClassDefinitionMap[ "⁹" ] = "green";
 
     PageOptionIsEnabled = false;
     PageWidth = 21.0;

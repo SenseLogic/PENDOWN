@@ -26,7 +26,7 @@
 
 °// -\- TYPES°
 
-¹function¹ ²²LANGUAGE²²°(°
+¹function¹ ⁰LANGUAGE⁰°(°
     °)°
 °{°
     ¹this¹°.°IsConstant °=° ¹function¹°(° code_token °)°
@@ -66,7 +66,7 @@
 
 °// ~\~°
 
-¹function¹ ²²C_LANGUAGE²²°(°
+¹function¹ ⁰C_LANGUAGE⁰°(°
     °)°
 °{°
     ¹this¹°.°IsConstant °=° ¹function¹°(° code_token °)°
@@ -132,7 +132,7 @@
 
 °// ~\~°
 
-¹function¹ ²²CPP_LANGUAGE²²°(°
+¹function¹ ⁰CPP_LANGUAGE⁰°(°
     °)°
 °{°
     ¹this¹°.°IsConstant °=° ¹function¹°(° code_token °)°
@@ -221,7 +221,7 @@
 
 °// ~\~°
 
-¹function¹ ²²CSHARP_LANGUAGE²²°(°
+¹function¹ ⁰CSHARP_LANGUAGE⁰°(°
     °)°
 °{°
     ¹this¹°.°IsConstant °=° ¹function¹°(° code_token °)°
@@ -322,7 +322,7 @@
 
 °// ~\~°
 
-¹function¹ ²²D_LANGUAGE²²°(°
+¹function¹ ⁰D_LANGUAGE⁰°(°
     °)°
 °{°
     ¹this¹°.°IsConstant °=° ¹function¹°(° code_token °)°
@@ -400,7 +400,7 @@
 
 °// ~\~°
 
-¹function¹ ²²JAVA_LANGUAGE²²°(°
+¹function¹ ⁰JAVA_LANGUAGE⁰°(°
     °)°
 °{°
     ¹this¹°.°IsConstant °=° ¹function¹°(° code_token °)°
@@ -480,7 +480,7 @@
 
 °// ~\~°
 
-¹function¹ ²²JAVASCRIPT_LANGUAGE²²°(°
+¹function¹ ⁰JAVASCRIPT_LANGUAGE⁰°(°
     °)°
 °{°
     ¹this¹°.°IsConstant °=° ¹function¹°(° code_token °)°
@@ -573,7 +573,7 @@
 
 °// ~\~°
 
-¹function¹ ²²TYPESCRIPT_LANGUAGE²²°(°
+¹function¹ ⁰TYPESCRIPT_LANGUAGE⁰°(°
     °)°
 °{°
     ¹this¹°.°IsConstant °=° ¹function¹°(° code_token °)°
@@ -661,7 +661,7 @@
 
 °// ~\~°
 
-¹function¹ ²²CODE_TOKEN_TYPE²²°(°
+¹function¹ ⁰CODE_TOKEN_TYPE⁰°(°
     °)°
 °{°
     ¹this¹°.°None °=° ²0²°;°
@@ -688,16 +688,16 @@
 
 °// ~\~°
 
-¹function¹ ²²CODE_TOKEN²²°(°
+¹function¹ ⁰CODE_TOKEN⁰°(°
     °)°
 °{°
-    ¹this¹°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°None°;°
+    ¹this¹°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°None°;°
     ¹this¹°.°Text °=° ²""²°;°
 °}°
 
 °// ~\~°
 
-¹function¹ ²²TOKEN²²°(°
+¹function¹ ⁰TOKEN⁰°(°
     °)°
 °{°
     ¹this¹°.°Text °=° ²""²°;°
@@ -981,7 +981,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     ¹if¹ °(° file_path°.°endsWith°(° ²".c"² °)°
          °||° file_path°.°endsWith°(° ²".h"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²C_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ⁰C_LANGUAGE⁰°();°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".c+\+"² °)°
               °||° file_path°.°endsWith°(° ²".h+\+"² °)°
@@ -990,32 +990,32 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
               °||° file_path°.°endsWith°(° ²".cxx"² °)°
               °||° file_path°.°endsWith°(° ²".hxx"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²CPP_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ⁰CPP_LANGUAGE⁰°();°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".c\#"² °)°
               °||° file_path°.°endsWith°(° ²".cs"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²CSHARP_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ⁰CSHARP_LANGUAGE⁰°();°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".d"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²D_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ⁰D_LANGUAGE⁰°();°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".java"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²JAVA_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ⁰JAVA_LANGUAGE⁰°();°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".js"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²JAVASCRIPT_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ⁰JAVASCRIPT_LANGUAGE⁰°();°
     °}°
     ¹else¹ ¹if¹ °(° file_path°.°endsWith°(° ²".ts"² °)° °)°
     °{°
-        ¹return¹ ¹new¹ ²²TYPESCRIPT_LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ⁰TYPESCRIPT_LANGUAGE⁰°();°
     °}°
     ¹else¹
     °{°
-        ¹return¹ ¹new¹ ²²LANGUAGE²²°();°
+        ¹return¹ ¹new¹ ⁰LANGUAGE⁰°();°
     °}°
 °}°
 
@@ -1065,7 +1065,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
         ¹if¹ °(° code_token °\!==° ²null² °)°
         °{°
-            ¹if¹ °(° code_token°.°Type °===° ²²CODE_TOKEN_TYPE²²°.°String °)°
+            ¹if¹ °(° code_token°.°Type °===° ⁰CODE_TOKEN_TYPE⁰°.°String °)°
             °{°
                 ¹if¹ °(° character °===° delimiter_character °)°
                 °{°
@@ -1088,7 +1088,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                     code_token°.°Text °+=° character°;°
                 °}°
             °}°
-            ¹else¹ ¹if¹ °(° code_token°.°Type °===° ²²CODE_TOKEN_TYPE²²°.°ShortComment °)°
+            ¹else¹ ¹if¹ °(° code_token°.°Type °===° ⁰CODE_TOKEN_TYPE⁰°.°ShortComment °)°
             °{°
                 ¹if¹ °(° character °===° ²'\\r'²
                      °||° character °===° ²'\\n'² °)°
@@ -1100,7 +1100,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                     code_token°.°Text °+=° character°;°
                 °}°
             °}°
-            ¹else¹ ¹if¹ °(° code_token°.°Type °===° ²²CODE_TOKEN_TYPE²²°.°LongComment °)°
+            ¹else¹ ¹if¹ °(° code_token°.°Type °===° ⁰CODE_TOKEN_TYPE⁰°.°LongComment °)°
             °{°
                 ¹if¹ °(° character °===° ²'*'²
                      °&&° next_character °===° ²'/'² °)°
@@ -1117,55 +1117,55 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                     code_token°.°Text °+=° character°;°
                 °}°
             °}°
-            ¹else¹ ¹if¹ °(° °(° code_token°.°Type °===° ²²CODE_TOKEN_TYPE²²°.°Number
+            ¹else¹ ¹if¹ °(° °(° code_token°.°Type °===° ⁰CODE_TOKEN_TYPE⁰°.°Number
                         °&&° °(° character°.°isDigit°()°
                              °||° °(° character °===° ²'.'² °&&° next_character°.°isDigit°()° °)°
                              °||° character°.°isAlpha°()° °)° °)°
-                      °||° °(° code_token°.°Type °===° ²²CODE_TOKEN_TYPE²²°.°Identifier
+                      °||° °(° code_token°.°Type °===° ⁰CODE_TOKEN_TYPE⁰°.°Identifier
                            °&&° °(° character°.°isAlpha°()°
                                 °||° character°.°isDigit°()°
                                 °||° character °===° ²'_'² °)° °)°
-                      °||° °(° code_token°.°Type °===° ²²CODE_TOKEN_TYPE²²°.°Operator
+                      °||° °(° code_token°.°Type °===° ⁰CODE_TOKEN_TYPE⁰°.°Operator
                            °&&° ²"~+-*/%^$&|?:\!=&lt;&gt;\#"²°.°indexOf°(° character °)° °&gt;=° ²0² °)° °)°
             °{°
                 code_token°.°Text °+=° character°;°
             °}°
             ¹else¹
             °{°
-                ¹if¹ °(° code_token°.°Type °===° ²²CODE_TOKEN_TYPE²²°.°Identifier °)°
+                ¹if¹ °(° code_token°.°Type °===° ⁰CODE_TOKEN_TYPE⁰°.°Identifier °)°
                 °{°
                     ¹if¹ °(° language°.°IsConstant°(° code_token °)° °)°
                     °{°
-                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Constant°;°
+                        code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Constant°;°
                     °}°
                     ¹else¹ ¹if¹ °(° language°.°IsType°(° code_token °)° °)°
                     °{°
-                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Type°;°
+                        code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Type°;°
                     °}°
                     ¹else¹ ¹if¹ °(° language°.°IsKeyword°(° code_token °)° °)°
                     °{°
-                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Keyword°;°
+                        code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Keyword°;°
                     °}°
                     ¹else¹ ¹if¹ °(° code_token°.°Text°.°startsWith°(° ²'\#'² °)° °)°
                     °{°
-                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Pragma°;°
+                        code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Pragma°;°
                     °}°
                     ¹else¹ ¹if¹ °(° code_token°.°Text °===° code_token°.°Text°.°toLower°()° °)°
                     °{°
-                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°LowerCaseIdentifier°;°
+                        code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°LowerCaseIdentifier°;°
                     °}°
                     ¹else¹ ¹if¹ °(° code_token°.°Text °===° code_token°.°Text°.°toUpper°()°
                               °&&° code_token°.°Text°.°length °&gt;=° ²2² °)°
                     °{°
-                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°UpperCaseIdentifier°;°
+                        code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°UpperCaseIdentifier°;°
                     °}°
                     ¹else¹ ¹if¹ °(° code_token°.°Text°[° ²0² °].°isLower°()° °)°
                     °{°
-                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°MinorCaseIdentifier°;°
+                        code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°MinorCaseIdentifier°;°
                     °}°
                     ¹else¹ ¹if¹ °(° code_token°.°Text°[° ²0² °].°isUpper°()° °)°
                     °{°
-                        code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°MajorCaseIdentifier°;°
+                        code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°MajorCaseIdentifier°;°
                     °}°
                 °}°
 
@@ -1176,12 +1176,12 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         ¹if¹ °(° code_token °===° ²null²
              °&&° character °\!==° ²0² °)°
         °{°
-            code_token °=° ¹new¹ ²²CODE_TOKEN²²°();°
+            code_token °=° ¹new¹ ⁰CODE_TOKEN⁰°();°
 
             ¹if¹ °(° character °===° ²'/'²
                  °&&° next_character °===° ²'/'² °)°
             °{°
-                code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°ShortComment°;°
+                code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°ShortComment°;°
                 code_token°.°Text °=° ²"//"²°;°
 
                 °+\+°character_index°;°
@@ -1189,7 +1189,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             ¹else¹ ¹if¹ °(° character °===° ²'/'²
                       °&&° next_character °===° ²'*'² °)°
             °{°
-                code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°LongComment°;°
+                code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°LongComment°;°
                 code_token°.°Text °=° ²"/*"²°;°
 
                 °+\+°character_index°;°
@@ -1198,7 +1198,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                       °||° character °===° ²'\\"'²
                       °||° character °===° ²'\`'² °)°
             °{°
-                code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°String°;°
+                code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°String°;°
                 code_token°.°Text °+=° character°;°
 
                 delimiter_character °=° character°;°
@@ -1207,45 +1207,45 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                       °||° °(° character °===° ²'-'²
                            °&&° next_character°.°isDigit°()° °)° °)°
             °{°
-                code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Number°;°
+                code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Number°;°
                 code_token°.°Text °+=° character°;°
             °}°
             ¹else¹ ¹if¹ °(° character°.°isAlpha°()°
                       °||° character °===° ²'_'²
                       °||° °(° character °===° ²'\#'² °&&° next_character°.°isAlpha°()° °)° °)°
             °{°
-                code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Identifier°;°
+                code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Identifier°;°
                 code_token°.°Text °+=° character°;°
             °}°
             ¹else¹ ¹if¹ °(° ²"~+-*/%^$&|\!=&lt;&gt;\#"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
             °{°
-                code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Operator°;°
+                code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Operator°;°
                 code_token°.°Text °+=° character°;°
             °}°
             ¹else¹ ¹if¹ °(° ²".,;"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
             °{°
-                code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Separator°;°
+                code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Separator°;°
                 code_token°.°Text °+=° character°;°
             °}°
             ¹else¹ ¹if¹ °(° ²"()[]{}"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
             °{°
-                code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Delimiter°;°
+                code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Delimiter°;°
                 code_token°.°Text °+=° character°;°
             °}°
             ¹else¹ ¹if¹ °(° ²" \\t\\r\\n"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
             °{°
-                code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Spacing°;°
+                code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Spacing°;°
                 code_token°.°Text °+=° character°;°
             °}°
             ¹else¹
             °{°
-                code_token°.°Type °=° ²²CODE_TOKEN_TYPE²²°.°Special°;°
+                code_token°.°Type °=° ⁰CODE_TOKEN_TYPE⁰°.°Special°;°
                 code_token°.°Text °+=° character°;°
             °}°
 
             code_token_array°.°push°(° code_token °);°
 
-            ¹if¹ °(° code_token°.°Type °&gt;=° ²²CODE_TOKEN_TYPE²²°.°Separator °)°
+            ¹if¹ °(° code_token°.°Type °&gt;=° ⁰CODE_TOKEN_TYPE⁰°.°Separator °)°
             °{°
                 code_token °=° ²null²°;°
             °}°
@@ -1294,7 +1294,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             °}°
             ¹else¹
             °{°
-                ¹if¹ °(° ²"\\\\\`\°\¹\²\³\!\#\@"²°.°indexOf°(° character °)° °&gt;=° ²0²
+                ¹if¹ °(° ²"\\\\\`\°\⁰\¹\²\³\⁴\⁵\⁶\⁷\⁸\⁹\!\#\@"²°.°indexOf°(° character °)° °&gt;=° ²0²
                      °||° °(° ²"+-$*%^,~_{}[]:"²°.°indexOf°(° character °)° °&gt;=° ²0²
                           °&&° character °===° prior_character °)° °)°
                 °{°
@@ -1337,24 +1337,24 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     EscapeSpecialCharacters°(° code_token_array °);°
 
     color_prefix_array °=° °[];°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°ShortComment °]° °=° ²"\°"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°LongComment °]° °=° ²"\°"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°String °]° °=° ²"\²"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Number °]° °=° ²"\²"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Constant °]° °=° ²"\²"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Type °]° °=° ²"\²"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Keyword °]° °=° ²"\¹"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Pragma °]° °=° ²"\²"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°LowerCaseIdentifier °]° °=° ²""²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°UpperCaseIdentifier °]° °=° ²"\²\²"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°MinorCaseIdentifier °]° °=° ²""²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°MajorCaseIdentifier °]° °=° ²""²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Identifier °]° °=° ²"\²"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Operator °]° °=° ²"\°"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Separator °]° °=° ²"\°"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Delimiter °]° °=° ²"\°"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Special °]° °=° ²"\°"²°;°
-    color_prefix_array°[° ²²CODE_TOKEN_TYPE²²°.°Spacing °]° °=° ²""²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°ShortComment °]° °=° ²"\°"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°LongComment °]° °=° ²"\°"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°String °]° °=° ²"\²"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Number °]° °=° ²"\²"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Constant °]° °=° ²"\²"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Type °]° °=° ²"\²"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Keyword °]° °=° ²"\¹"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Pragma °]° °=° ²"\²"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°LowerCaseIdentifier °]° °=° ²""²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°UpperCaseIdentifier °]° °=° ²"\⁰"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°MinorCaseIdentifier °]° °=° ²""²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°MajorCaseIdentifier °]° °=° ²""²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Identifier °]° °=° ²"\²"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Operator °]° °=° ²"\°"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Separator °]° °=° ²"\°"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Delimiter °]° °=° ²"\°"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Special °]° °=° ²"\°"²°;°
+    color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°Spacing °]° °=° ²""²°;°
 
     color_suffix_array °=° color_prefix_array°;°
 
@@ -1517,6 +1517,9 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         it_is_in_sup°,°
         it_is_in_sub°,°
         it_is_in_u°,°
+        it_is_in_violet_span°,°
+        it_is_in_white_span°,°
+        it_is_in_yellow_span°,°
         table_count°,°
         token°,°
         token_array°,°
@@ -1603,7 +1606,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
                 ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
                      °||° IsDecimalCharacter°(° character °)°
-                     °||° ²"$~\#+\@=_-.:\°\¹\²\³"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
+                     °||° ²"$~\#+\@=_-.:\°\⁰\¹\²\³\⁴\⁵\⁶\⁷\⁸\⁹"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
                 °{°
                     parsed_classes °+=° character°;°
                 °}°
@@ -1879,14 +1882,17 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     it_is_in_sup °=° ²false²°;°
     it_is_in_sub °=° ²false²°;°
     it_is_in_strike °=° ²false²°;°
-    it_is_in_black_span °=° ²false²°;°
-    it_is_in_cyan_span °=° ²false²°;°
-    it_is_in_orange_span °=° ²false²°;°
-    it_is_in_green_span °=° ²false²°;°
     it_is_in_gray_span °=° ²false²°;°
+    it_is_in_orange_span °=° ²false²°;°
     it_is_in_pink_span °=° ²false²°;°
     it_is_in_red_span °=° ²false²°;°
     it_is_in_blue_span °=° ²false²°;°
+    it_is_in_violet_span °=° ²false²°;°
+    it_is_in_cyan_span °=° ²false²°;°
+    it_is_in_black_span °=° ²false²°;°
+    it_is_in_yellow_span °=° ²false²°;°
+    it_is_in_white_span °=° ²false²°;°
+    it_is_in_green_span °=° ²false²°;°
     it_is_in_a °=° ²false²°;°
 
     table_count °=° ²0²°;°
@@ -1894,7 +1900,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
     ¹while¹ °(° character_index °&lt;° text°.°length °)°
     °{°
-        token °=° ¹new¹ ²²TOKEN²²°();°
+        token °=° ¹new¹ ⁰TOKEN⁰°();°
         token°.°StartsLine °=° token_starts_line°;°
         token_starts_line °=° ²false²°;°
 
@@ -2364,78 +2370,6 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                 token°.°Text °=° ²"&lt;/strike&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"\°\°"²
-                  °&&° °\!°it_is_in_gray_span °)°
-        °{°
-            character_index °+=° ²2²°;°
-
-            it_is_in_black_span °=° °\!°it_is_in_black_span°;°
-
-            ¹if¹ °(° it_is_in_black_span °)°
-            °{°
-                ParseAttributes°(° ²"\°\°"² °);°
-
-                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
-            °}°
-            ¹else¹
-            °{°
-                token°.°Text °=° ²"&lt;/span&gt;"²°;°
-            °}°
-        °}°
-        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"\¹\¹"²
-                  °&&° °\!°it_is_in_pink_span °)°
-        °{°
-            character_index °+=° ²2²°;°
-
-            it_is_in_cyan_span °=° °\!°it_is_in_cyan_span°;°
-
-            ¹if¹ °(° it_is_in_cyan_span °)°
-            °{°
-                ParseAttributes°(° ²"\¹\¹"² °);°
-
-                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
-            °}°
-            ¹else¹
-            °{°
-                token°.°Text °=° ²"&lt;/span&gt;"²°;°
-            °}°
-        °}°
-        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"\²\²"²
-                  °&&° °\!°it_is_in_red_span °)°
-        °{°
-            character_index °+=° ²2²°;°
-
-            it_is_in_orange_span °=° °\!°it_is_in_orange_span°;°
-
-            ¹if¹ °(° it_is_in_orange_span °)°
-            °{°
-                ParseAttributes°(° ²"\²\²"² °);°
-
-                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
-            °}°
-            ¹else¹
-            °{°
-                token°.°Text °=° ²"&lt;/span&gt;"²°;°
-            °}°
-        °}°
-        ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °===° ²"\³\³"²
-                  °&&° °\!°it_is_in_blue_span °)°
-        °{°
-            character_index °+=° ²2²°;°
-
-            it_is_in_green_span °=° °\!°it_is_in_green_span°;°
-
-            ¹if¹ °(° it_is_in_green_span °)°
-            °{°
-                ParseAttributes°(° ²"\³\³"² °);°
-
-                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
-            °}°
-            ¹else¹
-            °{°
-                token°.°Text °=° ²"&lt;/span&gt;"²°;°
-            °}°
-        °}°
         ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'\°'² °)°
         °{°
             °+\+°character_index°;°
@@ -2445,6 +2379,23 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             ¹if¹ °(° it_is_in_gray_span °)°
             °{°
                 ParseAttributes°(° ²"\°"² °);°
+
+                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/span&gt;"²°;°
+            °}°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'\⁰'² °)°
+        °{°
+            °+\+°character_index°;°
+
+            it_is_in_orange_span °=° °\!°it_is_in_orange_span°;°
+
+            ¹if¹ °(° it_is_in_orange_span °)°
+            °{°
+                ParseAttributes°(° ²"\⁰"² °);°
 
                 token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
             °}°
@@ -2496,6 +2447,108 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             ¹if¹ °(° it_is_in_blue_span °)°
             °{°
                 ParseAttributes°(° ²"\³"² °);°
+
+                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/span&gt;"²°;°
+            °}°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'\⁴'² °)°
+        °{°
+            °+\+°character_index°;°
+
+            it_is_in_violet_span °=° °\!°it_is_in_violet_span°;°
+
+            ¹if¹ °(° it_is_in_violet_span °)°
+            °{°
+                ParseAttributes°(° ²"\⁴"² °);°
+
+                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/span&gt;"²°;°
+            °}°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'\⁵'² °)°
+        °{°
+            °+\+°character_index°;°
+
+            it_is_in_cyan_span °=° °\!°it_is_in_cyan_span°;°
+
+            ¹if¹ °(° it_is_in_cyan_span °)°
+            °{°
+                ParseAttributes°(° ²"\⁵"² °);°
+
+                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/span&gt;"²°;°
+            °}°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'\⁶'² °)°
+        °{°
+            °+\+°character_index°;°
+
+            it_is_in_black_span °=° °\!°it_is_in_black_span°;°
+
+            ¹if¹ °(° it_is_in_black_span °)°
+            °{°
+                ParseAttributes°(° ²"\⁶"² °);°
+
+                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/span&gt;"²°;°
+            °}°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'\⁷'² °)°
+        °{°
+            °+\+°character_index°;°
+
+            it_is_in_yellow_span °=° °\!°it_is_in_yellow_span°;°
+
+            ¹if¹ °(° it_is_in_yellow_span °)°
+            °{°
+                ParseAttributes°(° ²"\⁷"² °);°
+
+                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/span&gt;"²°;°
+            °}°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'\⁸'² °)°
+        °{°
+            °+\+°character_index°;°
+
+            it_is_in_white_span °=° °\!°it_is_in_white_span°;°
+
+            ¹if¹ °(° it_is_in_white_span °)°
+            °{°
+                ParseAttributes°(° ²"\⁸"² °);°
+
+                token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/span&gt;"²°;°
+            °}°
+        °}°
+        ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °===° ²'\⁹'² °)°
+        °{°
+            °+\+°character_index°;°
+
+            it_is_in_green_span °=° °\!°it_is_in_green_span°;°
+
+            ¹if¹ °(° it_is_in_green_span °)°
+            °{°
+                ParseAttributes°(° ²"\⁹"² °);°
 
                 token°.°Text °=° ²"&lt;span"² °+° attributes °+° ²"&gt;"²°;°
             °}°
@@ -2585,7 +2638,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             
             ¹if¹ °(° closing_tag °\!==° ²""² °)°
             °{°
-                closing_token °=° ¹new¹ ²²TOKEN²²°();°
+                closing_token °=° ¹new¹ ⁰TOKEN⁰°();°
                 closing_token°.°Text °=° closing_tag°;°
                 closing_tag °=° ²""²°;°
 
@@ -2776,7 +2829,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
                     ¹if¹ °(° tag_token_text °\!==° ²""² °)°
                     °{°
-                        token °=° ¹new¹ ²²TOKEN²²°();°
+                        token °=° ¹new¹ ⁰TOKEN⁰°();°
                         token°.°Text °=° tag_token_text°;°
                         token_array°.°splice°(° tag_token_index°,° ²0²°,° token °);°
 
@@ -2799,7 +2852,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         token°,°
         token_index°;°
 
-    token °=° ¹new¹ ²²TOKEN²²°();°
+    token °=° ¹new¹ ⁰TOKEN⁰°();°
     token°.°Text °=° ²"&lt;p&gt;"²°;°
     token_array°.°splice°(° ²0²°,° ²0²°,° token °);°
 
@@ -2832,7 +2885,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °}°
     °}°
 
-    token °=° ¹new¹ ²²TOKEN²²°();°
+    token °=° ¹new¹ ⁰TOKEN⁰°();°
     token°.°Text °=° ²"&lt;/p&gt;"²°;°
     token_array°.°push°(° token °);°
 °}°
@@ -2971,20 +3024,23 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
 °// -\- STATEMENTS°
 
-²²CODE_TOKEN_TYPE²² °=° ¹new¹ ²²CODE_TOKEN_TYPE²²°();°
+⁰CODE_TOKEN_TYPE⁰ °=° ¹new¹ ⁰CODE_TOKEN_TYPE⁰°();°
 
 TabulationSpaceCount °=° ²4²°;°
 IndentationSpaceCount °=° ²4²°;°
 
 ClassDefinitionMap °=° °[];°
-ClassDefinitionMap°[° ²"\°\°"² °]° °=° ²"black"²°;°
-ClassDefinitionMap°[° ²"\¹\¹"² °]° °=° ²"cyan"²°;°
-ClassDefinitionMap°[° ²"\²\²"² °]° °=° ²"orange"²°;°
-ClassDefinitionMap°[° ²"\³\³"² °]° °=° ²"green"²°;°
 ClassDefinitionMap°[° ²"\°"² °]° °=° ²"gray"²°;°
+ClassDefinitionMap°[° ²"\⁰"² °]° °=° ²"orange"²°;°
 ClassDefinitionMap°[° ²"\¹"² °]° °=° ²"pink"²°;°
 ClassDefinitionMap°[° ²"\²"² °]° °=° ²"red"²°;°
 ClassDefinitionMap°[° ²"\³"² °]° °=° ²"blue"²°;°
+ClassDefinitionMap°[° ²"\⁴"² °]° °=° ²"violet"²°;°
+ClassDefinitionMap°[° ²"\⁵"² °]° °=° ²"cyan"²°;°
+ClassDefinitionMap°[° ²"\⁶"² °]° °=° ²"black"²°;°
+ClassDefinitionMap°[° ²"\⁷"² °]° °=° ²"yellow"²°;°
+ClassDefinitionMap°[° ²"\⁸"² °]° °=° ²"white"²°;°
+ClassDefinitionMap°[° ²"\⁹"² °]° °=° ²"green"²°;°
 
 ProcessDocument°();°
 :::

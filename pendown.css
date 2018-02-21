@@ -66,11 +66,6 @@ h6
     font-size : 1rem;
 }
 
-p, pre
-{
-    font-size : 1rem;
-}
-
 .nano
 {
     font-size : 0.625rem;
@@ -1530,6 +1525,11 @@ blockquote
     background-color : #000;
 }
 
+.black_outline
+{
+    text-shadow : -1px 0 #000, 1px 0 #000, 0 -1px #000, 0 -1px #000;
+}
+
 .black_border, .black_border > tbody > tr > td
 {
     border-bottom-color : #000;
@@ -1566,6 +1566,11 @@ blockquote
 .dark_gray_fill
 {
     background-color : #444;
+}
+
+.dark_gray_outline
+{
+    text-shadow : -1px 0 #444, 1px 0 #444, 0 -1px #444, 0 1px #444;
 }
 
 .dark_gray_border, .dark_gray_border > tbody > tr > td
@@ -1606,6 +1611,11 @@ blockquote
     background-color : #888;
 }
 
+.gray_outline
+{
+    text-shadow : -1px 0 #888, 1px 0 #888, 0 -1px #888, 0 1px #888;
+}
+
 .gray_border, .gray_border > tbody > tr > td
 {
     border-bottom-color : #888;
@@ -1642,6 +1652,11 @@ blockquote
 .light_gray_fill
 {
     background-color : #ccc;
+}
+
+.light_gray_outline
+{
+    text-shadow : -1px 0 #ccc, 1px 0 #ccc, 0 -1px #ccc, 0 1px #ccc;
 }
 
 .light_gray_border, .light_gray_border > tbody > tr > td
@@ -1682,6 +1697,11 @@ blockquote
     background-color : #eee;
 }
 
+.pastel_gray_outline
+{
+    text-shadow : -1px 0 #eee, 1px 0 #eee, 0 -1px #eee, 0 1px #eee;
+}
+
 .pastel_gray_border, .pastel_gray_border > tbody > tr > td
 {
     border-bottom-color : #eee;
@@ -1718,6 +1738,11 @@ blockquote
 .dark_orange_fill
 {
     background-color : #730;
+}
+
+.dark_orange_outline
+{
+    text-shadow : -1px 0 #730, 1px 0 #730, 0 -1px #730, 0 1px #730;
 }
 
 .dark_orange_border, .dark_orange_border > tbody > tr > td
@@ -1758,6 +1783,11 @@ blockquote
     background-color : #e70;
 }
 
+.orange_outline
+{
+    text-shadow : -1px 0 #e70, 1px 0 #e70, 0 -1px #e70, 0 1px #e70;
+}
+
 .orange_border, .orange_border > tbody > tr > td
 {
     border-bottom-color : #e70;
@@ -1794,6 +1824,11 @@ blockquote
 .light_orange_fill
 {
     background-color : #fb7;
+}
+
+.light_orange_outline
+{
+    text-shadow : -1px 0 #fb7, 1px 0 #fb7, 0 -1px #fb7, 0 1px #fb7;
 }
 
 .light_orange_border, .light_orange_border > tbody > tr > td
@@ -1834,6 +1869,11 @@ blockquote
     background-color : #fdb;
 }
 
+.pastel_orange_outline
+{
+    text-shadow : -1px 0 #fdb, 1px 0 #fdb, 0 -1px #fdb, 0 1px #fdb;
+}
+
 .pastel_orange_border, .pastel_orange_border > tbody > tr > td
 {
     border-bottom-color : #fdb;
@@ -1870,6 +1910,11 @@ blockquote
 .dark_red_fill
 {
     background-color : #700;
+}
+
+.dark_red_outline
+{
+    text-shadow : -1px 0 #700, 1px 0 #700, 0 -1px #700, 0 1px #700;
 }
 
 .dark_red_border, .dark_red_border > tbody > tr > td
@@ -1910,6 +1955,11 @@ blockquote
     background-color : #f00;
 }
 
+.red_outline
+{
+    text-shadow : -1px 0 #f00, 1px 0 #f00, 0 -1px #f00, 0 1px #f00;
+}
+
 .red_border, .red_border > tbody > tr > td
 {
     border-bottom-color : #f00;
@@ -1946,6 +1996,11 @@ blockquote
 .light_red_fill
 {
     background-color : #f77;
+}
+
+.light_red_outline
+{
+    text-shadow : -1px 0 #f77, 1px 0 #f77, 0 -1px #f77, 0 1px #f77;
 }
 
 .light_red_border, .light_red_border > tbody > tr > td
@@ -1986,6 +2041,11 @@ blockquote
     background-color : #fcc;
 }
 
+.pastel_red_outline
+{
+    text-shadow : -1px 0 #fcc, 1px 0 #fcc, 0 -1px #fcc, 0 1px #fcc;
+}
+
 .pastel_red_border, .pastel_red_border > tbody > tr > td
 {
     border-bottom-color : #fcc;
@@ -2022,6 +2082,11 @@ blockquote
 .dark_pink_fill
 {
     background-color : #725;
+}
+
+.dark_pink_outline
+{
+    text-shadow : -1px 0 #725, 1px 0 #725, 0 -1px #725, 0 1px #725;
 }
 
 .dark_pink_border, .dark_pink_border > tbody > tr > td
@@ -2062,6 +2127,11 @@ blockquote
     background-color : #f4a;
 }
 
+.pink_outline
+{
+    text-shadow : -1px 0 #f4a, 1px 0 #f4a, 0 -1px #f4a, 0 1px #f4a;
+}
+
 .pink_border, .pink_border > tbody > tr > td
 {
     border-bottom-color : #f4a;
@@ -2098,6 +2168,11 @@ blockquote
 .light_pink_fill
 {
     background-color : #fad;
+}
+
+.light_pink_outline
+{
+    text-shadow : -1px 0 #fad, 1px 0 #fad, 0 -1px #fad, 0 1px #fad;
 }
 
 .light_pink_border, .light_pink_border > tbody > tr > td
@@ -2138,6 +2213,11 @@ blockquote
     background-color : #fde;
 }
 
+.pastel_pink_outline
+{
+    text-shadow : -1px 0 #fde, 1px 0 #fde, 0 -1px #fde, 0 1px #fde;
+}
+
 .pastel_pink_border, .pastel_pink_border > tbody > tr > td
 {
     border-bottom-color : #fde;
@@ -2174,6 +2254,11 @@ blockquote
 .dark_violet_fill
 {
     background-color : #316;
+}
+
+.dark_violet_outline
+{
+    text-shadow : -1px 0 #316, 1px 0 #316, 0 -1px #316, 0 1px #316;
 }
 
 .dark_violet_border, .dark_violet_border > tbody > tr > td
@@ -2214,6 +2299,11 @@ blockquote
     background-color : #72c;
 }
 
+.violet_outline
+{
+    text-shadow : -1px 0 #72c, 1px 0 #72c, 0 -1px #72c, 0 1px #72c;
+}
+
 .violet_border, .violet_border > tbody > tr > td
 {
     border-bottom-color : #72c;
@@ -2250,6 +2340,11 @@ blockquote
 .light_violet_fill
 {
     background-color : #b9e;
+}
+
+.light_violet_outline
+{
+    text-shadow : -1px 0 #b9e, 1px 0 #b9e, 0 -1px #b9e, 0 1px #b9e;
 }
 
 .light_violet_border, .light_violet_border > tbody > tr > td
@@ -2290,6 +2385,11 @@ blockquote
     background-color : #dbe;
 }
 
+.pastel_violet_outline
+{
+    text-shadow : -1px 0 #dbe, 1px 0 #dbe, 0 -1px #dbe, 0 1px #dbe;
+}
+
 .pastel_violet_border, .pastel_violet_border > tbody > tr > td
 {
     border-bottom-color : #dbe;
@@ -2326,6 +2426,11 @@ blockquote
 .dark_blue_fill
 {
     background-color : #007;
+}
+
+.dark_blue_outline
+{
+    text-shadow : -1px 0 #007, 1px 0 #007, 0 -1px #007, 0 1px #007;
 }
 
 .dark_blue_border, .dark_blue_border > tbody > tr > td
@@ -2366,6 +2471,11 @@ blockquote
     background-color : #00f;
 }
 
+.blue_outline
+{
+    text-shadow : -1px 0 #00f, 1px 0 #00f, 0 -1px #00f, 0 1px #00f;
+}
+
 .blue_border, .blue_border > tbody > tr > td
 {
     border-bottom-color : #00f;
@@ -2402,6 +2512,11 @@ blockquote
 .light_blue_fill
 {
     background-color : #77f;
+}
+
+.light_blue_outline
+{
+    text-shadow : -1px 0 #77f, 1px 0 #77f, 0 -1px #77f, 0 1px #77f;
 }
 
 .light_blue_border, .light_blue_border > tbody > tr > td
@@ -2442,6 +2557,11 @@ blockquote
     background-color : #ccf;
 }
 
+.pastel_blue_outline
+{
+    text-shadow : -1px 0 #ccf, 1px 0 #ccf, 0 -1px #ccf, 0 1px #ccf;
+}
+
 .pastel_blue_border, .pastel_blue_border > tbody > tr > td
 {
     border-bottom-color : #ccf;
@@ -2478,6 +2598,11 @@ blockquote
 .dark_cyan_fill
 {
     background-color : #044;
+}
+
+.dark_cyan_outline
+{
+    text-shadow : -1px 0 #044, 1px 0 #044, 0 -1px #044, 0 1px #044;
 }
 
 .dark_cyan_border, .dark_cyan_border > tbody > tr > td
@@ -2518,6 +2643,11 @@ blockquote
     background-color : #099;
 }
 
+.cyan_outline
+{
+    text-shadow : -1px 0 #099, 1px 0 #099, 0 -1px #099, 0 1px #099;
+}
+
 .cyan_border, .cyan_border > tbody > tr > td
 {
     border-bottom-color : #099;
@@ -2554,6 +2684,11 @@ blockquote
 .light_cyan_fill
 {
     background-color : #7cc;
+}
+
+.light_cyan_outline
+{
+    text-shadow : -1px 0 #7cc, 1px 0 #7cc, 0 -1px #7cc, 0 1px #7cc;
 }
 
 .light_cyan_border, .light_cyan_border > tbody > tr > td
@@ -2594,6 +2729,11 @@ blockquote
     background-color : #bee;
 }
 
+.pastel_cyan_outline
+{
+    text-shadow : -1px 0 #bee, 1px 0 #bee, 0 -1px #bee, 0 1px #bee;
+}
+
 .pastel_cyan_border, .pastel_cyan_border > tbody > tr > td
 {
     border-bottom-color : #bee;
@@ -2630,6 +2770,11 @@ blockquote
 .dark_green_fill
 {
     background-color : #050;
+}
+
+.dark_green_outline
+{
+    text-shadow : -1px 0 #050, 1px 0 #050, 0 -1px #050, 0 1px #050;
 }
 
 .dark_green_border, .dark_green_border > tbody > tr > td
@@ -2670,6 +2815,11 @@ blockquote
     background-color : #0a0;
 }
 
+.green_outline
+{
+    text-shadow : -1px 0 #0a0, 1px 0 #0a0, 0 -1px #0a0, 0 1px #0a0;
+}
+
 .green_border, .green_border > tbody > tr > td
 {
     border-bottom-color : #0a0;
@@ -2706,6 +2856,11 @@ blockquote
 .light_green_fill
 {
     background-color : #7d7;
+}
+
+.light_green_outline
+{
+    text-shadow : -1px 0 #7d7, 1px 0 #7d7, 0 -1px #7d7, 0 1px #7d7;
 }
 
 .light_green_border, .light_green_border > tbody > tr > td
@@ -2746,6 +2901,11 @@ blockquote
     background-color : #cec;
 }
 
+.pastel_green_outline
+{
+    text-shadow : -1px 0 #cec, 1px 0 #cec, 0 -1px #cec, 0 1px #cec;
+}
+
 .pastel_green_border, .pastel_green_border > tbody > tr > td
 {
     border-bottom-color : #cec;
@@ -2782,6 +2942,11 @@ blockquote
 .dark_lawn_fill
 {
     background-color : #450;
+}
+
+.dark_lawn_outline
+{
+    text-shadow : -1px 0 #450, 1px 0 #450, 0 -1px #450, 0 1px #450;
 }
 
 .dark_lawn_border, .dark_lawn_border > tbody > tr > td
@@ -2822,6 +2987,11 @@ blockquote
     background-color : #8b0;
 }
 
+.lawn_outline
+{
+    text-shadow : -1px 0 #8b0, 1px 0 #8b0, 0 -1px #8b0, 0 1px #8b0;
+}
+
 .lawn_border, .lawn_border > tbody > tr > td
 {
     border-bottom-color : #8b0;
@@ -2858,6 +3028,11 @@ blockquote
 .light_lawn_fill
 {
     background-color : #cd7;
+}
+
+.light_lawn_outline
+{
+    text-shadow : -1px 0 #cd7, 1px 0 #cd7, 0 -1px #cd7, 0 1px #cd7;
 }
 
 .light_lawn_border, .light_lawn_border > tbody > tr > td
@@ -2898,6 +3073,11 @@ blockquote
     background-color : #deb;
 }
 
+.pastel_lawn_outline
+{
+    text-shadow : -1px 0 #deb, 1px 0 #deb, 0 -1px #deb, 0 1px #deb;
+}
+
 .pastel_lawn_border, .pastel_lawn_border > tbody > tr > td
 {
     border-bottom-color : #deb;
@@ -2934,6 +3114,11 @@ blockquote
 .dark_yellow_fill
 {
     background-color : #770;
+}
+
+.dark_yellow_outline
+{
+    text-shadow : -1px 0 #770, 1px 0 #770, 0 -1px #770, 0 1px #770;
 }
 
 .dark_yellow_border, .dark_yellow_border > tbody > tr > td
@@ -2974,6 +3159,11 @@ blockquote
     background-color : #ff0;
 }
 
+.yellow_outline
+{
+    text-shadow : -1px 0 #ff0, 1px 0 #ff0, 0 -1px #ff0, 0 1px #ff0;
+}
+
 .yellow_border, .yellow_border > tbody > tr > td
 {
     border-bottom-color : #ff0;
@@ -3010,6 +3200,11 @@ blockquote
 .light_yellow_fill
 {
     background-color : #ff7;
+}
+
+.light_yellow_outline
+{
+    text-shadow : -1px 0 #ff7, 1px 0 #ff7, 0 -1px #ff7, 0 1px #ff7;
 }
 
 .light_yellow_border, .light_yellow_border > tbody > tr > td
@@ -3050,6 +3245,11 @@ blockquote
     background-color : #ffc;
 }
 
+.pastel_yellow_outline
+{
+    text-shadow : -1px 0 #ffc, 1px 0 #ffc, 0 -1px #ffc, 0 1px #ffc;
+}
+
 .pastel_yellow_border, .pastel_yellow_border > tbody > tr > td
 {
     border-bottom-color : #ffc;
@@ -3088,6 +3288,11 @@ blockquote
     background-color : #fff;
 }
 
+.white_outline
+{
+    text-shadow : -1px 0 #fff, 1px 0 #fff, 0 -1px #fff, 0 1px #fff;
+}
+
 .white_border, .white_border > tbody > tr > td
 {
     border-bottom-color : #fff;
@@ -3124,6 +3329,11 @@ blockquote
 .no_fill
 {
     background-color : transparent;
+}
+
+.no_outline
+{
+    text-shadow : none;
 }
 
 .no_border, .no_border > tbody > tr > td
