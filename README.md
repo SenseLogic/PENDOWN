@@ -26,7 +26,7 @@ If the Comic Sans and Consolas fonts are installed on your system, you should se
 
 Now open this file with a plain text editor, like Geany or Notepad++.
 
-You will see this document was entirely made using Pendown tags. 
+You will see that this document was entirely made using Pendown tags. 
 
 ```html
 <meta charset="utf8"/>
