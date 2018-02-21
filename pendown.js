@@ -2051,15 +2051,15 @@ function GetTokenArray(
         }
         else if ( text.charAt( character_index ) === '§' )
         {
-            token.Text = "<br/>";
-
             ++character_index;
+            
+            token.Text = "<br/>";
         }
         else if ( text.slice( character_index, character_index + 3 ) === "[[[" )
         {
-            ++table_count;
-
             character_index += 3;
+
+            ++table_count;
 
             ParseAttributes( "" );
 
@@ -2086,18 +2086,18 @@ function GetTokenArray(
         else if ( text.slice( character_index, character_index + 2 ) === "))"
                   && table_count > 0 )
         {
-            token.Text = "</td></tr>";
-
             character_index += 2;
+            
+            token.Text = "</td></tr>";
         }
         else if ( text.slice( character_index, character_index + 3 ) === "]]]"
                   && table_count > 0 )
         {
+            character_index += 3;
+
             --table_count;
 
             token.Text = "</tbody></table>";
-
-            character_index += 3;
         }
         else if ( text.slice( character_index, character_index + 2 ) === "[[" )
         {
@@ -2105,17 +2105,17 @@ function GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 3 ) === ":::" )
         {
+            character_index += 3;
+            
             it_is_in_pre = !it_is_in_pre;
 
             token.Text = it_is_in_pre ? "<pre>" : "</pre>";
-
-            character_index += 3;
         }
         else if ( text.slice( character_index, character_index + 3 ) === ">>>" )
         {
-            it_is_in_blockquote = !it_is_in_blockquote;
-
             character_index += 3;
+
+            it_is_in_blockquote = !it_is_in_blockquote;
 
             if ( it_is_in_blockquote )
             {
@@ -2130,9 +2130,9 @@ function GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 3 ) === "+++" )
         {
-            it_is_in_frame_div = !it_is_in_frame_div;
-
             character_index += 3;
+
+            it_is_in_frame_div = !it_is_in_frame_div;
 
             if ( it_is_in_frame_div )
             {
@@ -2147,9 +2147,9 @@ function GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 3 ) === "###" )
         {
-            it_is_in_box_div = !it_is_in_box_div;
-
             character_index += 3;
+
+            it_is_in_box_div = !it_is_in_box_div;
 
             if ( it_is_in_box_div )
             {
@@ -2172,15 +2172,15 @@ function GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 3 ) === "}}}" )
         {
-            token.Text = "</div>";
-
             character_index += 3;
+            
+            token.Text = "</div>";
         }
         else if ( text.slice( character_index, character_index + 2 ) === "##" )
         {
-            it_is_in_mark_span = !it_is_in_mark_span;
-
             character_index += 2;
+
+            it_is_in_mark_span = !it_is_in_mark_span;
 
             if ( it_is_in_mark_span )
             {
@@ -2195,9 +2195,9 @@ function GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 2 ) === "__" )
         {
-            it_is_in_u = !it_is_in_u;
-
             character_index += 2;
+
+            it_is_in_u = !it_is_in_u;
 
             if ( it_is_in_u )
             {
@@ -2220,9 +2220,9 @@ function GetTokenArray(
         }
         else if ( text.slice( character_index, character_index + 2 ) === "}}" )
         {
-            token.Text = "</span>";
-
             character_index += 2;
+            
+            token.Text = "</span>";
         }
         else if ( text.slice( character_index, character_index + 2 ) === "<<" )
         {
@@ -2577,6 +2577,8 @@ function GetTokenArray(
         }
         else if ( text.charAt( character_index ) === '\n' )
         {
+            ++character_index;
+            
             if ( closing_tag !== "" )
             {
                 closing_token = new TOKEN();
@@ -2588,8 +2590,6 @@ function GetTokenArray(
 
             token.Text = "\n";
             token_starts_line = true;
-
-            ++character_index;
         }
         else
         {

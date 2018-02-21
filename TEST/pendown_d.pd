@@ -2248,15 +2248,15 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °==° ²'§'² °)°
         °{°
-            token°.°Text °=° ²"&lt;br/&gt;"²°;°
-
             °+\+°character_index°;°
+            
+            token°.°Text °=° ²"&lt;br/&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"[\[\["² °)°
         °{°
-            °+\+°table_count°;°
-
             character_index °+=° ²3²°;°
+
+            °+\+°table_count°;°
 
             ParseAttributes°(° ²""² °);°
 
@@ -2283,18 +2283,18 @@
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"))"²
                   °&&° table_count °&gt;° ²0² °)°
         °{°
-            token°.°Text °=° ²"&lt;/td&gt;&lt;/tr&gt;"²°;°
-
             character_index °+=° ²2²°;°
+            
+            token°.°Text °=° ²"&lt;/td&gt;&lt;/tr&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"]\]\]"²
                   °&&° table_count °&gt;° ²0² °)°
         °{°
+            character_index °+=° ²3²°;°
+            
             °-\-°table_count°;°
 
             token°.°Text °=° ²"&lt;/tbody&gt;&lt;/table&gt;"²°;°
-
-            character_index °+=° ²3²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"[\["² °)°
         °{°
@@ -2302,17 +2302,17 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²":\:\:"² °)°
         °{°
+            character_index °+=° ²3²°;°
+            
             it_is_in_pre °=° °\!°it_is_in_pre°;°
 
             token°.°Text °=° it_is_in_pre °?° ²"&lt;pre&gt;"² °:° ²"&lt;/pre&gt;"²°;°
-
-            character_index °+=° ²3²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"&gt;&gt;&gt;"² °)°
         °{°
-            it_is_in_blockquote °=° °\!°it_is_in_blockquote°;°
-
             character_index °+=° ²3²°;°
+
+            it_is_in_blockquote °=° °\!°it_is_in_blockquote°;°
 
             ¹if¹ °(° it_is_in_blockquote °)°
             °{°
@@ -2327,9 +2327,9 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"+\+\+"² °)°
         °{°
-            it_is_in_frame_div °=° °\!°it_is_in_frame_div°;°
-
             character_index °+=° ²3²°;°
+
+            it_is_in_frame_div °=° °\!°it_is_in_frame_div°;°
 
             ¹if¹ °(° it_is_in_frame_div °)°
             °{°
@@ -2344,9 +2344,9 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"\#\#\#"² °)°
         °{°
-            it_is_in_box_div °=° °\!°it_is_in_box_div°;°
-
             character_index °+=° ²3²°;°
+
+            it_is_in_box_div °=° °\!°it_is_in_box_div°;°
 
             ¹if¹ °(° it_is_in_box_div °)°
             °{°
@@ -2369,15 +2369,15 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²3² °)° °==° ²"}\}\}"² °)°
         °{°
-            token°.°Text °=° ²"&lt;/div&gt;"²°;°
-
             character_index °+=° ²3²°;°
+
+            token°.°Text °=° ²"&lt;/div&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"\#\#"² °)°
         °{°
-            it_is_in_mark_span °=° °\!°it_is_in_mark_span°;°
-
             character_index °+=° ²2²°;°
+
+            it_is_in_mark_span °=° °\!°it_is_in_mark_span°;°
 
             ¹if¹ °(° it_is_in_mark_span °)°
             °{°
@@ -2392,9 +2392,9 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"_\_"² °)°
         °{°
-            it_is_in_u °=° °\!°it_is_in_u°;°
-
             character_index °+=° ²2²°;°
+
+            it_is_in_u °=° °\!°it_is_in_u°;°
 
             ¹if¹ °(° it_is_in_u °)°
             °{°
@@ -2417,9 +2417,9 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"}\}"² °)°
         °{°
-            token°.°Text °=° ²"&lt;/span&gt;"²°;°
-
             character_index °+=° ²2²°;°
+
+            token°.°Text °=° ²"&lt;/span&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° ²2² °)° °==° ²"&lt;&lt;"² °)°
         °{°
@@ -2774,6 +2774,8 @@
         °}°
         ¹else¹ ¹if¹ °(° text°.°charAt°(° character_index °)° °==° ²'\\n'² °)°
         °{°
+            °+\+°character_index°;°
+            
             ¹if¹ °(° closing_tag °\!=° ²""² °)°
             °{°
                 closing_token °=° ¹new¹ ²²TOKEN²²°();°
@@ -2785,8 +2787,6 @@
 
             token°.°Text °=° ²"\\n"²°;°
             token_starts_line °=° ²true²°;°
-
-            °+\+°character_index°;°
         °}°
         ¹else¹
         °{°

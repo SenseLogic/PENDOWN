@@ -2054,15 +2054,15 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'<br/>'</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;br/&gt;"</span><span class="gray">;</span>
-
             <span class="gray">++</span>character_index<span class="gray">;</span>
+
+            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;br/&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"[[["</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>table_count<span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
+
+            <span class="gray">++</span>table_count<span class="gray">;</span>
 
             ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
 
@@ -2089,18 +2089,18 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"))"</span>
                   <span class="gray">&&</span> table_count <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/td&gt;&lt;/tr&gt;"</span><span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
+
+            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/td&gt;&lt;/tr&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"]]]"</span>
                   <span class="gray">&&</span> table_count <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
         <span class="gray">{</span>
+            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
+
             <span class="gray">--</span>table_count<span class="gray">;</span>
 
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/tbody&gt;&lt;/table&gt;"</span><span class="gray">;</span>
-
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"[["</span> <span class="gray">)</span>
         <span class="gray">{</span>
@@ -2108,17 +2108,17 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">":::"</span> <span class="gray">)</span>
         <span class="gray">{</span>
+            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
+
             it_is_in_pre <span class="gray">=</span> <span class="gray">!</span>it_is_in_pre<span class="gray">;</span>
 
             token<span class="gray">.</span>Text <span class="gray">=</span> it_is_in_pre <span class="gray">?</span> <span class="red">"&lt;pre&gt;"</span> <span class="gray">:</span> <span class="red">"&lt;/pre&gt;"</span><span class="gray">;</span>
-
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"&gt;&gt;&gt;"</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            it_is_in_blockquote <span class="gray">=</span> <span class="gray">!</span>it_is_in_blockquote<span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
+
+            it_is_in_blockquote <span class="gray">=</span> <span class="gray">!</span>it_is_in_blockquote<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_blockquote <span class="gray">)</span>
             <span class="gray">{</span>
@@ -2133,9 +2133,9 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"+++"</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            it_is_in_frame_div <span class="gray">=</span> <span class="gray">!</span>it_is_in_frame_div<span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
+
+            it_is_in_frame_div <span class="gray">=</span> <span class="gray">!</span>it_is_in_frame_div<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_frame_div <span class="gray">)</span>
             <span class="gray">{</span>
@@ -2150,9 +2150,9 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"###"</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            it_is_in_box_div <span class="gray">=</span> <span class="gray">!</span>it_is_in_box_div<span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
+
+            it_is_in_box_div <span class="gray">=</span> <span class="gray">!</span>it_is_in_box_div<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_box_div <span class="gray">)</span>
             <span class="gray">{</span>
@@ -2175,15 +2175,15 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"}}}"</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/div&gt;"</span><span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
+
+            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/div&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"##"</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            it_is_in_mark_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_mark_span<span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
+
+            it_is_in_mark_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_mark_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_mark_span <span class="gray">)</span>
             <span class="gray">{</span>
@@ -2198,9 +2198,9 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"__"</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            it_is_in_u <span class="gray">=</span> <span class="gray">!</span>it_is_in_u<span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
+
+            it_is_in_u <span class="gray">=</span> <span class="gray">!</span>it_is_in_u<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_u <span class="gray">)</span>
             <span class="gray">{</span>
@@ -2223,9 +2223,9 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"}}"</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
-
             character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
+
+            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"&lt;&lt;"</span> <span class="gray">)</span>
         <span class="gray">{</span>
@@ -2580,6 +2580,8 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'\n'</span> <span class="gray">)</span>
         <span class="gray">{</span>
+            <span class="gray">++</span>character_index<span class="gray">;</span>
+
             <span class="pink">if</span> <span class="gray">(</span> closing_tag <span class="gray">!==</span> <span class="red">""</span> <span class="gray">)</span>
             <span class="gray">{</span>
                 closing_token <span class="gray">=</span> <span class="pink">new</span> <span class="orange">TOKEN</span><span class="gray">();</span>
@@ -2591,8 +2593,6 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"\n"</span><span class="gray">;</span>
             token_starts_line <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
-
-            <span class="gray">++</span>character_index<span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span>
         <span class="gray">{</span>
