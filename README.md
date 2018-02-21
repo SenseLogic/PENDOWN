@@ -7,7 +7,7 @@ Lightweight markup for colored documents.
 ## Features
 
 *   Simple, concise and consistent syntax to quickly write colored documents.
-*   Complete and fully customizable : 
+*   Customizable : 
     *   text styles, colors, sizes, alignments;
     *   spans, blocks, boxes, frames, quotes, tables;
     *   titles, lists, links, images, page breaks;
