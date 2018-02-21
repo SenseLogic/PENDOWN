@@ -117,7 +117,7 @@ __^~f00\underlined__
 
 !! Code
 
-:::
+:::^#eee,padding\
 ##// ²Colorized source code²##
 
 ²if² ³(³ ... ³)³
@@ -130,7 +130,7 @@ __^~f00\underlined__
 ³}³
 :::
 
-:::^cpp\
+:::^cpp\^#eee,padding\
 // Colorized source code
 
 #include <iostream>
