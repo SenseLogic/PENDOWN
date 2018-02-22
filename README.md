@@ -7,12 +7,13 @@ Lightweight markup for colored documents.
 ## Features
 
 *   Simple, concise and consistent syntax to quickly write colored documents.
-*   Fast conversion to HTML through a web browser script or a standalone command line tool.
 *   Complete : 
-    *   custom styles, colors, sizes, alignments;
+    *   styles, colors, sizes, alignments;
     *   spans, blocks, boxes, frames, quotes, tables;
     *   titles, lists, links, images, page breaks;
+    *   custom styling;
     *   syntax highlighting.
+*   Fast conversion to HTML through a web browser script or a standalone command line tool.
 
 ## Getting Started
 
