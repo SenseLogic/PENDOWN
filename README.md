@@ -89,7 +89,7 @@ After a Pendown tag, you can specify one or several lists of classes and propert
 {{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
 ```
 
-These lists can be stored as custom classes, which can be reused further in the document :
+Those lists can be named, so that you can reuse them elsewhere in the document :
 
 ```
 {{^blue,italic:gangnam\ a blue text in italics }}
