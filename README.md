@@ -6,12 +6,11 @@ Lightweight markup for colored documents.
 
 ## Features
 
-*   Simple, concise and consistent syntax to quickly write colored HTML documents.
-*   Complete : 
+*   Allows to write HTML documents using very short tags.
+*   Fully customizable : 
     *   styles, colors, sizes, alignments;
     *   spans, blocks, boxes, frames, quotes, tables;
     *   titles, lists, links, images, page breaks;
-    *   custom styling;
     *   syntax highlighting.
 *   Fast conversion to HTML through a web browser script or a standalone command line tool.
 
@@ -82,12 +81,12 @@ int main()
 [[image.jpg:20vw,20%]]
 ```
 
-After a Pendown tag, you can specify one or several lists of classes :
+After a Pendown tag, you can specify one or several lists of classes and properties :
 
 ```
 {{^big,red,yellow_background\ a big red text with a yellow background }}
 
-{{^@2.5,$00f,#eee\ a big blue text with a light gray background }}
+{{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
 ```
 
 These lists can be stored as custom classes, which can be reused further in the document :
