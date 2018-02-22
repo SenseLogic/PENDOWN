@@ -1365,7 +1365,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
         <span class="pink">if</span> <span class="gray">(</span> code_token_index <span class="gray">===</span> <span class="red">0</span>
              <span class="gray">||</span> color_prefix_array<span class="gray">[</span> code_token<span class="gray">.</span>Type <span class="gray">]</span>
-             <span class="gray">!==</span> color_prefix_array<span class="gray">[</span> code_token_array<span class="gray">[</span> code_token_index <span class="gray">-</span> <span class="red">1</span> <span class="gray">].</span>Type <span class="gray">]</span> <span class="gray">)</span>
+                <span class="gray">!==</span> color_prefix_array<span class="gray">[</span> code_token_array<span class="gray">[</span> code_token_index <span class="gray">-</span> <span class="red">1</span> <span class="gray">].</span>Type <span class="gray">]</span> <span class="gray">)</span>
         <span class="gray">{</span>
             colorized_text <span class="gray">+=</span> color_prefix_array<span class="gray">[</span> code_token<span class="gray">.</span>Type <span class="gray">];</span>
         <span class="gray">}</span>
@@ -1374,7 +1374,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
         <span class="pink">if</span> <span class="gray">(</span> code_token_index <span class="gray">===</span> code_token_array<span class="gray">.</span>length <span class="gray">-</span> <span class="red">1</span>
              <span class="gray">||</span> color_suffix_array<span class="gray">[</span> code_token<span class="gray">.</span>Type <span class="gray">]</span>
-             <span class="gray">!==</span> color_suffix_array<span class="gray">[</span> code_token_array<span class="gray">[</span> code_token_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">].</span>Type <span class="gray">]</span> <span class="gray">)</span>
+                <span class="gray">!==</span> color_suffix_array<span class="gray">[</span> code_token_array<span class="gray">[</span> code_token_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">].</span>Type <span class="gray">]</span> <span class="gray">)</span>
         <span class="gray">{</span>
             colorized_text <span class="gray">+=</span> color_suffix_array<span class="gray">[</span> code_token<span class="gray">.</span>Type <span class="gray">];</span>
         <span class="gray">}</span>
@@ -1489,7 +1489,6 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         character_index<span class="gray">,</span>
         closing_tag<span class="gray">,</span>
         closing_token<span class="gray">,</span>
-        it_breaks_page<span class="gray">,</span>
         it_is_in_a<span class="gray">,</span>
         it_is_in_b<span class="gray">,</span>
         it_is_in_blockquote<span class="gray">,</span>
@@ -1555,7 +1554,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
             classes <span class="gray">=</span> class_name_array<span class="gray">.</span>join<span class="gray">(</span> <span class="red">' '</span> <span class="gray">);</span>
         <span class="gray">}</span>
-        <span class="pink">while</span> <span class="gray">(</span> classes <span class="gray">!=</span> old_classes <span class="gray">);</span>
+        <span class="pink">while</span> <span class="gray">(</span> classes <span class="gray">!==</span> old_classes <span class="gray">);</span>
 
         <span class="pink">return</span> classes<span class="gray">;</span>
     <span class="gray">}</span>
@@ -1563,8 +1562,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
     <span class="gray">// ~~</span>
 
     <span class="pink">function</span> ParseAttributes<span class="gray">(</span>
-        classes<span class="gray">,</span>
-        skipped_character
+        classes
         <span class="gray">)</span>
     <span class="gray">{</span>
         <span class="pink">var</span>
@@ -1733,15 +1731,84 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">{</span>
             attributes <span class="gray">+=</span> <span class="red">" colspan=\""</span> <span class="gray">+</span> span <span class="gray">+</span> <span class="red">"\""</span><span class="gray">;</span>
         <span class="gray">}</span>
+    <span class="gray">}</span>
 
-        <span class="pink">if</span> <span class="gray">(</span> skipped_character <span class="gray">!==</span> <span class="red">undefined</span> <span class="gray">)</span>
+    <span class="gray">// ~~</span>
+
+    <span class="pink">function</span> ParseCommand<span class="gray">(</span>
+        command_prefix<span class="gray">,</span>
+        classes<span class="gray">,</span>
+        command_suffix
+        <span class="gray">)</span>
+    <span class="gray">{</span>
+        <span class="pink">var</span>
+            character<span class="gray">,</span>
+            class_name<span class="gray">,</span>
+            command_character_index<span class="gray">,</span>
+            command_is_valid<span class="gray">,</span>
+            next_character_index<span class="gray">;</span>
+
+        <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> command_prefix<span class="gray">.</span>length <span class="gray">)</span> <span class="gray">===</span> command_prefix <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="pink">while</span> <span class="gray">(</span> character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length
-                    <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> skipped_character <span class="gray">)</span>
+            <span class="pink">if</span> <span class="gray">(</span> command_suffix<span class="gray">.</span>length <span class="gray">===</span> <span class="red">0</span> <span class="gray">)</span>
             <span class="gray">{</span>
-                <span class="gray">++</span>character_index<span class="gray">;</span>
+                character_index <span class="gray">+=</span> command_prefix<span class="gray">.</span>length<span class="gray">;</span>
+
+                ParseAttributes<span class="gray">(</span> classes <span class="gray">);</span>
+
+                <span class="pink">return</span> <span class="red">true</span><span class="gray">;</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span>
+            <span class="gray">{</span>
+                command_character_index <span class="gray">=</span> character_index <span class="gray">+</span> command_prefix<span class="gray">.</span>length<span class="gray">;</span>
+                command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+
+                <span class="pink">while</span> <span class="gray">(</span> command_character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length
+                        <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> command_character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'^'</span>
+                        <span class="gray">&&</span> command_is_valid <span class="gray">)</span>
+                <span class="gray">{</span>
+                    command_is_valid <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
+
+                    <span class="pink">for</span> <span class="gray">(</span> next_character_index <span class="gray">=</span> command_character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
+                          next_character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length<span class="gray">;</span>
+                          <span class="gray">++</span>next_character_index <span class="gray">)</span>
+                    <span class="gray">{</span>
+                        character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> next_character_index <span class="gray">);</span>
+
+                        <span class="pink">if</span> <span class="gray">(</span> IsAlphabeticalCharacter<span class="gray">(</span> character <span class="gray">)</span>
+                             <span class="gray">||</span> IsDecimalCharacter<span class="gray">(</span> character <span class="gray">)</span>
+                             <span class="gray">||</span> <span class="red">"$~#+@=_-.:°⁰¹²³⁴⁵⁶⁷⁸⁹,\\"</span><span class="gray">.</span>indexOf<span class="gray">(</span> character <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
+                        <span class="gray">{</span>
+                            <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">===</span> <span class="red">'\\'</span> <span class="gray">)</span>
+                            <span class="gray">{</span>
+                                command_character_index <span class="gray">=</span> next_character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
+                                command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+
+                                <span class="pink">break</span><span class="gray">;</span>
+                            <span class="gray">}</span>
+                        <span class="gray">}</span>
+                        <span class="pink">else</span>
+                        <span class="gray">{</span>
+                            <span class="pink">break</span><span class="gray">;</span>
+                        <span class="gray">}</span>
+                    <span class="gray">}</span>
+                <span class="gray">}</span>
+
+                <span class="pink">if</span> <span class="gray">(</span> command_suffix<span class="gray">.</span>length <span class="gray">===</span> <span class="red">0</span>
+                     <span class="gray">||</span> text<span class="gray">.</span>slice<span class="gray">(</span> command_character_index<span class="gray">,</span> command_character_index <span class="gray">+</span> command_suffix<span class="gray">.</span>length <span class="gray">)</span> <span class="gray">===</span> command_suffix <span class="gray">)</span>
+                <span class="gray">{</span>
+                    character_index <span class="gray">+=</span> command_prefix<span class="gray">.</span>length<span class="gray">;</span>
+
+                    ParseAttributes<span class="gray">(</span> classes <span class="gray">);</span>
+
+                    character_index <span class="gray">+=</span> command_suffix<span class="gray">.</span>length<span class="gray">;</span>
+
+                    <span class="pink">return</span> <span class="red">true</span><span class="gray">;</span>
+                <span class="gray">}</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
+
+        <span class="pink">return</span> <span class="red">false</span><span class="gray">;</span>
     <span class="gray">}</span>
 
     <span class="gray">// ~~</span>
@@ -1757,10 +1824,6 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
             size_is_parsed<span class="gray">,</span>
             size_text<span class="gray">,</span>
             width<span class="gray">;</span>
-
-        character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
-        ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
 
         image_text <span class="gray">=</span> <span class="red">"&lt;img"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">" src=\""</span><span class="gray">;</span>
         size_text <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
@@ -1863,7 +1926,6 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
     closing_tag <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
 
-    it_breaks_page <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     it_is_in_pre <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     it_is_in_blockquote <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     it_is_in_frame_div <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
@@ -1932,193 +1994,91 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
             token<span class="gray">.</span>IsEscaped <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!^"</span> <span class="gray">)</span>
+                  <span class="gray">&&</span> ParseCommand<span class="gray">(</span> <span class="red">"!"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">" "</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">1</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span><span class="gray">,</span> <span class="red">' '</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h1"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             closing_tag <span class="gray">=</span> <span class="red">"&lt;/h1&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"! "</span> <span class="gray">)</span>
+                  <span class="gray">&&</span> ParseCommand<span class="gray">(</span> <span class="red">"!!"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">" "</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h1&gt;"</span><span class="gray">;</span>
-            closing_tag <span class="gray">=</span> <span class="red">"&lt;/h1&gt;"</span><span class="gray">;</span>
-        <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!!^"</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span><span class="gray">,</span> <span class="red">' '</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h2"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             closing_tag <span class="gray">=</span> <span class="red">"&lt;/h2&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!! "</span> <span class="gray">)</span>
+                  <span class="gray">&&</span> ParseCommand<span class="gray">(</span> <span class="red">"!!!"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">" "</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h2&gt;"</span><span class="gray">;</span>
-            closing_tag <span class="gray">=</span> <span class="red">"&lt;/h2&gt;"</span><span class="gray">;</span>
-        <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">4</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!!!^"</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span><span class="gray">,</span> <span class="red">' '</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h3"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             closing_tag <span class="gray">=</span> <span class="red">"&lt;/h3&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">4</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!!! "</span> <span class="gray">)</span>
+                  <span class="gray">&&</span> ParseCommand<span class="gray">(</span> <span class="red">"!!!!"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">" "</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">4</span><span class="gray">;</span>
-
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h3&gt;"</span><span class="gray">;</span>
-            closing_tag <span class="gray">=</span> <span class="red">"&lt;/h3&gt;"</span><span class="gray">;</span>
-        <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">5</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!!!!^"</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">4</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span><span class="gray">,</span> <span class="red">' '</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h4"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             closing_tag <span class="gray">=</span> <span class="red">"&lt;/h4&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">5</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!!!! "</span> <span class="gray">)</span>
+                  <span class="gray">&&</span> ParseCommand<span class="gray">(</span> <span class="red">"!!!!!"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">" "</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">5</span><span class="gray">;</span>
-
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h4&gt;"</span><span class="gray">;</span>
-            closing_tag <span class="gray">=</span> <span class="red">"&lt;/h4&gt;"</span><span class="gray">;</span>
-        <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">6</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!!!!!^"</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">5</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span><span class="gray">,</span> <span class="red">' '</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h5"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             closing_tag <span class="gray">=</span> <span class="red">"&lt;/h5&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">6</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!!!!! "</span> <span class="gray">)</span>
+                  <span class="gray">&&</span> ParseCommand<span class="gray">(</span> <span class="red">"!!!!!!"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">" "</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">6</span><span class="gray">;</span>
-
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h5&gt;"</span><span class="gray">;</span>
-            closing_tag <span class="gray">=</span> <span class="red">"&lt;/h5&gt;"</span><span class="gray">;</span>
-        <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">7</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!!!!!!^"</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">6</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span><span class="gray">,</span> <span class="red">' '</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h6"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             closing_tag <span class="gray">=</span> <span class="red">"&lt;/h6&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>StartsLine
-                  <span class="gray">&&</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">7</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"!!!!!! "</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"---"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">7</span><span class="gray">;</span>
-
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;h6&gt;"</span><span class="gray">;</span>
-            closing_tag <span class="gray">=</span> <span class="red">"&lt;/h6&gt;"</span><span class="gray">;</span>
-        <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"---"</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;hr"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"/&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"~~~"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"~~~"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;pb"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"/&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'<br/>'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"<br/>"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;br/&gt;"</span><span class="gray">;</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;br"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"/&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"[[["</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"[[["</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
             <span class="gray">++</span>table_count<span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
 
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;table"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;&lt;tbody&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"(("</span>
-                  <span class="gray">&&</span> table_count <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span>
+                  <span class="gray">&&</span> ParseCommand<span class="gray">(</span> <span class="red">"(("</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;tr&gt;&lt;td"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'|'</span>
-                  <span class="gray">&&</span> table_count <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span>
+                  <span class="gray">&&</span> ParseCommand<span class="gray">(</span> <span class="red">"|"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/td&gt;&lt;td"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"))"</span>
-                  <span class="gray">&&</span> table_count <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span>
+                  <span class="gray">&&</span> ParseCommand<span class="gray">(</span> <span class="red">"))"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/td&gt;&lt;/tr&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"]]]"</span>
-                  <span class="gray">&&</span> table_count <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span>
+                  <span class="gray">&&</span> ParseCommand<span class="gray">(</span> <span class="red">"]]]"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
             <span class="gray">--</span>table_count<span class="gray">;</span>
 
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/tbody&gt;&lt;/table&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"[["</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"[["</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
             token<span class="gray">.</span>Text <span class="gray">=</span> ParseImage<span class="gray">();</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">":::"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">":::"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
             it_is_in_pre <span class="gray">=</span> <span class="gray">!</span>it_is_in_pre<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_pre <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;pre"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2126,16 +2086,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/pre&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"&gt;&gt;&gt;"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"&gt;&gt;&gt;"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
             it_is_in_blockquote <span class="gray">=</span> <span class="gray">!</span>it_is_in_blockquote<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_blockquote <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;blockquote"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2143,16 +2099,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/blockquote&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"+++"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"+++"</span><span class="gray">,</span> <span class="red">"frame"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
             it_is_in_frame_div <span class="gray">=</span> <span class="gray">!</span>it_is_in_frame_div<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_frame_div <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"frame"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;div"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2160,16 +2112,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/div&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"###"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"###"</span><span class="gray">,</span> <span class="red">"box"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
             it_is_in_box_div <span class="gray">=</span> <span class="gray">!</span>it_is_in_box_div<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_box_div <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"box"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;div"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2177,30 +2125,20 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/div&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"{{{"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"{{{"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;div"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">3</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"}}}"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"}}}"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">3</span><span class="gray">;</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/div&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"##"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"##"</span><span class="gray">,</span> <span class="red">"mark"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_mark_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_mark_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_mark_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"mark"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2208,16 +2146,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"__"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"__"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_u <span class="gray">=</span> <span class="gray">!</span>it_is_in_u<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_u <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;u"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2225,30 +2159,20 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/u&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"{{"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"{{"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
-            ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"}}"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"}}"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"&lt;&lt;"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"&lt;&lt;"</span><span class="gray">,</span> <span class="red">"left"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_left_div <span class="gray">=</span> <span class="gray">!</span>it_is_in_left_div<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_left_div <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"left"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;div"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2256,16 +2180,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/div&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"$$"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"$$"</span><span class="gray">,</span> <span class="red">"center"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_center_div <span class="gray">=</span> <span class="gray">!</span>it_is_in_center_div<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_center_div <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"center"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;div"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2273,16 +2193,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/div&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"&gt;&gt;"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"&gt;&gt;"</span><span class="gray">,</span> <span class="red">"right"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_right_div <span class="gray">=</span> <span class="gray">!</span>it_is_in_right_div<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_right_div <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"right"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;div"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2290,16 +2206,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/div&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"**"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"**"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_b <span class="gray">=</span> <span class="gray">!</span>it_is_in_b<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_b <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;b"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2307,16 +2219,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/b&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"%%"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"%%"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_i <span class="gray">=</span> <span class="gray">!</span>it_is_in_i<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_i <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;i"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2324,16 +2232,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/i&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"^^"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"^^"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_sup <span class="gray">=</span> <span class="gray">!</span>it_is_in_sup<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_sup <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;sup"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2341,16 +2245,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/sup&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">",,"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">",,"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_sub <span class="gray">=</span> <span class="gray">!</span>it_is_in_sub<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_sub <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;sub"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2358,16 +2258,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/sub&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"~~"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"~~"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_strike <span class="gray">=</span> <span class="gray">!</span>it_is_in_strike<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_strike <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;strike"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2375,16 +2271,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/strike&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'°'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"°"</span><span class="gray">,</span> <span class="red">"°"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_gray_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_gray_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_gray_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"°"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2392,16 +2284,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'⁰'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"⁰"</span><span class="gray">,</span> <span class="red">"⁰"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_orange_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_orange_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_orange_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"⁰"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2409,16 +2297,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'¹'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"¹"</span><span class="gray">,</span> <span class="red">"¹"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_pink_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_pink_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_pink_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"¹"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2426,16 +2310,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'²'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"²"</span><span class="gray">,</span> <span class="red">"²"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_red_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_red_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_red_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"²"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2443,16 +2323,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'³'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"³"</span><span class="gray">,</span> <span class="red">"³"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_blue_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_blue_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_blue_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"³"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2460,16 +2336,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'⁴'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"⁴"</span><span class="gray">,</span> <span class="red">"⁴"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_violet_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_violet_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_violet_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"⁴"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2477,16 +2349,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'⁵'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"⁵"</span><span class="gray">,</span> <span class="red">"⁵"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_cyan_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_cyan_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_cyan_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"⁵"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2494,16 +2362,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'⁶'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"⁶"</span><span class="gray">,</span> <span class="red">"⁶"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_black_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_black_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_black_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"⁶"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2511,16 +2375,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'⁷'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"⁷"</span><span class="gray">,</span> <span class="red">"⁷"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_yellow_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_yellow_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_yellow_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"⁷"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2528,16 +2388,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'⁸'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"⁸"</span><span class="gray">,</span> <span class="red">"⁸"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_white_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_white_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_white_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"⁸"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2545,16 +2401,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">)</span> <span class="gray">===</span> <span class="red">'⁹'</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"⁹"</span><span class="gray">,</span> <span class="red">"⁹"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">++</span>character_index<span class="gray">;</span>
-
             it_is_in_green_span <span class="gray">=</span> <span class="gray">!</span>it_is_in_green_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_green_span <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">"⁹"</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
@@ -2574,16 +2426,12 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/pre&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> text<span class="gray">.</span>slice<span class="gray">(</span> character_index<span class="gray">,</span> character_index <span class="gray">+</span> <span class="red">2</span> <span class="gray">)</span> <span class="gray">===</span> <span class="red">"@@"</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseCommand<span class="gray">(</span> <span class="red">"@@"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
-
             it_is_in_a <span class="gray">=</span> <span class="gray">!</span>it_is_in_a<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> it_is_in_a <span class="gray">)</span>
             <span class="gray">{</span>
-                ParseAttributes<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
-
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;a"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">" href=\""</span><span class="gray">;</span>
 
                 url <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
@@ -2660,28 +2508,6 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
             <span class="gray">++</span>character_index<span class="gray">;</span>
         <span class="gray">}</span>
 
-        <span class="pink">if</span> <span class="gray">(</span> it_breaks_page
-             <span class="gray">&&</span> token<span class="gray">.</span>Text<span class="gray">.</span>length <span class="gray">&gt;=</span> <span class="red">3</span>
-             <span class="gray">&&</span> token<span class="gray">.</span>Text<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'&lt;'</span> <span class="gray">)</span>
-             <span class="gray">&&</span> <span class="gray">!</span>token<span class="gray">.</span>Text<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">"&lt;/"</span> <span class="gray">)</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            <span class="pink">if</span> <span class="gray">(</span> token<span class="gray">.</span>Text<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">"&gt;"</span> <span class="gray">)</span> <span class="gray">)</span>
-            <span class="gray">{</span>
-                token_character_index <span class="gray">=</span> token<span class="gray">.</span>Text<span class="gray">.</span>length <span class="gray">-</span> <span class="red">1</span><span class="gray">;</span>
-            <span class="gray">}</span>
-            <span class="pink">else</span>
-            <span class="gray">{</span>
-                token_character_index <span class="gray">=</span> token<span class="gray">.</span>Text<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">' '</span> <span class="gray">);</span>
-            <span class="gray">}</span>
-
-            token<span class="gray">.</span>Text
-                <span class="gray">=</span> token<span class="gray">.</span>Text<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">0</span><span class="gray">,</span> token_character_index <span class="gray">)</span>
-                  <span class="gray">+</span> <span class="red">" style=\"page-break-before: always\""</span>
-                  <span class="gray">+</span> token<span class="gray">.</span>Text<span class="gray">.</span>slice<span class="gray">(</span> token_character_index<span class="gray">,</span> token<span class="gray">.</span>Text<span class="gray">.</span>length <span class="gray">);</span>
-
-            it_breaks_page <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
-        <span class="gray">}</span>
-
         token_array<span class="gray">.</span>push<span class="gray">(</span> token <span class="gray">);</span>
     <span class="gray">}</span>
 
@@ -2702,7 +2528,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
          <span class="gray">&&</span> token_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">&lt;</span> token_array<span class="gray">.</span>length
          <span class="gray">&&</span> <span class="gray">!</span>token_array<span class="gray">[</span> token_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">].</span>StartsLine
          <span class="gray">&&</span> token_array<span class="gray">[</span> token_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">].</span>IsSpace
-         <span class="gray">&&</span> token_array<span class="gray">[</span> token_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">].</span>Text<span class="gray">.</span>length <span class="gray">===</span> IndentationSpaceCount <span class="red">-1</span> <span class="gray">)</span>
+         <span class="gray">&&</span> token_array<span class="gray">[</span> token_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">].</span>Text<span class="gray">.</span>length <span class="gray">===</span> IndentationSpaceCount <span class="gray">-</span> <span class="red">1</span> <span class="gray">)</span>
     <span class="gray">{</span>
         token <span class="gray">=</span> token_array<span class="gray">[</span> token_index <span class="gray">];</span>
 

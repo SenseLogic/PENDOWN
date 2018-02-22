@@ -1,0 +1,53 @@
+SetInputFolder
+    ../
+SetOutputFolder
+    /tmp/
+
+ReadInputFiles
+    pendown.d
+    pendown.js
+
+ReplaceTabulations
+RemoveLastSpaces
+
+WriteOutputFiles
+
+#
+
+ClearInputFiles
+
+SetFolder
+    /tmp/
+
+ReadInputFiles
+    pendown.d
+
+ReplaceUnquotedText
+    ` ==`
+    ` ===`
+
+ReplaceUnquotedText
+    ` !=`
+    ` !==`
+
+ReplaceUnquotedText
+    ` ~ `
+    ` + `
+
+ReplaceUnquotedText
+    ` ~=`
+    ` +=`
+
+ReplaceUnquotedText
+    ` !is null`
+    ` !== null`
+
+ReplaceUnquotedText
+    ` is null`
+    ` === null`
+
+ReplaceExpression
+    `replace\\( ("[^"]+"), ("[^"]*") \\)`
+    `split( $1 ).join( $2 )`
+
+WriteOutputFiles

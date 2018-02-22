@@ -1362,7 +1362,7 @@ function GetColorizedText(
 
         if ( code_token_index === 0
              || color_prefix_array[ code_token.Type ]
-             !== color_prefix_array[ code_token_array[ code_token_index - 1 ].Type ] )
+                !== color_prefix_array[ code_token_array[ code_token_index - 1 ].Type ] )
         {
             colorized_text += color_prefix_array[ code_token.Type ];
         }
@@ -1371,7 +1371,7 @@ function GetColorizedText(
 
         if ( code_token_index === code_token_array.length - 1
              || color_suffix_array[ code_token.Type ]
-             !== color_suffix_array[ code_token_array[ code_token_index + 1 ].Type ] )
+                !== color_suffix_array[ code_token_array[ code_token_index + 1 ].Type ] )
         {
             colorized_text += color_suffix_array[ code_token.Type ];
         }
@@ -1486,7 +1486,6 @@ function GetTokenArray(
         character_index,
         closing_tag,
         closing_token,
-        it_breaks_page,
         it_is_in_a,
         it_is_in_b,
         it_is_in_blockquote,
@@ -1531,7 +1530,7 @@ function GetTokenArray(
             class_name_array,
             class_name_index,
             old_classes;
-            
+
         do
         {
             old_classes = classes;
@@ -1552,16 +1551,15 @@ function GetTokenArray(
 
             classes = class_name_array.join( ' ' );
         }
-        while ( classes != old_classes );
-        
+        while ( classes !== old_classes );
+
         return classes;
     }
 
     // ~~
 
     function ParseAttributes(
-        classes,
-        skipped_character
+        classes
         )
     {
         var
@@ -1639,7 +1637,7 @@ function GetTokenArray(
         }
 
         classes = ReplaceClassDefinitions( classes );
-        
+
         class_name_array = classes.split( ' ' );
         classes = "";
 
@@ -1730,15 +1728,84 @@ function GetTokenArray(
         {
             attributes += " colspan=\"" + span + "\"";
         }
+    }
 
-        if ( skipped_character !== undefined )
+    // ~~
+
+    function ParseCommand(
+        command_prefix,
+        classes,
+        command_suffix
+        )
+    {
+        var
+            character,
+            class_name,
+            command_character_index,
+            command_is_valid,
+            next_character_index;
+
+        if ( text.slice( character_index, character_index + command_prefix.length ) === command_prefix )
         {
-            while ( character_index < text.length
-                    && text.charAt( character_index ) === skipped_character )
+            if ( command_suffix.length === 0 )
             {
-                ++character_index;
+                character_index += command_prefix.length;
+
+                ParseAttributes( classes );
+                
+                return true;
+            }
+            else
+            {
+                command_character_index = character_index + command_prefix.length;
+                command_is_valid = true;
+
+                while ( command_character_index < text.length
+                        && text.charAt( command_character_index ) === '^'
+                        && command_is_valid )
+                {
+                    command_is_valid = false;
+
+                    for ( next_character_index = command_character_index + 1;
+                          next_character_index < text.length;
+                          ++next_character_index )
+                    {
+                        character = text.charAt( next_character_index );
+
+                        if ( IsAlphabeticalCharacter( character )
+                             || IsDecimalCharacter( character )
+                             || "$~#+@=_-.:°⁰¹²³⁴⁵⁶⁷⁸⁹,\\".indexOf( character ) >= 0 )
+                        {
+                            if ( character === '\\' )
+                            {
+                                command_character_index = next_character_index + 1;
+                                command_is_valid = true;
+
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                if ( command_suffix.length === 0
+                     || text.slice( command_character_index, command_character_index + command_suffix.length ) === command_suffix )
+                {
+                    character_index += command_prefix.length;
+
+                    ParseAttributes( classes );
+
+                    character_index += command_suffix.length;
+
+                    return true;
+                }
             }
         }
+
+        return false;
     }
 
     // ~~
@@ -1754,10 +1821,6 @@ function GetTokenArray(
             size_is_parsed,
             size_text,
             width;
-
-        character_index += 2;
-
-        ParseAttributes( "" );
 
         image_text = "<img" + attributes + " src=\"";
         size_text = "";
@@ -1860,7 +1923,6 @@ function GetTokenArray(
 
     closing_tag = "";
 
-    it_breaks_page = false;
     it_is_in_pre = false;
     it_is_in_blockquote = false;
     it_is_in_frame_div = false;
@@ -1929,193 +1991,91 @@ function GetTokenArray(
             token.IsEscaped = true;
         }
         else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 2 ) === "!^" )
+                  && ParseCommand( "!", "", " " ) )
         {
-            character_index += 1;
-
-            ParseAttributes( "", ' ' );
-
             token.Text = "<h1" + attributes + ">";
             closing_tag = "</h1>";
         }
         else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 2 ) === "! " )
+                  && ParseCommand( "!!", "", " " ) )
         {
-            character_index += 2;
-
-            token.Text = "<h1>";
-            closing_tag = "</h1>";
-        }
-        else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 3 ) === "!!^" )
-        {
-            character_index += 2;
-
-            ParseAttributes( "", ' ' );
-
             token.Text = "<h2" + attributes + ">";
             closing_tag = "</h2>";
         }
         else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 3 ) === "!! " )
+                  && ParseCommand( "!!!", "", " " ) )
         {
-            character_index += 3;
-
-            token.Text = "<h2>";
-            closing_tag = "</h2>";
-        }
-        else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 4 ) === "!!!^" )
-        {
-            character_index += 3;
-
-            ParseAttributes( "", ' ' );
-
             token.Text = "<h3" + attributes + ">";
             closing_tag = "</h3>";
         }
         else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 4 ) === "!!! " )
+                  && ParseCommand( "!!!!", "", " " ) )
         {
-            character_index += 4;
-
-            token.Text = "<h3>";
-            closing_tag = "</h3>";
-        }
-        else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 5 ) === "!!!!^" )
-        {
-            character_index += 4;
-
-            ParseAttributes( "", ' ' );
-
             token.Text = "<h4" + attributes + ">";
             closing_tag = "</h4>";
         }
         else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 5 ) === "!!!! " )
+                  && ParseCommand( "!!!!!", "", " " ) )
         {
-            character_index += 5;
-
-            token.Text = "<h4>";
-            closing_tag = "</h4>";
-        }
-        else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 6 ) === "!!!!!^" )
-        {
-            character_index += 5;
-
-            ParseAttributes( "", ' ' );
-
             token.Text = "<h5" + attributes + ">";
             closing_tag = "</h5>";
         }
         else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 6 ) === "!!!!! " )
+                  && ParseCommand( "!!!!!!", "", " " ) )
         {
-            character_index += 6;
-
-            token.Text = "<h5>";
-            closing_tag = "</h5>";
-        }
-        else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 7 ) === "!!!!!!^" )
-        {
-            character_index += 6;
-
-            ParseAttributes( "", ' ' );
-
             token.Text = "<h6" + attributes + ">";
             closing_tag = "</h6>";
         }
-        else if ( token.StartsLine
-                  && text.slice( character_index, character_index + 7 ) === "!!!!!! " )
+        else if ( ParseCommand( "---", "", "" ) )
         {
-            character_index += 7;
-
-            token.Text = "<h6>";
-            closing_tag = "</h6>";
-        }
-        else if ( text.slice( character_index, character_index + 3 ) === "---" )
-        {
-            character_index += 3;
-
-            ParseAttributes( "" );
-
             token.Text = "<hr" + attributes + "/>";
         }
-        else if ( text.slice( character_index, character_index + 3 ) === "~~~" )
+        else if ( ParseCommand( "~~~", "", "" ) )
         {
-            character_index += 3;
-
-            ParseAttributes( "" );
-
             token.Text = "<pb" + attributes + "/>";
         }
-        else if ( text.charAt( character_index ) === '§' )
+        else if ( ParseCommand( "§", "", "" ) )
         {
-            ++character_index;
-            
-            token.Text = "<br/>";
+            token.Text = "<br" + attributes + "/>";
         }
-        else if ( text.slice( character_index, character_index + 3 ) === "[[[" )
+        else if ( ParseCommand( "[[[", "", "" ) )
         {
-            character_index += 3;
-
             ++table_count;
-
-            ParseAttributes( "" );
 
             token.Text = "<table" + attributes + "><tbody>";
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "(("
-                  && table_count > 0 )
+        else if ( table_count > 0
+                  && ParseCommand( "((", "", "" ) )
         {
-            character_index += 2;
-
-            ParseAttributes( "" );
-
             token.Text = "<tr><td" + attributes + ">";
         }
-        else if ( text.charAt( character_index ) === '|'
-                  && table_count > 0 )
+        else if ( table_count > 0
+                  && ParseCommand( "|", "", "" ) )
         {
-            ++character_index;
-
-            ParseAttributes( "" );
-
             token.Text = "</td><td" + attributes + ">";
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "))"
-                  && table_count > 0 )
+        else if ( table_count > 0
+                  && ParseCommand( "))", "", "" ) )
         {
-            character_index += 2;
-            
             token.Text = "</td></tr>";
         }
-        else if ( text.slice( character_index, character_index + 3 ) === "]]]"
-                  && table_count > 0 )
+        else if ( table_count > 0
+                  && ParseCommand( "]]]", "", "" ) )
         {
-            character_index += 3;
-
             --table_count;
 
             token.Text = "</tbody></table>";
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "[[" )
+        else if ( ParseCommand( "[[", "", "" ) )
         {
             token.Text = ParseImage();
         }
-        else if ( text.slice( character_index, character_index + 3 ) === ":::" )
+        else if ( ParseCommand( ":::", "", "" ) )
         {
-            character_index += 3;
-            
             it_is_in_pre = !it_is_in_pre;
 
             if ( it_is_in_pre )
             {
-                ParseAttributes( "" );
-
                 token.Text = "<pre" + attributes + ">";
             }
             else
@@ -2123,16 +2083,12 @@ function GetTokenArray(
                 token.Text = "</pre>";
             }
         }
-        else if ( text.slice( character_index, character_index + 3 ) === ">>>" )
+        else if ( ParseCommand( ">>>", "", "" ) )
         {
-            character_index += 3;
-
             it_is_in_blockquote = !it_is_in_blockquote;
 
             if ( it_is_in_blockquote )
             {
-                ParseAttributes( "" );
-
                 token.Text = "<blockquote" + attributes + ">";
             }
             else
@@ -2140,16 +2096,12 @@ function GetTokenArray(
                 token.Text = "</blockquote>";
             }
         }
-        else if ( text.slice( character_index, character_index + 3 ) === "+++" )
+        else if ( ParseCommand( "+++", "frame", "" ) )
         {
-            character_index += 3;
-
             it_is_in_frame_div = !it_is_in_frame_div;
 
             if ( it_is_in_frame_div )
             {
-                ParseAttributes( "frame" );
-
                 token.Text = "<div" + attributes + ">";
             }
             else
@@ -2157,16 +2109,12 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
-        else if ( text.slice( character_index, character_index + 3 ) === "###" )
+        else if ( ParseCommand( "###", "box", "" ) )
         {
-            character_index += 3;
-
             it_is_in_box_div = !it_is_in_box_div;
 
             if ( it_is_in_box_div )
             {
-                ParseAttributes( "box" );
-
                 token.Text = "<div" + attributes + ">";
             }
             else
@@ -2174,30 +2122,20 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
-        else if ( text.slice( character_index, character_index + 3 ) === "{{{" )
+        else if ( ParseCommand( "{{{", "", "" ) )
         {
-            character_index += 3;
-
-            ParseAttributes( "" );
-
             token.Text = "<div" + attributes + ">";
         }
-        else if ( text.slice( character_index, character_index + 3 ) === "}}}" )
+        else if ( ParseCommand( "}}}", "", "" ) )
         {
-            character_index += 3;
-            
             token.Text = "</div>";
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "##" )
+        else if ( ParseCommand( "##", "mark", "" ) )
         {
-            character_index += 2;
-
             it_is_in_mark_span = !it_is_in_mark_span;
 
             if ( it_is_in_mark_span )
             {
-                ParseAttributes( "mark" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2205,16 +2143,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "__" )
+        else if ( ParseCommand( "__", "", "" ) )
         {
-            character_index += 2;
-
             it_is_in_u = !it_is_in_u;
 
             if ( it_is_in_u )
             {
-                ParseAttributes( "" );
-
                 token.Text = "<u" + attributes + ">";
             }
             else
@@ -2222,30 +2156,20 @@ function GetTokenArray(
                 token.Text = "</u>";
             }
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "{{" )
+        else if ( ParseCommand( "{{", "", "" ) )
         {
-            character_index += 2;
-
-            ParseAttributes( "" );
-
             token.Text = "<span" + attributes + ">";
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "}}" )
+        else if ( ParseCommand( "}}", "", "" ) )
         {
-            character_index += 2;
-            
             token.Text = "</span>";
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "<<" )
+        else if ( ParseCommand( "<<", "left", "" ) )
         {
-            character_index += 2;
-
             it_is_in_left_div = !it_is_in_left_div;
 
             if ( it_is_in_left_div )
             {
-                ParseAttributes( "left" );
-
                 token.Text = "<div" + attributes + ">";
             }
             else
@@ -2253,16 +2177,12 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "$$" )
+        else if ( ParseCommand( "$$", "center", "" ) )
         {
-            character_index += 2;
-
             it_is_in_center_div = !it_is_in_center_div;
 
             if ( it_is_in_center_div )
             {
-                ParseAttributes( "center" );
-
                 token.Text = "<div" + attributes + ">";
             }
             else
@@ -2270,16 +2190,12 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
-        else if ( text.slice( character_index, character_index + 2 ) === ">>" )
+        else if ( ParseCommand( ">>", "right", "" ) )
         {
-            character_index += 2;
-
             it_is_in_right_div = !it_is_in_right_div;
 
             if ( it_is_in_right_div )
             {
-                ParseAttributes( "right" );
-
                 token.Text = "<div" + attributes + ">";
             }
             else
@@ -2287,16 +2203,12 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "**" )
+        else if ( ParseCommand( "**", "", "" ) )
         {
-            character_index += 2;
-
             it_is_in_b = !it_is_in_b;
 
             if ( it_is_in_b )
             {
-                ParseAttributes( "" );
-
                 token.Text = "<b" + attributes + ">";
             }
             else
@@ -2304,16 +2216,12 @@ function GetTokenArray(
                 token.Text = "</b>";
             }
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "%%" )
+        else if ( ParseCommand( "%%", "", "" ) )
         {
-            character_index += 2;
-
             it_is_in_i = !it_is_in_i;
 
             if ( it_is_in_i )
             {
-                ParseAttributes( "" );
-
                 token.Text = "<i" + attributes + ">";
             }
             else
@@ -2321,16 +2229,12 @@ function GetTokenArray(
                 token.Text = "</i>";
             }
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "^^" )
+        else if ( ParseCommand( "^^", "", "" ) )
         {
-            character_index += 2;
-
             it_is_in_sup = !it_is_in_sup;
 
             if ( it_is_in_sup )
             {
-                ParseAttributes( "" );
-
                 token.Text = "<sup" + attributes + ">";
             }
             else
@@ -2338,16 +2242,12 @@ function GetTokenArray(
                 token.Text = "</sup>";
             }
         }
-        else if ( text.slice( character_index, character_index + 2 ) === ",," )
+        else if ( ParseCommand( ",,", "", "" ) )
         {
-            character_index += 2;
-
             it_is_in_sub = !it_is_in_sub;
 
             if ( it_is_in_sub )
             {
-                ParseAttributes( "" );
-
                 token.Text = "<sub" + attributes + ">";
             }
             else
@@ -2355,16 +2255,12 @@ function GetTokenArray(
                 token.Text = "</sub>";
             }
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "~~" )
+        else if ( ParseCommand( "~~", "", "" ) )
         {
-            character_index += 2;
-
             it_is_in_strike = !it_is_in_strike;
 
             if ( it_is_in_strike )
             {
-                ParseAttributes( "" );
-
                 token.Text = "<strike" + attributes + ">";
             }
             else
@@ -2372,16 +2268,12 @@ function GetTokenArray(
                 token.Text = "</strike>";
             }
         }
-        else if ( text.charAt( character_index ) === '°' )
+        else if ( ParseCommand( "°", "°", "" ) )
         {
-            ++character_index;
-
             it_is_in_gray_span = !it_is_in_gray_span;
 
             if ( it_is_in_gray_span )
             {
-                ParseAttributes( "°" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2389,16 +2281,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.charAt( character_index ) === '⁰' )
+        else if ( ParseCommand( "⁰", "⁰", "" ) )
         {
-            ++character_index;
-
             it_is_in_orange_span = !it_is_in_orange_span;
 
             if ( it_is_in_orange_span )
             {
-                ParseAttributes( "⁰" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2406,16 +2294,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.charAt( character_index ) === '¹' )
+        else if ( ParseCommand( "¹", "¹", "" ) )
         {
-            ++character_index;
-
             it_is_in_pink_span = !it_is_in_pink_span;
 
             if ( it_is_in_pink_span )
             {
-                ParseAttributes( "¹" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2423,16 +2307,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.charAt( character_index ) === '²' )
+        else if ( ParseCommand( "²", "²", "" ) )
         {
-            ++character_index;
-
             it_is_in_red_span = !it_is_in_red_span;
 
             if ( it_is_in_red_span )
             {
-                ParseAttributes( "²" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2440,16 +2320,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.charAt( character_index ) === '³' )
+        else if ( ParseCommand( "³", "³", "" ) )
         {
-            ++character_index;
-
             it_is_in_blue_span = !it_is_in_blue_span;
 
             if ( it_is_in_blue_span )
             {
-                ParseAttributes( "³" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2457,16 +2333,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.charAt( character_index ) === '⁴' )
+        else if ( ParseCommand( "⁴", "⁴", "" ) )
         {
-            ++character_index;
-
             it_is_in_violet_span = !it_is_in_violet_span;
 
             if ( it_is_in_violet_span )
             {
-                ParseAttributes( "⁴" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2474,16 +2346,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.charAt( character_index ) === '⁵' )
+        else if ( ParseCommand( "⁵", "⁵", "" ) )
         {
-            ++character_index;
-
             it_is_in_cyan_span = !it_is_in_cyan_span;
 
             if ( it_is_in_cyan_span )
             {
-                ParseAttributes( "⁵" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2491,16 +2359,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.charAt( character_index ) === '⁶' )
+        else if ( ParseCommand( "⁶", "⁶", "" ) )
         {
-            ++character_index;
-
             it_is_in_black_span = !it_is_in_black_span;
 
             if ( it_is_in_black_span )
             {
-                ParseAttributes( "⁶" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2508,16 +2372,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.charAt( character_index ) === '⁷' )
+        else if ( ParseCommand( "⁷", "⁷", "" ) )
         {
-            ++character_index;
-
             it_is_in_yellow_span = !it_is_in_yellow_span;
 
             if ( it_is_in_yellow_span )
             {
-                ParseAttributes( "⁷" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2525,16 +2385,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.charAt( character_index ) === '⁸' )
+        else if ( ParseCommand( "⁸", "⁸", "" ) )
         {
-            ++character_index;
-
             it_is_in_white_span = !it_is_in_white_span;
 
             if ( it_is_in_white_span )
             {
-                ParseAttributes( "⁸" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2542,16 +2398,12 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( text.charAt( character_index ) === '⁹' )
+        else if ( ParseCommand( "⁹", "⁹", "" ) )
         {
-            ++character_index;
-
             it_is_in_green_span = !it_is_in_green_span;
 
             if ( it_is_in_green_span )
             {
-                ParseAttributes( "⁹" );
-
                 token.Text = "<span" + attributes + ">";
             }
             else
@@ -2571,18 +2423,14 @@ function GetTokenArray(
 
             token.Text = "</pre>";
         }
-        else if ( text.slice( character_index, character_index + 2 ) === "@@" )
+        else if ( ParseCommand( "@@", "", "" ) )
         {
-            character_index += 2;
-
             it_is_in_a = !it_is_in_a;
 
             if ( it_is_in_a )
             {
-                ParseAttributes( "" );
-                
                 token.Text = "<a" + attributes + " href=\"";
-                
+
                 url = "";
 
                 while ( character_index < text.length )
@@ -2637,7 +2485,7 @@ function GetTokenArray(
         else if ( text.charAt( character_index ) === '\n' )
         {
             ++character_index;
-            
+
             if ( closing_tag !== "" )
             {
                 closing_token = new TOKEN();
@@ -2655,28 +2503,6 @@ function GetTokenArray(
             token.Text = text.charAt( character_index );
 
             ++character_index;
-        }
-
-        if ( it_breaks_page
-             && token.Text.length >= 3
-             && token.Text.startsWith( '<' )
-             && !token.Text.startsWith( "</" ) )
-        {
-            if ( token.Text.endsWith( ">" ) )
-            {
-                token_character_index = token.Text.length - 1;
-            }
-            else
-            {
-                token_character_index = token.Text.indexOf( ' ' );
-            }
-
-            token.Text
-                = token.Text.slice( 0, token_character_index )
-                  + " style=\"page-break-before: always\""
-                  + token.Text.slice( token_character_index, token.Text.length );
-
-            it_breaks_page = false;
         }
 
         token_array.push( token );
@@ -2699,7 +2525,7 @@ function GetListTag(
          && token_index + 1 < token_array.length
          && !token_array[ token_index + 1 ].StartsLine
          && token_array[ token_index + 1 ].IsSpace
-         && token_array[ token_index + 1 ].Text.length === IndentationSpaceCount -1 )
+         && token_array[ token_index + 1 ].Text.length === IndentationSpaceCount - 1 )
     {
         token = token_array[ token_index ];
 
