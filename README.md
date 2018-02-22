@@ -79,7 +79,7 @@ int main()
 
 [[image.jpg]]
 [[image.jpg:20]]
-[[image_5.jpg:20vw,20%]][/CODE]
+[[image.jpg:20vw,20%]]
 ```
 
 After a Pendown tag, you can specify one or several lists of classes :
