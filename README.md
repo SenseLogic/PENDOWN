@@ -6,7 +6,7 @@ Lightweight markup for colored documents.
 
 ## Features
 
-*   Simple, concise and consistent syntax to quickly write colored documents.
+*   Simple, concise and consistent syntax to quickly write colored HTML documents.
 *   Complete : 
     *   styles, colors, sizes, alignments;
     *   spans, blocks, boxes, frames, quotes, tables;
@@ -14,6 +14,89 @@ Lightweight markup for colored documents.
     *   custom styling;
     *   syntax highlighting.
 *   Fast conversion to HTML through a web browser script or a standalone command line tool.
+
+## Sample
+
+```
+! Heading 1
+!! Heading 2
+!!! Heading 3
+!!!! Heading 4
+!!!!! Heading 5
+!!!!!! Heading 6
+
+**bold**
+%%italics%%
+^^superscript^^
+,,subscript,,
+~~strikethrough~~
+__underlined__
+##highlighted##
+
+{{ span }}
+{{{ div }}}
+### box ###
++++ frame +++
+>>> quote >>>
+::: pre :::
+
+:::^cpp\
+// Colorized source code
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "Hello world!";
+
+    return 0;
+}
+:::
+
+[[[
+(( Monday | Tuesday | Wednesday ))
+(( 1      | 2       | 3         ))
+(( 1      | 2       | 3         ))
+(( 1      | 2       | 3         ))
+]]]
+
+*   List
+*   List
+    *   Sub-list
+    *   Sub-list
+        #   Numbered sub-list
+        #   Numbered sub-list
+            #   Numbered sub-list
+            #   Numbered sub-list
+        #   Numbered
+            sub-list
+
+@@http://www.github.com A link to Github@@
+@@http://www.github.com [[image.jpg:20]]@@
+@@http://www.github.com@@
+
+[[image.jpg]]
+[[image.jpg:20]]
+[[image_5.jpg:20vw,20%]][/CODE]
+```
+
+After a Pendown tag, you can specify one or several lists of classes :
+
+```
+{{^big,red,yellow_background\ a big red text with a yellow background }}
+
+{{^@2.5,$00f,#eee\ a big blue text with a light gray background }}
+```
+
+These lists can be stored as custom classes, which can be reused further in the document :
+
+```
+{{^blue,italic:gangnam\ a blue text in italics }}
+
+!^gangnam\ This title also uses the gangnam style.
+```
 
 ## Getting Started
 
