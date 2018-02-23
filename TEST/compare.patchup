@@ -10,7 +10,7 @@ ReadInputFiles
 ReplaceTabulations
 RemoveLastSpaces
 
-FindFiles
+SelectFiles
     pendown.d
 
 ReplaceUnquotedText?
@@ -61,7 +61,7 @@ ReplaceExpression?
     `replace\\( ("[^"]+"), ("[^"]*") \\)`
     `split( $1 ).join( $2 )`
 
-FindFiles
+SelectFiles
     pendown.js
 
 ReplaceUnquotedText?
