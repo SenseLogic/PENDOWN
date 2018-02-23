@@ -817,6 +817,9 @@ function GetCleanedText(
     text
     )
 {
+    var
+        cleaned_text;
+
     cleaned_text = ReplaceTabulations( text ).split( "\r" ).join( "" );
 
     if ( !cleaned_text.endsWith( '\n' ) )
@@ -1752,7 +1755,7 @@ function GetTokenArray(
                 character_index += command_prefix.length;
 
                 ParseAttributes( classes );
-                
+
                 return true;
             }
             else

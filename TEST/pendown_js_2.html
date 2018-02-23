@@ -820,6 +820,9 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
     text
     <span class="gray">)</span>
 <span class="gray">{</span>
+    <span class="pink">var</span>
+        cleaned_text<span class="gray">;</span>
+
     cleaned_text <span class="gray">=</span> ReplaceTabulations<span class="gray">(</span> text <span class="gray">).</span>split<span class="gray">(</span> <span class="red">"\r"</span> <span class="gray">).</span>join<span class="gray">(</span> <span class="red">""</span> <span class="gray">);</span>
 
     <span class="pink">if</span> <span class="gray">(</span> <span class="gray">!</span>cleaned_text<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">'\n'</span> <span class="gray">)</span> <span class="gray">)</span>

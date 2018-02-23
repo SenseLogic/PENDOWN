@@ -10,44 +10,62 @@ ReadInputFiles
 ReplaceTabulations
 RemoveLastSpaces
 
-WriteOutputFiles
-
-#
-
-ClearInputFiles
-
-SetFolder
-    /tmp/
-
-ReadInputFiles
+FindFiles
     pendown.d
 
-ReplaceUnquotedText
+ReplaceUnquotedText?
     ` ==`
     ` ===`
 
-ReplaceUnquotedText
+ReplaceUnquotedText?
     ` !=`
     ` !==`
 
-ReplaceUnquotedText
+ReplaceUnquotedText?
     ` ~ `
     ` + `
 
-ReplaceUnquotedText
+ReplaceUnquotedText?
     ` ~=`
     ` +=`
 
-ReplaceUnquotedText
+ReplaceUnquotedText?
     ` !is null`
     ` !== null`
 
-ReplaceUnquotedText
+ReplaceUnquotedText?
     ` is null`
     ` === null`
 
-ReplaceExpression
+ReplaceUnquotedText?
+    `.to!dstring()`
+    ``
+
+ReplaceUnquotedText?
+    `.to!string()`
+    ``
+
+ReplaceUnquotedText?
+    `.to!long()`
+    ``
+
+ReplaceUnquotedText?
+    `.to!double()`
+    ``
+
+ReplaceUnquotedText?
+    `.to!double()`
+    ``
+
+ReplaceExpression?
     `replace\\( ("[^"]+"), ("[^"]*") \\)`
     `split( $1 ).join( $2 )`
+
+FindFiles
+    pendown.js
+
+ReplaceUnquotedText?
+    `.charCodeAt( 0 )`
+    ``
 
 WriteOutputFiles

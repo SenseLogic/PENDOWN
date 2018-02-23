@@ -1940,7 +1940,7 @@ TOKEN[] GetTokenArray(
                 character_index += command_prefix.length;
 
                 ParseAttributes( classes );
-                
+
                 return true;
             }
             else

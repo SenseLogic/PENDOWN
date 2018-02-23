@@ -821,6 +821,9 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     text
     °)°
 °{°
+    ¹var¹
+        cleaned_text°;°
+
     cleaned_text °=° ReplaceTabulations°(° text °).°split°(° ²"\\r"² °).°join°(° ²""² °);°
 
     ¹if¹ °(° °\!°cleaned_text°.°endsWith°(° ²'\\n'² °)° °)°
@@ -1756,7 +1759,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                 character_index °+=° command_prefix°.°length°;°
 
                 ParseAttributes°(° classes °);°
-                
+
                 ¹return¹ ²true²°;°
             °}°
             ¹else¹
