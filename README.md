@@ -92,16 +92,16 @@ Any Pendown tag can be followed by one or several lists of style modifiers :
 ```
 
 Several types of modifiers are supported :
-    *   Id : `?menu`
-    *   Class : `bold`
-    *   Property : `border-style=dotted`
-    *   Attribute : `&onclick="alert('Hello!')"`
-    *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
-    *   Decoration color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
-    *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
-    *   Border color : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
-    *   Font size : `@1.25` `@1.25rem` `@1.25vw`
-    *   Column span : `=2`
+*   Id : `?menu`
+*   Class : `bold`
+*   Property : `border-style=dotted`
+*   Attribute : `&onclick="alert('Hello!')"`
+*   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
+*   Decoration color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
+*   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
+*   Border color : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
+*   Font size : `@1.25` `@1.25rem` `@1.25vw`
+*   Column span : `=2`
 
 These lists can be named, and then reused further in the document :
 
