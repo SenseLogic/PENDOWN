@@ -612,9 +612,9 @@ Converts a D source code file to a HTML file which imports the Pendown script an
 
 ## Limitations
 
-* The modifier lists can't contain spaces.
-* The lists are not processed inside preformatted blocks.
-* The Pendown text can't contain `<xmp>` tags if it is converted to HTML by the web browser script.
+* Modifier lists can't contain spaces.
+* Lists are not processed inside preformatted blocks.
+* A Pendown text can't contain `<xmp>` tags if it is converted to HTML by the web browser script.
 
 ## Version
 
