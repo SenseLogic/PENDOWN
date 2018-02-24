@@ -83,7 +83,7 @@ int main()
 
 ## Styling
 
-*   Any Pendown tag can be followed by one or several lists of style modifiers :
+Any Pendown tag can be followed by one or several lists of style modifiers :
 
 ```
 {{^big,red,yellow_fill\ a big red text with a yellow background }}
@@ -91,7 +91,7 @@ int main()
 {{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
 ```
 
-*   Several types of modifiers are supported :
+Several types of modifiers are supported :
     *   Id : `?menu`
     *   Class : `bold`
     *   Property : `border-style=dotted`
@@ -103,7 +103,7 @@ int main()
     *   Font size : `@1.25` `@1.25rem` `@1.25vw`
     *   Column span : `=2`
 
-*   These lists can be named, and then reused further in the document :
+These lists can be named, and then reused further in the document :
 
 ```
 {{^blue,italic:gangnam\ a blue text in italics }}
@@ -111,7 +111,7 @@ int main()
 !^gangnam\ This title also uses the gangnam style.
 ```
 
-*   Color tags can also be redefined in the same way : 
+Color tags can also be redefined in the same way : 
 
 ```
 {{^#ffd,$f87:²\}}
