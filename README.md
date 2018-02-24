@@ -456,7 +456,7 @@ They are automatically converted to HTML tags when the file is opened in a web b
 ## Styling
 
 *   Any Pendown tag can be followed by one or several lists of style modifiers : `!^violet,italic\ Main title`
-*   The following modifiers are supported :
+*   The following types of modifiers are supported :
     *   Id : `?menu`
     *   Class : `bold`
     *   Property : `border-style=dotted`
