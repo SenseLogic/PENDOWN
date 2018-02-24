@@ -1752,9 +1752,13 @@
             character<span class="gray">;</span>
         <span class="red">long</span>
             class_name_index<span class="gray">,</span>
-            next_character_index<span class="gray">;</span>
+            equal_character_index<span class="gray">,</span>
+            next_character_index<span class="gray">,</span>
+            parenthesis_level<span class="gray">;</span>
         <span class="red">dstring</span>
             class_name<span class="gray">,</span>
+            id<span class="gray">,</span>
+            other_attributes<span class="gray">,</span>
             parsed_classes<span class="gray">,</span>
             size<span class="gray">,</span>
             span<span class="gray">,</span>
@@ -1763,9 +1767,11 @@
             class_name_array<span class="gray">,</span>
             part_array<span class="gray">;</span>
 
-        attributes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+        id <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
         styles <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
         span <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+        other_attributes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+        parenthesis_level <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
 
         command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
 
@@ -1783,17 +1789,7 @@
             <span class="gray">{</span>
                 character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> next_character_index <span class="gray">);</span>
 
-                <span class="pink">if</span> <span class="gray">(</span> IsAlphabeticalCharacter<span class="gray">(</span> character <span class="gray">)</span>
-                     <span class="gray">||</span> IsDecimalCharacter<span class="gray">(</span> character <span class="gray">)</span>
-                     <span class="gray">||</span> <span class="red">"$~#+@=_-.:°⁰¹²³⁴⁵⁶⁷⁸⁹"</span><span class="gray">.</span>indexOf<span class="gray">(</span> character <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
-                <span class="gray">{</span>
-                    parsed_classes <span class="gray">~=</span> character<span class="gray">;</span>
-                <span class="gray">}</span>
-                <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">','</span> <span class="gray">)</span>
-                <span class="gray">{</span>
-                    parsed_classes <span class="gray">~=</span> <span class="red">' '</span><span class="gray">;</span>
-                <span class="gray">}</span>
-                <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
+                <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
                 <span class="gray">{</span>
                     <span class="pink">if</span> <span class="gray">(</span> parsed_classes <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
                     <span class="gray">{</span>
@@ -1817,6 +1813,24 @@
 
                     <span class="pink">break</span><span class="gray">;</span>
                 <span class="gray">}</span>
+                <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">','</span>
+                          <span class="gray">&&</span> parenthesis_level <span class="gray">==</span> <span class="red">0</span> <span class="gray">)</span>
+                <span class="gray">{</span>
+                    parsed_classes <span class="gray">~=</span> <span class="red">' '</span><span class="gray">;</span>
+                <span class="gray">}</span>
+                <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">!=</span> <span class="red">'\n'</span> <span class="gray">)</span>
+                <span class="gray">{</span>
+                    parsed_classes <span class="gray">~=</span> character<span class="gray">;</span>
+
+                    <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'('</span> <span class="gray">)</span>
+                    <span class="gray">{</span>
+                        <span class="gray">++</span>parenthesis_level<span class="gray">;</span>
+                    <span class="gray">}</span>
+                    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">')'</span> <span class="gray">)</span>
+                    <span class="gray">{</span>
+                        <span class="gray">--</span>parenthesis_level<span class="gray">;</span>
+                    <span class="gray">}</span>
+                <span class="gray">}</span>
                 <span class="pink">else</span>
                 <span class="gray">{</span>
                     <span class="pink">break</span><span class="gray">;</span>
@@ -1835,7 +1849,11 @@
         <span class="gray">{</span>
             class_name <span class="gray">=</span> class_name_array<span class="gray">[</span> class_name_index <span class="gray">];</span>
 
-            <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'$'</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'?'</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="gray">{</span>
+                id <span class="gray">=</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'$'</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
                 <span class="pink">if</span> <span class="gray">(</span> styles <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
                 <span class="gray">{</span>
@@ -1891,15 +1909,40 @@
             <span class="gray">{</span>
                 span <span class="gray">=</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
             <span class="gray">}</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'&'</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="gray">{</span>
+                other_attributes <span class="gray">~=</span> <span class="red">" "</span> <span class="gray">~</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
+            <span class="gray">}</span>
             <span class="pink">else</span>
             <span class="gray">{</span>
-                <span class="pink">if</span> <span class="gray">(</span> classes <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
-                <span class="gray">{</span>
-                    classes <span class="gray">~=</span> <span class="red">" "</span><span class="gray">;</span>
-                <span class="gray">}</span>
+                equal_character_index <span class="gray">=</span> class_name<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">'='</span> <span class="gray">);</span>
 
-                classes <span class="gray">~=</span> class_name<span class="gray">;</span>
+                <span class="pink">if</span> <span class="gray">(</span> equal_character_index <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
+                <span class="gray">{</span>
+                    <span class="pink">if</span> <span class="gray">(</span> styles <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+                    <span class="gray">{</span>
+                        styles <span class="gray">~=</span> <span class="red">";"</span><span class="gray">;</span>
+                    <span class="gray">}</span>
+
+                    styles <span class="gray">~=</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">0</span><span class="gray">,</span> equal_character_index <span class="gray">)</span> <span class="gray">~</span> <span class="red">":"</span> <span class="gray">~</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> equal_character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">);</span>
+                <span class="gray">}</span>
+                <span class="pink">else</span>
+                <span class="gray">{</span>
+                    <span class="pink">if</span> <span class="gray">(</span> classes <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+                    <span class="gray">{</span>
+                        classes <span class="gray">~=</span> <span class="red">" "</span><span class="gray">;</span>
+                    <span class="gray">}</span>
+
+                    classes <span class="gray">~=</span> class_name<span class="gray">;</span>
+                <span class="gray">}</span>
             <span class="gray">}</span>
+        <span class="gray">}</span>
+
+        attributes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+
+        <span class="pink">if</span> <span class="gray">(</span> id <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+        <span class="gray">{</span>
+            attributes <span class="gray">~=</span> <span class="red">" id=\""</span> <span class="gray">~</span> id <span class="gray">~</span> <span class="red">"\""</span><span class="gray">;</span>
         <span class="gray">}</span>
 
         <span class="pink">if</span> <span class="gray">(</span> classes <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
@@ -1915,6 +1958,11 @@
         <span class="pink">if</span> <span class="gray">(</span> span <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
         <span class="gray">{</span>
             attributes <span class="gray">~=</span> <span class="red">" colspan=\""</span> <span class="gray">~</span> span <span class="gray">~</span> <span class="red">"\""</span><span class="gray">;</span>
+        <span class="gray">}</span>
+
+        <span class="pink">if</span> <span class="gray">(</span> other_attributes <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+        <span class="gray">{</span>
+            attributes <span class="gray">~=</span> other_attributes<span class="gray">;</span>
         <span class="gray">}</span>
     <span class="gray">}</span>
 
@@ -1963,19 +2011,14 @@
                     <span class="gray">{</span>
                         character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> next_character_index <span class="gray">);</span>
 
-                        <span class="pink">if</span> <span class="gray">(</span> IsAlphabeticalCharacter<span class="gray">(</span> character <span class="gray">)</span>
-                             <span class="gray">||</span> IsDecimalCharacter<span class="gray">(</span> character <span class="gray">)</span>
-                             <span class="gray">||</span> <span class="red">"$~#+@=_-.:°⁰¹²³⁴⁵⁶⁷⁸⁹,\\"</span><span class="gray">.</span>indexOf<span class="gray">(</span> character <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
+                        <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
                         <span class="gray">{</span>
-                            <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
-                            <span class="gray">{</span>
-                                command_character_index <span class="gray">=</span> next_character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
-                                command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+                            command_character_index <span class="gray">=</span> next_character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
+                            command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
 
-                                <span class="pink">break</span><span class="gray">;</span>
-                            <span class="gray">}</span>
+                            <span class="pink">break</span><span class="gray">;</span>
                         <span class="gray">}</span>
-                        <span class="pink">else</span>
+                        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\n'</span> <span class="gray">)</span>
                         <span class="gray">{</span>
                             <span class="pink">break</span><span class="gray">;</span>
                         <span class="gray">}</span>

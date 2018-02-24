@@ -1749,9 +1749,13 @@ TOKEN[] GetTokenArray(
             character;
         long
             class_name_index,
-            next_character_index;
+            equal_character_index,
+            next_character_index,
+            parenthesis_level;
         dstring
             class_name,
+            id,
+            other_attributes,
             parsed_classes,
             size,
             span,
@@ -1760,9 +1764,11 @@ TOKEN[] GetTokenArray(
             class_name_array,
             part_array;
 
-        attributes = "";
+        id = "";
         styles = "";
         span = "";
+        other_attributes = "";
+        parenthesis_level = 0;
 
         command_is_valid = true;
 
@@ -1780,17 +1786,7 @@ TOKEN[] GetTokenArray(
             {
                 character = text.charAt( next_character_index );
 
-                if ( IsAlphabeticalCharacter( character )
-                     || IsDecimalCharacter( character )
-                     || "$~#+@=_-.:°⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf( character ) >= 0 )
-                {
-                    parsed_classes ~= character;
-                }
-                else if ( character == ',' )
-                {
-                    parsed_classes ~= ' ';
-                }
-                else if ( character == '\\' )
+                if ( character == '\\' )
                 {
                     if ( parsed_classes != "" )
                     {
@@ -1814,6 +1810,24 @@ TOKEN[] GetTokenArray(
 
                     break;
                 }
+                else if ( character == ','
+                          && parenthesis_level == 0 )
+                {
+                    parsed_classes ~= ' ';
+                }
+                else if ( character != '\n' )
+                {
+                    parsed_classes ~= character;
+
+                    if ( character == '(' )
+                    {
+                        ++parenthesis_level;
+                    }
+                    else if ( character == ')' )
+                    {
+                        --parenthesis_level;
+                    }
+                }
                 else
                 {
                     break;
@@ -1832,7 +1846,11 @@ TOKEN[] GetTokenArray(
         {
             class_name = class_name_array[ class_name_index ];
 
-            if ( class_name.startsWith( '$' ) )
+            if ( class_name.startsWith( '?' ) )
+            {
+                id = class_name.slice( 1 );
+            }
+            else if ( class_name.startsWith( '$' ) )
             {
                 if ( styles != "" )
                 {
@@ -1888,15 +1906,40 @@ TOKEN[] GetTokenArray(
             {
                 span = class_name.slice( 1 );
             }
+            else if ( class_name.startsWith( '&' ) )
+            {
+                other_attributes ~= " " ~ class_name.slice( 1 );
+            }
             else
             {
-                if ( classes != "" )
-                {
-                    classes ~= " ";
-                }
+                equal_character_index = class_name.indexOf( '=' );
 
-                classes ~= class_name;
+                if ( equal_character_index > 0 )
+                {
+                    if ( styles != "" )
+                    {
+                        styles ~= ";";
+                    }
+
+                    styles ~= class_name.slice( 0, equal_character_index ) ~ ":" ~ class_name.slice( equal_character_index + 1 );
+                }
+                else
+                {
+                    if ( classes != "" )
+                    {
+                        classes ~= " ";
+                    }
+
+                    classes ~= class_name;
+                }
             }
+        }
+
+        attributes = "";
+
+        if ( id != "" )
+        {
+            attributes ~= " id=\"" ~ id ~ "\"";
         }
 
         if ( classes != "" )
@@ -1912,6 +1955,11 @@ TOKEN[] GetTokenArray(
         if ( span != "" )
         {
             attributes ~= " colspan=\"" ~ span ~ "\"";
+        }
+
+        if ( other_attributes != "" )
+        {
+            attributes ~= other_attributes;
         }
     }
 
@@ -1960,19 +2008,14 @@ TOKEN[] GetTokenArray(
                     {
                         character = text.charAt( next_character_index );
 
-                        if ( IsAlphabeticalCharacter( character )
-                             || IsDecimalCharacter( character )
-                             || "$~#+@=_-.:°⁰¹²³⁴⁵⁶⁷⁸⁹,\\".indexOf( character ) >= 0 )
+                        if ( character == '\\' )
                         {
-                            if ( character == '\\' )
-                            {
-                                command_character_index = next_character_index + 1;
-                                command_is_valid = true;
+                            command_character_index = next_character_index + 1;
+                            command_is_valid = true;
 
-                                break;
-                            }
+                            break;
                         }
-                        else
+                        else if ( character == '\n' )
                         {
                             break;
                         }

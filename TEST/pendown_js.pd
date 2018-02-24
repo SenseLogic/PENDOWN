@@ -1572,16 +1572,22 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             class_name_array°,°
             class_name_index°,°
             command_is_valid°,°
+            equal_character_index°,°
+            id°,°
             next_character_index°,°
+            other_attributes°,°
+            parenthesis_level°,°
             parsed_classes°,°
             part_array°,°
             size°,°
             span°,°
             styles°;°
 
-        attributes °=° ²""²°;°
+        id °=° ²""²°;°
         styles °=° ²""²°;°
         span °=° ²""²°;°
+        other_attributes °=° ²""²°;°
+        parenthesis_level °=° ²0²°;°
 
         command_is_valid °=° ²true²°;°
 
@@ -1599,17 +1605,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             °{°
                 character °=° text°.°charAt°(° next_character_index °);°
 
-                ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
-                     °||° IsDecimalCharacter°(° character °)°
-                     °||° ²"$~\#+\@=_-.:\°\⁰\¹\²\³\⁴\⁵\⁶\⁷\⁸\⁹"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
-                °{°
-                    parsed_classes °+=° character°;°
-                °}°
-                ¹else¹ ¹if¹ °(° character °===° ²','² °)°
-                °{°
-                    parsed_classes °+=° ²' '²°;°
-                °}°
-                ¹else¹ ¹if¹ °(° character °===° ²'\\\\'² °)°
+                ¹if¹ °(° character °===° ²'\\\\'² °)°
                 °{°
                     ¹if¹ °(° parsed_classes °\!==° ²""² °)°
                     °{°
@@ -1633,6 +1629,24 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
                     ¹break¹°;°
                 °}°
+                ¹else¹ ¹if¹ °(° character °===° ²','²
+                          °&&° parenthesis_level °===° ²0² °)°
+                °{°
+                    parsed_classes °+=° ²' '²°;°
+                °}°
+                ¹else¹ ¹if¹ °(° character °\!==° ²'\\n'² °)°
+                °{°
+                    parsed_classes °+=° character°;°
+
+                    ¹if¹ °(° character °===° ²'('² °)°
+                    °{°
+                        °+\+°parenthesis_level°;°
+                    °}°
+                    ¹else¹ ¹if¹ °(° character °===° ²')'² °)°
+                    °{°
+                        °-\-°parenthesis_level°;°
+                    °}°
+                °}°
                 ¹else¹
                 °{°
                     ¹break¹°;°
@@ -1651,7 +1665,11 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             class_name °=° class_name_array°[° class_name_index °];°
 
-            ¹if¹ °(° class_name°.°startsWith°(° ²'$'² °)° °)°
+            ¹if¹ °(° class_name°.°startsWith°(° ²'?'² °)° °)°
+            °{°
+                id °=° class_name°.°slice°(° ²1² °);°
+            °}°
+            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'$'² °)° °)°
             °{°
                 ¹if¹ °(° styles °\!==° ²""² °)°
                 °{°
@@ -1707,15 +1725,40 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             °{°
                 span °=° class_name°.°slice°(° ²1² °);°
             °}°
+            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'&'² °)° °)°
+            °{°
+                other_attributes °+=° ²" "² °+° class_name°.°slice°(° ²1² °);°
+            °}°
             ¹else¹
             °{°
-                ¹if¹ °(° classes °\!==° ²""² °)°
-                °{°
-                    classes °+=° ²" "²°;°
-                °}°
+                equal_character_index °=° class_name°.°indexOf°(° ²'='² °);°
 
-                classes °+=° class_name°;°
+                ¹if¹ °(° equal_character_index °&gt;° ²0² °)°
+                °{°
+                    ¹if¹ °(° styles °\!==° ²""² °)°
+                    °{°
+                        styles °+=° ²";"²°;°
+                    °}°
+
+                    styles °+=° class_name°.°slice°(° ²0²°,° equal_character_index °)° °+° ²":"² °+° class_name°.°slice°(° equal_character_index °+° ²1² °);°
+                °}°
+                ¹else¹
+                °{°
+                    ¹if¹ °(° classes °\!==° ²""² °)°
+                    °{°
+                        classes °+=° ²" "²°;°
+                    °}°
+
+                    classes °+=° class_name°;°
+                °}°
             °}°
+        °}°
+
+        attributes °=° ²""²°;°
+
+        ¹if¹ °(° id °\!==° ²""² °)°
+        °{°
+            attributes °+=° ²" id=\\""² °+° id °+° ²"\\""²°;°
         °}°
 
         ¹if¹ °(° classes °\!==° ²""² °)°
@@ -1731,6 +1774,11 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         ¹if¹ °(° span °\!==° ²""² °)°
         °{°
             attributes °+=° ²" colspan=\\""² °+° span °+° ²"\\""²°;°
+        °}°
+
+        ¹if¹ °(° other_attributes °\!==° ²""² °)°
+        °{°
+            attributes °+=° other_attributes°;°
         °}°
     °}°
 
@@ -1776,19 +1824,14 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                     °{°
                         character °=° text°.°charAt°(° next_character_index °);°
 
-                        ¹if¹ °(° IsAlphabeticalCharacter°(° character °)°
-                             °||° IsDecimalCharacter°(° character °)°
-                             °||° ²"$~\#+\@=_-.:\°\⁰\¹\²\³\⁴\⁵\⁶\⁷\⁸\⁹,\\\\"²°.°indexOf°(° character °)° °&gt;=° ²0² °)°
+                        ¹if¹ °(° character °===° ²'\\\\'² °)°
                         °{°
-                            ¹if¹ °(° character °===° ²'\\\\'² °)°
-                            °{°
-                                command_character_index °=° next_character_index °+° ²1²°;°
-                                command_is_valid °=° ²true²°;°
+                            command_character_index °=° next_character_index °+° ²1²°;°
+                            command_is_valid °=° ²true²°;°
 
-                                ¹break¹°;°
-                            °}°
+                            ¹break¹°;°
                         °}°
-                        ¹else¹
+                        ¹else¹ ¹if¹ °(° character °===° ²'\\n'² °)°
                         °{°
                             ¹break¹°;°
                         °}°

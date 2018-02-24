@@ -1571,16 +1571,22 @@ function GetTokenArray(
             class_name_array,
             class_name_index,
             command_is_valid,
+            equal_character_index,
+            id,
             next_character_index,
+            other_attributes,
+            parenthesis_level,
             parsed_classes,
             part_array,
             size,
             span,
             styles;
 
-        attributes = "";
+        id = "";
         styles = "";
         span = "";
+        other_attributes = "";
+        parenthesis_level = 0;
 
         command_is_valid = true;
 
@@ -1598,17 +1604,7 @@ function GetTokenArray(
             {
                 character = text.charAt( next_character_index );
 
-                if ( IsAlphabeticalCharacter( character )
-                     || IsDecimalCharacter( character )
-                     || "$~#+@=_-.:°⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf( character ) >= 0 )
-                {
-                    parsed_classes += character;
-                }
-                else if ( character === ',' )
-                {
-                    parsed_classes += ' ';
-                }
-                else if ( character === '\\' )
+                if ( character === '\\' )
                 {
                     if ( parsed_classes !== "" )
                     {
@@ -1632,6 +1628,24 @@ function GetTokenArray(
 
                     break;
                 }
+                else if ( character === ','
+                          && parenthesis_level === 0 )
+                {
+                    parsed_classes += ' ';
+                }
+                else if ( character !== '\n' )
+                {
+                    parsed_classes += character;
+
+                    if ( character === '(' )
+                    {
+                        ++parenthesis_level;
+                    }
+                    else if ( character === ')' )
+                    {
+                        --parenthesis_level;
+                    }
+                }
                 else
                 {
                     break;
@@ -1650,7 +1664,11 @@ function GetTokenArray(
         {
             class_name = class_name_array[ class_name_index ];
 
-            if ( class_name.startsWith( '$' ) )
+            if ( class_name.startsWith( '?' ) )
+            {
+                id = class_name.slice( 1 );
+            }
+            else if ( class_name.startsWith( '$' ) )
             {
                 if ( styles !== "" )
                 {
@@ -1706,15 +1724,40 @@ function GetTokenArray(
             {
                 span = class_name.slice( 1 );
             }
+            else if ( class_name.startsWith( '&' ) )
+            {
+                other_attributes += " " + class_name.slice( 1 );
+            }
             else
             {
-                if ( classes !== "" )
-                {
-                    classes += " ";
-                }
+                equal_character_index = class_name.indexOf( '=' );
 
-                classes += class_name;
+                if ( equal_character_index > 0 )
+                {
+                    if ( styles !== "" )
+                    {
+                        styles += ";";
+                    }
+
+                    styles += class_name.slice( 0, equal_character_index ) + ":" + class_name.slice( equal_character_index + 1 );
+                }
+                else
+                {
+                    if ( classes !== "" )
+                    {
+                        classes += " ";
+                    }
+
+                    classes += class_name;
+                }
             }
+        }
+
+        attributes = "";
+
+        if ( id !== "" )
+        {
+            attributes += " id=\"" + id + "\"";
         }
 
         if ( classes !== "" )
@@ -1730,6 +1773,11 @@ function GetTokenArray(
         if ( span !== "" )
         {
             attributes += " colspan=\"" + span + "\"";
+        }
+
+        if ( other_attributes !== "" )
+        {
+            attributes += other_attributes;
         }
     }
 
@@ -1775,19 +1823,14 @@ function GetTokenArray(
                     {
                         character = text.charAt( next_character_index );
 
-                        if ( IsAlphabeticalCharacter( character )
-                             || IsDecimalCharacter( character )
-                             || "$~#+@=_-.:°⁰¹²³⁴⁵⁶⁷⁸⁹,\\".indexOf( character ) >= 0 )
+                        if ( character === '\\' )
                         {
-                            if ( character === '\\' )
-                            {
-                                command_character_index = next_character_index + 1;
-                                command_is_valid = true;
+                            command_character_index = next_character_index + 1;
+                            command_is_valid = true;
 
-                                break;
-                            }
+                            break;
                         }
-                        else
+                        else if ( character === '\n' )
                         {
                             break;
                         }

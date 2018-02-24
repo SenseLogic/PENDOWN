@@ -1,4 +1,4 @@
 #!/bin/sh
 set -x
-../../PATCHUP/patchup compare.patchup
-meld ../pendown.js /tmp/pendown.d
+../../PATCHUP/patchup --verbose compare.patchup
+meld /tmp/pendown.js /tmp/pendown.d
