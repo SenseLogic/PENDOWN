@@ -1524,59 +1524,62 @@ function GetTokenArray(
 
     // ~~
 
-    function ReplaceClassDefinitions(
-        classes
+    function ReplaceDefinitions(
+        modifiers
         )
     {
         var
-            class_name,
-            class_name_array,
-            class_name_index,
-            old_classes;
+            modifier,
+            modifier_array,
+            modifier_index,
+            old_modifiers;
 
         do
         {
-            old_classes = classes;
+            old_modifiers = modifiers;
 
-            class_name_array = classes.split( ' ' );
+            modifier_array = modifiers.split( ' ' );
 
-            for ( class_name_index = 0;
-                  class_name_index < class_name_array.length;
-                  ++class_name_index )
+            for ( modifier_index = 0;
+                  modifier_index < modifier_array.length;
+                  ++modifier_index )
             {
-                class_name = class_name_array[ class_name_index ];
+                modifier = modifier_array[ modifier_index ];
 
-                if ( ClassDefinitionMap.hasOwnProperty( class_name ) )
+                if ( DefinitionMap.hasOwnProperty( modifier ) )
                 {
-                    class_name_array[ class_name_index ] = ClassDefinitionMap[ class_name ];
+                    modifier_array[ modifier_index ] = DefinitionMap[ modifier ];
                 }
             }
 
-            classes = class_name_array.join( ' ' );
+            modifiers = modifier_array.join( ' ' );
         }
-        while ( classes !== old_classes );
+        while ( modifiers !== old_modifiers );
 
-        return classes;
+        return modifiers;
     }
 
     // ~~
 
     function ParseAttributes(
-        classes
+        modifiers
         )
     {
         var
             character,
-            class_name,
-            class_name_array,
-            class_name_index,
+            classes,
+            modifier,
+            modifier_array,
+            modifier_index,
             command_is_valid,
             equal_character_index,
             id,
+            it_is_double_quoted,
+            it_is_quoted,
             next_character_index,
             other_attributes,
-            parenthesis_level,
-            parsed_classes,
+            added_modifiers,
+            nesting_level,
             part_array,
             size,
             span,
@@ -1586,7 +1589,6 @@ function GetTokenArray(
         styles = "";
         span = "";
         other_attributes = "";
-        parenthesis_level = 0;
 
         command_is_valid = true;
 
@@ -1596,7 +1598,11 @@ function GetTokenArray(
         {
             command_is_valid = false;
 
-            parsed_classes = "";
+            it_is_quoted = false;
+            it_is_double_quoted = false;
+            nesting_level = 0;
+            
+            added_modifiers = "";
 
             for ( next_character_index = character_index + 1;
                   next_character_index < text.length;
@@ -1606,21 +1612,21 @@ function GetTokenArray(
 
                 if ( character === '\\' )
                 {
-                    if ( parsed_classes !== "" )
+                    if ( added_modifiers !== "" )
                     {
-                        if ( parsed_classes.indexOf( ':' ) >= 0 )
+                        if ( added_modifiers.indexOf( ':' ) >= 0 )
                         {
-                            part_array = parsed_classes.split( ':' );
-                            ClassDefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
-                            parsed_classes = part_array[ 0 ];
+                            part_array = added_modifiers.split( ':' );
+                            DefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
+                            added_modifiers = part_array[ 0 ];
                         }
 
-                        if ( classes !== "" )
+                        if ( modifiers !== "" )
                         {
-                            classes += " ";
+                            modifiers += " ";
                         }
 
-                        classes += parsed_classes;
+                        modifiers += added_modifiers;
 
                         character_index = next_character_index + 1;
                         command_is_valid = true;
@@ -1629,21 +1635,41 @@ function GetTokenArray(
                     break;
                 }
                 else if ( character === ','
-                          && parenthesis_level === 0 )
+                          && !it_is_quoted
+                          && !it_is_double_quoted
+                          && nesting_level === 0 )
                 {
-                    parsed_classes += ' ';
+                    added_modifiers += ' ';
                 }
                 else if ( character !== '\n' )
                 {
-                    parsed_classes += character;
-
-                    if ( character === '(' )
+                    added_modifiers += character;
+                    
+                    if ( character === '\''
+                         && !it_is_double_quoted )
                     {
-                        ++parenthesis_level;
+                        it_is_quoted = !it_is_quoted;
                     }
-                    else if ( character === ')' )
+                    else if ( character === '"'
+                              && !it_is_quoted )
                     {
-                        --parenthesis_level;
+                        it_is_double_quoted = !it_is_double_quoted;
+                    }
+                    else if ( !it_is_quoted
+                              && !it_is_double_quoted )
+                    {
+                        if ( character === '('
+                             || character === '['
+                             || character === '{' )
+                        {
+                            ++nesting_level;
+                        }
+                        else if ( character === ')'
+                                 || character === ']'
+                                 || character === '}' )
+                        {
+                            --nesting_level;
+                        }
                     }
                 }
                 else
@@ -1653,60 +1679,60 @@ function GetTokenArray(
             }
         }
 
-        classes = ReplaceClassDefinitions( classes );
-
-        class_name_array = classes.split( ' ' );
+        modifiers = ReplaceDefinitions( modifiers );
+        modifier_array = modifiers.split( ' ' );
+        
         classes = "";
 
-        for ( class_name_index = 0;
-              class_name_index < class_name_array.length;
-              ++class_name_index )
+        for ( modifier_index = 0;
+              modifier_index < modifier_array.length;
+              ++modifier_index )
         {
-            class_name = class_name_array[ class_name_index ];
+            modifier = modifier_array[ modifier_index ];
 
-            if ( class_name.startsWith( '?' ) )
+            if ( modifier.startsWith( '?' ) )
             {
-                id = class_name.slice( 1 );
+                id = modifier.slice( 1 );
             }
-            else if ( class_name.startsWith( '$' ) )
+            else if ( modifier.startsWith( '$' ) )
             {
                 if ( styles !== "" )
                 {
                     styles += ";";
                 }
 
-                styles += "color:" + GetColor( class_name.slice( 1 ) );
+                styles += "color:" + GetColor( modifier.slice( 1 ) );
             }
-            else if ( class_name.startsWith( '~' ) )
+            else if ( modifier.startsWith( '~' ) )
             {
                 if ( styles !== "" )
                 {
                     styles += ";";
                 }
 
-                styles += "text-decoration-color:" + GetColor( class_name.slice( 1 ) );
+                styles += "text-decoration-color:" + GetColor( modifier.slice( 1 ) );
             }
-            else if ( class_name.startsWith( '#' ) )
+            else if ( modifier.startsWith( '#' ) )
             {
                 if ( styles !== "" )
                 {
                     styles += ";";
                 }
 
-                styles += "background-color:" + GetColor( class_name.slice( 1 ) );
+                styles += "background-color:" + GetColor( modifier.slice( 1 ) );
             }
-            else if ( class_name.startsWith( '+' ) )
+            else if ( modifier.startsWith( '+' ) )
             {
                 if ( styles !== "" )
                 {
                     styles += ";";
                 }
 
-                styles += "border-color:" + GetColor( class_name.slice( 1 ) );
+                styles += "border-color:" + GetColor( modifier.slice( 1 ) );
             }
-            else if ( class_name.startsWith( '@' ) )
+            else if ( modifier.startsWith( '@' ) )
             {
-                size = class_name.slice( 1 );
+                size = modifier.slice( 1 );
 
                 if ( !HasUnit( size ) )
                 {
@@ -1720,17 +1746,17 @@ function GetTokenArray(
 
                 styles += "font-size:" + size;
             }
-            else if ( class_name.startsWith( '=' ) )
+            else if ( modifier.startsWith( '=' ) )
             {
-                span = class_name.slice( 1 );
+                span = modifier.slice( 1 );
             }
-            else if ( class_name.startsWith( '&' ) )
+            else if ( modifier.startsWith( '&' ) )
             {
-                other_attributes += " " + class_name.slice( 1 );
+                other_attributes += " " + modifier.slice( 1 );
             }
             else
             {
-                equal_character_index = class_name.indexOf( '=' );
+                equal_character_index = modifier.indexOf( '=' );
 
                 if ( equal_character_index > 0 )
                 {
@@ -1739,7 +1765,7 @@ function GetTokenArray(
                         styles += ";";
                     }
 
-                    styles += class_name.slice( 0, equal_character_index ) + ":" + class_name.slice( equal_character_index + 1 );
+                    styles += modifier.slice( 0, equal_character_index ) + ":" + modifier.slice( equal_character_index + 1 );
                 }
                 else
                 {
@@ -1748,7 +1774,7 @@ function GetTokenArray(
                         classes += " ";
                     }
 
-                    classes += class_name;
+                    classes += modifier;
                 }
             }
         }
@@ -1785,13 +1811,12 @@ function GetTokenArray(
 
     function ParseCommand(
         command_prefix,
-        classes,
+        modifiers,
         command_suffix
         )
     {
         var
             character,
-            class_name,
             command_character_index,
             command_is_valid,
             next_character_index;
@@ -1802,7 +1827,7 @@ function GetTokenArray(
             {
                 character_index += command_prefix.length;
 
-                ParseAttributes( classes );
+                ParseAttributes( modifiers );
 
                 return true;
             }
@@ -1842,7 +1867,7 @@ function GetTokenArray(
                 {
                     character_index += command_prefix.length;
 
-                    ParseAttributes( classes );
+                    ParseAttributes( modifiers );
 
                     character_index += command_suffix.length;
 
@@ -2904,17 +2929,17 @@ CODE_TOKEN_TYPE = new CODE_TOKEN_TYPE();
 TabulationSpaceCount = 4;
 IndentationSpaceCount = 4;
 
-ClassDefinitionMap = [];
-ClassDefinitionMap[ "°" ] = "gray";
-ClassDefinitionMap[ "⁰" ] = "orange";
-ClassDefinitionMap[ "¹" ] = "pink";
-ClassDefinitionMap[ "²" ] = "red";
-ClassDefinitionMap[ "³" ] = "blue";
-ClassDefinitionMap[ "⁴" ] = "violet";
-ClassDefinitionMap[ "⁵" ] = "cyan";
-ClassDefinitionMap[ "⁶" ] = "black";
-ClassDefinitionMap[ "⁷" ] = "yellow";
-ClassDefinitionMap[ "⁸" ] = "white";
-ClassDefinitionMap[ "⁹" ] = "green";
+DefinitionMap = [];
+DefinitionMap[ "°" ] = "gray";
+DefinitionMap[ "⁰" ] = "orange";
+DefinitionMap[ "¹" ] = "pink";
+DefinitionMap[ "²" ] = "red";
+DefinitionMap[ "³" ] = "blue";
+DefinitionMap[ "⁴" ] = "violet";
+DefinitionMap[ "⁵" ] = "cyan";
+DefinitionMap[ "⁶" ] = "black";
+DefinitionMap[ "⁷" ] = "yellow";
+DefinitionMap[ "⁸" ] = "white";
+DefinitionMap[ "⁹" ] = "green";
 
 ProcessDocument();

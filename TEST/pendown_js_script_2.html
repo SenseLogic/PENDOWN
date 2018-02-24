@@ -1528,59 +1528,62 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
     °// ~\~°
 
-    ¹function¹ ReplaceClassDefinitions°(°
-        classes
+    ¹function¹ ReplaceDefinitions°(°
+        modifiers
         °)°
     °{°
         ¹var¹
-            class_name°,°
-            class_name_array°,°
-            class_name_index°,°
-            old_classes°;°
+            modifier°,°
+            modifier_array°,°
+            modifier_index°,°
+            old_modifiers°;°
 
         ¹do¹
         °{°
-            old_classes °=° classes°;°
+            old_modifiers °=° modifiers°;°
 
-            class_name_array °=° classes°.°split°(° ²' '² °);°
+            modifier_array °=° modifiers°.°split°(° ²' '² °);°
 
-            ¹for¹ °(° class_name_index °=° ²0²°;°
-                  class_name_index °&lt;° class_name_array°.°length°;°
-                  °+\+°class_name_index °)°
+            ¹for¹ °(° modifier_index °=° ²0²°;°
+                  modifier_index °&lt;° modifier_array°.°length°;°
+                  °+\+°modifier_index °)°
             °{°
-                class_name °=° class_name_array°[° class_name_index °];°
+                modifier °=° modifier_array°[° modifier_index °];°
 
-                ¹if¹ °(° ClassDefinitionMap°.°hasOwnProperty°(° class_name °)° °)°
+                ¹if¹ °(° DefinitionMap°.°hasOwnProperty°(° modifier °)° °)°
                 °{°
-                    class_name_array°[° class_name_index °]° °=° ClassDefinitionMap°[° class_name °];°
+                    modifier_array°[° modifier_index °]° °=° DefinitionMap°[° modifier °];°
                 °}°
             °}°
 
-            classes °=° class_name_array°.°join°(° ²' '² °);°
+            modifiers °=° modifier_array°.°join°(° ²' '² °);°
         °}°
-        ¹while¹ °(° classes °\!==° old_classes °);°
+        ¹while¹ °(° modifiers °\!==° old_modifiers °);°
 
-        ¹return¹ classes°;°
+        ¹return¹ modifiers°;°
     °}°
 
     °// ~\~°
 
     ¹function¹ ParseAttributes°(°
-        classes
+        modifiers
         °)°
     °{°
         ¹var¹
             character°,°
-            class_name°,°
-            class_name_array°,°
-            class_name_index°,°
+            classes°,°
+            modifier°,°
+            modifier_array°,°
+            modifier_index°,°
             command_is_valid°,°
             equal_character_index°,°
             id°,°
+            it_is_double_quoted°,°
+            it_is_quoted°,°
             next_character_index°,°
             other_attributes°,°
-            parenthesis_level°,°
-            parsed_classes°,°
+            added_modifiers°,°
+            nesting_level°,°
             part_array°,°
             size°,°
             span°,°
@@ -1590,7 +1593,6 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         styles °=° ²""²°;°
         span °=° ²""²°;°
         other_attributes °=° ²""²°;°
-        parenthesis_level °=° ²0²°;°
 
         command_is_valid °=° ²true²°;°
 
@@ -1600,7 +1602,11 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             command_is_valid °=° ²false²°;°
 
-            parsed_classes °=° ²""²°;°
+            it_is_quoted °=° ²false²°;°
+            it_is_double_quoted °=° ²false²°;°
+            nesting_level °=° ²0²°;°
+            
+            added_modifiers °=° ²""²°;°
 
             ¹for¹ °(° next_character_index °=° character_index °+° ²1²°;°
                   next_character_index °&lt;° text°.°length°;°
@@ -1610,21 +1616,21 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
                 ¹if¹ °(° character °===° ²'\\\\'² °)°
                 °{°
-                    ¹if¹ °(° parsed_classes °\!==° ²""² °)°
+                    ¹if¹ °(° added_modifiers °\!==° ²""² °)°
                     °{°
-                        ¹if¹ °(° parsed_classes°.°indexOf°(° ²':'² °)° °&gt;=° ²0² °)°
+                        ¹if¹ °(° added_modifiers°.°indexOf°(° ²':'² °)° °&gt;=° ²0² °)°
                         °{°
-                            part_array °=° parsed_classes°.°split°(° ²':'² °);°
-                            ClassDefinitionMap°[° part_array°[° ²1² °]° °]° °=° part_array°[° ²0² °];°
-                            parsed_classes °=° part_array°[° ²0² °];°
+                            part_array °=° added_modifiers°.°split°(° ²':'² °);°
+                            DefinitionMap°[° part_array°[° ²1² °]° °]° °=° part_array°[° ²0² °];°
+                            added_modifiers °=° part_array°[° ²0² °];°
                         °}°
 
-                        ¹if¹ °(° classes °\!==° ²""² °)°
+                        ¹if¹ °(° modifiers °\!==° ²""² °)°
                         °{°
-                            classes °+=° ²" "²°;°
+                            modifiers °+=° ²" "²°;°
                         °}°
 
-                        classes °+=° parsed_classes°;°
+                        modifiers °+=° added_modifiers°;°
 
                         character_index °=° next_character_index °+° ²1²°;°
                         command_is_valid °=° ²true²°;°
@@ -1633,21 +1639,41 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                     ¹break¹°;°
                 °}°
                 ¹else¹ ¹if¹ °(° character °===° ²','²
-                          °&&° parenthesis_level °===° ²0² °)°
+                          °&&° °\!°it_is_quoted
+                          °&&° °\!°it_is_double_quoted
+                          °&&° nesting_level °===° ²0² °)°
                 °{°
-                    parsed_classes °+=° ²' '²°;°
+                    added_modifiers °+=° ²' '²°;°
                 °}°
                 ¹else¹ ¹if¹ °(° character °\!==° ²'\\n'² °)°
                 °{°
-                    parsed_classes °+=° character°;°
-
-                    ¹if¹ °(° character °===° ²'('² °)°
+                    added_modifiers °+=° character°;°
+                    
+                    ¹if¹ °(° character °===° ²'\\''²
+                         °&&° °\!°it_is_double_quoted °)°
                     °{°
-                        °+\+°parenthesis_level°;°
+                        it_is_quoted °=° °\!°it_is_quoted°;°
                     °}°
-                    ¹else¹ ¹if¹ °(° character °===° ²')'² °)°
+                    ¹else¹ ¹if¹ °(° character °===° ²'"'²
+                              °&&° °\!°it_is_quoted °)°
                     °{°
-                        °-\-°parenthesis_level°;°
+                        it_is_double_quoted °=° °\!°it_is_double_quoted°;°
+                    °}°
+                    ¹else¹ ¹if¹ °(° °\!°it_is_quoted
+                              °&&° °\!°it_is_double_quoted °)°
+                    °{°
+                        ¹if¹ °(° character °===° ²'('²
+                             °||° character °===° ²'['²
+                             °||° character °===° ²'{'² °)°
+                        °{°
+                            °+\+°nesting_level°;°
+                        °}°
+                        ¹else¹ ¹if¹ °(° character °===° ²')'²
+                                 °||° character °===° ²']'²
+                                 °||° character °===° ²'}'² °)°
+                        °{°
+                            °-\-°nesting_level°;°
+                        °}°
                     °}°
                 °}°
                 ¹else¹
@@ -1657,60 +1683,60 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             °}°
         °}°
 
-        classes °=° ReplaceClassDefinitions°(° classes °);°
-
-        class_name_array °=° classes°.°split°(° ²' '² °);°
+        modifiers °=° ReplaceDefinitions°(° modifiers °);°
+        modifier_array °=° modifiers°.°split°(° ²' '² °);°
+        
         classes °=° ²""²°;°
 
-        ¹for¹ °(° class_name_index °=° ²0²°;°
-              class_name_index °&lt;° class_name_array°.°length°;°
-              °+\+°class_name_index °)°
+        ¹for¹ °(° modifier_index °=° ²0²°;°
+              modifier_index °&lt;° modifier_array°.°length°;°
+              °+\+°modifier_index °)°
         °{°
-            class_name °=° class_name_array°[° class_name_index °];°
+            modifier °=° modifier_array°[° modifier_index °];°
 
-            ¹if¹ °(° class_name°.°startsWith°(° ²'?'² °)° °)°
+            ¹if¹ °(° modifier°.°startsWith°(° ²'?'² °)° °)°
             °{°
-                id °=° class_name°.°slice°(° ²1² °);°
+                id °=° modifier°.°slice°(° ²1² °);°
             °}°
-            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'$'² °)° °)°
+            ¹else¹ ¹if¹ °(° modifier°.°startsWith°(° ²'$'² °)° °)°
             °{°
                 ¹if¹ °(° styles °\!==° ²""² °)°
                 °{°
                     styles °+=° ²";"²°;°
                 °}°
 
-                styles °+=° ²"color:"² °+° GetColor°(° class_name°.°slice°(° ²1² °)° °);°
+                styles °+=° ²"color:"² °+° GetColor°(° modifier°.°slice°(° ²1² °)° °);°
             °}°
-            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'~'² °)° °)°
+            ¹else¹ ¹if¹ °(° modifier°.°startsWith°(° ²'~'² °)° °)°
             °{°
                 ¹if¹ °(° styles °\!==° ²""² °)°
                 °{°
                     styles °+=° ²";"²°;°
                 °}°
 
-                styles °+=° ²"text-decoration-color:"² °+° GetColor°(° class_name°.°slice°(° ²1² °)° °);°
+                styles °+=° ²"text-decoration-color:"² °+° GetColor°(° modifier°.°slice°(° ²1² °)° °);°
             °}°
-            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'\#'² °)° °)°
+            ¹else¹ ¹if¹ °(° modifier°.°startsWith°(° ²'\#'² °)° °)°
             °{°
                 ¹if¹ °(° styles °\!==° ²""² °)°
                 °{°
                     styles °+=° ²";"²°;°
                 °}°
 
-                styles °+=° ²"background-color:"² °+° GetColor°(° class_name°.°slice°(° ²1² °)° °);°
+                styles °+=° ²"background-color:"² °+° GetColor°(° modifier°.°slice°(° ²1² °)° °);°
             °}°
-            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'+'² °)° °)°
+            ¹else¹ ¹if¹ °(° modifier°.°startsWith°(° ²'+'² °)° °)°
             °{°
                 ¹if¹ °(° styles °\!==° ²""² °)°
                 °{°
                     styles °+=° ²";"²°;°
                 °}°
 
-                styles °+=° ²"border-color:"² °+° GetColor°(° class_name°.°slice°(° ²1² °)° °);°
+                styles °+=° ²"border-color:"² °+° GetColor°(° modifier°.°slice°(° ²1² °)° °);°
             °}°
-            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'\@'² °)° °)°
+            ¹else¹ ¹if¹ °(° modifier°.°startsWith°(° ²'\@'² °)° °)°
             °{°
-                size °=° class_name°.°slice°(° ²1² °);°
+                size °=° modifier°.°slice°(° ²1² °);°
 
                 ¹if¹ °(° °\!°HasUnit°(° size °)° °)°
                 °{°
@@ -1724,17 +1750,17 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
                 styles °+=° ²"font-size:"² °+° size°;°
             °}°
-            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'='² °)° °)°
+            ¹else¹ ¹if¹ °(° modifier°.°startsWith°(° ²'='² °)° °)°
             °{°
-                span °=° class_name°.°slice°(° ²1² °);°
+                span °=° modifier°.°slice°(° ²1² °);°
             °}°
-            ¹else¹ ¹if¹ °(° class_name°.°startsWith°(° ²'&'² °)° °)°
+            ¹else¹ ¹if¹ °(° modifier°.°startsWith°(° ²'&'² °)° °)°
             °{°
-                other_attributes °+=° ²" "² °+° class_name°.°slice°(° ²1² °);°
+                other_attributes °+=° ²" "² °+° modifier°.°slice°(° ²1² °);°
             °}°
             ¹else¹
             °{°
-                equal_character_index °=° class_name°.°indexOf°(° ²'='² °);°
+                equal_character_index °=° modifier°.°indexOf°(° ²'='² °);°
 
                 ¹if¹ °(° equal_character_index °&gt;° ²0² °)°
                 °{°
@@ -1743,7 +1769,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                         styles °+=° ²";"²°;°
                     °}°
 
-                    styles °+=° class_name°.°slice°(° ²0²°,° equal_character_index °)° °+° ²":"² °+° class_name°.°slice°(° equal_character_index °+° ²1² °);°
+                    styles °+=° modifier°.°slice°(° ²0²°,° equal_character_index °)° °+° ²":"² °+° modifier°.°slice°(° equal_character_index °+° ²1² °);°
                 °}°
                 ¹else¹
                 °{°
@@ -1752,7 +1778,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                         classes °+=° ²" "²°;°
                     °}°
 
-                    classes °+=° class_name°;°
+                    classes °+=° modifier°;°
                 °}°
             °}°
         °}°
@@ -1789,13 +1815,12 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 
     ¹function¹ ParseCommand°(°
         command_prefix°,°
-        classes°,°
+        modifiers°,°
         command_suffix
         °)°
     °{°
         ¹var¹
             character°,°
-            class_name°,°
             command_character_index°,°
             command_is_valid°,°
             next_character_index°;°
@@ -1806,7 +1831,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
             °{°
                 character_index °+=° command_prefix°.°length°;°
 
-                ParseAttributes°(° classes °);°
+                ParseAttributes°(° modifiers °);°
 
                 ¹return¹ ²true²°;°
             °}°
@@ -1846,7 +1871,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                 °{°
                     character_index °+=° command_prefix°.°length°;°
 
-                    ParseAttributes°(° classes °);°
+                    ParseAttributes°(° modifiers °);°
 
                     character_index °+=° command_suffix°.°length°;°
 
@@ -2908,18 +2933,18 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
 TabulationSpaceCount °=° ²4²°;°
 IndentationSpaceCount °=° ²4²°;°
 
-ClassDefinitionMap °=° °[];°
-ClassDefinitionMap°[° ²"\°"² °]° °=° ²"gray"²°;°
-ClassDefinitionMap°[° ²"\⁰"² °]° °=° ²"orange"²°;°
-ClassDefinitionMap°[° ²"\¹"² °]° °=° ²"pink"²°;°
-ClassDefinitionMap°[° ²"\²"² °]° °=° ²"red"²°;°
-ClassDefinitionMap°[° ²"\³"² °]° °=° ²"blue"²°;°
-ClassDefinitionMap°[° ²"\⁴"² °]° °=° ²"violet"²°;°
-ClassDefinitionMap°[° ²"\⁵"² °]° °=° ²"cyan"²°;°
-ClassDefinitionMap°[° ²"\⁶"² °]° °=° ²"black"²°;°
-ClassDefinitionMap°[° ²"\⁷"² °]° °=° ²"yellow"²°;°
-ClassDefinitionMap°[° ²"\⁸"² °]° °=° ²"white"²°;°
-ClassDefinitionMap°[° ²"\⁹"² °]° °=° ²"green"²°;°
+DefinitionMap °=° °[];°
+DefinitionMap°[° ²"\°"² °]° °=° ²"gray"²°;°
+DefinitionMap°[° ²"\⁰"² °]° °=° ²"orange"²°;°
+DefinitionMap°[° ²"\¹"² °]° °=° ²"pink"²°;°
+DefinitionMap°[° ²"\²"² °]° °=° ²"red"²°;°
+DefinitionMap°[° ²"\³"² °]° °=° ²"blue"²°;°
+DefinitionMap°[° ²"\⁴"² °]° °=° ²"violet"²°;°
+DefinitionMap°[° ²"\⁵"² °]° °=° ²"cyan"²°;°
+DefinitionMap°[° ²"\⁶"² °]° °=° ²"black"²°;°
+DefinitionMap°[° ²"\⁷"² °]° °=° ²"yellow"²°;°
+DefinitionMap°[° ²"\⁸"² °]° °=° ²"white"²°;°
+DefinitionMap°[° ²"\⁹"² °]° °=° ²"green"²°;°
 
 ProcessDocument°();°
 :::

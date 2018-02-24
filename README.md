@@ -17,101 +17,6 @@ Lightweight markup for colored documents.
 ## Sample
 
 ```
-! Heading 1
-!! Heading 2
-!!! Heading 3
-!!!! Heading 4
-!!!!! Heading 5
-!!!!!! Heading 6
-
-**bold**
-%%italics%%
-^^superscript^^
-,,subscript,,
-~~strikethrough~~
-__underlined__
-##highlighted##
-
-{{ span }}
-{{{ div }}}
-### box ###
-+++ frame +++
->>> quote >>>
-::: pre :::
-
-:::^cpp\
-// Colorized source code
-
-#include <iostream>
-
-using namespace std;
-
-int main()
-{
-    cout << "Hello world!";
-
-    return 0;
-}
-:::
-
-[[[
-(( Monday | Tuesday | Wednesday ))
-(( 1      | 2       | 3         ))
-(( 1      | 2       | 3         ))
-(( 1      | 2       | 3         ))
-]]]
-
-*   List
-*   List
-    *   Sub-list
-    *   Sub-list
-        #   Numbered sub-list
-        #   Numbered sub-list
-            #   Numbered sub-list
-            #   Numbered sub-list
-        #   Numbered
-            sub-list
-
-@@http://www.github.com A link to Github@@
-@@http://www.github.com [[image.jpg:20]]@@
-@@http://www.github.com@@
-
-[[image.jpg]]
-[[image.jpg:20]]
-[[image.jpg:20vw,20%]]
-```
-
-After a Pendown tag, you can specify one or several lists of classes and properties :
-
-```
-{{^big,red,yellow_background\ a big red text with a yellow background }}
-
-{{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
-```
-
-Those lists can be named, so that you can reuse them elsewhere in the document :
-
-```
-{{^blue,italic:gangnam\ a blue text in italics }}
-
-!^gangnam\ This title also uses the gangnam style.
-```
-
-## Getting Started
-
-Install the Pendown installation files in a local folder on your computer.
-
-In the `SAMPLE/` subfolder, open `sample.html` with a web-browser.
-
-If the Comic Sans and Consolas fonts are installed on your system, you should see the following result :
-
-![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
-
-Now open this file with a plain text editor, like Geany or Notepad++.
-
-You will see that this document was entirely made using Pendown tags. 
-
-```html
 <meta charset="utf8"/>
 <link rel="stylesheet" href="../pendown.css">
 <xmp>
@@ -533,6 +438,12 @@ Effects :
 
 [[^hue_180\image_6.jpg:20]] [[^inverse_100\image_6.jpg:20]] [[^gray_100\image_6.jpg:20]] [[^sepia_100\image_6.jpg:20]]
 
+!! Styling
+
+{{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128,128,128,0.2),$00c,&onclick="alert('Hello!')"\
+You can use any CSS id, class or property you need.
+}}}
+
 !! HTML
 
 ²Pendown tags² can be mixed with <span style="color:green">HTML tags</span>.
@@ -542,17 +453,21 @@ Effects :
 
 They are automatically converted to HTML tags when the file is opened in a web browser.
 
-## Custom styling
+## Styling
 
-*   After a Pendown tag, one or several CSS classes can be specified : `!^violet,italic\ Main title`
-*   The following attributes can also be specified :
+*   Any Pendown tag can be followed by one or several lists of style modifiers : !^violet,italic\ Main title
+*   The following modifiers are supported :
+    *   Id : `?menu`
+    *   Class : `bold`
+    *   Property : `border-style=dotted`
+    *   Attribute : `&onclick="alert('Hello!')"`
     *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
-    *   Underline/strikethrough color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
+    *   Decoration color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
     *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
     *   Border color : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
     *   Font size : `@1.25` `@1.25rem` `@1.25vw`
     *   Column span : `=2`
-*   Custom classes can be dynamically created from other classes and attributes : `^bold,$841:bold_brown\`
+*   A modifier list can be named, to be reused further in the document : `^bold,$841:bold_brown\`
 *   The color tags can also be redefined : `^yellow_fill,$82f:²\`
 
 ## Syntax highlighting
@@ -697,7 +612,8 @@ Converts a D source code file to a HTML file which imports the Pendown script an
 
 ## Limitations
 
-* Lists are not processed inside preformatted blocks.
+* The modifier lists can't contain spaces.
+* The lists are not processed inside preformatted blocks.
 * The Pendown text can't contain `<xmp>` tags if it is converted to HTML by the web browser script.
 
 ## Version

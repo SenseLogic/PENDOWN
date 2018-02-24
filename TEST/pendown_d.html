@@ -782,7 +782,7 @@
     ScriptFolderPath<span class="gray">,</span>
     StyleFolderPath<span class="gray">;</span>
 <span class="red">dstring</span><span class="gray">[</span> <span class="red">dstring</span> <span class="gray">]</span>
-    ClassDefinitionMap<span class="gray">;</span>
+    DefinitionMap<span class="gray">;</span>
 
 <span class="gray">// -- FUNCTIONS</span>
 
@@ -1703,75 +1703,77 @@
 
     <span class="gray">// ~~</span>
 
-    <span class="red">dstring</span> ReplaceClassDefinitions<span class="gray">(</span>
-        <span class="red">dstring</span> classes
+    <span class="red">dstring</span> ReplaceDefinitions<span class="gray">(</span>
+        <span class="red">dstring</span> modifiers
         <span class="gray">)</span>
     <span class="gray">{</span>
         <span class="red">dstring</span>
-            class_name<span class="gray">,</span>
-            old_classes<span class="gray">;</span>
+            modifier<span class="gray">,</span>
+            old_modifiers<span class="gray">;</span>
         <span class="red">dstring</span><span class="gray">[]</span>
-            class_name_array<span class="gray">;</span>
+            modifier_array<span class="gray">;</span>
         <span class="red">long</span>
-            class_name_index<span class="gray">;</span>
+            modifier_index<span class="gray">;</span>
 
         <span class="pink">do</span>
         <span class="gray">{</span>
-            old_classes <span class="gray">=</span> classes<span class="gray">;</span>
+            old_modifiers <span class="gray">=</span> modifiers<span class="gray">;</span>
 
-            class_name_array <span class="gray">=</span> classes<span class="gray">.</span>split<span class="gray">(</span> <span class="red">' '</span> <span class="gray">);</span>
+            modifier_array <span class="gray">=</span> modifiers<span class="gray">.</span>split<span class="gray">(</span> <span class="red">' '</span> <span class="gray">);</span>
 
-            <span class="pink">for</span> <span class="gray">(</span> class_name_index <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
-                  class_name_index <span class="gray">&lt;</span> class_name_array<span class="gray">.</span>length<span class="gray">;</span>
-                  <span class="gray">++</span>class_name_index <span class="gray">)</span>
+            <span class="pink">for</span> <span class="gray">(</span> modifier_index <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
+                  modifier_index <span class="gray">&lt;</span> modifier_array<span class="gray">.</span>length<span class="gray">;</span>
+                  <span class="gray">++</span>modifier_index <span class="gray">)</span>
             <span class="gray">{</span>
-                class_name <span class="gray">=</span> class_name_array<span class="gray">[</span> class_name_index <span class="gray">];</span>
+                modifier <span class="gray">=</span> modifier_array<span class="gray">[</span> modifier_index <span class="gray">];</span>
 
-                <span class="pink">if</span> <span class="gray">(</span> <span class="gray">(</span> class_name in ClassDefinitionMap <span class="gray">)</span> <span class="gray">!</span>is <span class="red">null</span> <span class="gray">)</span>
+                <span class="pink">if</span> <span class="gray">(</span> <span class="gray">(</span> modifier in DefinitionMap <span class="gray">)</span> <span class="gray">!</span>is <span class="red">null</span> <span class="gray">)</span>
                 <span class="gray">{</span>
-                    class_name_array<span class="gray">[</span> class_name_index <span class="gray">]</span> <span class="gray">=</span> ClassDefinitionMap<span class="gray">[</span> class_name <span class="gray">];</span>
+                    modifier_array<span class="gray">[</span> modifier_index <span class="gray">]</span> <span class="gray">=</span> DefinitionMap<span class="gray">[</span> modifier <span class="gray">];</span>
                 <span class="gray">}</span>
             <span class="gray">}</span>
 
-            classes <span class="gray">=</span> class_name_array<span class="gray">.</span>join<span class="gray">(</span> <span class="red">' '</span> <span class="gray">);</span>
+            modifiers <span class="gray">=</span> modifier_array<span class="gray">.</span>join<span class="gray">(</span> <span class="red">' '</span> <span class="gray">);</span>
         <span class="gray">}</span>
-        <span class="pink">while</span> <span class="gray">(</span> classes <span class="gray">!=</span> old_classes <span class="gray">);</span>
+        <span class="pink">while</span> <span class="gray">(</span> modifiers <span class="gray">!=</span> old_modifiers <span class="gray">);</span>
 
-        <span class="pink">return</span> classes<span class="gray">;</span>
+        <span class="pink">return</span> modifiers<span class="gray">;</span>
     <span class="gray">}</span>
 
     <span class="gray">// ~~</span>
 
     <span class="red">void</span> ParseAttributes<span class="gray">(</span>
-        <span class="red">dstring</span> classes
+        <span class="red">dstring</span> modifiers
         <span class="gray">)</span>
     <span class="gray">{</span>
         <span class="red">bool</span>
-            command_is_valid<span class="gray">;</span>
+            command_is_valid<span class="gray">,</span>
+            it_is_double_quoted<span class="gray">,</span>
+            it_is_quoted<span class="gray">;</span>
         <span class="red">dchar</span>
             character<span class="gray">;</span>
         <span class="red">long</span>
-            class_name_index<span class="gray">,</span>
+            modifier_index<span class="gray">,</span>
             equal_character_index<span class="gray">,</span>
             next_character_index<span class="gray">,</span>
-            parenthesis_level<span class="gray">;</span>
+            nesting_level<span class="gray">;</span>
         <span class="red">dstring</span>
-            class_name<span class="gray">,</span>
+            classes<span class="gray">,</span>
             id<span class="gray">,</span>
+            added_modifiers<span class="gray">,</span>
+            modifier<span class="gray">,</span>
             other_attributes<span class="gray">,</span>
-            parsed_classes<span class="gray">,</span>
             size<span class="gray">,</span>
             span<span class="gray">,</span>
             styles<span class="gray">;</span>
         <span class="red">dstring</span><span class="gray">[]</span>
-            class_name_array<span class="gray">,</span>
+            modifier_array<span class="gray">,</span>
             part_array<span class="gray">;</span>
 
         id <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
         styles <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
         span <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
         other_attributes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
-        parenthesis_level <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
 
         command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
 
@@ -1781,7 +1783,11 @@
         <span class="gray">{</span>
             command_is_valid <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
 
-            parsed_classes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+            it_is_quoted <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
+            it_is_double_quoted <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
+            nesting_level <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
+
+            added_modifiers <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
 
             <span class="pink">for</span> <span class="gray">(</span> next_character_index <span class="gray">=</span> character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
                   next_character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length<span class="gray">;</span>
@@ -1791,21 +1797,21 @@
 
                 <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span> <span class="gray">)</span>
                 <span class="gray">{</span>
-                    <span class="pink">if</span> <span class="gray">(</span> parsed_classes <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+                    <span class="pink">if</span> <span class="gray">(</span> added_modifiers <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
                     <span class="gray">{</span>
-                        <span class="pink">if</span> <span class="gray">(</span> parsed_classes<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">':'</span> <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
+                        <span class="pink">if</span> <span class="gray">(</span> added_modifiers<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">':'</span> <span class="gray">)</span> <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
                         <span class="gray">{</span>
-                            part_array <span class="gray">=</span> parsed_classes<span class="gray">.</span>split<span class="gray">(</span> <span class="red">':'</span> <span class="gray">);</span>
-                            ClassDefinitionMap<span class="gray">[</span> part_array<span class="gray">[</span> <span class="red">1</span> <span class="gray">]</span> <span class="gray">]</span> <span class="gray">=</span> part_array<span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
-                            parsed_classes <span class="gray">=</span> part_array<span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
+                            part_array <span class="gray">=</span> added_modifiers<span class="gray">.</span>split<span class="gray">(</span> <span class="red">':'</span> <span class="gray">);</span>
+                            DefinitionMap<span class="gray">[</span> part_array<span class="gray">[</span> <span class="red">1</span> <span class="gray">]</span> <span class="gray">]</span> <span class="gray">=</span> part_array<span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
+                            added_modifiers <span class="gray">=</span> part_array<span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
                         <span class="gray">}</span>
 
-                        <span class="pink">if</span> <span class="gray">(</span> classes <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
+                        <span class="pink">if</span> <span class="gray">(</span> modifiers <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
                         <span class="gray">{</span>
-                            classes <span class="gray">~=</span> <span class="red">" "</span><span class="gray">;</span>
+                            modifiers <span class="gray">~=</span> <span class="red">" "</span><span class="gray">;</span>
                         <span class="gray">}</span>
 
-                        classes <span class="gray">~=</span> parsed_classes<span class="gray">;</span>
+                        modifiers <span class="gray">~=</span> added_modifiers<span class="gray">;</span>
 
                         character_index <span class="gray">=</span> next_character_index <span class="gray">+</span> <span class="red">1</span><span class="gray">;</span>
                         command_is_valid <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
@@ -1814,21 +1820,41 @@
                     <span class="pink">break</span><span class="gray">;</span>
                 <span class="gray">}</span>
                 <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">','</span>
-                          <span class="gray">&&</span> parenthesis_level <span class="gray">==</span> <span class="red">0</span> <span class="gray">)</span>
+                          <span class="gray">&&</span> <span class="gray">!</span>it_is_quoted
+                          <span class="gray">&&</span> <span class="gray">!</span>it_is_double_quoted
+                          <span class="gray">&&</span> nesting_level <span class="gray">==</span> <span class="red">0</span> <span class="gray">)</span>
                 <span class="gray">{</span>
-                    parsed_classes <span class="gray">~=</span> <span class="red">' '</span><span class="gray">;</span>
+                    added_modifiers <span class="gray">~=</span> <span class="red">' '</span><span class="gray">;</span>
                 <span class="gray">}</span>
                 <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">!=</span> <span class="red">'\n'</span> <span class="gray">)</span>
                 <span class="gray">{</span>
-                    parsed_classes <span class="gray">~=</span> character<span class="gray">;</span>
+                    added_modifiers <span class="gray">~=</span> character<span class="gray">;</span>
 
-                    <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'('</span> <span class="gray">)</span>
+                    <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\''</span>
+                         <span class="gray">&&</span> <span class="gray">!</span>it_is_double_quoted <span class="gray">)</span>
                     <span class="gray">{</span>
-                        <span class="gray">++</span>parenthesis_level<span class="gray">;</span>
+                        it_is_quoted <span class="gray">=</span> <span class="gray">!</span>it_is_quoted<span class="gray">;</span>
                     <span class="gray">}</span>
-                    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">')'</span> <span class="gray">)</span>
+                    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'"'</span>
+                              <span class="gray">&&</span> <span class="gray">!</span>it_is_quoted <span class="gray">)</span>
                     <span class="gray">{</span>
-                        <span class="gray">--</span>parenthesis_level<span class="gray">;</span>
+                        it_is_double_quoted <span class="gray">=</span> <span class="gray">!</span>it_is_double_quoted<span class="gray">;</span>
+                    <span class="gray">}</span>
+                    <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> <span class="gray">!</span>it_is_quoted
+                              <span class="gray">&&</span> <span class="gray">!</span>it_is_double_quoted <span class="gray">)</span>
+                    <span class="gray">{</span>
+                        <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'('</span>
+                             <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'['</span>
+                             <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'{'</span> <span class="gray">)</span>
+                        <span class="gray">{</span>
+                            <span class="gray">++</span>nesting_level<span class="gray">;</span>
+                        <span class="gray">}</span>
+                        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">')'</span>
+                                 <span class="gray">||</span> character <span class="gray">==</span> <span class="red">']'</span>
+                                 <span class="gray">||</span> character <span class="gray">==</span> <span class="red">'}'</span> <span class="gray">)</span>
+                        <span class="gray">{</span>
+                            <span class="gray">--</span>nesting_level<span class="gray">;</span>
+                        <span class="gray">}</span>
                     <span class="gray">}</span>
                 <span class="gray">}</span>
                 <span class="pink">else</span>
@@ -1838,60 +1864,60 @@
             <span class="gray">}</span>
         <span class="gray">}</span>
 
-        classes <span class="gray">=</span> ReplaceClassDefinitions<span class="gray">(</span> classes <span class="gray">);</span>
+        modifiers <span class="gray">=</span> ReplaceDefinitions<span class="gray">(</span> modifiers <span class="gray">);</span>
+        modifier_array <span class="gray">=</span> modifiers<span class="gray">.</span>split<span class="gray">(</span> <span class="red">' '</span> <span class="gray">);</span>
 
-        class_name_array <span class="gray">=</span> classes<span class="gray">.</span>split<span class="gray">(</span> <span class="red">' '</span> <span class="gray">);</span>
         classes <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
 
-        <span class="pink">for</span> <span class="gray">(</span> class_name_index <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
-              class_name_index <span class="gray">&lt;</span> class_name_array<span class="gray">.</span>length<span class="gray">;</span>
-              <span class="gray">++</span>class_name_index <span class="gray">)</span>
+        <span class="pink">for</span> <span class="gray">(</span> modifier_index <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
+              modifier_index <span class="gray">&lt;</span> modifier_array<span class="gray">.</span>length<span class="gray">;</span>
+              <span class="gray">++</span>modifier_index <span class="gray">)</span>
         <span class="gray">{</span>
-            class_name <span class="gray">=</span> class_name_array<span class="gray">[</span> class_name_index <span class="gray">];</span>
+            modifier <span class="gray">=</span> modifier_array<span class="gray">[</span> modifier_index <span class="gray">];</span>
 
-            <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'?'</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="pink">if</span> <span class="gray">(</span> modifier<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'?'</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
-                id <span class="gray">=</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
+                id <span class="gray">=</span> modifier<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
             <span class="gray">}</span>
-            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'$'</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> modifier<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'$'</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
                 <span class="pink">if</span> <span class="gray">(</span> styles <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
                 <span class="gray">{</span>
                     styles <span class="gray">~=</span> <span class="red">";"</span><span class="gray">;</span>
                 <span class="gray">}</span>
 
-                styles <span class="gray">~=</span> <span class="red">"color:"</span> <span class="gray">~</span> GetColor<span class="gray">(</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">);</span>
+                styles <span class="gray">~=</span> <span class="red">"color:"</span> <span class="gray">~</span> GetColor<span class="gray">(</span> modifier<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">);</span>
             <span class="gray">}</span>
-            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'~'</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> modifier<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'~'</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
                 <span class="pink">if</span> <span class="gray">(</span> styles <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
                 <span class="gray">{</span>
                     styles <span class="gray">~=</span> <span class="red">";"</span><span class="gray">;</span>
                 <span class="gray">}</span>
 
-                styles <span class="gray">~=</span> <span class="red">"text-decoration-color:"</span> <span class="gray">~</span> GetColor<span class="gray">(</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">);</span>
+                styles <span class="gray">~=</span> <span class="red">"text-decoration-color:"</span> <span class="gray">~</span> GetColor<span class="gray">(</span> modifier<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">);</span>
             <span class="gray">}</span>
-            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'#'</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> modifier<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'#'</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
                 <span class="pink">if</span> <span class="gray">(</span> styles <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
                 <span class="gray">{</span>
                     styles <span class="gray">~=</span> <span class="red">";"</span><span class="gray">;</span>
                 <span class="gray">}</span>
 
-                styles <span class="gray">~=</span> <span class="red">"background-color:"</span> <span class="gray">~</span> GetColor<span class="gray">(</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">);</span>
+                styles <span class="gray">~=</span> <span class="red">"background-color:"</span> <span class="gray">~</span> GetColor<span class="gray">(</span> modifier<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">);</span>
             <span class="gray">}</span>
-            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'+'</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> modifier<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'+'</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
                 <span class="pink">if</span> <span class="gray">(</span> styles <span class="gray">!=</span> <span class="red">""</span> <span class="gray">)</span>
                 <span class="gray">{</span>
                     styles <span class="gray">~=</span> <span class="red">";"</span><span class="gray">;</span>
                 <span class="gray">}</span>
 
-                styles <span class="gray">~=</span> <span class="red">"border-color:"</span> <span class="gray">~</span> GetColor<span class="gray">(</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">);</span>
+                styles <span class="gray">~=</span> <span class="red">"border-color:"</span> <span class="gray">~</span> GetColor<span class="gray">(</span> modifier<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">);</span>
             <span class="gray">}</span>
-            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'@'</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> modifier<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'@'</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
-                size <span class="gray">=</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
+                size <span class="gray">=</span> modifier<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
 
                 <span class="pink">if</span> <span class="gray">(</span> <span class="gray">!</span>HasUnit<span class="gray">(</span> size <span class="gray">)</span> <span class="gray">)</span>
                 <span class="gray">{</span>
@@ -1905,17 +1931,17 @@
 
                 styles <span class="gray">~=</span> <span class="red">"font-size:"</span> <span class="gray">~</span> size<span class="gray">;</span>
             <span class="gray">}</span>
-            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'='</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> modifier<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'='</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
-                span <span class="gray">=</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
+                span <span class="gray">=</span> modifier<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
             <span class="gray">}</span>
-            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> class_name<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'&'</span> <span class="gray">)</span> <span class="gray">)</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> modifier<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'&'</span> <span class="gray">)</span> <span class="gray">)</span>
             <span class="gray">{</span>
-                other_attributes <span class="gray">~=</span> <span class="red">" "</span> <span class="gray">~</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
+                other_attributes <span class="gray">~=</span> <span class="red">" "</span> <span class="gray">~</span> modifier<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">1</span> <span class="gray">);</span>
             <span class="gray">}</span>
             <span class="pink">else</span>
             <span class="gray">{</span>
-                equal_character_index <span class="gray">=</span> class_name<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">'='</span> <span class="gray">);</span>
+                equal_character_index <span class="gray">=</span> modifier<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">'='</span> <span class="gray">);</span>
 
                 <span class="pink">if</span> <span class="gray">(</span> equal_character_index <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
                 <span class="gray">{</span>
@@ -1924,7 +1950,7 @@
                         styles <span class="gray">~=</span> <span class="red">";"</span><span class="gray">;</span>
                     <span class="gray">}</span>
 
-                    styles <span class="gray">~=</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">0</span><span class="gray">,</span> equal_character_index <span class="gray">)</span> <span class="gray">~</span> <span class="red">":"</span> <span class="gray">~</span> class_name<span class="gray">.</span>slice<span class="gray">(</span> equal_character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">);</span>
+                    styles <span class="gray">~=</span> modifier<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">0</span><span class="gray">,</span> equal_character_index <span class="gray">)</span> <span class="gray">~</span> <span class="red">":"</span> <span class="gray">~</span> modifier<span class="gray">.</span>slice<span class="gray">(</span> equal_character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">);</span>
                 <span class="gray">}</span>
                 <span class="pink">else</span>
                 <span class="gray">{</span>
@@ -1933,7 +1959,7 @@
                         classes <span class="gray">~=</span> <span class="red">" "</span><span class="gray">;</span>
                     <span class="gray">}</span>
 
-                    classes <span class="gray">~=</span> class_name<span class="gray">;</span>
+                    classes <span class="gray">~=</span> modifier<span class="gray">;</span>
                 <span class="gray">}</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
@@ -1970,7 +1996,7 @@
 
     <span class="red">bool</span> ParseCommand<span class="gray">(</span>
         <span class="red">dstring</span> command_prefix<span class="gray">,</span>
-        <span class="red">dstring</span> classes<span class="gray">,</span>
+        <span class="red">dstring</span> modifiers<span class="gray">,</span>
         <span class="red">dstring</span> command_suffix
         <span class="gray">)</span>
     <span class="gray">{</span>
@@ -1978,8 +2004,6 @@
             command_is_valid<span class="gray">;</span>
         <span class="red">dchar</span>
             character<span class="gray">;</span>
-        <span class="red">dstring</span>
-            class_name<span class="gray">;</span>
         <span class="red">long</span>
             command_character_index<span class="gray">,</span>
             next_character_index<span class="gray">;</span>
@@ -1990,7 +2014,7 @@
             <span class="gray">{</span>
                 character_index <span class="gray">+=</span> command_prefix<span class="gray">.</span>length<span class="gray">;</span>
 
-                ParseAttributes<span class="gray">(</span> classes <span class="gray">);</span>
+                ParseAttributes<span class="gray">(</span> modifiers <span class="gray">);</span>
 
                 <span class="pink">return</span> <span class="red">true</span><span class="gray">;</span>
             <span class="gray">}</span>
@@ -2030,7 +2054,7 @@
                 <span class="gray">{</span>
                     character_index <span class="gray">+=</span> command_prefix<span class="gray">.</span>length<span class="gray">;</span>
 
-                    ParseAttributes<span class="gray">(</span> classes <span class="gray">);</span>
+                    ParseAttributes<span class="gray">(</span> modifiers <span class="gray">);</span>
 
                     character_index <span class="gray">+=</span> command_suffix<span class="gray">.</span>length<span class="gray">;</span>
 
@@ -3132,17 +3156,17 @@
     TabulationSpaceCount <span class="gray">=</span> <span class="red">4</span><span class="gray">;</span>
     IndentationSpaceCount <span class="gray">=</span> <span class="red">4</span><span class="gray">;</span>
 
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"°"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"gray"</span><span class="gray">;</span>
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"⁰"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"orange"</span><span class="gray">;</span>
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"¹"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"pink"</span><span class="gray">;</span>
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"²"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"red"</span><span class="gray">;</span>
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"³"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"blue"</span><span class="gray">;</span>
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"⁴"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"violet"</span><span class="gray">;</span>
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"⁵"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"cyan"</span><span class="gray">;</span>
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"⁶"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"black"</span><span class="gray">;</span>
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"⁷"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"yellow"</span><span class="gray">;</span>
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"⁸"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"white"</span><span class="gray">;</span>
-    ClassDefinitionMap<span class="gray">[</span> <span class="red">"⁹"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"green"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"°"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"gray"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"⁰"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"orange"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"¹"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"pink"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"²"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"red"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"³"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"blue"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"⁴"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"violet"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"⁵"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"cyan"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"⁶"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"black"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"⁷"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"yellow"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"⁸"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"white"</span><span class="gray">;</span>
+    DefinitionMap<span class="gray">[</span> <span class="red">"⁹"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"green"</span><span class="gray">;</span>
 
     PageOptionIsEnabled <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     PageWidth <span class="gray">=</span> <span class="red">21.0</span><span class="gray">;</span>
