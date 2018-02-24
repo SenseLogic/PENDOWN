@@ -2,7 +2,7 @@
 
 # Pendown
 
-Lightweight markup for colored documents.
+Lightweight markup for styled documents.
 
 ## Features
 
