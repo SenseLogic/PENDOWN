@@ -17,6 +17,139 @@ Lightweight markup for styled documents.
 ## Sample
 
 ```
+! Heading 1
+!! Heading 2
+!!! Heading 3
+!!!! Heading 4
+!!!!! Heading 5
+!!!!!! Heading 6
+
+**bold**
+%%italics%%
+^^superscript^^
+,,subscript,,
+~~strikethrough~~
+__underlined__
+##highlighted##
+
+{{ span }}
+{{{ div }}}
+### box ###
++++ frame +++
+>>> quote >>>
+::: pre :::
+
+:::^cpp\
+// Colorized source code
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "Hello world!";
+
+    return 0;
+}
+:::
+
+[[[
+(( Monday | Tuesday | Wednesday ))
+(( 1      | 2       | 3         ))
+(( 1      | 2       | 3         ))
+(( 1      | 2       | 3         ))
+]]]
+
+*   List
+*   List
+    *   Sub-list
+    *   Sub-list
+        #   Numbered sub-list
+        #   Numbered sub-list
+            #   Numbered sub-list
+            #   Numbered sub-list
+        #   Numbered
+            sub-list
+
+@@http://www.github.com A link to Github@@
+@@http://www.github.com [[image.jpg:20]]@@
+@@http://www.github.com@@
+
+[[image.jpg]]
+[[image.jpg:20]]
+[[image.jpg:20vw,20%]]
+```
+
+## Styling
+
+*   Any Pendown tag can be followed by one or several lists of style modifiers :
+
+```
+{{^big,red,yellow_fill\ a big red text with a yellow background }}
+
+{{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
+```
+
+*   Several types of modifiers are supported :
+    *   Id : `?menu`
+    *   Class : `bold`
+    *   Property : `border-style=dotted`
+    *   Attribute : `&onclick="alert('Hello!')"`
+    *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
+    *   Decoration color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
+    *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
+    *   Border color : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
+    *   Font size : `@1.25` `@1.25rem` `@1.25vw`
+    *   Column span : `=2`
+
+*   A modifier list can be named, to be reused further in the document :
+
+```
+{{^blue,italic:gangnam\ a blue text in italics }}
+
+!^gangnam\ This title also uses the gangnam style.
+```
+
+*   Color tags can also be redefined in the same way : 
+
+```
+{{^#ffd,$f87:²\}}
+This is a ²salmon text on a yellow background².
+{{^red:²\}}
+But this ²text is red².
+```
+
+## Syntax highlighting
+
+The source code programming language can be specified with the following keywords :
+
+* C : c h
+* C++ : cpp hpp cxx hxx
+* C# : cs
+* D : d
+* Java : java
+* JavaScript : js
+* TypeScript : ts
+
+When colorizing a source code file, its programming language is deduced from the file extension if it matches one of the above keywords.
+
+
+## Getting Started
+
+Install the Pendown installation files in a local folder on your computer.
+
+In the `SAMPLE/` subfolder, open `sample.html` with a web-browser.
+
+If the Comic Sans and Consolas fonts are installed on your system, you should see the following result :
+
+![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
+
+Now open this file with a plain text editor, like Geany or Notepad++.
+
+You will see that this document was entirely made using Pendown tags. 
+
+```html
 <meta charset="utf8"/>
 <link rel="stylesheet" href="../pendown.css">
 <xmp>
@@ -452,37 +585,6 @@ You can use any CSS id, class or property you need.
 ```
 
 They are automatically converted to HTML tags when the file is opened in a web browser.
-
-## Styling
-
-*   Any Pendown tag can be followed by one or several lists of style modifiers : `!^violet,italic\ Main title`
-*   The following types of modifiers are supported :
-    *   Id : `?menu`
-    *   Class : `bold`
-    *   Property : `border-style=dotted`
-    *   Attribute : `&onclick="alert('Hello!')"`
-    *   Text color : `$rgb` `$rgba` `$rrggbb` `$rrggbbaa`
-    *   Decoration color : `~rgb` `~rgba` `~rrggbb` `~rrggbbaa`
-    *   Background color : `#rgb` `#rgba` `#rrggbb` `#rrggbbaa`
-    *   Border color : `+rgb` `+rgba` `+rrggbb` `+rrggbbaa`
-    *   Font size : `@1.25` `@1.25rem` `@1.25vw`
-    *   Column span : `=2`
-*   A modifier list can be named, to be reused further in the document : `^bold,$841:bold_brown\`
-*   The color tags can also be redefined : `^yellow_fill,$82f:²\`
-
-## Syntax highlighting
-
-The source code programming language can be specified with the following keywords :
-
-* C : c h
-* C++ : cpp hpp cxx hxx
-* C# : cs
-* D : d
-* Java : java
-* JavaScript : js
-* TypeScript : ts
-
-When colorizing a source code file, its programming language is deduced from the file extension if it matches one of the above keywords.
 
 ## Client-side compiler
 

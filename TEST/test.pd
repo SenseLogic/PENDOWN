@@ -709,3 +709,102 @@ You can use any CSS id, class or property you need.
 ²Pendown tags² can be mixed with <span style="color:green">HTML tags</span>.
 
 <span class="red">Pendown tags</span> can be mixed with <span style="color:green">HTML tags</span>.
+
+---
+
+! Heading 1
+!! Heading 2
+!!! Heading 3
+!!!! Heading 4
+!!!!! Heading 5
+!!!!!! Heading 6
+
+**bold**
+
+%%italics%%
+
+^^superscript^^
+
+,,subscript,,
+
+~~strikethrough~~
+
+__underlined__
+
+##highlighted##
+
+{{ span }}
+
+{{{ div }}}
+
+### box ###
+
++++ frame +++
+
+>>> quote >>>
+
+::: pre :::
+
+:::^cpp\
+// Colorized source code
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "Hello world!";
+
+    return 0;
+}
+:::
+
+[[[
+(( Monday | Tuesday | Wednesday ))
+(( 1      | 2       | 3         ))
+(( 1      | 2       | 3         ))
+(( 1      | 2       | 3         ))
+]]]
+
+*   List
+*   List
+    *   Sub-list
+    *   Sub-list
+        #   Numbered sub-list
+        #   Numbered sub-list
+            #   Numbered sub-list
+            #   Numbered sub-list
+        #   Numbered
+            sub-list
+
+@@http://www.github.com A link to Github@@
+
+@@http://www.github.com [[../SAMPLE/image.jpg:20]]@@
+
+@@http://www.github.com@@
+
+[[../SAMPLE/image.jpg]]
+
+[[../SAMPLE/image.jpg:20]]
+
+[[../SAMPLE/image.jpg:20vw,20%]]
+
+---
+
+{{^big,red,yellow_fill\ a big red text with a yellow background }}
+
+{{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
+
+---
+
+{{^blue,italic:gangnam\ a blue text in italics }}
+
+!^gangnam\ This title also uses the gangnam style.
+
+---
+
+{{^#ffd,$f87:²\}}
+This is a ²salmon text on a yellow background².
+{{^red:²\}}
+But this ²text is red².
