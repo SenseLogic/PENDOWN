@@ -2890,13 +2890,14 @@ function GetProcessedText(
 // ~~
 
 function ProcessElement(
-    element
+    element,
+    html_class_name
     )
 {
     var
         processed_element;
 
-    processed_element = document.createElement( "article" );
+    processed_element = document.createElement( html_class_name );
     processed_element.className = element.className;
     processed_element.innerHTML = GetProcessedText( element.innerHTML );
 
@@ -2906,19 +2907,21 @@ function ProcessElement(
 // ~~
 
 function ProcessDocument(
+    pendown_class_name,
+    html_class_name
     )
 {
     var
         element_array,
         element_index;
 
-    element_array = document.getElementsByTagName( "xmp" );
+    element_array = document.getElementsByTagName( pendown_class_name );
 
     for ( element_index = 0;
           element_index < element_array.length;
           ++element_index )
     {
-        ProcessElement( element_array[ element_index ] );
+        ProcessElement( element_array[ element_index ], html_class_name );
     }
 }
 
@@ -2942,4 +2945,4 @@ DefinitionMap[ "⁷" ] = "yellow";
 DefinitionMap[ "⁸" ] = "white";
 DefinitionMap[ "⁹" ] = "green";
 
-ProcessDocument();
+ProcessDocument( "xmp", "article" );
