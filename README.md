@@ -455,7 +455,7 @@ They are automatically converted to HTML tags when the file is opened in a web b
 
 ## Styling
 
-*   Any Pendown tag can be followed by one or several lists of style modifiers : !^violet,italic\ Main title
+*   Any Pendown tag can be followed by one or several lists of style modifiers : `!^violet,italic\ Main title`
 *   The following modifiers are supported :
     *   Id : `?menu`
     *   Class : `bold`
@@ -614,7 +614,7 @@ Converts a D source code file to a HTML file which imports the Pendown script an
 
 * Modifier lists can't contain spaces.
 * Lists are not processed inside preformatted blocks.
-* A Pendown text can't contain `<xmp>` tags if it is converted to HTML by the web browser script.
+* A Pendown text can't contain `<xmp>` tags if it is to be converted to HTML by the web browser script.
 
 ## Version
 
