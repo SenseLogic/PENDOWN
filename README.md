@@ -103,7 +103,7 @@ int main()
     *   Font size : `@1.25` `@1.25rem` `@1.25vw`
     *   Column span : `=2`
 
-*   A modifier list can be named, to be reused further in the document :
+*   These lists can be named, to be reused further in the document :
 
 ```
 {{^blue,italic:gangnam\ a blue text in italics }}
