@@ -132,8 +132,7 @@ The source code programming language can be specified with the following keyword
 * JavaScript : js
 * TypeScript : ts
 
-When colorizing a source code file, its programming language is deduced from the file extension if it matches one of the above keywords.
-
+Files with the above extensions can also be colorized separately.
 
 ## Getting Started
 
