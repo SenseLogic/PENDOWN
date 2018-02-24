@@ -117,7 +117,7 @@ int main()
 {{^#ffd,$f87:²\}}
 This is a ²salmon text on a yellow background².
 {{^red:²\}}
-But this ²text is just red².
+But this ²text is red².
 ```
 
 ## Syntax highlighting
