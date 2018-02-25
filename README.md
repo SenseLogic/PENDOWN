@@ -49,8 +49,8 @@ as they were chosen according to several different goals :
 *   Provide short-tags for redactional tags, but also for the main presentational properties (like colors, font sizes, etc);
 *   Minimize the conflicts with most C-like code, in order to allow both manual and automatic source code syntax highlighting;
 *   Allow to directly apply any CSS property and HTML attribute to its markup without requiring any HTML tag;
-*   Should be efficient and available both on the servers and in the web browsers;
-*   Only focus on its core functionnality, and not try to be a HTML replacement or a book generator.
+*   Be available and efficient both on servers and in web browsers;
+*   Remain focused on its core functionnalities, by not trying to become a complete HTML replacement or a book generator.
 
 Here are a few sample tags, to give you an idea of what they look like : 
 
