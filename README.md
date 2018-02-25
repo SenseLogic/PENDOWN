@@ -33,7 +33,7 @@ as they are actually true and complete alternatives to HTML, but with a much lig
 to automatically close the blocks for you.
 
 They are very useful if you want to build HTML pages for different parts for a dynamic website, but not really convenient 
-if all you want is to write their text content.
+if all you want is to write their textual content.
     
 Having used both kind of tools, I've finally come to realize that what I really needed was a redactional preprocessor, like
 Markdown, but which integrates the text presentation in its core features.
