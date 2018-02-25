@@ -187,7 +187,8 @@ Just put the `pendown.css` and `pendown.js` files in the same folder as your HTM
 
 ### Usage
 
-In your HTML file, include the `pendown.css` and `pendown.js` files as shown below, and write your Pendown text inside one or several `<xmp>` sections :
+As shown below, include the `pendown.css` and `pendown.js` files in your HTML file, then write your Pendown text inside 
+one or several `<xmp>` sections :
 
 ```html
 <meta charset="utf8"/>
