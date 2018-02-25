@@ -22,18 +22,18 @@ distraction-free manner.
 
 The classical solution for that problem is generally to use a HTML preprocessor which provides us with a more concise syntax.
     
-On one hand, you have redactional preprocessors like Markdown or Creole, which allow you to write the textual content
+On one hand, we have redactional preprocessors like Markdown or Creole, which allow us to write the textual content
 in plain text, without requiring any prior HTML knowledge at all.
 
-That's nice, but unfortunately the text presentation can't be freely adapted, by design, unless you resign yourself to 
+That's nice, but unfortunately the text presentation can't be freely adapted, by design, unless we resign ourselves to 
 use standard HTML tags where needed.
 
-On the other hand, you have templating preprocessors like Jade or Slim, which have absolutely no limitations at all, 
+On the other hand, we have templating preprocessors like Jade or Slim, which have absolutely no limitations at all, 
 as they are actually true and complete alternatives to HTML, but with a much lighter syntax using the tag indentation
-to automatically close the blocks for you.
+to automatically close the blocks for us.
 
-They are very useful if you want to build HTML pages for different parts for a dynamic website, but not really convenient 
-if all you want is to write their textual content.
+They are very useful if we want to build HTML pages for a dynamic website, but not really convenient 
+if all we want is to write their textual content.
     
 After having used both kinds of tools, I've finally come to realize that what I really needed was a redactional preprocessor, like
 Markdown, but which integrates the text presentation as a core feature.
