@@ -14,7 +14,42 @@ Lightweight markup for styled documents.
     *   syntax highlighting.
 *   Fast conversion to HTML through a web browser script or a standalone command line tool.
 
-## Sample
+## Motivation
+
+While the HTML tags are appropriate to define the structure and semantics of a documents, their verbosity can 
+sometimes become a terrible annoyance, especially when we want to write the actual textual content of a page in a 
+distraction-free manner.
+
+The classical solution for that problem is generally to use a HTML preprocessor which provides a more concise syntax.
+    
+On one hand, you have redactional preprocessors like Markdown or Creole, which allow to write you textual content
+in plain text, without any HTML knowledge.
+
+But the text presentation can't be changed, unless you resign yourself to use standard HTML tags where needed.
+
+On the other hand, you have templating preprocessors like Jade or Slim, which have no limitations at all, as they are 
+actually complete alternatives to HTML, but with a much lighter syntax based on the HTML tag indentation.
+
+They are useful if you want to build HTML pages for a dynamic website, but not so convenient if you want to write their
+actual textual content.
+    
+Having used both kind of tools, I've come to realize that what I really needed was a redactional preprocessor, like
+Markdown, integrating a complete control over the text presentation.
+
+After having searched in vain for such a tool, I've eventually decided to implement it myself, and that's how Pendown was born.
+
+## Syntax
+
+Although Pendown is indeed inspired from Markdown, most of its tags have evolved to be quite different, as they were 
+chosen according to different goals :
+
+*   Provide short-tags for redactional tags, but also for the main presentational properties (like colors, font sizes, etc);
+*   Minimize the conflicts with most C-like code, in order to allow both manual and automatic source code syntax highlighting;
+*   Allow to directly apply any CSS property and HTML attribute to its markup without needing HTML;
+*   Should be efficient and available both on the servers and in the web browsers;
+*   Only focus on its core functionnality, and not try to be a HTML replacement or a book generator.
+
+Here are a few sample tags, to give you an idea of what they look like : 
 
 ```
 ! Heading 1
@@ -34,25 +69,10 @@ __underlined__
 
 {{ span }}
 {{{ div }}}
-### box ###
+#box ###
 +++ frame +++
 >>> quote >>>
 ::: pre :::
-
-:::^cpp\
-// Colorized source code
-
-#include <iostream>
-
-using namespace std;
-
-int main()
-{
-    cout << "Hello world!";
-
-    return 0;
-}
-:::
 
 [[[
 (( Monday | Tuesday | Wednesday ))
@@ -83,7 +103,8 @@ int main()
 
 ## Styling
 
-Any Pendown tag can be followed by one or several lists of style modifiers :
+As mentioned above, Pendown tags directly incorporate presentational properties in their syntax, as they can be 
+followed by one or several lists of style modifiers :
 
 ```
 {{^big,red,yellow_fill\ a big red text with a yellow background }}
@@ -91,7 +112,8 @@ Any Pendown tag can be followed by one or several lists of style modifiers :
 {{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
 ```
 
-Several types of modifiers are supported :
+These modifiers can be of many different kinds :
+
 *   Id : `?menu`
 *   Class : `bold`
 *   Property : `border-style=dotted`
@@ -103,7 +125,7 @@ Several types of modifiers are supported :
 *   Font size : `@1.25` `@1.25rem` `@1.25vw`
 *   Column span : `=2`
 
-These lists can be named, and then reused further in the document :
+These modifier lists can be named if needed, so that they can be reused multiple times in the document :
 
 ```
 {{^blue,italic:gangnam\ a blue text in italics }}
@@ -111,7 +133,7 @@ These lists can be named, and then reused further in the document :
 !^gangnam\ This title also uses the gangnam style.
 ```
 
-Color tags can also be redefined in the same way : 
+Single-character color tags may also be redefined exactly in the same way :
 
 ```
 {{^#ffd,$f87:²\}}
@@ -122,33 +144,79 @@ But this ²text is red².
 
 ## Syntax highlighting
 
-The source code programming language can be specified with the following keywords :
+Pendown can automatically add colors to code snippets by specifying the language through a single modifier :
 
-* C : c h
-* C++ : cpp hpp cxx hxx
-* C# : cs
-* D : d
-* Java : java
-* JavaScript : js
-* TypeScript : ts
+```
+:::^cpp\
+// Colorized source code
 
-Files with the above extensions can also be colorized separately.
+#include <iostream>
 
-## Getting Started
+using namespace std;
 
-Install the Pendown installation files in a local folder on your computer.
+int main()
+{
+    cout << "Hello world!";
 
-In the `SAMPLE/` subfolder, open `sample.html` with a web-browser.
+    return 0;
+}
+:::
+```
 
-If the Comic Sans and Consolas fonts are installed on your system, you should see the following result :
+The following programming languages are already supported :
 
-![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
 
-Now open this file with a plain text editor, like Geany or Notepad++.
+*   C : c h
+*   C++ : cpp hpp cxx hxx
+*   C# : cs
+*   D : d
+*   Java : java
+*   JavaScript : js
+*   TypeScript : ts
 
-You will see that this document was entirely made using Pendown tags. 
+
+Files with one of the above extensions can also be colorized separately, through the command line application.
+
+## Client-side compiler
+
+### Installation
+
+Just put the "pendown.css" and "pendown.js" files in the same folder as your HTML files, or in a folder accessible from them.
+
+### Usage
+
+In your HTML file, write your Pendown text inside `<xmp>` sections.
 
 ```html
+<meta charset="utf8"/>
+<link rel="stylesheet" href="pendown.css">
+<xmp>
+$$Hello world !$$
+</xmp>
+<script src="pendown.js"></script>
+```
+
+All the Pendown tags contained in those blocks will automatically be converted to HTML when the file is opened 
+in a web browser.
+
+Here is a very short example of such a HTML file, whose textual content can be written exclusively using Pendown tags :
+
+```
+<meta charset="utf8"/>
+<link rel="stylesheet" href="pendown.css">
+<xmp>
+! This is the title
+    
+Put your **Pendown** text here :)
+</xmp>
+<script src="pendown.js"></script>
+```
+
+Just make sure that the relative path towards `pendown.css` and `pendown.js` are right.
+
+Here is a more complete sample, which also illustrates all the available Pendown tags :
+
+```
 <meta charset="utf8"/>
 <link rel="stylesheet" href="../pendown.css">
 <xmp>
@@ -583,26 +651,10 @@ You can use any CSS id, class or property you need.
 <script src="../pendown.js"></script>
 ```
 
-They are automatically converted to HTML tags when the file is opened in a web browser.
+Open it in a modern browser like `Firefox` or `Chrome`, and you should see the following result if the 
+`Comic Sans` and `Consolas` fonts are already installed on your system :
 
-## Client-side compiler
-
-### Installation
-
-Just put the "pendown.css" and "pendown.js" files in the same folder as your HTML files, or in a folder accessible from them.
-
-### Usage
-
-Write your Pendown text inside the `<xmp>` section.
-
-```html
-<meta charset="utf8"/>
-<link rel="stylesheet" href="pendown.css">
-<xmp>
-$$Hello world !$$
-</xmp>
-<script src="pendown.js"></script>
-```
+![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
 
 ### Troubleshooting
 
@@ -642,11 +694,17 @@ Replace `<xmp>` by `<xmp style="display:none">` in the HTML file.
 
 ## Server-side compiler
 
+Pendown documents can also be converted offline through a command line tool.
+
+It is available as a single file application implemented in the D language.
+
+It is only distributed in source code form, as compiling it is very simple actually.
+
 ### Installation
 
 Install the [DMD 2 compiler](https://dlang.org/download.html).
 
-Build the executable with the following command line :
+Then build the executable with the following command line :
 
 ```bash
 dmd -m64 pendown.d
@@ -679,7 +737,7 @@ pendown [options] input_file output_file
 pendown --process --style --path ../ document.pd document.html
 ```
 
-Converts a Pendown file to a HTML file which imports the Pendown style file.
+Converts a Pendown file to a HTML file which imports Pendown's CSS file from the upper folder.
 
 ```bash
 pendown --process --page 18 27.7 --style --path ../ document.pd document.html
@@ -691,7 +749,8 @@ Converts a Pendown file to a HTML file which can be imported in LibreOffice Writ
 pendown --script --style --path ../ document.pd document.html
 ```
 
-Converts a Pendown file to a HTML file which imports the Pendown script and style files to convert the Pendown tags inside the web browser.
+Converts a Pendown file to a HTML file which imports Pendown's Javascript and CSS style files from the upper folder,
+so that the Pendown tags will be converted directly by the web browser.
 
 ```bash
 pendown --colorize code.d code.pd
