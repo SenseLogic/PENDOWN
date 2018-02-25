@@ -22,11 +22,11 @@ distraction-free manner.
 
 The classical solution for that problem is generally to use a HTML preprocessor which provides us with a more concise syntax.
     
-On one hand, we have redactional preprocessors like Markdown or Creole, which allow us to write the a webpage content
+On one hand, we have redactional preprocessors like Markdown or Creole, which allow us to write a webpage content
 in plain text, without requiring any prior HTML knowledge at all.
 
-That's nice, but unfortunately the text presentation can't be freely adapted, by design, unless we resign ourselves to 
-use standard HTML tags where needed.
+That's nice, but unfortunately the text presentation can't be freely changed on a case by case basis, unless we resign ourselves to 
+use standard HTML tags where we want to diverge from the predefined CSS stylesheet.
 
 On the other hand, we have templating preprocessors like Jade or Slim, which have absolutely no limitations at all, 
 as they are actually true and complete alternatives to HTML, but with a much lighter syntax using the tag indentation
