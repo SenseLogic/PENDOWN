@@ -50,8 +50,7 @@ as they were chosen according to several different goals :
 *   Allow to directly apply any CSS property or HTML attribute to its markup without requiring HTML tags;
 *   Minimize the conflicts with most texts and C-like code;
 *   Be available and efficient both on web servers and browsers;
-*   Provide both manual and automatic syntax highlighting;
-*   Stay small, by not trying to become a complete HTML replacement or a book generator.
+*   Provide both manual and automatic syntax highlighting.
 
 Here are a few sample tags, to give you an idea of what they look like : 
 
