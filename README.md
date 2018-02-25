@@ -704,8 +704,6 @@ Pendown documents can also be converted offline through a command line tool.
 
 It's available as a single file application implemented in the D language.
 
-Pendown is only distributed in source code form, as compiling it is very simple actually.
-
 ### Installation
 
 Install the [DMD 2 compiler](https://dlang.org/download.html) appropriate to your system (Linux, Windows or macOS).
