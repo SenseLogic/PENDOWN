@@ -214,7 +214,7 @@ Put your **Pendown** text here :)
 <script src="pendown.js"></script>
 ```
 
-Just make sure that the relative path towards `pendown.css` and `pendown.js` are right.
+Just make sure that the relative paths towards `pendown.css` and `pendown.js` are right.
 
 ### Sample
 
