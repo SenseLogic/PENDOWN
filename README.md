@@ -14,7 +14,7 @@ Lightweight markup for styled documents.
     *   syntax highlighting.
 *   Fast conversion to HTML through a web browser script or a standalone command line tool.
 
-## Motivation
+## Rationale
 
 While the HTML tags are appropriate to define the structure and semantics of a documents, their verbosity can 
 sometimes become a terrible annoyance, especially when we want to write the actual textual content of a page in a 
