@@ -22,7 +22,7 @@ distraction-free manner.
 
 The classical solution for that problem is generally to use a HTML preprocessor which provides us with a more concise syntax.
     
-On one hand, we have redactional preprocessors like Markdown or Creole, which allow us to write the textual content
+On one hand, we have redactional preprocessors like Markdown or Creole, which allow us to write the a webpage content
 in plain text, without requiring any prior HTML knowledge at all.
 
 That's nice, but unfortunately the text presentation can't be freely adapted, by design, unless we resign ourselves to 
