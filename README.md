@@ -108,7 +108,7 @@ __underlined__
 
 As mentioned above, Pendown tags directly incorporate presentational properties in their syntax.
 
-They they can thus be followed by one or several lists of style modifiers :
+They can thus be followed by one or several lists of style modifiers :
 
 ```
 {{^big,red,yellow_fill\ a big red text with a yellow background }}
@@ -116,7 +116,7 @@ They they can thus be followed by one or several lists of style modifiers :
 {{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
 ```
 
-These modifiers can be of several different kinds :
+These modifiers can be of different kinds :
 
 *   Id : `?menu`
 *   Class : `bold`
@@ -129,7 +129,7 @@ These modifiers can be of several different kinds :
 *   Font size : `@1.25` `@1.25rem` `@1.25vw`
 *   Column span : `=2`
 
-These modifier lists can also be named if needed, so that they can be reused multiple times in the document :
+Modifier lists can be named, so that they can be reused multiple times in the document :
 
 ```
 {{^blue,italic:gangnam\ a blue text in italics }}
@@ -137,7 +137,7 @@ These modifier lists can also be named if needed, so that they can be reused mul
 !^gangnam\ This title also uses the gangnam style.
 ```
 
-Single-character color tags may also be redefined, exactly in the same way :
+Single-character color tags can also be redefined in the same way :
 
 ```
 {{^#ffd,$f87:²\}}
@@ -148,7 +148,7 @@ But this ²text is red².
 
 ## Syntax highlighting
 
-Pendown can automatically add colors to C-like code snippets by specifying the language through a single modifier :
+Pendown can automatically add colors to C-like code snippets, by specifying its language as a modifier :
 
 ```
 :::^cpp\
@@ -167,7 +167,7 @@ int main()
 :::
 ```
 
-The following programming languages are already supported :
+The following programming languages are currently supported :
 
 *   C : c h
 *   C++ : cpp hpp cxx hxx
@@ -183,7 +183,7 @@ Files with any of the above extensions can also be colorized individually, throu
 
 ### Installation
 
-Just put the `pendown.css` and `pendown.js` files in the same folder as your HTML files, or in a folder accessible from them.
+Just put the `pendown.css` and `pendown.js` files in the same folder as your HTML files, or in any folder accessible from them.
 
 ### Usage
 
@@ -218,12 +218,14 @@ Just make sure that the relative path towards `pendown.css` and `pendown.js` are
 
 ### Sample
 
-Open the `SAMPLE/sample.html` file in a modern browser like `Firefox` or `Chrome`, and you should see the following result if the 
+Open the `SAMPLE/sample.html` file in a modern browser like `Firefox` or `Chrome`, and you should see this if the 
 `Comic Sans` and `Consolas` fonts are already installed on your system :
 
 ![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
 
-Here is its content, that you can edit with any plain text editor like `Geany` or `Notepad++` :
+Here is its actual content, which can be edited with any plain text editor like `Geany` or `Notepad++`.
+
+As you can see, no HTML tags at all where needed to write this rich and colorful text :
 
 ```
 <meta charset="utf8"/>
@@ -660,24 +662,6 @@ You can use any CSS id, class or property you need.
 <script src="../pendown.js"></script>
 ```
 
-### Troubleshooting
-
-> The Pendown page doesn't show the converted text.
-
-Check that the Pendown file extension is ".html".
-
-Check that your text is between the `<xmp>` and `</xmp>` tags.
-
-Check that the relative paths to "pendown.css" and "pendown.js" are correct.
-
-> The Pendown page doesn't use the Comic Sans MS or Consolas font as in the "sample.png" image.
-
-Check that both fonts are properly installed on your system.
-
-> The Pendown page doens't show the page breaks in the browser.
-
-This is normal, page breaks are only applied when the web page is printed from the browser, or when the generated HTML file is loaded in LibreOffice Writer.
-
 ### Frequently asked questions
 
 > How can I force Pendown to use black as the default text color ?
@@ -696,17 +680,35 @@ Replace `<xmp>` by `<xmp style="display:none">` in the HTML file.
 * Click on `More settings` to enable `Background graphics` and disable `Headers and footers`.
 * Click on `Print`.
 
+### Troubleshooting
+
+> The Pendown page doesn't show the converted text.
+
+Check that the Pendown file extension is ".html".
+
+Check that your text is between the `<xmp>` and `</xmp>` tags.
+
+Check that the relative paths to "pendown.css" and "pendown.js" are correct.
+
+> The Pendown page doesn't use the Comic Sans MS or Consolas font as in the "sample.png" image.
+
+Check that both fonts are properly installed on your system.
+
+> The Pendown page doens't show the page breaks in the browser.
+
+This is normal, page breaks are only applied when the web page is printed from the browser, or when the generated HTML file is loaded in LibreOffice Writer.
+
 ## Server-side compiler
 
 Pendown documents can also be converted offline through a command line tool.
 
-It is available as a single file application implemented in the D language.
+It's available as a single file application implemented in the D language.
 
-It is only distributed in source code form, as compiling it is very simple actually.
+Pendown is only distributed in source code form, as compiling it is very simple actually.
 
 ### Installation
 
-Install the [DMD 2 compiler](https://dlang.org/download.html).
+Install the [DMD 2 compiler](https://dlang.org/download.html) appropriate to your system (Linux, Windows or macOS).
 
 Then build the executable with the following command line :
 
