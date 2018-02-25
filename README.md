@@ -36,7 +36,7 @@ They are very useful if we want to build HTML pages for a dynamic website, but n
 if all we want is to write their textual content.
     
 After having used both kinds of tools, I've finally come to realize that what I really needed was a redactional preprocessor, like
-Markdown, but which integrates the text presentation as a core feature.
+Markdown, but which integrates the style customization as a core feature.
 
 After having searched in vain for such a simple but flexible tool, I've eventually decided to implement it myself, and 
 that's how Pendown was born.
