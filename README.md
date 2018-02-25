@@ -187,23 +187,9 @@ Just put the `pendown.css` and `pendown.js` files in the same folder as your HTM
 
 ### Usage
 
-In your HTML file, write your Pendown text inside `<xmp>` sections.
+In your HTML file, write your Pendown text inside `<xmp>` sections :
 
 ```html
-<meta charset="utf8"/>
-<link rel="stylesheet" href="pendown.css">
-<xmp>
-$$Hello world !$$
-</xmp>
-<script src="pendown.js"></script>
-```
-
-All the Pendown tags contained in those blocks will automatically be converted to HTML when the file is opened 
-in a web browser.
-
-Here is a very short example of such a HTML file, whose textual content can be written exclusively using Pendown tags :
-
-```
 <meta charset="utf8"/>
 <link rel="stylesheet" href="pendown.css">
 <xmp>
@@ -213,6 +199,9 @@ Put your **Pendown** text here :)
 </xmp>
 <script src="pendown.js"></script>
 ```
+
+All the Pendown tags contained in those blocks will automatically be converted to HTML when the file is opened 
+in a web browser.
 
 Just make sure that the relative paths towards `pendown.css` and `pendown.js` are right.
 
@@ -227,7 +216,7 @@ Here is its actual content, which can be edited with any plain text editor like 
 
 As you can see, no HTML tags at all where needed to write this rich and colorful text :
 
-```
+```html
 <meta charset="utf8"/>
 <link rel="stylesheet" href="../pendown.css">
 <xmp>
