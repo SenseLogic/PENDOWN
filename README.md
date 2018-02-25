@@ -208,14 +208,13 @@ Just make sure that the relative paths towards `pendown.css` and `pendown.js` ar
 
 ### Sample
 
-Open the `SAMPLE/sample.html` file in a modern browser like `Firefox` or `Chrome`, and you should see this if the 
-`Comic Sans` and `Consolas` fonts are already installed on your system :
+Open the `SAMPLE/sample.html` file in a modern web browser like `Firefox` or `Chrome`, and you should see this :
 
 ![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
 
 Here is its actual content, which can be edited with any plain text editor like `Geany` or `Notepad++`.
 
-As you can see, no HTML tags at all where needed to write this rich and colorful text :
+As you can see, no HTML tags at all where needed to write this colorful text :
 
 ```html
 <meta charset="utf8"/>
