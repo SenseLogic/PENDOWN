@@ -148,7 +148,7 @@ But this ²text is red².
 
 ## Syntax highlighting
 
-Pendown can automatically add colors to C-like code snippets, by specifying its language as a modifier :
+Pendown can automatically add colors to C-like code snippets, by specifying their language through a dedicated modifier :
 
 ```
 :::^cpp\
