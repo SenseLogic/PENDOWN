@@ -17,31 +17,34 @@ Lightweight markup for styled documents.
 ## Rationale
 
 While the HTML tags are appropriate to define the structure and semantics of a documents, their verbosity can 
-sometimes become a terrible annoyance, especially when we want to write the actual textual content of a page in a 
+sometimes become a terrible annoyance, especially when we want to write the actual text content of a page in a 
 distraction-free manner.
 
-The classical solution for that problem is generally to use a HTML preprocessor which provides a more concise syntax.
+The classical solution for that problem is generally to use a HTML preprocessor which provides us with a more concise syntax.
     
-On one hand, you have redactional preprocessors like Markdown or Creole, which allow to write you textual content
-in plain text, without any HTML knowledge.
+On one hand, you have redactional preprocessors like Markdown or Creole, which allow you to write the textual content
+in plain text, without requiring any prior HTML knowledge at all.
 
-But the text presentation can't be changed, unless you resign yourself to use standard HTML tags where needed.
+That's nice, but unfortunately the text presentation can't be freely adapted, by design, unless you resign yourself to 
+use standard HTML tags where needed.
 
-On the other hand, you have templating preprocessors like Jade or Slim, which have no limitations at all, as they are 
-actually complete alternatives to HTML, but with a much lighter syntax based on the HTML tag indentation.
+On the other hand, you have templating preprocessors like Jade or Slim, which have absolutely no limitations at all, 
+as they are actually true and complete alternatives to HTML, but with a much lighter syntax using the tag indentation
+to automatically close the blocks for you.
 
-They are useful if you want to build HTML pages for a dynamic website, but not so convenient if you want to write their
-actual textual content.
+They are very useful if you want to build HTML pages for different parts for a dynamic website, but not really convenient 
+if all you want is to write their text content.
     
-Having used both kind of tools, I've come to realize that what I really needed was a redactional preprocessor, like
-Markdown, integrating a complete control over the text presentation.
+Having used both kind of tools, I've finally come to realize that what I really needed was a redactional preprocessor, like
+Markdown, but which integrates the text presentation in its core features.
 
-After having searched in vain for such a tool, I've eventually decided to implement it myself, and that's how Pendown was born.
+After having searched in vain for such a simple but flexible tool, I've eventually decided to implement it myself, and 
+that's how Pendown was born.
 
 ## Syntax
 
-Although Pendown is indeed inspired from Markdown, most of its tags have evolved to be quite different, as they were 
-chosen according to different goals :
+Although Pendown is indeed partially similar to Markdown, most of its tags have actually evolved to become quite different, 
+as they were chosen according to several different goals :
 
 *   Provide short-tags for redactional tags, but also for the main presentational properties (like colors, font sizes, etc);
 *   Minimize the conflicts with most C-like code, in order to allow both manual and automatic source code syntax highlighting;
@@ -103,8 +106,9 @@ __underlined__
 
 ## Styling
 
-As mentioned above, Pendown tags directly incorporate presentational properties in their syntax, as they can be 
-followed by one or several lists of style modifiers :
+As mentioned above, Pendown tags directly incorporate presentational properties in their syntax.
+
+They they can thus be followed by one or several lists of style modifiers :
 
 ```
 {{^big,red,yellow_fill\ a big red text with a yellow background }}
@@ -112,7 +116,7 @@ followed by one or several lists of style modifiers :
 {{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
 ```
 
-These modifiers can be of many different kinds :
+These modifiers can be of several different kinds :
 
 *   Id : `?menu`
 *   Class : `bold`
@@ -125,7 +129,7 @@ These modifiers can be of many different kinds :
 *   Font size : `@1.25` `@1.25rem` `@1.25vw`
 *   Column span : `=2`
 
-These modifier lists can be named if needed, so that they can be reused multiple times in the document :
+These modifier lists can also be named if needed, so that they can be reused multiple times in the document :
 
 ```
 {{^blue,italic:gangnam\ a blue text in italics }}
@@ -133,7 +137,7 @@ These modifier lists can be named if needed, so that they can be reused multiple
 !^gangnam\ This title also uses the gangnam style.
 ```
 
-Single-character color tags may also be redefined exactly in the same way :
+Single-character color tags may also be redefined, exactly in the same way :
 
 ```
 {{^#ffd,$f87:²\}}
@@ -144,7 +148,7 @@ But this ²text is red².
 
 ## Syntax highlighting
 
-Pendown can automatically add colors to code snippets by specifying the language through a single modifier :
+Pendown can automatically add colors to C-like code snippets by specifying the language through a single modifier :
 
 ```
 :::^cpp\
@@ -165,7 +169,6 @@ int main()
 
 The following programming languages are already supported :
 
-
 *   C : c h
 *   C++ : cpp hpp cxx hxx
 *   C# : cs
@@ -174,14 +177,13 @@ The following programming languages are already supported :
 *   JavaScript : js
 *   TypeScript : ts
 
-
-Files with one of the above extensions can also be colorized separately, through the command line application.
+Files with any of the above extensions can also be colorized individually, through the command line application.
 
 ## Client-side compiler
 
 ### Installation
 
-Just put the "pendown.css" and "pendown.js" files in the same folder as your HTML files, or in a folder accessible from them.
+Just put the `pendown.css` and `pendown.js` files in the same folder as your HTML files, or in a folder accessible from them.
 
 ### Usage
 
@@ -214,7 +216,14 @@ Put your **Pendown** text here :)
 
 Just make sure that the relative path towards `pendown.css` and `pendown.js` are right.
 
-Here is a more complete sample, which also illustrates all the available Pendown tags :
+### Sample
+
+Open the `SAMPLE/sample.html` file in a modern browser like `Firefox` or `Chrome`, and you should see the following result if the 
+`Comic Sans` and `Consolas` fonts are already installed on your system :
+
+![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
+
+Here is its content, that you can edit with any plain text editor like `Geany` or `Notepad++` :
 
 ```
 <meta charset="utf8"/>
@@ -650,11 +659,6 @@ You can use any CSS id, class or property you need.
 </xmp>
 <script src="../pendown.js"></script>
 ```
-
-Open it in a modern browser like `Firefox` or `Chrome`, and you should see the following result if the 
-`Comic Sans` and `Consolas` fonts are already installed on your system :
-
-![](https://github.com/senselogic/PENDOWN/blob/master/SAMPLE/sample.png)
 
 ### Troubleshooting
 
