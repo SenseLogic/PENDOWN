@@ -107,9 +107,9 @@ __underlined__
 
 ## Styling
 
-As mentioned above, Pendown tags directly incorporate presentational properties in their syntax.
+As stated above, Pendown tags are designed to directly incorporate presentational properties in their syntax.
 
-They can thus be followed by one or several lists of style modifiers :
+This is done by adding one or several lists of style modifiers right after them :
 
 ```
 {{^big,red,yellow_fill\ a big red text with a yellow background }}
