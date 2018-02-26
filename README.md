@@ -26,7 +26,7 @@ use standard HTML tags where we want to diverge from the predefined CSS styleshe
 On the other hand, there are templating preprocessors like Jade or Slim, which have absolutely no limitations at all, 
 as they are actually complete alternatives to HTML.
 
-They very useful to build HTML pages for a dynamic website, but not really convenient to just write textual content.
+They are very useful to build HTML pages for a dynamic website, but not really convenient to just write textual content.
     
 In this case, an ideal solution would be a redactional preprocessor which, unlike Mardown, directly integrates the style customization 
 as a core feature.
