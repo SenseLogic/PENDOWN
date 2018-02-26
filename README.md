@@ -183,7 +183,7 @@ Files with any of the above extensions can also be colorized individually, throu
 
 ## Extensibility
 
-Tags can be added or redefined :
+Tags can be added or redefined with the `!` modifier :
 
 ```
 {{^!%%% <progress$/>,!$$$ <del$>,!$$$ </del>\}}
