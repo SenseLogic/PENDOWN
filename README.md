@@ -161,7 +161,7 @@ The same tag can be used to open or close a block, by defining it several times.
 $$$^~00f\ This text has been deleted.$$$
 ```
 
-Custom tags are parsed in their definition order and before predefined tags.
+Tags are identified in their definition order and before predefined tags.
 
 A tag without definition is removed.
 
