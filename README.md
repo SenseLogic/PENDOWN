@@ -28,14 +28,14 @@ as they are actually complete alternatives to HTML.
 
 They are very useful to build HTML pages for a dynamic website, but not really convenient to just write textual content.
     
-In this case, an ideal solution would be a redactional preprocessor which, unlike Mardown, directly integrates the style customization 
-as a core feature.
+Pendown tries to fill that gap.
 
-Pendown is such a tool, which was designed exclusively for that use case.
+While it's not an HTML replacement or a book generator, it's an advanced redactional preprocessor, which directly integrates
+powerful style customization features.
 
 ## Syntax
 
-Pendown tags, which differ significantly from Markdown and Creole, were actually chosen according to achieve the following goals :
+Pendown tags are a bit different from those of Markdown or Creole, as were chosen according to a different set of goals :
 
 *   Provide short-tags for redactional tags and for presentational properties;
 *   Allow the use of any CSS property or HTML attribute;
@@ -97,9 +97,7 @@ __underlined__
 
 ## Styling
 
-As stated above, Pendown tags are designed to directly incorporate presentational properties in their syntax.
-
-This is done by adding one or several lists of style modifiers right after them :
+Pendown tags can be followed by one or several lists of style modifiers :
 
 ```
 {{^big,red,yellow_fill\ A big red text with a yellow background }}
@@ -107,7 +105,7 @@ This is done by adding one or several lists of style modifiers right after them 
 {{^@2.5,$00f,#eee,black_outline\ A big blue text with a gray background and a black outline }}
 ```
 
-These modifiers can be of different kinds :
+These modifiers can be of several kinds :
 
 *   Id : `?menu`
 *   Class : `bold`
