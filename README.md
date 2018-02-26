@@ -148,6 +148,36 @@ In a modifier list, special characters can be escaped with the caret character :
 {{^&onclick="alert('^\^\^,^:^^')"\Click me!}}
 ```
 
+## Extensibility
+
+The special modifier `!` allows to define new tags and override predefined tags.
+
+The dollar character in the tag definition will be replaced by the tag attributes.
+
+```
+{{^!%%% <progress$></progress>\}} 
+
+Progress : %%%^&value="0.40"\ 
+```
+
+The same tag can be used to open or close a block, by defining it several times.
+
+```
+{{^!$$$ <del$>,!$$$ </del>\}}
+
+$$$^~00f\ This text has been deleted.$$$
+```
+
+Custom tags are parsed in their definition order and before predefined tags.
+
+A tag without definition is removed.
+
+```
+{{^![[ <del$>,!]] </del>\}}
+[[This is not an image.]]
+{{^![[,!]]\}
+```
+
 ## Syntax highlighting
 
 Pendown can automatically add colors to C-like code snippets, by specifying their language through a dedicated modifier :
@@ -180,36 +210,6 @@ The following programming languages are currently supported :
 *   TypeScript : ts
 
 Files with any of the above extensions can also be colorized individually, through the command line application.
-
-## Extensibility
-
-The special modifier `!` allows to define new tags and override predefined tags.
-
-The dollar character in the tag definition will be replaced by the tag attributes.
-
-```
-{{^!%%% <progress$></progress>\}} 
-
-Progress : %%%^&value="0.40"\ 
-```
-
-The same tag can be used to open or close a block, by defining it several times.
-
-```
-{{^!$$$ <del$>,!$$$ </del>\}}
-
-$$$^~00f\ This text has been deleted.$$$
-```
-
-Custom tags are parsed in their definition order and before predefined tags.
-
-A tag without definition is removed.
-
-```
-{{^![[ <del$>,!]] </del>\}}
-[[This is not an image.]]
-{{^![[,!]]\}
-```
 
 ## Client-side compiler
 
