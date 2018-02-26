@@ -183,7 +183,7 @@ Files with any of the above extensions can also be colorized individually, throu
 
 ## Extensibility
 
-Tags can be defined or redefined with a special modifier.
+Tags can be defined or redefined with the `!` modifier.
 
 The dollar character in the tag definition will be replaced by the tag attributes.
 
