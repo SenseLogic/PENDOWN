@@ -35,7 +35,7 @@ powerful style customization features.
 
 ## Syntax
 
-Pendown tags are a bit different from those of Markdown or Creole, as were chosen according to a different set of goals :
+Pendown tags are a bit different from those of Markdown or Creole, as they were chosen according to a different set of goals :
 
 *   Provide short-tags for redactional tags and for presentational properties;
 *   Allow the use of any CSS property or HTML attribute;
