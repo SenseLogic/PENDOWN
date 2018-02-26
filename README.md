@@ -143,9 +143,19 @@ This is a ²salmon text on a yellow background².
 But this ²text is red².
 ```
 
-Moreover, the special modifier `!` allows to override the definition of a predefined tag, and to define new tags.
+The special modifier `!` allows to override the definition of a predefined tag.
+
+```
+{{^![[ <del$>,!]] </del>\}}
+[[This is not an image.]]
+{{^![[,!]]\}}
+```
 
 The dollar sign in the definition will be replaced by the actual tag attributes.
+
+A tag without definition is removed.
+
+New tags can be created in the same way.
 
 ```
 {{^!%%% <progress max="100"$></progress>\}} 
@@ -153,22 +163,14 @@ The dollar sign in the definition will be replaced by the actual tag attributes.
 Progress : %%%^&value="40"\ 
 ```
 
+Those tags are identified in their definition order, before any predefined tags.
+
 The same tag can be used to open or close a block, by defining it several times.
 
 ```
 {{^!$$$ <del$>,!$$$ </del>\}}
 
 $$$^~00f\ This text has been deleted.$$$
-```
-
-Tags are identified in their definition order and before predefined tags.
-
-A tag without definition is removed.
-
-```
-{{^![[ <del$>,!]] </del>\}}
-[[This is not an image.]]
-{{^![[,!]]\}}
 ```
 
 ## Syntax highlighting
