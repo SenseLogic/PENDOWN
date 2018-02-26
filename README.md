@@ -134,7 +134,7 @@ In a modifier list, special characters can be escaped with the caret character :
 
 ## Extensibility
 
-The presentational properties of the color tags can be freely redefined :
+The modifier list of a color tag can be redefined :
 
 ```
 {{^#ffd,$f87:²\}}
@@ -143,9 +143,10 @@ This is a ²salmon text on a yellow background².
 But this ²text is red².
 ```
 
-The special modifier `!` can also be used to override the definition of the predefined tags, or even to define new tags.
+Moreover, the special modifier `!` allows to override the definition of the predefined tags (including the color tags), 
+and to define new tags.
 
-Putting a dollar sign in the tag definition will allow to replace it with the actual tag attributes.
+The dollar sign in the definition will be replaced by the actual tag attributes.
 
 ```
 {{^!%%% <progress max="100"$></progress>\}} 
