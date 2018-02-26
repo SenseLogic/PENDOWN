@@ -696,13 +696,31 @@ These are image effects :
 
 ---
 
-{{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128,128,128,0.2),$00c,&onclick="alert('Hello!')"\
+{{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128^,128^,128^,0.2),$00c,center"\
 You can use any CSS id, class or property you need.
 }}}
 
-<div id="id" class="big" style="padding:1rem;border-style:dotted;background-color:rgb(128,128,128,0.2);color:#00c" onclick="alert('Hello!')">
+<div id="id" class="big center" style="padding:1rem;border-style:dotted;background-color:rgb(128,128,128,0.2);color:#00c">
 You can use any CSS id, class or property you need.
 </div>
+
+---
+
+{{^&onclick="alert('^\^\^,^:^^')"\Click me!}}
+
+<span onclick="alert('\\\\,:^')">Click me!</span>
+
+---
+
+{{^!%%% <progress$/>,!$$$ <del$>,!$$$ </del>\}}
+
+%%%^&value="0.40"\
+
+$$$^~00f\ This text has been deleted.$$$
+
+{{^![[ <del$>,!]] </del>\}}
+[[This is not an image.]]
+{{^![[,!]]\}}
 
 ---
 
@@ -792,13 +810,13 @@ int main()
 
 ---
 
-{{^big,red,yellow_fill\ a big red text with a yellow background }}
+{{^big,red,yellow_fill\ A big red text with a yellow background }}
 
-{{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
+{{^@2.5,$00f,#eee,black_outline\ A big blue text with a gray background and a black outline }}
 
 ---
 
-{{^blue,italic:gangnam\ a blue text in italics }}
+{{^blue,italic:gangnam\ A blue text in italics }}
 
 !^gangnam\ This title also uses the gangnam style.
 

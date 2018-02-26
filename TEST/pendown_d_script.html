@@ -758,6 +758,18 @@
         IsEscaped°;°
 °}°
 
+°// ~\~°
+
+¹class¹ ⁰TAG⁰
+°{°
+    ²dstring²
+        Name°;°
+    ²dstring²°[]°
+        DefinitionArray°;°
+    ²long²
+        DefinitionIndex°;°
+°}°
+
 °// -\- VARIABLES°
 
 ²bool²
@@ -783,7 +795,9 @@
     ScriptFolderPath°,°
     StyleFolderPath°;°
 ²dstring²°[° ²dstring² °]°
-    DefinitionMap°;°
+    ModifierMap°;°
+⁰TAG⁰°[]°
+    TagArray°;°
 
 °// -\- FUNCTIONS°
 
@@ -885,6 +899,17 @@
     °)°
 °{°
     element_array °=° element_array°[° ²0² °..° element_index °]° °~° element °~° element_array°[° element_index °+° element_count °..° °$° °];°
+°}°
+
+°// ~\~°
+
+²void² splice°(° ⁰ELEMENT⁰ °)(°
+    ref ⁰ELEMENT⁰°[]° element_array°,°
+    ²long² element_index°,°
+    ²long² element_count
+    °)°
+°{°
+    element_array °=° element_array°[° ²0² °..° element_index °]° °~° element_array°[° element_index °+° element_count °..° °$° °];°
 °}°
 
 °// ~\~°
@@ -1656,6 +1681,60 @@
 
 °// ~\~°
 
+²void² AddTag°(°
+    ²dstring² name°,°
+    ²dstring² definition
+    °)°
+°{°
+    ²long²
+        tag_index°;°
+    ⁰TAG⁰ 
+        tag°;°
+        
+    ¹for¹ °(° tag_index °=° ²0²°;°
+          tag_index °&lt;° TagArray°.°length°;°
+          °+\+°tag_index °)°
+    °{°
+        ¹if¹ °(° TagArray°[° tag_index °].°Name °==° name °)°
+        °{°
+            TagArray°[° tag_index °].°DefinitionArray°.°push°(° definition °);°
+            
+            ¹return¹°;°
+        °}°
+    °}°
+    
+    tag °=° ¹new¹ ⁰TAG⁰°();°
+    tag°.°Name °=° name°;°
+    tag°.°DefinitionArray°.°push°(° definition °);°
+    tag°.°DefinitionIndex °=° ²0²°;°
+    
+    TagArray°.°push°(° tag °);°
+°}°
+
+°// ~\~°
+
+²void² RemoveTag°(°
+    ²dstring² name
+    °)°
+°{°
+    ²long²
+        tag_index°;°
+        
+    ¹for¹ °(° tag_index °=° ²0²°;°
+          tag_index °&lt;° TagArray°.°length°;°
+          °+\+°tag_index °)°
+    °{°
+        ¹if¹ °(° TagArray°[° tag_index °].°Name °==° name °)°
+        °{°
+            TagArray°.°splice°(° tag_index°,° ²1² °);°
+            
+            ¹return¹°;°
+        °}°
+    °}°
+°}°
+
+°// ~\~°
+
 ⁰TOKEN⁰°[]° GetTokenArray°(°
     ²dstring² text
     °)°
@@ -1691,6 +1770,7 @@
     ²dstring²
         attributes°,°
         closing_tag°,°
+        token_text°,°
         url°;°
     ²long²
         character_index°,°
@@ -1720,7 +1800,7 @@
         °{°
             old_modifiers °=° modifiers°;°
 
-            modifier_array °=° modifiers°.°split°(° ²' '² °);°
+            modifier_array °=° modifiers°.°split°(° ²'\\f'² °);°
 
             ¹for¹ °(° modifier_index °=° ²0²°;°
                   modifier_index °&lt;° modifier_array°.°length°;°
@@ -1728,13 +1808,13 @@
             °{°
                 modifier °=° modifier_array°[° modifier_index °];°
 
-                ¹if¹ °(° °(° modifier in DefinitionMap °)° °\!°is ²null² °)°
+                ¹if¹ °(° °(° modifier in ModifierMap °)° °\!°is ²null² °)°
                 °{°
-                    modifier_array°[° modifier_index °]° °=° DefinitionMap°[° modifier °];°
+                    modifier_array°[° modifier_index °]° °=° ModifierMap°[° modifier °];°
                 °}°
             °}°
 
-            modifiers °=° modifier_array°.°join°(° ²' '² °);°
+            modifiers °=° modifier_array°.°join°(° ²'\\f'² °);°
         °}°
         ¹while¹ °(° modifiers °\!=° old_modifiers °);°
 
@@ -1748,21 +1828,21 @@
         °)°
     °{°
         ²bool²
-            command_is_valid°,°
-            it_is_double_quoted°,°
-            it_is_quoted°;°
+            modifier_list_is_valid°;°
         ²dchar²
             character°;°
         ²long²
-            modifier_index°,°
+            colon_character_index°,°
             equal_character_index°,°
-            next_character_index°,°
-            nesting_level°;°
+            modifier_character_index°,°
+            modifier_index°,°
+            space_character_index°;°
         ²dstring²
+            added_modifiers°,°
             classes°,°
             id°,°
-            added_modifiers°,°
             modifier°,°
+            modifier_name°,°
             other_attributes°,°
             size°,°
             span°,°
@@ -1776,97 +1856,78 @@
         span °=° ²""²°;°
         other_attributes °=° ²""²°;°
 
-        command_is_valid °=° ²true²°;°
+        modifier_list_is_valid °=° ²true²°;°
 
         ¹while¹ °(° character_index °&lt;° text°.°length
                 °&&° text°.°charAt°(° character_index °)° °==° ²'^'²
-                °&&° command_is_valid °)°
+                °&&° modifier_list_is_valid °)°
         °{°
-            command_is_valid °=° ²false²°;°
+            modifier_list_is_valid °=° ²false²°;°
 
-            it_is_quoted °=° ²false²°;°
-            it_is_double_quoted °=° ²false²°;°
-            nesting_level °=° ²0²°;°
+            colon_character_index °=° ²0²°;°
 
             added_modifiers °=° ²""²°;°
 
-            ¹for¹ °(° next_character_index °=° character_index °+° ²1²°;°
-                  next_character_index °&lt;° text°.°length°;°
-                  °+\+°next_character_index °)°
+            ¹for¹ °(° modifier_character_index °=° character_index °+° ²1²°;°
+                  modifier_character_index °&lt;° text°.°length°;°
+                  °+\+°modifier_character_index °)°
             °{°
-                character °=° text°.°charAt°(° next_character_index °);°
+                character °=° text°.°charAt°(° modifier_character_index °);°
 
                 ¹if¹ °(° character °==° ²'\\\\'² °)°
                 °{°
                     ¹if¹ °(° added_modifiers °\!=° ²""² °)°
                     °{°
-                        ¹if¹ °(° added_modifiers°.°indexOf°(° ²':'² °)° °&gt;=° ²0² °)°
+                        ¹if¹ °(° colon_character_index °&gt;° ²0² °)°
                         °{°
-                            part_array °=° added_modifiers°.°split°(° ²':'² °);°
-                            DefinitionMap°[° part_array°[° ²1² °]° °]° °=° part_array°[° ²0² °];°
-                            added_modifiers °=° part_array°[° ²0² °];°
+                            modifier_name °=° added_modifiers°.°slice°(° colon_character_index °+° ²1² °);°
+                            added_modifiers °=° added_modifiers°.°slice°(° ²0²°,° colon_character_index °);°
+                            
+                            ModifierMap°[° modifier_name °]° °=° added_modifiers°;°
                         °}°
 
                         ¹if¹ °(° modifiers °\!=° ²""² °)°
                         °{°
-                            modifiers °~=° ²" "²°;°
+                            modifiers °~=° ²"\\f"²°;°
                         °}°
 
                         modifiers °~=° added_modifiers°;°
 
-                        character_index °=° next_character_index °+° ²1²°;°
-                        command_is_valid °=° ²true²°;°
+                        character_index °=° modifier_character_index °+° ²1²°;°
+                        modifier_list_is_valid °=° ²true²°;°
                     °}°
 
                     ¹break¹°;°
                 °}°
-                ¹else¹ ¹if¹ °(° character °==° ²','²
-                          °&&° °\!°it_is_quoted
-                          °&&° °\!°it_is_double_quoted
-                          °&&° nesting_level °==° ²0² °)°
+                ¹else¹ ¹if¹ °(° character °==° ²'\\n'² °)°
                 °{°
-                    added_modifiers °~=° ²' '²°;°
+                    ¹break¹°;°
                 °}°
-                ¹else¹ ¹if¹ °(° character °\!=° ²'\\n'² °)°
+                ¹else¹ ¹if¹ °(° character °==° ²','² °)°
                 °{°
-                    added_modifiers °~=° character°;°
+                    added_modifiers °~=° ²'\\f'²°;°
+                °}°
+                ¹else¹ ¹if¹ °(° character °==° ²'^'²
+                         °&&° modifier_character_index °+° ²1² °&lt;° text°.°length °)°
+                °{°
+                    °+\+°modifier_character_index°;°
                     
-                    ¹if¹ °(° character °==° ²'\\''²
-                         °&&° °\!°it_is_double_quoted °)°
-                    °{°
-                        it_is_quoted °=° °\!°it_is_quoted°;°
-                    °}°
-                    ¹else¹ ¹if¹ °(° character °==° ²'"'²
-                              °&&° °\!°it_is_quoted °)°
-                    °{°
-                        it_is_double_quoted °=° °\!°it_is_double_quoted°;°
-                    °}°
-                    ¹else¹ ¹if¹ °(° °\!°it_is_quoted
-                              °&&° °\!°it_is_double_quoted °)°
-                    °{°
-                        ¹if¹ °(° character °==° ²'('²
-                             °||° character °==° ²'['²
-                             °||° character °==° ²'{'² °)°
-                        °{°
-                            °+\+°nesting_level°;°
-                        °}°
-                        ¹else¹ ¹if¹ °(° character °==° ²')'²
-                                 °||° character °==° ²']'²
-                                 °||° character °==° ²'}'² °)°
-                        °{°
-                            °-\-°nesting_level°;°
-                        °}°
-                    °}°
+                    added_modifiers °~=° text°.°charAt°(° modifier_character_index °);°
                 °}°
                 ¹else¹
                 °{°
-                    ¹break¹°;°
+                    added_modifiers °~=° character°;°
+                    
+                    ¹if¹ °(° character °==° ²':'² °)°
+                    °{°
+                        colon_character_index °=° added_modifiers°.°length °-° ²1²°;°
+                    °}°
                 °}°
             °}°
         °}°
 
         modifiers °=° ReplaceDefinitions°(° modifiers °);°
-        modifier_array °=° modifiers°.°split°(° ²' '² °);°
+        modifier_array °=° modifiers°.°split°(° ²'\\f'² °);°
         
         classes °=° ²""²°;°
 
@@ -1876,7 +1937,20 @@
         °{°
             modifier °=° modifier_array°[° modifier_index °];°
 
-            ¹if¹ °(° modifier°.°startsWith°(° ²'?'² °)° °)°
+            ¹if¹ °(° modifier°.°startsWith°(° ²'\!'² °)° °)°
+            °{°
+                space_character_index °=° modifier°.°indexOf°(° ²' '² °);°
+                
+                ¹if¹ °(° space_character_index °&gt;° ²0² °)°
+                °{°
+                    AddTag°(° modifier°.°slice°(° ²1²°,° space_character_index °),° modifier°.°slice°(° space_character_index °+° ²1² °)° °);°
+                °}°
+                ¹else¹
+                °{°
+                    RemoveTag°(° modifier°.°slice°(° ²1² °)° °);°
+                °}°
+            °}°
+            ¹else¹ ¹if¹ °(° modifier°.°startsWith°(° ²'?'² °)° °)°
             °{°
                 id °=° modifier°.°slice°(° ²1² °);°
             °}°
@@ -1995,25 +2069,25 @@
 
     °// ~\~°
 
-    ²bool² ParseCommand°(°
-        ²dstring² command_prefix°,°
+    ²bool² ParseTag°(°
+        ²dstring² tag_prefix°,°
         ²dstring² modifiers°,°
-        ²dstring² command_suffix
+        ²dstring² tag_suffix
         °)°
     °{°
         ²bool²
-            command_is_valid°;°
+            modifier_list_is_valid°;°
         ²dchar²
             character°;°
         ²long²
-            command_character_index°,°
-            next_character_index°;°
+            modifier_character_index°,°
+            tag_character_index°;°
 
-        ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° command_prefix°.°length °)° °==° command_prefix °)°
+        ¹if¹ °(° text°.°slice°(° character_index°,° character_index °+° tag_prefix°.°length °)° °==° tag_prefix °)°
         °{°
-            ¹if¹ °(° command_suffix°.°length °==° ²0² °)°
+            ¹if¹ °(° tag_suffix°.°length °==° ²0² °)°
             °{°
-                character_index °+=° command_prefix°.°length°;°
+                character_index °+=° tag_prefix°.°length°;°
 
                 ParseAttributes°(° modifiers °);°
 
@@ -2021,27 +2095,32 @@
             °}°
             ¹else¹
             °{°
-                command_character_index °=° character_index °+° command_prefix°.°length°;°
-                command_is_valid °=° ²true²°;°
+                tag_character_index °=° character_index °+° tag_prefix°.°length°;°
+                modifier_list_is_valid °=° ²true²°;°
 
-                ¹while¹ °(° command_character_index °&lt;° text°.°length
-                        °&&° text°.°charAt°(° command_character_index °)° °==° ²'^'²
-                        °&&° command_is_valid °)°
+                ¹while¹ °(° tag_character_index °&lt;° text°.°length
+                        °&&° text°.°charAt°(° tag_character_index °)° °==° ²'^'²
+                        °&&° modifier_list_is_valid °)°
                 °{°
-                    command_is_valid °=° ²false²°;°
+                    modifier_list_is_valid °=° ²false²°;°
 
-                    ¹for¹ °(° next_character_index °=° command_character_index °+° ²1²°;°
-                          next_character_index °&lt;° text°.°length°;°
-                          °+\+°next_character_index °)°
+                    ¹for¹ °(° modifier_character_index °=° tag_character_index °+° ²1²°;°
+                          modifier_character_index °&lt;° text°.°length°;°
+                          °+\+°modifier_character_index °)°
                     °{°
-                        character °=° text°.°charAt°(° next_character_index °);°
+                        character °=° text°.°charAt°(° modifier_character_index °);°
 
                         ¹if¹ °(° character °==° ²'\\\\'² °)°
                         °{°
-                            command_character_index °=° next_character_index °+° ²1²°;°
-                            command_is_valid °=° ²true²°;°
+                            tag_character_index °=° modifier_character_index °+° ²1²°;°
+                            modifier_list_is_valid °=° ²true²°;°
 
                             ¹break¹°;°
+                        °}°
+                        ¹else¹ ¹if¹ °(° character °==° ²'^'²
+                                  °&&° modifier_character_index °+° ²1² °&lt;° text°.°length °)°
+                        °{°
+                            °+\+°modifier_character_index°;°
                         °}°
                         ¹else¹ ¹if¹ °(° character °==° ²'\\n'² °)°
                         °{°
@@ -2050,20 +2129,49 @@
                     °}°
                 °}°
 
-                ¹if¹ °(° command_suffix°.°length °==° ²0²
-                     °||° text°.°slice°(° command_character_index°,° command_character_index °+° command_suffix°.°length °)° °==° command_suffix °)°
+                ¹if¹ °(° tag_suffix°.°length °==° ²0²
+                     °||° text°.°slice°(° tag_character_index°,° tag_character_index °+° tag_suffix°.°length °)° °==° tag_suffix °)°
                 °{°
-                    character_index °+=° command_prefix°.°length°;°
+                    character_index °+=° tag_prefix°.°length°;°
 
                     ParseAttributes°(° modifiers °);°
 
-                    character_index °+=° command_suffix°.°length°;°
+                    character_index °+=° tag_suffix°.°length°;°
 
                     ¹return¹ ²true²°;°
                 °}°
             °}°
         °}°
 
+        ¹return¹ ²false²°;°
+    °}°
+    
+    °// ~\~°
+    
+    ²bool² ParseDefinedTag°(°
+        °)°
+    °{°
+        ²long²
+            tag_index°;°
+        ⁰TAG⁰ 
+            tag°;°
+            
+        ¹for¹ °(° tag_index °=° ²0²°;°
+              tag_index °&lt;° TagArray°.°length°;°
+              °+\+°tag_index °)°
+        °{°
+            tag °=° TagArray°[° tag_index °];°
+            
+            ¹if¹ °(° ParseTag°(° tag°.°Name°,° ²""²°,° ²""² °)° °)°
+            °{°
+                token_text °=° tag°.°DefinitionArray°[° tag°.°DefinitionIndex °].°replace°(° ²"$"²°,° attributes °);°
+                
+                tag°.°DefinitionIndex °=° °(° tag°.°DefinitionIndex °+° ²1² °)° °%° tag°.°DefinitionArray°.°length°;°
+                
+                ¹return¹ ²true²°;°
+            °}°
+        °}°
+        
         ¹return¹ ²false²°;°
     °}°
 
@@ -2262,87 +2370,91 @@
             token°.°Text °=° token°.°Text°.°replace°(° ²"&lt;"²°,° ²"&lt;"² °).°replace°(° ²"&gt;"²°,° ²"&gt;"² °);°
             token°.°IsEscaped °=° ²true²°;°
         °}°
+        ¹else¹ ¹if¹ °(° ParseDefinedTag°()° °)°
+        °{°
+            token°.°Text °=° token_text°;°
+        °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
-                  °&&° ParseCommand°(° ²"\!"²°,° ²""²°,° ²" "² °)° °)°
+                  °&&° ParseTag°(° ²"\!"²°,° ²""²°,° ²" "² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;h1"² °~° attributes °~° ²"&gt;"²°;°
             closing_tag °=° ²"&lt;/h1&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
-                  °&&° ParseCommand°(° ²"\!\!"²°,° ²""²°,° ²" "² °)° °)°
+                  °&&° ParseTag°(° ²"\!\!"²°,° ²""²°,° ²" "² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;h2"² °~° attributes °~° ²"&gt;"²°;°
             closing_tag °=° ²"&lt;/h2&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
-                  °&&° ParseCommand°(° ²"\!\!\!"²°,° ²""²°,° ²" "² °)° °)°
+                  °&&° ParseTag°(° ²"\!\!\!"²°,° ²""²°,° ²" "² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;h3"² °~° attributes °~° ²"&gt;"²°;°
             closing_tag °=° ²"&lt;/h3&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
-                  °&&° ParseCommand°(° ²"\!\!\!\!"²°,° ²""²°,° ²" "² °)° °)°
+                  °&&° ParseTag°(° ²"\!\!\!\!"²°,° ²""²°,° ²" "² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;h4"² °~° attributes °~° ²"&gt;"²°;°
             closing_tag °=° ²"&lt;/h4&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
-                  °&&° ParseCommand°(° ²"\!\!\!\!\!"²°,° ²""²°,° ²" "² °)° °)°
+                  °&&° ParseTag°(° ²"\!\!\!\!\!"²°,° ²""²°,° ²" "² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;h5"² °~° attributes °~° ²"&gt;"²°;°
             closing_tag °=° ²"&lt;/h5&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° token°.°StartsLine
-                  °&&° ParseCommand°(° ²"\!\!\!\!\!\!"²°,° ²""²°,° ²" "² °)° °)°
+                  °&&° ParseTag°(° ²"\!\!\!\!\!\!"²°,° ²""²°,° ²" "² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;h6"² °~° attributes °~° ²"&gt;"²°;°
             closing_tag °=° ²"&lt;/h6&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"-\-\-"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"-\-\-"²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;hr"² °~° attributes °~° ²"/&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"~\~\~"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"~\~\~"²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;pb"² °~° attributes °~° ²"/&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"§"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"§"²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;br"² °~° attributes °~° ²"/&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"[\[\["²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"[\[\["²°,° ²""²°,° ²""² °)° °)°
         °{°
             °+\+°table_count°;°
 
             token°.°Text °=° ²"&lt;table"² °~° attributes °~° ²"&gt;&lt;tbody&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° table_count °&gt;° ²0²
-                  °&&° ParseCommand°(° ²"(("²°,° ²""²°,° ²""² °)° °)°
+                  °&&° ParseTag°(° ²"(("²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;tr&gt;&lt;td"² °~° attributes °~° ²"&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° table_count °&gt;° ²0²
-                  °&&° ParseCommand°(° ²"|"²°,° ²""²°,° ²""² °)° °)°
+                  °&&° ParseTag°(° ²"|"²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;/td&gt;&lt;td"² °~° attributes °~° ²"&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° table_count °&gt;° ²0²
-                  °&&° ParseCommand°(° ²"))"²°,° ²""²°,° ²""² °)° °)°
+                  °&&° ParseTag°(° ²"))"²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;/td&gt;&lt;/tr&gt;"²°;°
         °}°
         ¹else¹ ¹if¹ °(° table_count °&gt;° ²0²
-                  °&&° ParseCommand°(° ²"]\]\]"²°,° ²""²°,° ²""² °)° °)°
+                  °&&° ParseTag°(° ²"]\]\]"²°,° ²""²°,° ²""² °)° °)°
         °{°
             °-\-°table_count°;°
 
             token°.°Text °=° ²"&lt;/tbody&gt;&lt;/table&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"[\["²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"[\["²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ParseImage°();°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²":\:\:"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²":\:\:"²°,° ²""²°,° ²""² °)° °)°
         °{°
             it_is_in_pre °=° °\!°it_is_in_pre°;°
 
@@ -2355,7 +2467,7 @@
                 token°.°Text °=° ²"&lt;/pre&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"&gt;&gt;&gt;"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"&gt;&gt;&gt;"²°,° ²""²°,° ²""² °)° °)°
         °{°
             it_is_in_blockquote °=° °\!°it_is_in_blockquote°;°
 
@@ -2368,7 +2480,7 @@
                 token°.°Text °=° ²"&lt;/blockquote&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"+\+\+"²°,° ²"frame"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"+\+\+"²°,° ²"frame"²°,° ²""² °)° °)°
         °{°
             it_is_in_frame_div °=° °\!°it_is_in_frame_div°;°
 
@@ -2381,7 +2493,7 @@
                 token°.°Text °=° ²"&lt;/div&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\#\#\#"²°,° ²"box"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\#\#\#"²°,° ²"box"²°,° ²""² °)° °)°
         °{°
             it_is_in_box_div °=° °\!°it_is_in_box_div°;°
 
@@ -2394,15 +2506,15 @@
                 token°.°Text °=° ²"&lt;/div&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"{\{\{"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"{\{\{"²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;div"² °~° attributes °~° ²"&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"}\}\}"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"}\}\}"²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;/div&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\#\#"²°,° ²"mark"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\#\#"²°,° ²"mark"²°,° ²""² °)° °)°
         °{°
             it_is_in_mark_span °=° °\!°it_is_in_mark_span°;°
 
@@ -2415,7 +2527,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"_\_"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"_\_"²°,° ²""²°,° ²""² °)° °)°
         °{°
             it_is_in_u °=° °\!°it_is_in_u°;°
 
@@ -2428,15 +2540,15 @@
                 token°.°Text °=° ²"&lt;/u&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"{\{"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"{\{"²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;span"² °~° attributes °~° ²"&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"}\}"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"}\}"²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;/span&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"&lt;&lt;"²°,° ²"left"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"&lt;&lt;"²°,° ²"left"²°,° ²""² °)° °)°
         °{°
             it_is_in_left_div °=° °\!°it_is_in_left_div°;°
 
@@ -2449,7 +2561,7 @@
                 token°.°Text °=° ²"&lt;/div&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"$\$"²°,° ²"center"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"$\$"²°,° ²"center"²°,° ²""² °)° °)°
         °{°
             it_is_in_center_div °=° °\!°it_is_in_center_div°;°
 
@@ -2462,7 +2574,7 @@
                 token°.°Text °=° ²"&lt;/div&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"&gt;&gt;"²°,° ²"right"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"&gt;&gt;"²°,° ²"right"²°,° ²""² °)° °)°
         °{°
             it_is_in_right_div °=° °\!°it_is_in_right_div°;°
 
@@ -2475,7 +2587,7 @@
                 token°.°Text °=° ²"&lt;/div&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"*\*"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"*\*"²°,° ²""²°,° ²""² °)° °)°
         °{°
             it_is_in_b °=° °\!°it_is_in_b°;°
 
@@ -2488,7 +2600,7 @@
                 token°.°Text °=° ²"&lt;/b&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"%\%"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"%\%"²°,° ²""²°,° ²""² °)° °)°
         °{°
             it_is_in_i °=° °\!°it_is_in_i°;°
 
@@ -2501,7 +2613,7 @@
                 token°.°Text °=° ²"&lt;/i&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"^\^"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"^\^"²°,° ²""²°,° ²""² °)° °)°
         °{°
             it_is_in_sup °=° °\!°it_is_in_sup°;°
 
@@ -2514,7 +2626,7 @@
                 token°.°Text °=° ²"&lt;/sup&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²",\,"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²",\,"²°,° ²""²°,° ²""² °)° °)°
         °{°
             it_is_in_sub °=° °\!°it_is_in_sub°;°
 
@@ -2527,7 +2639,7 @@
                 token°.°Text °=° ²"&lt;/sub&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"~\~"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"~\~"²°,° ²""²°,° ²""² °)° °)°
         °{°
             it_is_in_strike °=° °\!°it_is_in_strike°;°
 
@@ -2540,7 +2652,7 @@
                 token°.°Text °=° ²"&lt;/strike&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\°"²°,° ²"\°"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\°"²°,° ²"\°"²°,° ²""² °)° °)°
         °{°
             it_is_in_gray_span °=° °\!°it_is_in_gray_span°;°
 
@@ -2553,7 +2665,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\⁰"²°,° ²"\⁰"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\⁰"²°,° ²"\⁰"²°,° ²""² °)° °)°
         °{°
             it_is_in_orange_span °=° °\!°it_is_in_orange_span°;°
 
@@ -2566,7 +2678,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\¹"²°,° ²"\¹"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\¹"²°,° ²"\¹"²°,° ²""² °)° °)°
         °{°
             it_is_in_pink_span °=° °\!°it_is_in_pink_span°;°
 
@@ -2579,7 +2691,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\²"²°,° ²"\²"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\²"²°,° ²"\²"²°,° ²""² °)° °)°
         °{°
             it_is_in_red_span °=° °\!°it_is_in_red_span°;°
 
@@ -2592,7 +2704,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\³"²°,° ²"\³"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\³"²°,° ²"\³"²°,° ²""² °)° °)°
         °{°
             it_is_in_blue_span °=° °\!°it_is_in_blue_span°;°
 
@@ -2605,7 +2717,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\⁴"²°,° ²"\⁴"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\⁴"²°,° ²"\⁴"²°,° ²""² °)° °)°
         °{°
             it_is_in_violet_span °=° °\!°it_is_in_violet_span°;°
 
@@ -2618,7 +2730,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\⁵"²°,° ²"\⁵"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\⁵"²°,° ²"\⁵"²°,° ²""² °)° °)°
         °{°
             it_is_in_cyan_span °=° °\!°it_is_in_cyan_span°;°
 
@@ -2631,7 +2743,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\⁶"²°,° ²"\⁶"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\⁶"²°,° ²"\⁶"²°,° ²""² °)° °)°
         °{°
             it_is_in_black_span °=° °\!°it_is_in_black_span°;°
 
@@ -2644,7 +2756,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\⁷"²°,° ²"\⁷"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\⁷"²°,° ²"\⁷"²°,° ²""² °)° °)°
         °{°
             it_is_in_yellow_span °=° °\!°it_is_in_yellow_span°;°
 
@@ -2657,7 +2769,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\⁸"²°,° ²"\⁸"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\⁸"²°,° ²"\⁸"²°,° ²""² °)° °)°
         °{°
             it_is_in_white_span °=° °\!°it_is_in_white_span°;°
 
@@ -2670,7 +2782,7 @@
                 token°.°Text °=° ²"&lt;/span&gt;"²°;°
             °}°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\⁹"²°,° ²"\⁹"²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\⁹"²°,° ²"\⁹"²°,° ²""² °)° °)°
         °{°
             it_is_in_green_span °=° °\!°it_is_in_green_span°;°
 
@@ -2695,7 +2807,7 @@
 
             token°.°Text °=° ²"&lt;/pre&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseCommand°(° ²"\@\@"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"\@\@"²°,° ²""²°,° ²""² °)° °)°
         °{°
             it_is_in_a °=° °\!°it_is_in_a°;°
 
@@ -3157,17 +3269,17 @@
     TabulationSpaceCount °=° ²4²°;°
     IndentationSpaceCount °=° ²4²°;°
 
-    DefinitionMap°[° ²"\°"² °]° °=° ²"gray"²°;°
-    DefinitionMap°[° ²"\⁰"² °]° °=° ²"orange"²°;°
-    DefinitionMap°[° ²"\¹"² °]° °=° ²"pink"²°;°
-    DefinitionMap°[° ²"\²"² °]° °=° ²"red"²°;°
-    DefinitionMap°[° ²"\³"² °]° °=° ²"blue"²°;°
-    DefinitionMap°[° ²"\⁴"² °]° °=° ²"violet"²°;°
-    DefinitionMap°[° ²"\⁵"² °]° °=° ²"cyan"²°;°
-    DefinitionMap°[° ²"\⁶"² °]° °=° ²"black"²°;°
-    DefinitionMap°[° ²"\⁷"² °]° °=° ²"yellow"²°;°
-    DefinitionMap°[° ²"\⁸"² °]° °=° ²"white"²°;°
-    DefinitionMap°[° ²"\⁹"² °]° °=° ²"green"²°;°
+    ModifierMap°[° ²"\°"² °]° °=° ²"gray"²°;°
+    ModifierMap°[° ²"\⁰"² °]° °=° ²"orange"²°;°
+    ModifierMap°[° ²"\¹"² °]° °=° ²"pink"²°;°
+    ModifierMap°[° ²"\²"² °]° °=° ²"red"²°;°
+    ModifierMap°[° ²"\³"² °]° °=° ²"blue"²°;°
+    ModifierMap°[° ²"\⁴"² °]° °=° ²"violet"²°;°
+    ModifierMap°[° ²"\⁵"² °]° °=° ²"cyan"²°;°
+    ModifierMap°[° ²"\⁶"² °]° °=° ²"black"²°;°
+    ModifierMap°[° ²"\⁷"² °]° °=° ²"yellow"²°;°
+    ModifierMap°[° ²"\⁸"² °]° °=° ²"white"²°;°
+    ModifierMap°[° ²"\⁹"² °]° °=° ²"green"²°;°
 
     PageOptionIsEnabled °=° ²false²°;°
     PageWidth °=° ²21.0²°;°

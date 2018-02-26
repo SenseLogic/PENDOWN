@@ -702,6 +702,16 @@ function TOKEN(
     this.IsEscaped = false;
 }
 
+// ~~
+
+function TAG(
+    )
+{
+    this.Name = "";
+    this.DefinitionArray = [];
+    this.DefinitionIndex = 0;
+}
+
 // -- FUNCTIONS
 
 String.prototype.isDigit = function()
@@ -1480,6 +1490,59 @@ function GetPreprocessedText(
 
 // ~~
 
+function AddTag(
+    name,
+    definition
+    )
+{
+    var
+        tag,
+        tag_index;
+        
+    for ( tag_index = 0;
+          tag_index < TagArray.length;
+          ++tag_index )
+    {
+        if ( TagArray[ tag_index ].Name === name )
+        {
+            TagArray[ tag_index ].DefinitionArray.push( definition );
+            
+            return;
+        }
+    }
+    
+    tag = new TAG();
+    tag.Name = name;
+    tag.DefinitionArray.push( definition );
+    tag.DefinitionIndex = 0;
+    
+    TagArray.push( tag );
+}
+
+// ~~
+
+function RemoveTag(
+    name
+    )
+{
+    var
+        tag_index;
+        
+    for ( tag_index = 0;
+          tag_index < TagArray.length;
+          ++tag_index )
+    {
+        if ( TagArray[ tag_index ].Name === name )
+        {
+            TagArray.splice( tag_index, 1 );
+            
+            return;
+        }
+    }
+}
+
+// ~~
+
 function GetTokenArray(
     text
     )
@@ -1520,6 +1583,7 @@ function GetTokenArray(
         token_array,
         token_character_index,
         token_starts_line,
+        token_text,
         url;
 
     // ~~
@@ -1538,7 +1602,7 @@ function GetTokenArray(
         {
             old_modifiers = modifiers;
 
-            modifier_array = modifiers.split( ' ' );
+            modifier_array = modifiers.split( '\f' );
 
             for ( modifier_index = 0;
                   modifier_index < modifier_array.length;
@@ -1546,13 +1610,13 @@ function GetTokenArray(
             {
                 modifier = modifier_array[ modifier_index ];
 
-                if ( DefinitionMap.hasOwnProperty( modifier ) )
+                if ( ModifierMap.hasOwnProperty( modifier ) )
                 {
-                    modifier_array[ modifier_index ] = DefinitionMap[ modifier ];
+                    modifier_array[ modifier_index ] = ModifierMap[ modifier ];
                 }
             }
 
-            modifiers = modifier_array.join( ' ' );
+            modifiers = modifier_array.join( '\f' );
         }
         while ( modifiers !== old_modifiers );
 
@@ -1566,22 +1630,22 @@ function GetTokenArray(
         )
     {
         var
+            added_modifiers,
+            colon_character_index,
             character,
             classes,
             modifier,
             modifier_array,
+            modifier_character_index,
             modifier_index,
-            command_is_valid,
+            modifier_list_is_valid,
+            modifier_name,
             equal_character_index,
             id,
-            it_is_double_quoted,
-            it_is_quoted,
-            next_character_index,
             other_attributes,
-            added_modifiers,
-            nesting_level,
             part_array,
             size,
+            space_character_index,
             span,
             styles;
 
@@ -1590,97 +1654,78 @@ function GetTokenArray(
         span = "";
         other_attributes = "";
 
-        command_is_valid = true;
+        modifier_list_is_valid = true;
 
         while ( character_index < text.length
                 && text.charAt( character_index ) === '^'
-                && command_is_valid )
+                && modifier_list_is_valid )
         {
-            command_is_valid = false;
-
-            it_is_quoted = false;
-            it_is_double_quoted = false;
-            nesting_level = 0;
+            modifier_list_is_valid = false;
+            
+            colon_character_index = 0;
             
             added_modifiers = "";
 
-            for ( next_character_index = character_index + 1;
-                  next_character_index < text.length;
-                  ++next_character_index )
+            for ( modifier_character_index = character_index + 1;
+                  modifier_character_index < text.length;
+                  ++modifier_character_index )
             {
-                character = text.charAt( next_character_index );
+                character = text.charAt( modifier_character_index );
 
                 if ( character === '\\' )
                 {
                     if ( added_modifiers !== "" )
                     {
-                        if ( added_modifiers.indexOf( ':' ) >= 0 )
+                        if ( colon_character_index > 0 )
                         {
-                            part_array = added_modifiers.split( ':' );
-                            DefinitionMap[ part_array[ 1 ] ] = part_array[ 0 ];
-                            added_modifiers = part_array[ 0 ];
+                            modifier_name = added_modifiers.slice( colon_character_index + 1 );
+                            added_modifiers = added_modifiers.slice( 0, colon_character_index );
+                            
+                            ModifierMap[ modifier_name ] = added_modifiers;
                         }
 
                         if ( modifiers !== "" )
                         {
-                            modifiers += " ";
+                            modifiers += "\f";
                         }
 
                         modifiers += added_modifiers;
 
-                        character_index = next_character_index + 1;
-                        command_is_valid = true;
+                        character_index = modifier_character_index + 1;
+                        modifier_list_is_valid = true;
                     }
 
                     break;
                 }
-                else if ( character === ','
-                          && !it_is_quoted
-                          && !it_is_double_quoted
-                          && nesting_level === 0 )
+                else if ( character === '\n' )
                 {
-                    added_modifiers += ' ';
+                    break;
                 }
-                else if ( character !== '\n' )
+                else if ( character === ',' )
                 {
-                    added_modifiers += character;
+                    added_modifiers += '\f';
+                }
+                else if ( character === '^'
+                         && modifier_character_index + 1 < text.length )
+                {
+                    ++modifier_character_index;
                     
-                    if ( character === '\''
-                         && !it_is_double_quoted )
-                    {
-                        it_is_quoted = !it_is_quoted;
-                    }
-                    else if ( character === '"'
-                              && !it_is_quoted )
-                    {
-                        it_is_double_quoted = !it_is_double_quoted;
-                    }
-                    else if ( !it_is_quoted
-                              && !it_is_double_quoted )
-                    {
-                        if ( character === '('
-                             || character === '['
-                             || character === '{' )
-                        {
-                            ++nesting_level;
-                        }
-                        else if ( character === ')'
-                                 || character === ']'
-                                 || character === '}' )
-                        {
-                            --nesting_level;
-                        }
-                    }
+                    added_modifiers += text.charAt( modifier_character_index );
                 }
                 else
                 {
-                    break;
+                    added_modifiers += character;
+                    
+                    if ( character === ':' )
+                    {
+                        colon_character_index = added_modifiers.length - 1;
+                    }
                 }
             }
         }
 
         modifiers = ReplaceDefinitions( modifiers );
-        modifier_array = modifiers.split( ' ' );
+        modifier_array = modifiers.split( '\f' );
         
         classes = "";
 
@@ -1690,7 +1735,20 @@ function GetTokenArray(
         {
             modifier = modifier_array[ modifier_index ];
 
-            if ( modifier.startsWith( '?' ) )
+            if ( modifier.startsWith( '!' ) )
+            {
+                space_character_index = modifier.indexOf( ' ' );
+                
+                if ( space_character_index > 0 )
+                {
+                    AddTag( modifier.slice( 1, space_character_index ), modifier.slice( space_character_index + 1 ) );
+                }
+                else
+                {
+                    RemoveTag( modifier.slice( 1 ) );
+                }
+            }
+            else if ( modifier.startsWith( '?' ) )
             {
                 id = modifier.slice( 1 );
             }
@@ -1809,23 +1867,23 @@ function GetTokenArray(
 
     // ~~
 
-    function ParseCommand(
-        command_prefix,
+    function ParseTag(
+        tag_prefix,
         modifiers,
-        command_suffix
+        tag_suffix
         )
     {
         var
             character,
-            command_character_index,
-            command_is_valid,
-            next_character_index;
+            modifier_character_index,
+            modifier_list_is_valid,
+            tag_character_index;
 
-        if ( text.slice( character_index, character_index + command_prefix.length ) === command_prefix )
+        if ( text.slice( character_index, character_index + tag_prefix.length ) === tag_prefix )
         {
-            if ( command_suffix.length === 0 )
+            if ( tag_suffix.length === 0 )
             {
-                character_index += command_prefix.length;
+                character_index += tag_prefix.length;
 
                 ParseAttributes( modifiers );
 
@@ -1833,27 +1891,32 @@ function GetTokenArray(
             }
             else
             {
-                command_character_index = character_index + command_prefix.length;
-                command_is_valid = true;
+                tag_character_index = character_index + tag_prefix.length;
+                modifier_list_is_valid = true;
 
-                while ( command_character_index < text.length
-                        && text.charAt( command_character_index ) === '^'
-                        && command_is_valid )
+                while ( tag_character_index < text.length
+                        && text.charAt( tag_character_index ) === '^'
+                        && modifier_list_is_valid )
                 {
-                    command_is_valid = false;
+                    modifier_list_is_valid = false;
 
-                    for ( next_character_index = command_character_index + 1;
-                          next_character_index < text.length;
-                          ++next_character_index )
+                    for ( modifier_character_index = tag_character_index + 1;
+                          modifier_character_index < text.length;
+                          ++modifier_character_index )
                     {
-                        character = text.charAt( next_character_index );
+                        character = text.charAt( modifier_character_index );
 
                         if ( character === '\\' )
                         {
-                            command_character_index = next_character_index + 1;
-                            command_is_valid = true;
+                            tag_character_index = modifier_character_index + 1;
+                            modifier_list_is_valid = true;
 
                             break;
+                        }
+                        else if ( character === '^'
+                                  && modifier_character_index + 1 < text.length )
+                        {
+                            ++modifier_character_index;
                         }
                         else if ( character === '\n' )
                         {
@@ -1862,14 +1925,14 @@ function GetTokenArray(
                     }
                 }
 
-                if ( command_suffix.length === 0
-                     || text.slice( command_character_index, command_character_index + command_suffix.length ) === command_suffix )
+                if ( tag_suffix.length === 0
+                     || text.slice( tag_character_index, tag_character_index + tag_suffix.length ) === tag_suffix )
                 {
-                    character_index += command_prefix.length;
+                    character_index += tag_prefix.length;
 
                     ParseAttributes( modifiers );
 
-                    character_index += command_suffix.length;
+                    character_index += tag_suffix.length;
 
                     return true;
                 }
@@ -1879,6 +1942,34 @@ function GetTokenArray(
         return false;
     }
 
+    // ~~
+    
+    function ParseDefinedTag(
+        )
+    {
+        var
+            tag,
+            tag_index;
+            
+        for ( tag_index = 0;
+              tag_index < TagArray.length;
+              ++tag_index )
+        {
+            tag = TagArray[ tag_index ];
+            
+            if ( ParseTag( tag.Name, "", "" ) )
+            {
+                token_text = tag.DefinitionArray[ tag.DefinitionIndex ].split( "$" ).join( attributes );
+                
+                tag.DefinitionIndex = ( tag.DefinitionIndex + 1 ) % tag.DefinitionArray.length;
+                
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     // ~~
 
     function ParseImage(
@@ -2061,87 +2152,91 @@ function GetTokenArray(
             token.Text = token.Text.split( "<" ).join( "&lt;" ).split( ">" ).join( "&gt;" );
             token.IsEscaped = true;
         }
+        else if ( ParseDefinedTag() )
+        {
+            token.Text = token_text;
+        }
         else if ( token.StartsLine
-                  && ParseCommand( "!", "", " " ) )
+                  && ParseTag( "!", "", " " ) )
         {
             token.Text = "<h1" + attributes + ">";
             closing_tag = "</h1>";
         }
         else if ( token.StartsLine
-                  && ParseCommand( "!!", "", " " ) )
+                  && ParseTag( "!!", "", " " ) )
         {
             token.Text = "<h2" + attributes + ">";
             closing_tag = "</h2>";
         }
         else if ( token.StartsLine
-                  && ParseCommand( "!!!", "", " " ) )
+                  && ParseTag( "!!!", "", " " ) )
         {
             token.Text = "<h3" + attributes + ">";
             closing_tag = "</h3>";
         }
         else if ( token.StartsLine
-                  && ParseCommand( "!!!!", "", " " ) )
+                  && ParseTag( "!!!!", "", " " ) )
         {
             token.Text = "<h4" + attributes + ">";
             closing_tag = "</h4>";
         }
         else if ( token.StartsLine
-                  && ParseCommand( "!!!!!", "", " " ) )
+                  && ParseTag( "!!!!!", "", " " ) )
         {
             token.Text = "<h5" + attributes + ">";
             closing_tag = "</h5>";
         }
         else if ( token.StartsLine
-                  && ParseCommand( "!!!!!!", "", " " ) )
+                  && ParseTag( "!!!!!!", "", " " ) )
         {
             token.Text = "<h6" + attributes + ">";
             closing_tag = "</h6>";
         }
-        else if ( ParseCommand( "---", "", "" ) )
+        else if ( ParseTag( "---", "", "" ) )
         {
             token.Text = "<hr" + attributes + "/>";
         }
-        else if ( ParseCommand( "~~~", "", "" ) )
+        else if ( ParseTag( "~~~", "", "" ) )
         {
             token.Text = "<pb" + attributes + "/>";
         }
-        else if ( ParseCommand( "§", "", "" ) )
+        else if ( ParseTag( "§", "", "" ) )
         {
             token.Text = "<br" + attributes + "/>";
         }
-        else if ( ParseCommand( "[[[", "", "" ) )
+        else if ( ParseTag( "[[[", "", "" ) )
         {
             ++table_count;
 
             token.Text = "<table" + attributes + "><tbody>";
         }
         else if ( table_count > 0
-                  && ParseCommand( "((", "", "" ) )
+                  && ParseTag( "((", "", "" ) )
         {
             token.Text = "<tr><td" + attributes + ">";
         }
         else if ( table_count > 0
-                  && ParseCommand( "|", "", "" ) )
+                  && ParseTag( "|", "", "" ) )
         {
             token.Text = "</td><td" + attributes + ">";
         }
         else if ( table_count > 0
-                  && ParseCommand( "))", "", "" ) )
+                  && ParseTag( "))", "", "" ) )
         {
             token.Text = "</td></tr>";
         }
         else if ( table_count > 0
-                  && ParseCommand( "]]]", "", "" ) )
+                  && ParseTag( "]]]", "", "" ) )
         {
             --table_count;
 
             token.Text = "</tbody></table>";
         }
-        else if ( ParseCommand( "[[", "", "" ) )
+        else if ( ParseTag( "[[", "", "" ) )
         {
             token.Text = ParseImage();
         }
-        else if ( ParseCommand( ":::", "", "" ) )
+        else if ( ParseTag( ":::", "", "" ) )
         {
             it_is_in_pre = !it_is_in_pre;
 
@@ -2154,7 +2249,7 @@ function GetTokenArray(
                 token.Text = "</pre>";
             }
         }
-        else if ( ParseCommand( ">>>", "", "" ) )
+        else if ( ParseTag( ">>>", "", "" ) )
         {
             it_is_in_blockquote = !it_is_in_blockquote;
 
@@ -2167,7 +2262,7 @@ function GetTokenArray(
                 token.Text = "</blockquote>";
             }
         }
-        else if ( ParseCommand( "+++", "frame", "" ) )
+        else if ( ParseTag( "+++", "frame", "" ) )
         {
             it_is_in_frame_div = !it_is_in_frame_div;
 
@@ -2180,7 +2275,7 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
-        else if ( ParseCommand( "###", "box", "" ) )
+        else if ( ParseTag( "###", "box", "" ) )
         {
             it_is_in_box_div = !it_is_in_box_div;
 
@@ -2193,15 +2288,15 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
-        else if ( ParseCommand( "{{{", "", "" ) )
+        else if ( ParseTag( "{{{", "", "" ) )
         {
             token.Text = "<div" + attributes + ">";
         }
-        else if ( ParseCommand( "}}}", "", "" ) )
+        else if ( ParseTag( "}}}", "", "" ) )
         {
             token.Text = "</div>";
         }
-        else if ( ParseCommand( "##", "mark", "" ) )
+        else if ( ParseTag( "##", "mark", "" ) )
         {
             it_is_in_mark_span = !it_is_in_mark_span;
 
@@ -2214,7 +2309,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "__", "", "" ) )
+        else if ( ParseTag( "__", "", "" ) )
         {
             it_is_in_u = !it_is_in_u;
 
@@ -2227,15 +2322,15 @@ function GetTokenArray(
                 token.Text = "</u>";
             }
         }
-        else if ( ParseCommand( "{{", "", "" ) )
+        else if ( ParseTag( "{{", "", "" ) )
         {
             token.Text = "<span" + attributes + ">";
         }
-        else if ( ParseCommand( "}}", "", "" ) )
+        else if ( ParseTag( "}}", "", "" ) )
         {
             token.Text = "</span>";
         }
-        else if ( ParseCommand( "<<", "left", "" ) )
+        else if ( ParseTag( "<<", "left", "" ) )
         {
             it_is_in_left_div = !it_is_in_left_div;
 
@@ -2248,7 +2343,7 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
-        else if ( ParseCommand( "$$", "center", "" ) )
+        else if ( ParseTag( "$$", "center", "" ) )
         {
             it_is_in_center_div = !it_is_in_center_div;
 
@@ -2261,7 +2356,7 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
-        else if ( ParseCommand( ">>", "right", "" ) )
+        else if ( ParseTag( ">>", "right", "" ) )
         {
             it_is_in_right_div = !it_is_in_right_div;
 
@@ -2274,7 +2369,7 @@ function GetTokenArray(
                 token.Text = "</div>";
             }
         }
-        else if ( ParseCommand( "**", "", "" ) )
+        else if ( ParseTag( "**", "", "" ) )
         {
             it_is_in_b = !it_is_in_b;
 
@@ -2287,7 +2382,7 @@ function GetTokenArray(
                 token.Text = "</b>";
             }
         }
-        else if ( ParseCommand( "%%", "", "" ) )
+        else if ( ParseTag( "%%", "", "" ) )
         {
             it_is_in_i = !it_is_in_i;
 
@@ -2300,7 +2395,7 @@ function GetTokenArray(
                 token.Text = "</i>";
             }
         }
-        else if ( ParseCommand( "^^", "", "" ) )
+        else if ( ParseTag( "^^", "", "" ) )
         {
             it_is_in_sup = !it_is_in_sup;
 
@@ -2313,7 +2408,7 @@ function GetTokenArray(
                 token.Text = "</sup>";
             }
         }
-        else if ( ParseCommand( ",,", "", "" ) )
+        else if ( ParseTag( ",,", "", "" ) )
         {
             it_is_in_sub = !it_is_in_sub;
 
@@ -2326,7 +2421,7 @@ function GetTokenArray(
                 token.Text = "</sub>";
             }
         }
-        else if ( ParseCommand( "~~", "", "" ) )
+        else if ( ParseTag( "~~", "", "" ) )
         {
             it_is_in_strike = !it_is_in_strike;
 
@@ -2339,7 +2434,7 @@ function GetTokenArray(
                 token.Text = "</strike>";
             }
         }
-        else if ( ParseCommand( "°", "°", "" ) )
+        else if ( ParseTag( "°", "°", "" ) )
         {
             it_is_in_gray_span = !it_is_in_gray_span;
 
@@ -2352,7 +2447,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "⁰", "⁰", "" ) )
+        else if ( ParseTag( "⁰", "⁰", "" ) )
         {
             it_is_in_orange_span = !it_is_in_orange_span;
 
@@ -2365,7 +2460,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "¹", "¹", "" ) )
+        else if ( ParseTag( "¹", "¹", "" ) )
         {
             it_is_in_pink_span = !it_is_in_pink_span;
 
@@ -2378,7 +2473,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "²", "²", "" ) )
+        else if ( ParseTag( "²", "²", "" ) )
         {
             it_is_in_red_span = !it_is_in_red_span;
 
@@ -2391,7 +2486,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "³", "³", "" ) )
+        else if ( ParseTag( "³", "³", "" ) )
         {
             it_is_in_blue_span = !it_is_in_blue_span;
 
@@ -2404,7 +2499,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "⁴", "⁴", "" ) )
+        else if ( ParseTag( "⁴", "⁴", "" ) )
         {
             it_is_in_violet_span = !it_is_in_violet_span;
 
@@ -2417,7 +2512,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "⁵", "⁵", "" ) )
+        else if ( ParseTag( "⁵", "⁵", "" ) )
         {
             it_is_in_cyan_span = !it_is_in_cyan_span;
 
@@ -2430,7 +2525,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "⁶", "⁶", "" ) )
+        else if ( ParseTag( "⁶", "⁶", "" ) )
         {
             it_is_in_black_span = !it_is_in_black_span;
 
@@ -2443,7 +2538,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "⁷", "⁷", "" ) )
+        else if ( ParseTag( "⁷", "⁷", "" ) )
         {
             it_is_in_yellow_span = !it_is_in_yellow_span;
 
@@ -2456,7 +2551,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "⁸", "⁸", "" ) )
+        else if ( ParseTag( "⁸", "⁸", "" ) )
         {
             it_is_in_white_span = !it_is_in_white_span;
 
@@ -2469,7 +2564,7 @@ function GetTokenArray(
                 token.Text = "</span>";
             }
         }
-        else if ( ParseCommand( "⁹", "⁹", "" ) )
+        else if ( ParseTag( "⁹", "⁹", "" ) )
         {
             it_is_in_green_span = !it_is_in_green_span;
 
@@ -2494,7 +2589,7 @@ function GetTokenArray(
 
             token.Text = "</pre>";
         }
-        else if ( ParseCommand( "@@", "", "" ) )
+        else if ( ParseTag( "@@", "", "" ) )
         {
             it_is_in_a = !it_is_in_a;
 
@@ -2932,17 +3027,19 @@ CODE_TOKEN_TYPE = new CODE_TOKEN_TYPE();
 TabulationSpaceCount = 4;
 IndentationSpaceCount = 4;
 
-DefinitionMap = [];
-DefinitionMap[ "°" ] = "gray";
-DefinitionMap[ "⁰" ] = "orange";
-DefinitionMap[ "¹" ] = "pink";
-DefinitionMap[ "²" ] = "red";
-DefinitionMap[ "³" ] = "blue";
-DefinitionMap[ "⁴" ] = "violet";
-DefinitionMap[ "⁵" ] = "cyan";
-DefinitionMap[ "⁶" ] = "black";
-DefinitionMap[ "⁷" ] = "yellow";
-DefinitionMap[ "⁸" ] = "white";
-DefinitionMap[ "⁹" ] = "green";
+ModifierMap = [];
+ModifierMap[ "°" ] = "gray";
+ModifierMap[ "⁰" ] = "orange";
+ModifierMap[ "¹" ] = "pink";
+ModifierMap[ "²" ] = "red";
+ModifierMap[ "³" ] = "blue";
+ModifierMap[ "⁴" ] = "violet";
+ModifierMap[ "⁵" ] = "cyan";
+ModifierMap[ "⁶" ] = "black";
+ModifierMap[ "⁷" ] = "yellow";
+ModifierMap[ "⁸" ] = "white";
+ModifierMap[ "⁹" ] = "green";
+
+TagArray = [];
 
 ProcessDocument( "xmp", "article" );

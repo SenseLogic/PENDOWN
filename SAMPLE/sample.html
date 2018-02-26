@@ -421,9 +421,23 @@ Effects :
 
 !! Styling
 
-{{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128,128,128,0.2),$00c,&onclick="alert('Hello!')"\
+{{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128^,128^,128^,0.2),$00c,center\
 You can use any CSS id, class or property you need.
 }}}
+
+{{^&onclick="alert('^\^\^,^:^^')"\Click me!}}
+
+!! Extensibility
+
+{{^!%%% <progress$/>,!$$$ <del$>,!$$$ </del>\}}
+
+%%%^&value="0.40"\
+
+$$$^~00f\ This text has been deleted.$$$
+
+{{^![[ <del$>,!]] </del>\}}
+[[This is not an image.]]
+{{^![[,!]]\}}
 
 !! HTML
 

@@ -58,7 +58,7 @@ ReplaceUnquotedText?
     ``
 
 ReplaceExpression?
-    `replace\\( ("[^"]+"), ("[^"]*") \\)`
+    `replace\\( (.+?), (.+?) \\)`
     `split( $1 ).join( $2 )`
 
 SelectFiles

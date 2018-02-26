@@ -6,17 +6,13 @@ Lightweight markup for styled documents.
 
 ## Features
 
-*   Allows to write HTML documents using very short tags.
-*   Fully customizable : 
-    *   styles, colors, sizes, alignments;
-    *   spans, blocks, boxes, frames, quotes, tables;
-    *   titles, lists, links, images, page breaks;
-    *   syntax highlighting.
 *   Fast conversion to HTML through a web browser script or a standalone command line tool.
+*   Tags can be styled with any CSS class or property, and customized with any HTML attribute.
+*   All predefined tags can be overridden, and new tags can be freely created.
 
 ## Rationale
 
-While the HTML tags are appropriate to define the structure and semantics of a documents, their verbosity can 
+While the HTML tags are fine to define the structure and semantics of a documents, their verbosity can 
 sometimes become a terrible annoyance, especially when we want to write the actual text content of a page in a 
 distraction-free manner.
 
@@ -111,9 +107,9 @@ As stated above, Pendown tags are designed to directly incorporate presentationa
 This is done by adding one or several lists of style modifiers right after them :
 
 ```
-{{^big,red,yellow_fill\ a big red text with a yellow background }}
+{{^big,red,yellow_fill\ A big red text with a yellow background }}
 
-{{^@2.5,$00f,#eee,black_outline\ a big blue text with a light gray background and a black outline }}
+{{^@2.5,$00f,#eee,black_outline\ A big blue text with a gray background and a black outline }}
 ```
 
 These modifiers can be of different kinds :
@@ -132,7 +128,7 @@ These modifiers can be of different kinds :
 Modifier lists can be named, so that they can be reused multiple times in the document :
 
 ```
-{{^blue,italic:gangnam\ a blue text in italics }}
+{{^blue,italic:gangnam\ A blue text in italics }}
 
 !^gangnam\ This title also uses the gangnam style.
 ```
@@ -144,6 +140,12 @@ Single-character color tags can also be redefined in the same way :
 This is a ²salmon text on a yellow background².
 {{^red:²\}}
 But this ²text is red².
+```
+
+In a modifier list, special characters can be escaped with the caret character :
+
+```
+{{^&onclick="alert('^\^\^,^:^^')"\Click me!}}
 ```
 
 ## Syntax highlighting
@@ -178,6 +180,30 @@ The following programming languages are currently supported :
 *   TypeScript : ts
 
 Files with any of the above extensions can also be colorized individually, through the command line application.
+
+## Extensibility
+
+Tags can be added or redefined :
+
+```
+{{^!%%% <progress$/>,!$$$ <del$>,!$$$ </del>\}}
+
+%%%^&value="0.40"\
+
+$$$^~00f\ This text has been deleted.$$$
+
+{{^![[ <del$>,!]] </del>\}}
+[[This is not an image.]]
+{{^![[,!]]\}
+```
+
+The dollar character in the tag definition will be replaced by the tag attributes, if any.
+
+The same tag can be used to open or close a block, by defining it several times.
+
+A tag without definition is removed.
+
+Custom tags are parsed in their definition order and before predefined tags, which can thus be overriden.
 
 ## Client-side compiler
 
@@ -640,9 +666,23 @@ Effects :
 
 !! Styling
 
-{{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128,128,128,0.2),$00c,&onclick="alert('Hello!')"\
+{{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128^,128^,128^,0.2),$00c,center\
 You can use any CSS id, class or property you need.
 }}}
+
+{{^&onclick="alert('^\^\^,^:^^')"\Click me!}}
+
+!! Extensibility
+
+{{^!%%% <progress$/>,!$$$ <del$>,!$$$ </del>\}}
+
+%%%^&value="0.40"\
+
+$$$^~00f\ This text has been deleted.$$$
+
+{{^![[ <del$>,!]] </del>\}}
+[[This is not an image.]]
+{{^![[,!]]\}}
 
 !! HTML
 
@@ -765,7 +805,6 @@ Converts a D source code file to a HTML file which imports the Pendown script an
 
 ## Limitations
 
-* Modifier lists can't contain spaces.
 * Lists are not processed inside preformatted blocks.
 * A Pendown text can't contain `<xmp>` tags if it is to be converted to HTML by the web browser script.
 
