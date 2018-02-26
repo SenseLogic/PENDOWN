@@ -13,37 +13,32 @@ Lightweight markup for styled documents.
 ## Rationale
 
 While the HTML tags are fine to define the structure and semantics of a documents, their verbosity can 
-sometimes become a terrible annoyance, especially when we want to write the actual text content of a page in a 
-distraction-free manner.
+quickly become a terrible annoyance, especially when writing the actual text content of a page.
 
-The classical solution for that problem is generally to use a HTML preprocessor which provides us with a more concise syntax.
+The classical solution for this problem is generally to use a HTML preprocessor to be able to use a more concise syntax.
     
-On one hand, we have redactional preprocessors like Markdown or Creole, which allow us to write a webpage content
+On one hand, there are redactional preprocessors like Markdown or Creole, which allow to write a webpage content
 in plain text, without requiring any prior HTML knowledge at all.
 
 That's nice, but unfortunately the text presentation can't be freely changed on a case by case basis, unless we resign ourselves to 
 use standard HTML tags where we want to diverge from the predefined CSS stylesheet.
 
-On the other hand, we have templating preprocessors like Jade or Slim, which have absolutely no limitations at all, 
-as they are actually true and complete alternatives to HTML, but with a much lighter syntax using the tag indentation
-to automatically close the blocks for us.
+On the other hand, there are templating preprocessors like Jade or Slim, which have absolutely no limitations at all, 
+as they are actually complete alternatives to HTML.
 
-They are very useful if we want to build HTML pages for a dynamic website, but not really convenient 
-if all we want is to write their textual content.
+They very useful to build HTML pages for a dynamic website, but not really convenient to just write textual content.
     
-After having used both kinds of tools, I've finally come to realize that what I really needed was a redactional preprocessor, like
-Markdown, but which integrates the style customization as a core feature.
+In this case, an ideal solution would be a redactional preprocessor which, unlike Mardown, directly integrates the style customization 
+as a core feature.
 
-After having searched in vain for such a simple but flexible tool, I've eventually decided to implement it myself, and 
-that's how Pendown was born.
+Pendown is such a tool, which was designed exclusively for that use case.
 
 ## Syntax
 
-Although Pendown is indeed partially similar to Markdown, most of its tags have actually evolved to become quite different, 
-as they were chosen according to several different goals :
+Pendown tags, which differ significantly from Markdown and Creole, were actually chosen according to achieve the following goals :
 
-*   Provide short-tags for redactional tags, but also for the main presentational properties (like colors, font sizes, etc);
-*   Allow to directly apply any CSS property or HTML attribute to its markup without requiring HTML tags;
+*   Provide short-tags for redactional tags and for presentational properties;
+*   Allow the use of any CSS property or HTML attribute;
 *   Minimize the conflicts with most texts and C-like code;
 *   Be available and efficient both on web servers and browsers;
 *   Provide both manual and automatic syntax highlighting.
@@ -133,15 +128,6 @@ Modifier lists can be named, so that they can be reused multiple times in the do
 !^gangnam\ This title also uses the gangnam style.
 ```
 
-Single-character color tags can also be redefined in the same way :
-
-```
-{{^#ffd,$f87:²\}}
-This is a ²salmon text on a yellow background².
-{{^red:²\}}
-But this ²text is red².
-```
-
 In a modifier list, special characters can be escaped with the caret character :
 
 ```
@@ -150,14 +136,23 @@ In a modifier list, special characters can be escaped with the caret character :
 
 ## Extensibility
 
-The special modifier `!` allows to define new tags and override predefined tags.
-
-The dollar character in the tag definition will be replaced by the tag attributes.
+The presentational properties of the color tags can be freely redefined :
 
 ```
-{{^!%%% <progress$></progress>\}} 
+{{^#ffd,$f87:²\}}
+This is a ²salmon text on a yellow background².
+{{^red:²\}}
+But this ²text is red².
+```
 
-Progress : %%%^&value="0.40"\ 
+The special modifier `!` can also be used to override the definition of the predefined tags, or even to define new tags.
+
+Putting a dollar sign in the tag definition will allow to replace it with the actual tag attributes.
+
+```
+{{^!%%% <progress max="100"$></progress>\}} 
+
+Progress : %%%^&value="40"\ 
 ```
 
 The same tag can be used to open or close a block, by defining it several times.
@@ -175,7 +170,7 @@ A tag without definition is removed.
 ```
 {{^![[ <del$>,!]] </del>\}}
 [[This is not an image.]]
-{{^![[,!]]\}
+{{^![[,!]]\}}
 ```
 
 ## Syntax highlighting
@@ -246,7 +241,7 @@ Open the `SAMPLE/sample.html` file in a modern web browser like `Firefox` or `Ch
 
 Here is its actual content, which can be edited with any plain text editor like `Geany` or `Notepad++`.
 
-As you can see, no HTML tags at all where needed to write this colorful text :
+As you can see, no HTML tags where needed to write this text :
 
 ```html
 <meta charset="utf8"/>
@@ -680,9 +675,9 @@ You can use any CSS id, class or property you need.
 
 !! Extensibility
 
-{{^!%%% <progress$></progress>\}} 
+{{^!%%% <progress max="100"$></progress>\}} 
 
-Progress : %%%^&value="0.40"\ 
+Progress : %%%^&value="40"\ 
 
 {{^!$$$ <del$>,!$$$ </del>\}}
 
@@ -690,7 +685,7 @@ $$$^~00f\ This text has been deleted.$$$
 
 {{^![[ <del$>,!]] </del>\}}
 [[This is not an image.]]
-{{^![[,!]]\}
+{{^![[,!]]\}}
 
 !! HTML
 
