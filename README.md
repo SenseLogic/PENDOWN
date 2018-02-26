@@ -143,8 +143,7 @@ This is a ²salmon text on a yellow background².
 But this ²text is red².
 ```
 
-Moreover, the special modifier `!` allows to override the definition of the predefined tags (including the color tags), 
-and to define new tags.
+Moreover, the special modifier `!` allows to override the definition of a predefined tag, and to define new tags.
 
 The dollar sign in the definition will be replaced by the actual tag attributes.
 
