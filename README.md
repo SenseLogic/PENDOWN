@@ -183,27 +183,33 @@ Files with any of the above extensions can also be colorized individually, throu
 
 ## Extensibility
 
-Tags can be added or redefined with the `!` modifier :
+Tags can be defined or redefined with a special modifier.
+
+The dollar character in the tag definition will be replaced by the tag attributes.
 
 ```
-{{^!%%% <progress$/>,!$$$ <del$>,!$$$ </del>\}}
+{{^!%%% <progress$></progress>\}} 
 
-%%%^&value="0.40"\
+Progress : %%%^&value="0.40"\ 
+```
+
+The same tag can be used to open or close a block, by defining it several times.
+
+```
+{{^!$$$ <del$>,!$$$ </del>\}}
 
 $$$^~00f\ This text has been deleted.$$$
+```
 
+Custom tags are parsed in their definition order and before predefined tags, which can thus be overriden.
+
+A tag without definition is removed.
+
+```
 {{^![[ <del$>,!]] </del>\}}
 [[This is not an image.]]
 {{^![[,!]]\}
 ```
-
-The dollar character in the tag definition will be replaced by the tag attributes, if any.
-
-The same tag can be used to open or close a block, by defining it several times.
-
-A tag without definition is removed.
-
-Custom tags are parsed in their definition order and before predefined tags, which can thus be overriden.
 
 ## Client-side compiler
 
@@ -674,15 +680,17 @@ You can use any CSS id, class or property you need.
 
 !! Extensibility
 
-{{^!%%% <progress$/>,!$$$ <del$>,!$$$ </del>\}}
+{{^!%%% <progress$></progress>\}} 
 
-%%%^&value="0.40"\
+Progress : %%%^&value="0.40"\ 
+
+{{^!$$$ <del$>,!$$$ </del>\}}
 
 $$$^~00f\ This text has been deleted.$$$
 
 {{^![[ <del$>,!]] </del>\}}
 [[This is not an image.]]
-{{^![[,!]]\}}
+{{^![[,!]]\}
 
 !! HTML
 
