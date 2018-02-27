@@ -2,7 +2,7 @@
 
 # Pendown
 
-Lightweight markup with integrated styling and tag redefinition.
+Lightweight markup with integrated styling and tag customization.
 
 ## Features
 
