@@ -35,15 +35,15 @@ powerful style customization features.
 
 ## Syntax
 
-Pendown tags are a bit different from those of Markdown or Creole, as they were chosen according to a different set of goals :
+Pendown was designed according to the following main goals :
 
-*   Provide short-tags for redactional tags and for presentational properties;
-*   Allow the use of any CSS property or HTML attribute;
-*   Minimize the conflicts with most texts and C-like code;
+*   Provide short and readable plain-text tags that minimize conflicts with most texts and C-like code;
 *   Be available and efficient both on web servers and browsers;
+*   Customize the tags with any color, font size, CSS property or HTML attribute;
+*   Allow to redefine the existing tags, and define new tags;
 *   Provide both manual and automatic syntax highlighting.
 
-Here are a few sample tags, to give you an idea of what they look like : 
+Here are a few sample tags : 
 
 ```
 ! Heading 1
