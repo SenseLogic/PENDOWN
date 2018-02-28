@@ -12,7 +12,7 @@ Lightweight markup with integrated styling and tag customization.
 
 ## Rationale
 
-While the HTML tags are fine to define the structure and semantics of a documents, their verbosity can 
+While HTML tags are fine to define the structure and semantics of a documents, their verbosity can 
 quickly become a terrible annoyance, especially when writing the actual text content of a page.
 
 The classical solution for this problem is generally to use a HTML preprocessor to be able to use a more concise syntax.
@@ -37,7 +37,7 @@ powerful style customization features.
 
 Pendown was designed according to the following main goals :
 
-*   Provide short and readable plain-text tags that minimize conflicts with most texts and C-like code;
+*   Provide short and readable plain-text tags minimizing conflicts with most texts and code snippets;
 *   Be available and efficient both on web servers and browsers;
 *   Customize the tags with any color, font size, CSS property or HTML attribute;
 *   Allow to redefine the existing tags, and define new tags;
@@ -134,7 +134,7 @@ In a modifier list, special characters can be escaped with the caret character :
 
 ## Extensibility
 
-The modifier list of a color tag can be redefined :
+The modifier list of a predefined color tag can also be redefined :
 
 ```
 {{^#ffd,$f87:²\}}
@@ -143,7 +143,7 @@ This is a ²salmon text on a yellow background².
 But this ²text is red².
 ```
 
-The special modifier `!` allows to override the definition of a predefined tag.
+Moreover, the special modifier `!` allows to override the definition of any predefined tag.
 
 ```
 {{^![[ <del$>,!]] </del>\}}
@@ -155,15 +155,13 @@ The dollar sign in the definition will be replaced by the actual tag attributes.
 
 A tag without definition is removed.
 
-New tags can be created in the same way.
+New tags are created in the same way.
 
 ```
 {{^!%%% <progress max="100"$></progress>\}} 
 
 Progress : %%%^&value="40"\ 
 ```
-
-Those tags are identified in their definition order, before any predefined tags.
 
 The same tag can be used to open or close a block, by defining it several times.
 
@@ -172,6 +170,8 @@ The same tag can be used to open or close a block, by defining it several times.
 
 $$$^~00f\ This text has been deleted.$$$
 ```
+
+Custom tags are identified in their definition order, before any predefined tags.
 
 ## Syntax highlighting
 
@@ -214,8 +214,7 @@ Just put the `pendown.css` and `pendown.js` files in the same folder as your HTM
 
 ### Usage
 
-As shown below, include the `pendown.css` and `pendown.js` files in your HTML file, then write your Pendown text inside 
-one or several `<xmp>` sections :
+Include both files in your HTML file, and write your Pendown text inside one or several `<xmp>` blocks :
 
 ```html
 <meta charset="utf8"/>
