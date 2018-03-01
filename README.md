@@ -172,7 +172,7 @@ The same tag can be used to open or close a block, by defining it several times.
 $$$^~00f\ This text has been deleted. $$$
 ```
 
-Custom tags are identified in their definition order, before any predefined tags.
+Custom tags are recognized in their definition order, before predefined tags.
 
 ## Syntax highlighting
 
