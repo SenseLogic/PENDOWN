@@ -130,7 +130,7 @@ Modifier lists can be named, so that they can be reused multiple times in the do
 In a modifier list, special characters can be escaped with the caret character :
 
 ```
-{{^&onclick="alert('^\^\^,^:^^')"\Click me!}}
+{{^&onclick="alert('^\^\^,^:^^')"\ Click me! }}
 ```
 
 ## Extensibility
@@ -148,7 +148,7 @@ Moreover, the special modifier `!` allows to override the definition of any pred
 
 ```
 {{^![[ <del$>,!]] </del>\}}
-[[This is not an image.]]
+[[ This is not an image. ]]
 {{^![[,!]]\}}
 ```
 
@@ -671,7 +671,7 @@ Effects :
 You can use any CSS id, class or property you need.
 }}}
 
-{{^&onclick="alert('^\^\^,^:^^')"\Click me!}}
+{{^&onclick="alert('^\^\^,^:^^')"\ Click me! }}
 
 !! Extensibility
 
@@ -684,7 +684,7 @@ Progress : %%%^&value="40"\
 $$$^~00f\ This text has been deleted.$$$
 
 {{^![[ <del$>,!]] </del>\}}
-[[This is not an image.]]
+[[ This is not an image. ]]
 {{^![[,!]]\}}
 
 !! HTML
