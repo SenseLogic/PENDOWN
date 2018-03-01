@@ -2,13 +2,15 @@
 
 # Pendown
 
-Lightweight markup with integrated styling and tag customization.
+Text-to-HTML conversion tool for web writers, with integrated styling and tag customization.
 
-## Features
+## Description
 
-*   Fast conversion to HTML through a web browser script or a standalone command line tool.
-*   Tags can be styled with any CSS class or property, and customized with any HTML attribute.
-*   All predefined tags can be overridden, and new tags can be freely created.
+Pendown allows web writers to write their content in plain text.
+
+It provides a lightweight markup which can be efficiently converted to HTML in the web browser or on the server.
+
+Its tags can be dynamically redefined and styled with any CSS property or HTML attribute, and code snippets can be automatically colorized.
 
 ## Rationale
 
