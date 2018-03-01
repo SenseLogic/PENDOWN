@@ -30,9 +30,7 @@ as they are actually complete alternatives to HTML.
 
 They are very useful to build HTML pages for a dynamic website, but not really convenient to just write textual content.
     
-Pendown tries to fill that gap.
-
-While it's not an HTML replacement or a book generator, it's an advanced redactional preprocessor, which directly integrates
+Pendown tries to fill that gap, by providing an advanced redactional preprocessor which directly integrates
 powerful style customization features.
 
 ## Syntax
