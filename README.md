@@ -14,8 +14,8 @@ Its tags can be dynamically redefined and styled with any CSS property or HTML a
 
 ## Rationale
 
-While HTML tags are fine to define the structure and semantics of a documents, their verbosity can 
-quickly become a terrible annoyance, especially when writing the actual text content of a page.
+While HTML tags are fine to define the structure and semantics of a documents, their verbosity can make them inconvenient 
+when writing the actual text content of a page.
 
 The classical solution for this problem is generally to use a HTML preprocessor to be able to use a more concise syntax.
     
