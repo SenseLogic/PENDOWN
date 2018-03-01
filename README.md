@@ -169,7 +169,7 @@ The same tag can be used to open or close a block, by defining it several times.
 ```
 {{^!$$$ <del$>,!$$$ </del>\}}
 
-$$$^~00f\ This text has been deleted.$$$
+$$$^~00f\ This text has been deleted. $$$
 ```
 
 Custom tags are identified in their definition order, before any predefined tags.
@@ -681,7 +681,7 @@ Progress : %%%^&value="40"\
 
 {{^!$$$ <del$>,!$$$ </del>\}}
 
-$$$^~00f\ This text has been deleted.$$$
+$$$^~00f\ This text has been deleted. $$$
 
 {{^![[ <del$>,!]] </del>\}}
 [[ This is not an image. ]]
