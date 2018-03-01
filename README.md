@@ -41,9 +41,10 @@ Pendown was designed according to the following main goals :
 
 *   Provide short and readable plain-text tags minimizing conflicts with most texts and code snippets;
 *   Be available and efficient both on web servers and browsers;
-*   Allow to :
-    * customize its tags with any available color, font size, CSS property or HTML attribute;
-    * redefine existing tags and create new tags.
+*   Be customizable and extensible, by allowing to dynamically :
+    *    change the tag colors, font sizes, CSS properties and HTML attributes;
+    *    create new tags;
+    *    redefine the existing tags.
 *   Provide both manual and automatic syntax highlighting.
 
 Here are a few sample tags : 
