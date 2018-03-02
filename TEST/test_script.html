@@ -650,7 +650,7 @@ This is @@http://www.senselogic.be a link@@§
 This is <a href="http://www.senselogic.be">a link</a>
 
 This is a link : @@http://www.senselogic.be [[../SAMPLE/image.jpg:20]]@@§
-This is a link : <a href="http://www.senselogic.be"><img src="../SAMPLE/image.jpg" style="height:20vw;width:auto"/></a>
+This is a link : <a href="http://www.senselogic.be"><img style="height:20vw;width:auto" src="../SAMPLE/image.jpg"/></a>
 
 This is a link : @@http://www.senselogic.be@@§
 This is a link : <a href="http://www.senselogic.be">http://www.senselogic.be</a>
@@ -662,14 +662,14 @@ These are small images :
 [[../SAMPLE/image.jpg:20]][[../SAMPLE/image_2.jpg:20]]§
 [[../SAMPLE/image_3.jpg:20]][[../SAMPLE/image_4.jpg:20]][[../SAMPLE/image_5.jpg:20]]
 
-<img src="../SAMPLE/image.jpg" style="height:20vw;width:auto"/><img src="../SAMPLE/image_2.jpg" style="height:20vw;width:auto"/><br/>
-<img src="../SAMPLE/image_3.jpg" style="height:20vw;width:auto"/><img src="../SAMPLE/image_4.jpg" style="height:20vw;width:auto"/><img src="../SAMPLE/image_5.jpg" style="height:20vw;width:auto"/>
+<img style="height:20vw;width:auto" src="../SAMPLE/image.jpg"/><img style="height:20vw;width:auto" src="../SAMPLE/image_2.jpg"/><br/>
+<img style="height:20vw;width:auto" src="../SAMPLE/image_3.jpg"/><img style="height:20vw;width:auto" src="../SAMPLE/image_4.jpg"/><img style="height:20vw;width:auto" src="../SAMPLE/image_5.jpg"/>
 
 These are medium images :
 
 [[../SAMPLE/image_3.jpg:40]][[../SAMPLE/image_4.jpg:40]]
 
-<img src="../SAMPLE/image_3.jpg" style="height:40vw;width:auto"/><img src="../SAMPLE/image_4.jpg" style="height:40vw;width:auto"/>
+<img style="height:40vw;width:auto" src="../SAMPLE/image_3.jpg"/><img style="height:40vw;width:auto" src="../SAMPLE/image_4.jpg"/>
 
 These are large images :
 
@@ -677,15 +677,15 @@ These are large images :
 [[../SAMPLE/image_2.jpg:]]§
 [[../SAMPLE/image_4.jpg:,100]]
 
-<img src="../SAMPLE/image.jpg" style="height:auto;width:100%"/><br/>
-<img src="../SAMPLE/image_2.jpg" style="height:auto;width:100%"/><br/>
-<img src="../SAMPLE/image_4.jpg" style="height:auto;width:100%"/>
+<img style="height:auto;width:100%" src="../SAMPLE/image.jpg"/><br/>
+<img style="height:auto;width:100%" src="../SAMPLE/image_2.jpg"/><br/>
+<img style="height:auto;width:100%" src="../SAMPLE/image_4.jpg"/>
 
 This is a custom image :
 
 [[../SAMPLE/image_5.jpg:50vw,50%]]
 
-<img src="../SAMPLE/image_5.jpg" style="height:50vw;width:50%"/>
+<img style="height:50vw;width:50%" src="../SAMPLE/image_5.jpg"/>
 
 These are image effects :
 
@@ -705,7 +705,7 @@ These are image effects :
 
 ---
 
-{{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128^,128^,128^,0.2),$00c,center"\
+{{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128^,128^,128^,0.2),$00c,center\
 You can use any CSS id, class or property you need.
 }}}
 
