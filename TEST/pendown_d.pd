@@ -28,7 +28,7 @@
 ¹import¹ std°.°conv °:° to°;°
 ¹import¹ std°.°file °:° readText°,° write°;°
 ¹import¹ std°.°stdio °:° writeln°;°
-¹import¹ std°.°²string² °:° endsWith°,° indexOf°,° join°,° replace°,° split°,° startsWith°,° strip°,° toLower°,° toUpper°;°
+¹import¹ std°.°²string² °:° endsWith°,° indexOf°,° join°,° lastIndexOf°,° replace°,° split°,° startsWith°,° strip°,° toLower°,° toUpper°;°
 
 °// == GLOBAL°
 
@@ -1100,7 +1100,7 @@
         blue °+=° blue °*° ²16²°;°
         alpha °+=° alpha °*° ²16²°;°
 
-        ¹return¹ °(° ²"rgba("² °~° red°.°to°\!°²dstring²°()° °~° ²","² °~° green°.°to°\!°²dstring²°()° °~° ²","² °~° blue°.°to°\!°²dstring²°()° °~° ²","² °~° °(° alpha °/° ²255.0² °).°to°\!°²dstring²°()° °~° ²")"² °);°
+        ¹return¹ ²"rgba("² °~° red°.°to°\!°²dstring²°()° °~° ²","² °~° green°.°to°\!°²dstring²°()° °~° ²","² °~° blue°.°to°\!°²dstring²°()° °~° ²","² °~° °(° alpha °/° ²255.0² °).°to°\!°²dstring²°()° °~° ²")"²°;°
     °}°
     ¹else¹ ¹if¹ °(° color°.°length °==° ²8² °)°
     °{°
@@ -1140,6 +1140,45 @@
         °||° size°.°endsWith°(° ²"vmax"² °)°
         °||° size°.°endsWith°(° ²"vmin"² °)°
         °||° size°.°endsWith°(° ²"vw"² °)°
+        °);°
+°}°
+
+°// ~\~°
+
+²dstring² GetFormat°(°
+    ²dstring² url
+    °)°
+°{°
+    ²long²
+        dot_character_index°;°
+        
+    dot_character_index °=° url°.°lastIndexOf°(° ²'.'² °);°
+    
+    ¹if¹ °(° dot_character_index °&gt;=° ²0² °)°
+    °{°
+        ¹return¹ url°.°slice°(° dot_character_index °+° ²1² °);°
+    °}°
+    ¹else¹
+    °{°
+        ¹return¹ ²""²°;°
+    °}°
+°}°
+
+°// ~\~°
+
+²bool² IsImageFormat°(°
+    ²dstring² format
+    °)°
+°{°
+    ¹return¹ °(°
+        format °==° ²"apng"²
+        °||° format °==° ²"bmp"²
+        °||° format °==° ²"gif"²
+        °||° format °==° ²"ico"²
+        °||° format °==° ²"jpg"²
+        °||° format °==° ²"jpeg"²
+        °||° format °==° ²"png"²
+        °||° format °==° ²"svg"²
         °);°
 °}°
 
@@ -1817,6 +1856,27 @@
 
         ¹return¹ modifiers°;°
     °}°
+    
+    °// ~\~°
+    
+    ²dstring² GetAttributes°(°
+        ²dstring² styles
+        °)°
+    °{°
+        ²long²
+            style_character_index°;°
+            
+        style_character_index °=° attributes°.°indexOf°(° ²" style=\\""² °);°
+        
+        ¹if¹ °(° style_character_index °&gt;=° ²0² °)°
+        °{°
+            ¹return¹ attributes°.°slice°(° ²0²°,° style_character_index °+° ²8² °)° °~° styles °~° ²";"² °~° attributes°.°slice°(° style_character_index °+° ²8² °);°
+        °}°
+        ¹else¹
+        °{°
+            ¹return¹ attributes °~° ²" style=\\""² °~° styles °~° ²"\\""²°;°
+        °}°
+    °}°
 
     °// ~\~°
 
@@ -2182,31 +2242,25 @@
         ²dchar²
             character°;°
         ²dstring²
+            format°,°
             height°,°
-            image_text°,°
-            size_text°,°
+            size°,°
+            url°,°
             width°;°
         ²dstring²°[]°
             size_array°;°
 
-        image_text °=° ²"&lt;img"² °~° attributes °~° ²" src=\\""²°;°
-        size_text °=° ²""²°;°
+        url °=° ²""²°;°
+        size °=° ²""²°;°
         size_is_parsed °=° ²false²°;°
 
         ¹while¹ °(° character_index °&lt;° text°.°length °)°
         °{°
             character °=° text°.°charAt°(° character_index °);°
 
-            ¹if¹ °(° character °==° ²'\\\\'²
-                 °&&° character_index °+° ²1² °&lt;° text°.°length °)°
-            °{°
-                °+\+°character_index°;°
-
-                image_text °~=° text°.°charAt°(° character_index °);°
-            °}°
-            ¹else¹ ¹if¹ °(° character °==° ²']'²
-                      °&&° character_index °+° ²1² °&lt;° text°.°length
-                      °&&° text°.°charAt°(° character_index °+° ²1² °)° °==° ²']'² °)°
+            ¹if¹ °(° character °==° ²']'²
+                 °&&° character_index °+° ²1² °&lt;° text°.°length
+                 °&&° text°.°charAt°(° character_index °+° ²1² °)° °==° ²']'² °)°
             °{°
                 character_index °+=° ²2²°;°
 
@@ -2214,33 +2268,41 @@
             °}°
             ¹else¹ ¹if¹ °(° size_is_parsed °)°
             °{°
-                size_text °~=° character°;°
+                size °~=° character°;°
             °}°
-            ¹else¹
+            ¹else¹ ¹if¹ °(° character °==° ²':'² °)°
             °{°
-                ¹if¹ °(° character °==° ²':'² °)°
+                size_is_parsed °=° ²true²°;°
+            °}°
+            ¹else¹ 
+            °{°
+                ¹if¹ °(° character °==° ²'\\\\'²
+                     °&&° character_index °+° ²1² °&lt;° text°.°length °)°
                 °{°
-                    size_is_parsed °=° ²true²°;°
+                    °+\+°character_index°;°
+                    
+                    character °=° text°.°charAt°(° character_index °);°
                 °}°
-                ¹else¹ ¹if¹ °(° character °==° ²'\\"'² °)°
+
+                ¹if¹ °(° character °==° ²'\\"'² °)°
                 °{°
-                    image_text °~=° ²"&quot;"²°;°
+                    url °~=° ²"&quot;"²°;°
                 °}°
                 ¹else¹
                 °{°
-                    image_text °~=° character°;°
+                    url °~=° character°;°
                 °}°
             °}°
 
             °+\+°character_index°;°
         °}°
 
-        ¹if¹ °(° size_text °==° ²""² °)°
+        ¹if¹ °(° size °==° ²""² °)°
         °{°
-            size_text °=° ²",100"²°;°
+            size °=° ²",100"²°;°
         °}°
 
-        size_array °=° size_text°.°split°(° ²','² °);°
+        size_array °=° size°.°split°(° ²','² °);°
 
         ¹if¹ °(° size_array°.°length °==° ²1² °)°
         °{°
@@ -2285,12 +2347,31 @@
         °{°
             width °~=° ²"%"²°;°
         °}°
-
-        image_text °~=° ²"\\" style=\\"height:"² °~° height °~° ²";width:"² °~° width °~° ²"\\"/&gt;"²°;°
-
-        ¹return¹ image_text°;°
+        
+        format °=° GetFormat°(° url °);°
+        
+        ¹if¹ °(° IsImageFormat°(° format °)° °)°
+        °{°
+            ¹return¹ °(°
+                ²"&lt;img"² 
+                °~° GetAttributes°(° ²"height:"² °~° height °~° ²";width:"² °~° width °)° 
+                °~° ²" src=\\""² 
+                °~° url 
+                °~° ²"\\"/&gt;"²
+                °);°
+        °}°
+        ¹else¹
+        °{°
+            ¹return¹ °(°
+                ²"&lt;video"²
+                °~° GetAttributes°(° ²"height:"² °~° height °~° ²";width:"² °~° width °)°
+                °~° ²"&gt;&lt;source src=\\""²
+                °~° url
+                °~° ²"\\" type=\\"video/"² °~° format °~° ²"\\"&gt;&lt;/video&gt;"²
+                °);°
+        °}°
     °}°
-
+    
     °// ~\~°
 
     text °=° GetCleanedText°(° text °);°

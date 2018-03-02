@@ -970,6 +970,45 @@ function HasUnit(
 
 // ~~
 
+function GetFormat(
+    url
+    )
+{
+    var
+        dot_character_index;
+        
+    dot_character_index = url.lastIndexOf( '.' );
+    
+    if ( dot_character_index >= 0 )
+    {
+        return url.slice( dot_character_index + 1 );
+    }
+    else
+    {
+        return "";
+    }
+}
+
+// ~~
+
+function IsImageFormat(
+    format
+    )
+{
+    return (
+        format == "apng"
+        || format == "bmp"
+        || format == "gif"
+        || format == "ico"
+        || format == "jpg"
+        || format == "jpeg"
+        || format == "png"
+        || format == "svg"
+        );
+}
+
+// ~~
+
 function GetLanguage(
     file_path,
     file_extension
@@ -1622,6 +1661,27 @@ function GetTokenArray(
 
         return modifiers;
     }
+    
+    // ~~
+    
+    function GetAttributes(
+        styles
+        )
+    {
+        var
+            style_character_index;
+            
+        style_character_index = attributes.indexOf( " style=\"" );
+        
+        if ( style_character_index >= 0 )
+        {
+            return attributes.slice( 0, style_character_index + 8 ) + styles + ";" + attributes.slice( style_character_index + 8 );
+        }
+        else
+        {
+            return attributes + " style=\"" + styles + "\"";
+        }
+    }
 
     // ~~
 
@@ -1977,31 +2037,24 @@ function GetTokenArray(
     {
         var
             character,
+            format,
             height,
-            image_text,
             size_array,
             size_is_parsed,
-            size_text,
+            size,
             width;
 
-        image_text = "<img" + attributes + " src=\"";
-        size_text = "";
+        url = "";
+        size = "";
         size_is_parsed = false;
 
         while ( character_index < text.length )
         {
             character = text.charAt( character_index );
 
-            if ( character === '\\'
-                 && character_index + 1 < text.length )
-            {
-                ++character_index;
-
-                image_text += text.charAt( character_index );
-            }
-            else if ( character === ']'
-                      && character_index + 1 < text.length
-                      && text.charAt( character_index + 1 ) === ']' )
+            if ( character === ']'
+                 && character_index + 1 < text.length
+                 && text.charAt( character_index + 1 ) === ']' )
             {
                 character_index += 2;
 
@@ -2009,33 +2062,41 @@ function GetTokenArray(
             }
             else if ( size_is_parsed )
             {
-                size_text += character;
+                size += character;
             }
-            else
+            else if ( character === ':' )
             {
-                if ( character === ':' )
+                size_is_parsed = true;
+            }
+            else 
+            {
+                if ( character === '\\'
+                     && character_index + 1 < text.length )
                 {
-                    size_is_parsed = true;
+                    ++character_index;
+                    
+                    character = text.charAt( character_index );
                 }
-                else if ( character === '\"' )
+
+                if ( character === '\"' )
                 {
-                    image_text += "&quot;";
+                    url += "&quot;";
                 }
                 else
                 {
-                    image_text += character;
+                    url += character;
                 }
             }
 
             ++character_index;
         }
 
-        if ( size_text === "" )
+        if ( size === "" )
         {
-            size_text = ",100";
+            size = ",100";
         }
 
-        size_array = size_text.split( ',' );
+        size_array = size.split( ',' );
 
         if ( size_array.length === 1 )
         {
@@ -2070,10 +2131,29 @@ function GetTokenArray(
         {
             width += "%";
         }
-
-        image_text += "\" style=\"height:" + height + ";width:" + width + "\"/>";
-
-        return image_text;
+        
+        format = GetFormat( url );
+        
+        if ( IsImageFormat( format ) )
+        {
+            return (
+                "<img" 
+                + GetAttributes( "height:" + height + ";width:" + width ) 
+                + " src=\"" 
+                + url 
+                + "\"/>"
+                );
+        }
+        else
+        {
+            return (
+                "<video"
+                + GetAttributes( "height:" + height + ";width:" + width )
+                + "><source src=\""
+                + url
+                + "\" type=\"video/" + format + "\"></video>"
+                );
+        }
     }
 
     // ~~

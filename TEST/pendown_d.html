@@ -30,7 +30,7 @@
 <span class="pink">import</span> std<span class="gray">.</span>conv <span class="gray">:</span> to<span class="gray">;</span>
 <span class="pink">import</span> std<span class="gray">.</span>file <span class="gray">:</span> readText<span class="gray">,</span> write<span class="gray">;</span>
 <span class="pink">import</span> std<span class="gray">.</span>stdio <span class="gray">:</span> writeln<span class="gray">;</span>
-<span class="pink">import</span> std<span class="gray">.</span><span class="red">string</span> <span class="gray">:</span> endsWith<span class="gray">,</span> indexOf<span class="gray">,</span> join<span class="gray">,</span> replace<span class="gray">,</span> split<span class="gray">,</span> startsWith<span class="gray">,</span> strip<span class="gray">,</span> toLower<span class="gray">,</span> toUpper<span class="gray">;</span>
+<span class="pink">import</span> std<span class="gray">.</span><span class="red">string</span> <span class="gray">:</span> endsWith<span class="gray">,</span> indexOf<span class="gray">,</span> join<span class="gray">,</span> lastIndexOf<span class="gray">,</span> replace<span class="gray">,</span> split<span class="gray">,</span> startsWith<span class="gray">,</span> strip<span class="gray">,</span> toLower<span class="gray">,</span> toUpper<span class="gray">;</span>
 
 <span class="gray">// == GLOBAL</span>
 
@@ -1102,7 +1102,7 @@
         blue <span class="gray">+=</span> blue <span class="gray">*</span> <span class="red">16</span><span class="gray">;</span>
         alpha <span class="gray">+=</span> alpha <span class="gray">*</span> <span class="red">16</span><span class="gray">;</span>
 
-        <span class="pink">return</span> <span class="gray">(</span> <span class="red">"rgba("</span> <span class="gray">~</span> red<span class="gray">.</span>to<span class="gray">!</span><span class="red">dstring</span><span class="gray">()</span> <span class="gray">~</span> <span class="red">","</span> <span class="gray">~</span> green<span class="gray">.</span>to<span class="gray">!</span><span class="red">dstring</span><span class="gray">()</span> <span class="gray">~</span> <span class="red">","</span> <span class="gray">~</span> blue<span class="gray">.</span>to<span class="gray">!</span><span class="red">dstring</span><span class="gray">()</span> <span class="gray">~</span> <span class="red">","</span> <span class="gray">~</span> <span class="gray">(</span> alpha <span class="gray">/</span> <span class="red">255.0</span> <span class="gray">).</span>to<span class="gray">!</span><span class="red">dstring</span><span class="gray">()</span> <span class="gray">~</span> <span class="red">")"</span> <span class="gray">);</span>
+        <span class="pink">return</span> <span class="red">"rgba("</span> <span class="gray">~</span> red<span class="gray">.</span>to<span class="gray">!</span><span class="red">dstring</span><span class="gray">()</span> <span class="gray">~</span> <span class="red">","</span> <span class="gray">~</span> green<span class="gray">.</span>to<span class="gray">!</span><span class="red">dstring</span><span class="gray">()</span> <span class="gray">~</span> <span class="red">","</span> <span class="gray">~</span> blue<span class="gray">.</span>to<span class="gray">!</span><span class="red">dstring</span><span class="gray">()</span> <span class="gray">~</span> <span class="red">","</span> <span class="gray">~</span> <span class="gray">(</span> alpha <span class="gray">/</span> <span class="red">255.0</span> <span class="gray">).</span>to<span class="gray">!</span><span class="red">dstring</span><span class="gray">()</span> <span class="gray">~</span> <span class="red">")"</span><span class="gray">;</span>
     <span class="gray">}</span>
     <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> color<span class="gray">.</span>length <span class="gray">==</span> <span class="red">8</span> <span class="gray">)</span>
     <span class="gray">{</span>
@@ -1142,6 +1142,45 @@
         <span class="gray">||</span> size<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">"vmax"</span> <span class="gray">)</span>
         <span class="gray">||</span> size<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">"vmin"</span> <span class="gray">)</span>
         <span class="gray">||</span> size<span class="gray">.</span>endsWith<span class="gray">(</span> <span class="red">"vw"</span> <span class="gray">)</span>
+        <span class="gray">);</span>
+<span class="gray">}</span>
+
+<span class="gray">// ~~</span>
+
+<span class="red">dstring</span> GetFormat<span class="gray">(</span>
+    <span class="red">dstring</span> url
+    <span class="gray">)</span>
+<span class="gray">{</span>
+    <span class="red">long</span>
+        dot_character_index<span class="gray">;</span>
+
+    dot_character_index <span class="gray">=</span> url<span class="gray">.</span>lastIndexOf<span class="gray">(</span> <span class="red">'.'</span> <span class="gray">);</span>
+
+    <span class="pink">if</span> <span class="gray">(</span> dot_character_index <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
+    <span class="gray">{</span>
+        <span class="pink">return</span> url<span class="gray">.</span>slice<span class="gray">(</span> dot_character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">);</span>
+    <span class="gray">}</span>
+    <span class="pink">else</span>
+    <span class="gray">{</span>
+        <span class="pink">return</span> <span class="red">""</span><span class="gray">;</span>
+    <span class="gray">}</span>
+<span class="gray">}</span>
+
+<span class="gray">// ~~</span>
+
+<span class="red">bool</span> IsImageFormat<span class="gray">(</span>
+    <span class="red">dstring</span> format
+    <span class="gray">)</span>
+<span class="gray">{</span>
+    <span class="pink">return</span> <span class="gray">(</span>
+        format <span class="gray">==</span> <span class="red">"apng"</span>
+        <span class="gray">||</span> format <span class="gray">==</span> <span class="red">"bmp"</span>
+        <span class="gray">||</span> format <span class="gray">==</span> <span class="red">"gif"</span>
+        <span class="gray">||</span> format <span class="gray">==</span> <span class="red">"ico"</span>
+        <span class="gray">||</span> format <span class="gray">==</span> <span class="red">"jpg"</span>
+        <span class="gray">||</span> format <span class="gray">==</span> <span class="red">"jpeg"</span>
+        <span class="gray">||</span> format <span class="gray">==</span> <span class="red">"png"</span>
+        <span class="gray">||</span> format <span class="gray">==</span> <span class="red">"svg"</span>
         <span class="gray">);</span>
 <span class="gray">}</span>
 
@@ -1822,6 +1861,27 @@
 
     <span class="gray">// ~~</span>
 
+    <span class="red">dstring</span> GetAttributes<span class="gray">(</span>
+        <span class="red">dstring</span> styles
+        <span class="gray">)</span>
+    <span class="gray">{</span>
+        <span class="red">long</span>
+            style_character_index<span class="gray">;</span>
+
+        style_character_index <span class="gray">=</span> attributes<span class="gray">.</span>indexOf<span class="gray">(</span> <span class="red">" style=\""</span> <span class="gray">);</span>
+
+        <span class="pink">if</span> <span class="gray">(</span> style_character_index <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
+        <span class="gray">{</span>
+            <span class="pink">return</span> attributes<span class="gray">.</span>slice<span class="gray">(</span> <span class="red">0</span><span class="gray">,</span> style_character_index <span class="gray">+</span> <span class="red">8</span> <span class="gray">)</span> <span class="gray">~</span> styles <span class="gray">~</span> <span class="red">";"</span> <span class="gray">~</span> attributes<span class="gray">.</span>slice<span class="gray">(</span> style_character_index <span class="gray">+</span> <span class="red">8</span> <span class="gray">);</span>
+        <span class="gray">}</span>
+        <span class="pink">else</span>
+        <span class="gray">{</span>
+            <span class="pink">return</span> attributes <span class="gray">~</span> <span class="red">" style=\""</span> <span class="gray">~</span> styles <span class="gray">~</span> <span class="red">"\""</span><span class="gray">;</span>
+        <span class="gray">}</span>
+    <span class="gray">}</span>
+
+    <span class="gray">// ~~</span>
+
     <span class="red">void</span> ParseAttributes<span class="gray">(</span>
         <span class="red">dstring</span> modifiers
         <span class="gray">)</span>
@@ -2184,31 +2244,25 @@
         <span class="red">dchar</span>
             character<span class="gray">;</span>
         <span class="red">dstring</span>
+            format<span class="gray">,</span>
             height<span class="gray">,</span>
-            image_text<span class="gray">,</span>
-            size_text<span class="gray">,</span>
+            size<span class="gray">,</span>
+            url<span class="gray">,</span>
             width<span class="gray">;</span>
         <span class="red">dstring</span><span class="gray">[]</span>
             size_array<span class="gray">;</span>
 
-        image_text <span class="gray">=</span> <span class="red">"&lt;img"</span> <span class="gray">~</span> attributes <span class="gray">~</span> <span class="red">" src=\""</span><span class="gray">;</span>
-        size_text <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+        url <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
+        size <span class="gray">=</span> <span class="red">""</span><span class="gray">;</span>
         size_is_parsed <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
 
         <span class="pink">while</span> <span class="gray">(</span> character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length <span class="gray">)</span>
         <span class="gray">{</span>
             character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">);</span>
 
-            <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span>
-                 <span class="gray">&&</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length <span class="gray">)</span>
-            <span class="gray">{</span>
-                <span class="gray">++</span>character_index<span class="gray">;</span>
-
-                image_text <span class="gray">~=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">);</span>
-            <span class="gray">}</span>
-            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">']'</span>
-                      <span class="gray">&&</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
-                      <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">==</span> <span class="red">']'</span> <span class="gray">)</span>
+            <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">']'</span>
+                 <span class="gray">&&</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
+                 <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">==</span> <span class="red">']'</span> <span class="gray">)</span>
             <span class="gray">{</span>
                 character_index <span class="gray">+=</span> <span class="red">2</span><span class="gray">;</span>
 
@@ -2216,33 +2270,41 @@
             <span class="gray">}</span>
             <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> size_is_parsed <span class="gray">)</span>
             <span class="gray">{</span>
-                size_text <span class="gray">~=</span> character<span class="gray">;</span>
+                size <span class="gray">~=</span> character<span class="gray">;</span>
             <span class="gray">}</span>
-            <span class="pink">else</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">':'</span> <span class="gray">)</span>
             <span class="gray">{</span>
-                <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">':'</span> <span class="gray">)</span>
+                size_is_parsed <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span> 
+            <span class="gray">{</span>
+                <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\\'</span>
+                     <span class="gray">&&</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length <span class="gray">)</span>
                 <span class="gray">{</span>
-                    size_is_parsed <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
+                    <span class="gray">++</span>character_index<span class="gray">;</span>
+
+                    character <span class="gray">=</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">);</span>
                 <span class="gray">}</span>
-                <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\"'</span> <span class="gray">)</span>
+
+                <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">'\"'</span> <span class="gray">)</span>
                 <span class="gray">{</span>
-                    image_text <span class="gray">~=</span> <span class="red">"&quot;"</span><span class="gray">;</span>
+                    url <span class="gray">~=</span> <span class="red">"&quot;"</span><span class="gray">;</span>
                 <span class="gray">}</span>
                 <span class="pink">else</span>
                 <span class="gray">{</span>
-                    image_text <span class="gray">~=</span> character<span class="gray">;</span>
+                    url <span class="gray">~=</span> character<span class="gray">;</span>
                 <span class="gray">}</span>
             <span class="gray">}</span>
 
             <span class="gray">++</span>character_index<span class="gray">;</span>
         <span class="gray">}</span>
 
-        <span class="pink">if</span> <span class="gray">(</span> size_text <span class="gray">==</span> <span class="red">""</span> <span class="gray">)</span>
+        <span class="pink">if</span> <span class="gray">(</span> size <span class="gray">==</span> <span class="red">""</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            size_text <span class="gray">=</span> <span class="red">",100"</span><span class="gray">;</span>
+            size <span class="gray">=</span> <span class="red">",100"</span><span class="gray">;</span>
         <span class="gray">}</span>
 
-        size_array <span class="gray">=</span> size_text<span class="gray">.</span>split<span class="gray">(</span> <span class="red">','</span> <span class="gray">);</span>
+        size_array <span class="gray">=</span> size<span class="gray">.</span>split<span class="gray">(</span> <span class="red">','</span> <span class="gray">);</span>
 
         <span class="pink">if</span> <span class="gray">(</span> size_array<span class="gray">.</span>length <span class="gray">==</span> <span class="red">1</span> <span class="gray">)</span>
         <span class="gray">{</span>
@@ -2288,9 +2350,28 @@
             width <span class="gray">~=</span> <span class="red">"%"</span><span class="gray">;</span>
         <span class="gray">}</span>
 
-        image_text <span class="gray">~=</span> <span class="red">"\" style=\"height:"</span> <span class="gray">~</span> height <span class="gray">~</span> <span class="red">";width:"</span> <span class="gray">~</span> width <span class="gray">~</span> <span class="red">"\"/&gt;"</span><span class="gray">;</span>
+        format <span class="gray">=</span> GetFormat<span class="gray">(</span> url <span class="gray">);</span>
 
-        <span class="pink">return</span> image_text<span class="gray">;</span>
+        <span class="pink">if</span> <span class="gray">(</span> IsImageFormat<span class="gray">(</span> format <span class="gray">)</span> <span class="gray">)</span>
+        <span class="gray">{</span>
+            <span class="pink">return</span> <span class="gray">(</span>
+                <span class="red">"&lt;img"</span> 
+                <span class="gray">~</span> GetAttributes<span class="gray">(</span> <span class="red">"height:"</span> <span class="gray">~</span> height <span class="gray">~</span> <span class="red">";width:"</span> <span class="gray">~</span> width <span class="gray">)</span> 
+                <span class="gray">~</span> <span class="red">" src=\""</span> 
+                <span class="gray">~</span> url 
+                <span class="gray">~</span> <span class="red">"\"/&gt;"</span>
+                <span class="gray">);</span>
+        <span class="gray">}</span>
+        <span class="pink">else</span>
+        <span class="gray">{</span>
+            <span class="pink">return</span> <span class="gray">(</span>
+                <span class="red">"&lt;video"</span>
+                <span class="gray">~</span> GetAttributes<span class="gray">(</span> <span class="red">"height:"</span> <span class="gray">~</span> height <span class="gray">~</span> <span class="red">";width:"</span> <span class="gray">~</span> width <span class="gray">)</span>
+                <span class="gray">~</span> <span class="red">"&gt;&lt;source src=\""</span>
+                <span class="gray">~</span> url
+                <span class="gray">~</span> <span class="red">"\" type=\"video/"</span> <span class="gray">~</span> format <span class="gray">~</span> <span class="red">"\"&gt;&lt;/video&gt;"</span>
+                <span class="gray">);</span>
+        <span class="gray">}</span>
     <span class="gray">}</span>
 
     <span class="gray">// ~~</span>

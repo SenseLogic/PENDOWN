@@ -665,6 +665,12 @@ Effects :
 
 [[^hue_180\image_6.jpg:20]] [[^inverse_100\image_6.jpg:20]] [[^gray_100\image_6.jpg:20]] [[^sepia_100\image_6.jpg:20]]
 
+!! Video
+
+[[^&autoplay,&loop\video.mp4:20]]
+
+[[^&controls\video.mp4:40]]
+
 !! Styling
 
 {{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128^,128^,128^,0.2),$00c,center\
