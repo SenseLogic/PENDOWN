@@ -667,7 +667,7 @@ Effects :
 
 !! Video
 
-[[^&autoplay,&loop\video.mp4:20]]
+[[^&autoplay,&loop,&muted,&controls\video.mp4:20]]
 
 [[^&controls\video.mp4:40]]
 
