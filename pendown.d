@@ -1567,6 +1567,7 @@ dstring GetColorizedText(
 
     EscapeSpecialCharacters( code_token_array );
 
+    color_prefix_array = null;
     color_prefix_array[ CODE_TOKEN_TYPE.ShortComment ] = "°";
     color_prefix_array[ CODE_TOKEN_TYPE.LongComment ] = "°";
     color_prefix_array[ CODE_TOKEN_TYPE.String ] = "²";
