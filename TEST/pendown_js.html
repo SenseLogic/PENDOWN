@@ -1769,7 +1769,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
                     added_modifiers <span class="gray">+=</span> <span class="red">'\f'</span><span class="gray">;</span>
                 <span class="gray">}</span>
                 <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">===</span> <span class="red">'^'</span>
-                         <span class="gray">&&</span> modifier_character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length <span class="gray">)</span>
+                          <span class="gray">&&</span> modifier_character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length <span class="gray">)</span>
                 <span class="gray">{</span>
                     <span class="gray">++</span>modifier_character_index<span class="gray">;</span>
 
@@ -2071,7 +2071,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
             <span class="gray">{</span>
                 size_is_parsed <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
             <span class="gray">}</span>
-            <span class="pink">else</span> 
+            <span class="pink">else</span>
             <span class="gray">{</span>
                 <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">===</span> <span class="red">'\\'</span>
                      <span class="gray">&&</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length <span class="gray">)</span>
@@ -2140,10 +2140,10 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="pink">if</span> <span class="gray">(</span> IsImageFormat<span class="gray">(</span> format <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
             <span class="pink">return</span> <span class="gray">(</span>
-                <span class="red">"&lt;img"</span> 
-                <span class="gray">+</span> GetAttributes<span class="gray">(</span> <span class="red">"height:"</span> <span class="gray">+</span> height <span class="gray">+</span> <span class="red">";width:"</span> <span class="gray">+</span> width <span class="gray">)</span> 
-                <span class="gray">+</span> <span class="red">" src=\""</span> 
-                <span class="gray">+</span> url 
+                <span class="red">"&lt;img"</span>
+                <span class="gray">+</span> GetAttributes<span class="gray">(</span> <span class="red">"height:"</span> <span class="gray">+</span> height <span class="gray">+</span> <span class="red">";width:"</span> <span class="gray">+</span> width <span class="gray">)</span>
+                <span class="gray">+</span> <span class="red">" src=\""</span>
+                <span class="gray">+</span> url
                 <span class="gray">+</span> <span class="red">"\"/&gt;"</span>
                 <span class="gray">);</span>
         <span class="gray">}</span>
@@ -3025,6 +3025,30 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
 <span class="gray">// ~~</span>
 
+<span class="pink">function</span> InitializeDocument<span class="gray">(</span>
+    <span class="gray">)</span>
+<span class="gray">{</span>
+    TabulationSpaceCount <span class="gray">=</span> <span class="red">4</span><span class="gray">;</span>
+    IndentationSpaceCount <span class="gray">=</span> <span class="red">4</span><span class="gray">;</span>
+
+    ModifierMap <span class="gray">=</span> <span class="gray">[];</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"°"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"gray"</span><span class="gray">;</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"⁰"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"orange"</span><span class="gray">;</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"¹"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"pink"</span><span class="gray">;</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"²"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"red"</span><span class="gray">;</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"³"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"blue"</span><span class="gray">;</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"⁴"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"violet"</span><span class="gray">;</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"⁵"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"cyan"</span><span class="gray">;</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"⁶"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"black"</span><span class="gray">;</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"⁷"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"yellow"</span><span class="gray">;</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"⁸"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"white"</span><span class="gray">;</span>
+    ModifierMap<span class="gray">[</span> <span class="red">"⁹"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"green"</span><span class="gray">;</span>
+
+    TagArray <span class="gray">=</span> <span class="gray">[];</span>    
+<span class="gray">}</span>
+
+<span class="gray">// ~~</span>
+
 <span class="pink">function</span> GetText<span class="gray">(</span>
     token_array
     <span class="gray">)</span>
@@ -3107,23 +3131,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
 
 <span class="orange">CODE_TOKEN_TYPE</span> <span class="gray">=</span> <span class="pink">new</span> <span class="orange">CODE_TOKEN_TYPE</span><span class="gray">();</span>
 
-TabulationSpaceCount <span class="gray">=</span> <span class="red">4</span><span class="gray">;</span>
-IndentationSpaceCount <span class="gray">=</span> <span class="red">4</span><span class="gray">;</span>
-
-ModifierMap <span class="gray">=</span> <span class="gray">[];</span>
-ModifierMap<span class="gray">[</span> <span class="red">"°"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"gray"</span><span class="gray">;</span>
-ModifierMap<span class="gray">[</span> <span class="red">"⁰"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"orange"</span><span class="gray">;</span>
-ModifierMap<span class="gray">[</span> <span class="red">"¹"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"pink"</span><span class="gray">;</span>
-ModifierMap<span class="gray">[</span> <span class="red">"²"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"red"</span><span class="gray">;</span>
-ModifierMap<span class="gray">[</span> <span class="red">"³"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"blue"</span><span class="gray">;</span>
-ModifierMap<span class="gray">[</span> <span class="red">"⁴"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"violet"</span><span class="gray">;</span>
-ModifierMap<span class="gray">[</span> <span class="red">"⁵"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"cyan"</span><span class="gray">;</span>
-ModifierMap<span class="gray">[</span> <span class="red">"⁶"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"black"</span><span class="gray">;</span>
-ModifierMap<span class="gray">[</span> <span class="red">"⁷"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"yellow"</span><span class="gray">;</span>
-ModifierMap<span class="gray">[</span> <span class="red">"⁸"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"white"</span><span class="gray">;</span>
-ModifierMap<span class="gray">[</span> <span class="red">"⁹"</span> <span class="gray">]</span> <span class="gray">=</span> <span class="red">"green"</span><span class="gray">;</span>
-
-TagArray <span class="gray">=</span> <span class="gray">[];</span>
+InitializeDocument<span class="gray">();</span>
 
 ProcessDocument<span class="gray">(</span> <span class="red">"xmp"</span><span class="gray">,</span> <span class="red">"article"</span> <span class="gray">);</span>
 </pre>

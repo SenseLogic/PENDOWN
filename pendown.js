@@ -976,9 +976,9 @@ function GetFormat(
 {
     var
         dot_character_index;
-        
+
     dot_character_index = url.lastIndexOf( '.' );
-    
+
     if ( dot_character_index >= 0 )
     {
         return url.slice( dot_character_index + 1 );
@@ -1537,7 +1537,7 @@ function AddTag(
     var
         tag,
         tag_index;
-        
+
     for ( tag_index = 0;
           tag_index < TagArray.length;
           ++tag_index )
@@ -1545,16 +1545,16 @@ function AddTag(
         if ( TagArray[ tag_index ].Name === name )
         {
             TagArray[ tag_index ].DefinitionArray.push( definition );
-            
+
             return;
         }
     }
-    
+
     tag = new TAG();
     tag.Name = name;
     tag.DefinitionArray.push( definition );
     tag.DefinitionIndex = 0;
-    
+
     TagArray.push( tag );
 }
 
@@ -1566,7 +1566,7 @@ function RemoveTag(
 {
     var
         tag_index;
-        
+
     for ( tag_index = 0;
           tag_index < TagArray.length;
           ++tag_index )
@@ -1574,7 +1574,7 @@ function RemoveTag(
         if ( TagArray[ tag_index ].Name === name )
         {
             TagArray.splice( tag_index, 1 );
-            
+
             return;
         }
     }
@@ -1661,18 +1661,18 @@ function GetTokenArray(
 
         return modifiers;
     }
-    
+
     // ~~
-    
+
     function GetAttributes(
         styles
         )
     {
         var
             style_character_index;
-            
+
         style_character_index = attributes.indexOf( " style=\"" );
-        
+
         if ( style_character_index >= 0 )
         {
             return attributes.slice( 0, style_character_index + 8 ) + styles + ";" + attributes.slice( style_character_index + 8 );
@@ -1721,9 +1721,9 @@ function GetTokenArray(
                 && modifier_list_is_valid )
         {
             modifier_list_is_valid = false;
-            
+
             colon_character_index = 0;
-            
+
             added_modifiers = "";
 
             for ( modifier_character_index = character_index + 1;
@@ -1740,7 +1740,7 @@ function GetTokenArray(
                         {
                             modifier_name = added_modifiers.slice( colon_character_index + 1 );
                             added_modifiers = added_modifiers.slice( 0, colon_character_index );
-                            
+
                             ModifierMap[ modifier_name ] = added_modifiers;
                         }
 
@@ -1766,16 +1766,16 @@ function GetTokenArray(
                     added_modifiers += '\f';
                 }
                 else if ( character === '^'
-                         && modifier_character_index + 1 < text.length )
+                          && modifier_character_index + 1 < text.length )
                 {
                     ++modifier_character_index;
-                    
+
                     added_modifiers += text.charAt( modifier_character_index );
                 }
                 else
                 {
                     added_modifiers += character;
-                    
+
                     if ( character === ':' )
                     {
                         colon_character_index = added_modifiers.length - 1;
@@ -1786,7 +1786,7 @@ function GetTokenArray(
 
         modifiers = ReplaceDefinitions( modifiers );
         modifier_array = modifiers.split( '\f' );
-        
+
         classes = "";
 
         for ( modifier_index = 0;
@@ -1798,7 +1798,7 @@ function GetTokenArray(
             if ( modifier.startsWith( '!' ) )
             {
                 space_character_index = modifier.indexOf( ' ' );
-                
+
                 if ( space_character_index > 0 )
                 {
                     AddTag( modifier.slice( 1, space_character_index ), modifier.slice( space_character_index + 1 ) );
@@ -2003,33 +2003,33 @@ function GetTokenArray(
     }
 
     // ~~
-    
+
     function ParseDefinedTag(
         )
     {
         var
             tag,
             tag_index;
-            
+
         for ( tag_index = 0;
               tag_index < TagArray.length;
               ++tag_index )
         {
             tag = TagArray[ tag_index ];
-            
+
             if ( ParseTag( tag.Name, "", "" ) )
             {
                 token_text = tag.DefinitionArray[ tag.DefinitionIndex ].split( "$" ).join( attributes );
-                
+
                 tag.DefinitionIndex = ( tag.DefinitionIndex + 1 ) % tag.DefinitionArray.length;
-                
+
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     // ~~
 
     function ParseImage(
@@ -2068,13 +2068,13 @@ function GetTokenArray(
             {
                 size_is_parsed = true;
             }
-            else 
+            else
             {
                 if ( character === '\\'
                      && character_index + 1 < text.length )
                 {
                     ++character_index;
-                    
+
                     character = text.charAt( character_index );
                 }
 
@@ -2131,16 +2131,16 @@ function GetTokenArray(
         {
             width += "%";
         }
-        
+
         format = GetFormat( url );
-        
+
         if ( IsImageFormat( format ) )
         {
             return (
-                "<img" 
-                + GetAttributes( "height:" + height + ";width:" + width ) 
-                + " src=\"" 
-                + url 
+                "<img"
+                + GetAttributes( "height:" + height + ";width:" + width )
+                + " src=\""
+                + url
                 + "\"/>"
                 );
         }
@@ -3022,6 +3022,30 @@ function MakeBreaks(
 
 // ~~
 
+function InitializeDocument(
+    )
+{
+    TabulationSpaceCount = 4;
+    IndentationSpaceCount = 4;
+
+    ModifierMap = [];
+    ModifierMap[ "°" ] = "gray";
+    ModifierMap[ "⁰" ] = "orange";
+    ModifierMap[ "¹" ] = "pink";
+    ModifierMap[ "²" ] = "red";
+    ModifierMap[ "³" ] = "blue";
+    ModifierMap[ "⁴" ] = "violet";
+    ModifierMap[ "⁵" ] = "cyan";
+    ModifierMap[ "⁶" ] = "black";
+    ModifierMap[ "⁷" ] = "yellow";
+    ModifierMap[ "⁸" ] = "white";
+    ModifierMap[ "⁹" ] = "green";
+
+    TagArray = [];    
+}
+
+// ~~
+
 function GetText(
     token_array
     )
@@ -3104,22 +3128,6 @@ function ProcessDocument(
 
 CODE_TOKEN_TYPE = new CODE_TOKEN_TYPE();
 
-TabulationSpaceCount = 4;
-IndentationSpaceCount = 4;
-
-ModifierMap = [];
-ModifierMap[ "°" ] = "gray";
-ModifierMap[ "⁰" ] = "orange";
-ModifierMap[ "¹" ] = "pink";
-ModifierMap[ "²" ] = "red";
-ModifierMap[ "³" ] = "blue";
-ModifierMap[ "⁴" ] = "violet";
-ModifierMap[ "⁵" ] = "cyan";
-ModifierMap[ "⁶" ] = "black";
-ModifierMap[ "⁷" ] = "yellow";
-ModifierMap[ "⁸" ] = "white";
-ModifierMap[ "⁹" ] = "green";
-
-TagArray = [];
+InitializeDocument();
 
 ProcessDocument( "xmp", "article" );

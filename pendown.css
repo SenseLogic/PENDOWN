@@ -269,12 +269,12 @@ li
     list-style-type : square;
 }
 
-.dash ul 
+.dash ul
 {
     list-style: none;
 }
 
-.dash ul > li:before 
+.dash ul > li:before
 {
     content: "-";
     margin-left : -1.25rem;
@@ -470,662 +470,662 @@ tr > td:last-child
     filter : blur( 4px );
 }
 
-.lightness_10 
+.lightness_10
 {
     -webkit-filter : brightness( 10% );
     filter : brightness( 10% );
 }
 
-.lightness_20 
+.lightness_20
 {
     -webkit-filter : brightness( 20% );
     filter : brightness( 20% );
 }
 
-.lightness_30 
+.lightness_30
 {
     -webkit-filter : brightness( 30% );
     filter : brightness( 30% );
 }
 
-.lightness_40 
+.lightness_40
 {
     -webkit-filter : brightness( 40% );
     filter : brightness( 40% );
 }
 
-.lightness_50 
+.lightness_50
 {
     -webkit-filter : brightness( 50% );
     filter : brightness( 50% );
 }
 
-.lightness_60 
+.lightness_60
 {
     -webkit-filter : brightness( 60% );
     filter : brightness( 60% );
 }
 
-.lightness_70 
+.lightness_70
 {
     -webkit-filter : brightness( 70% );
     filter : brightness( 70% );
 }
 
-.lightness_80 
+.lightness_80
 {
     -webkit-filter : brightness( 80% );
     filter : brightness( 80% );
 }
 
-.lightness_90 
+.lightness_90
 {
     -webkit-filter : brightness( 90% );
     filter : brightness( 90% );
 }
 
-.lightness_100 
+.lightness_100
 {
     -webkit-filter : brightness( 100% );
     filter : brightness( 100% );
 }
 
-.lightness_110 
+.lightness_110
 {
     -webkit-filter : brightness( 110% );
     filter : brightness( 110% );
 }
 
-.lightness_120 
+.lightness_120
 {
     -webkit-filter : brightness( 120% );
     filter : brightness( 120% );
 }
 
-.lightness_130 
+.lightness_130
 {
     -webkit-filter : brightness( 130% );
     filter : brightness( 130% );
 }
 
-.lightness_140 
+.lightness_140
 {
     -webkit-filter : brightness( 140% );
     filter : brightness( 140% );
 }
 
-.lightness_150 
+.lightness_150
 {
     -webkit-filter : brightness( 150% );
     filter : brightness( 150% );
 }
 
-.lightness_160 
+.lightness_160
 {
     -webkit-filter : brightness( 160% );
     filter : brightness( 160% );
 }
 
-.lightness_170 
+.lightness_170
 {
     -webkit-filter : brightness( 170% );
     filter : brightness( 170% );
 }
 
-.lightness_180 
+.lightness_180
 {
     -webkit-filter : brightness( 180% );
     filter : brightness( 180% );
 }
 
-.lightness_190 
+.lightness_190
 {
     -webkit-filter : brightness( 190% );
     filter : brightness( 190% );
 }
 
-.lightness_200 
+.lightness_200
 {
     -webkit-filter : brightness( 200% );
     filter : brightness( 200% );
 }
 
-.contrast_10 
+.contrast_10
 {
     -webkit-filter : contrast( 10% );
     filter : contrast( 10% );
 }
 
-.contrast_20 
+.contrast_20
 {
     -webkit-filter : contrast( 20% );
     filter : contrast( 20% );
 }
 
-.contrast_30 
+.contrast_30
 {
     -webkit-filter : contrast( 30% );
     filter : contrast( 30% );
 }
 
-.contrast_40 
+.contrast_40
 {
     -webkit-filter : contrast( 40% );
     filter : contrast( 40% );
 }
 
-.contrast_50 
+.contrast_50
 {
     -webkit-filter : contrast( 50% );
     filter : contrast( 50% );
 }
 
-.contrast_60 
+.contrast_60
 {
     -webkit-filter : contrast( 60% );
     filter : contrast( 60% );
 }
 
-.contrast_70 
+.contrast_70
 {
     -webkit-filter : contrast( 70% );
     filter : contrast( 70% );
 }
 
-.contrast_80 
+.contrast_80
 {
     -webkit-filter : contrast( 80% );
     filter : contrast( 80% );
 }
 
-.contrast_90 
+.contrast_90
 {
     -webkit-filter : contrast( 90% );
     filter : contrast( 90% );
 }
 
-.contrast_100 
+.contrast_100
 {
     -webkit-filter : contrast( 100% );
     filter : contrast( 100% );
 }
 
-.contrast_110 
+.contrast_110
 {
     -webkit-filter : contrast( 110% );
     filter : contrast( 110% );
 }
 
-.contrast_120 
+.contrast_120
 {
     -webkit-filter : contrast( 120% );
     filter : contrast( 120% );
 }
 
-.contrast_130 
+.contrast_130
 {
     -webkit-filter : contrast( 130% );
     filter : contrast( 130% );
 }
 
-.contrast_140 
+.contrast_140
 {
     -webkit-filter : contrast( 140% );
     filter : contrast( 140% );
 }
 
-.contrast_150 
+.contrast_150
 {
     -webkit-filter : contrast( 150% );
     filter : contrast( 150% );
 }
 
-.contrast_160 
+.contrast_160
 {
     -webkit-filter : contrast( 160% );
     filter : contrast( 160% );
 }
 
-.contrast_170 
+.contrast_170
 {
     -webkit-filter : contrast( 170% );
     filter : contrast( 170% );
 }
 
-.contrast_180 
+.contrast_180
 {
     -webkit-filter : contrast( 180% );
     filter : contrast( 180% );
 }
 
-.contrast_190 
+.contrast_190
 {
     -webkit-filter : contrast( 190% );
     filter : contrast( 190% );
 }
 
-.contrast_200 
+.contrast_200
 {
     -webkit-filter : contrast( 200% );
     filter : contrast( 200% );
 }
 
-.saturation_10 
+.saturation_10
 {
     -webkit-filter : saturate( 10% );
     filter : saturate( 10% );
 }
 
-.saturation_20 
+.saturation_20
 {
     -webkit-filter : saturate( 20% );
     filter : saturate( 20% );
 }
 
-.saturation_30 
+.saturation_30
 {
     -webkit-filter : saturate( 30% );
     filter : saturate( 30% );
 }
 
-.saturation_40 
+.saturation_40
 {
     -webkit-filter : saturate( 40% );
     filter : saturate( 40% );
 }
 
-.saturation_50 
+.saturation_50
 {
     -webkit-filter : saturate( 50% );
     filter : saturate( 50% );
 }
 
-.saturation_60 
+.saturation_60
 {
     -webkit-filter : saturate( 60% );
     filter : saturate( 60% );
 }
 
-.saturation_70 
+.saturation_70
 {
     -webkit-filter : saturate( 70% );
     filter : saturate( 70% );
 }
 
-.saturation_80 
+.saturation_80
 {
     -webkit-filter : saturate( 80% );
     filter : saturate( 80% );
 }
 
-.saturation_90 
+.saturation_90
 {
     -webkit-filter : saturate( 90% );
     filter : saturate( 90% );
 }
 
-.saturation_100 
+.saturation_100
 {
     -webkit-filter : saturate( 100% );
     filter : saturate( 100% );
 }
 
-.saturation_110 
+.saturation_110
 {
     -webkit-filter : saturate( 110% );
     filter : saturate( 110% );
 }
 
-.saturation_120 
+.saturation_120
 {
     -webkit-filter : saturate( 120% );
     filter : saturate( 120% );
 }
 
-.saturation_130 
+.saturation_130
 {
     -webkit-filter : saturate( 130% );
     filter : saturate( 130% );
 }
 
-.saturation_140 
+.saturation_140
 {
     -webkit-filter : saturate( 140% );
     filter : saturate( 140% );
 }
 
-.saturation_150 
+.saturation_150
 {
     -webkit-filter : saturate( 150% );
     filter : saturate( 150% );
 }
 
-.saturation_160 
+.saturation_160
 {
     -webkit-filter : saturate( 160% );
     filter : saturate( 160% );
 }
 
-.saturation_170 
+.saturation_170
 {
     -webkit-filter : saturate( 170% );
     filter : saturate( 170% );
 }
 
-.saturation_180 
+.saturation_180
 {
     -webkit-filter : saturate( 180% );
     filter : saturate( 180% );
 }
 
-.saturation_190 
+.saturation_190
 {
     -webkit-filter : saturate( 190% );
     filter : saturate( 190% );
 }
 
-.saturation_200 
+.saturation_200
 {
     -webkit-filter : saturate( 200% );
     filter : saturate( 200% );
 }
 
-.gray_10 
+.gray_10
 {
     -webkit-filter : grayscale( 10% );
     filter : grayscale( 10% );
 }
 
-.gray_20 
+.gray_20
 {
     -webkit-filter : grayscale( 20% );
     filter : grayscale( 20% );
 }
 
-.gray_30 
+.gray_30
 {
     -webkit-filter : grayscale( 30% );
     filter : grayscale( 30% );
 }
 
-.gray_40 
+.gray_40
 {
     -webkit-filter : grayscale( 40% );
     filter : grayscale( 40% );
 }
 
-.gray_50 
+.gray_50
 {
     -webkit-filter : grayscale( 50% );
     filter : grayscale( 50% );
 }
 
-.gray_60 
+.gray_60
 {
     -webkit-filter : grayscale( 60% );
     filter : grayscale( 60% );
 }
 
-.gray_70 
+.gray_70
 {
     -webkit-filter : grayscale( 70% );
     filter : grayscale( 70% );
 }
 
-.gray_80 
+.gray_80
 {
     -webkit-filter : grayscale( 80% );
     filter : grayscale( 80% );
 }
 
-.gray_90 
+.gray_90
 {
     -webkit-filter : grayscale( 90% );
     filter : grayscale( 90% );
 }
 
-.gray_100 
+.gray_100
 {
     -webkit-filter : grayscale( 100% );
     filter : grayscale( 100% );
 }
 
-.hue_-30 
+.hue_-30
 {
     -webkit-filter : hue-rotate( -30deg );
     filter : hue-rotate( -30deg );
 }
 
-.hue_-20 
+.hue_-20
 {
     -webkit-filter : hue-rotate( -20deg );
     filter : hue-rotate( -20deg );
 }
 
-.hue_-10 
+.hue_-10
 {
     -webkit-filter : hue-rotate( -10deg );
     filter : hue-rotate( -10deg );
 }
 
-.hue_10 
+.hue_10
 {
     -webkit-filter : hue-rotate( 10deg );
     filter : hue-rotate( 10deg );
 }
 
-.hue_20 
+.hue_20
 {
     -webkit-filter : hue-rotate( 20deg );
     filter : hue-rotate( 20deg );
 }
 
-.hue_30 
+.hue_30
 {
     -webkit-filter : hue-rotate( 30deg );
     filter : hue-rotate( 30deg );
 }
 
-.hue_60 
+.hue_60
 {
     -webkit-filter : hue-rotate( 60deg );
     filter : hue-rotate( 60deg );
 }
 
-.hue_90 
+.hue_90
 {
     -webkit-filter : hue-rotate( 90deg );
     filter : hue-rotate( 90deg );
 }
 
-.hue_120 
+.hue_120
 {
     -webkit-filter : hue-rotate( 120deg );
     filter : hue-rotate( 120deg );
 }
 
-.hue_180 
+.hue_180
 {
     -webkit-filter : hue-rotate( 180deg );
     filter : hue-rotate( 180deg );
 }
 
-.hue_210 
+.hue_210
 {
     -webkit-filter : hue-rotate( 210deg );
     filter : hue-rotate( 210deg );
 }
 
-.hue_240 
+.hue_240
 {
     -webkit-filter : hue-rotate( 240deg );
     filter : hue-rotate( 240deg );
 }
 
-.hue_270 
+.hue_270
 {
     -webkit-filter : hue-rotate( 270deg );
     filter : hue-rotate( 270deg );
 }
 
-.hue_300 
+.hue_300
 {
     -webkit-filter : hue-rotate( 300deg );
     filter : hue-rotate( 300deg );
 }
 
-.hue_330 
+.hue_330
 {
     -webkit-filter : hue-rotate( 330deg );
     filter : hue-rotate( 330deg );
 }
 
-.inverse_10 
+.inverse_10
 {
     -webkit-filter : invert( 10% );
     filter : invert( 10% );
 }
 
-.inverse_20 
+.inverse_20
 {
     -webkit-filter : invert( 20% );
     filter : invert( 20% );
 }
 
-.inverse_30 
+.inverse_30
 {
     -webkit-filter : invert( 30% );
     filter : invert( 30% );
 }
 
-.inverse_40 
+.inverse_40
 {
     -webkit-filter : invert( 40% );
     filter : invert( 40% );
 }
 
-.inverse_50 
+.inverse_50
 {
     -webkit-filter : invert( 50% );
     filter : invert( 50% );
 }
 
-.inverse_60 
+.inverse_60
 {
     -webkit-filter : invert( 60% );
     filter : invert( 60% );
 }
 
-.inverse_70 
+.inverse_70
 {
     -webkit-filter : invert( 70% );
     filter : invert( 70% );
 }
 
-.inverse_80 
+.inverse_80
 {
     -webkit-filter : invert( 80% );
     filter : invert( 80% );
 }
 
-.inverse_90 
+.inverse_90
 {
     -webkit-filter : invert( 90% );
     filter : invert( 90% );
 }
 
-.inverse_100 
+.inverse_100
 {
     -webkit-filter : invert( 100% );
     filter : invert( 100% );
 }
 
-.sepia_10 
+.sepia_10
 {
     -webkit-filter : sepia( 10% );
     filter : sepia( 10% );
 }
 
-.sepia_20 
+.sepia_20
 {
     -webkit-filter : sepia( 20% );
     filter : sepia( 20% );
 }
 
-.sepia_30 
+.sepia_30
 {
     -webkit-filter : sepia( 30% );
     filter : sepia( 30% );
 }
 
-.sepia_40 
+.sepia_40
 {
     -webkit-filter : sepia( 40% );
     filter : sepia( 40% );
 }
 
-.sepia_50 
+.sepia_50
 {
     -webkit-filter : sepia( 50% );
     filter : sepia( 50% );
 }
 
-.sepia_60 
+.sepia_60
 {
     -webkit-filter : sepia( 60% );
     filter : sepia( 60% );
 }
 
-.sepia_70 
+.sepia_70
 {
     -webkit-filter : sepia( 70% );
     filter : sepia( 70% );
 }
 
-.sepia_80 
+.sepia_80
 {
     -webkit-filter : sepia( 80% );
     filter : sepia( 80% );
 }
 
-.sepia_90 
+.sepia_90
 {
     -webkit-filter : sepia( 90% );
     filter : sepia( 90% );
 }
 
-.sepia_100 
+.sepia_100
 {
     -webkit-filter : sepia( 100% );
     filter : sepia( 100% );
 }
 
-.shadow_-3 
+.shadow_-3
 {
     box-shadow : 0 0.4vw 0.3vw -0.3vw rgba( 0, 0, 0, 0.50 );
 }
 
-.shadow_-6 
+.shadow_-6
 {
     box-shadow : 0 0.8vw 0.6vw -0.6vw rgba( 0, 0, 0, 0.50 );
 }
 
-.shadow_-9 
+.shadow_-9
 {
     box-shadow : 0 1.2vw 0.9vw -0.9vw rgba( 0, 0, 0, 0.50 );
 }
 
-.shadow_3 
+.shadow_3
 {
     box-shadow : 0 0.15vw 0.3vw rgba( 0, 0, 0, 0.25 ), 0 0.15vw 0.3vw rgba( 0, 0, 0, 0.25 );
 }
 
-.shadow_6 
+.shadow_6
 {
     box-shadow : 0 0.3vw 0.6vw rgba( 0, 0, 0, 0.25 ), 0 0.3vw 0.6vw rgba( 0, 0, 0, 0.25 );
 }
 
-.shadow_9 
+.shadow_9
 {
     box-shadow : 0 0.45vw 0.9vw rgba( 0, 0, 0, 0.25 ), 0 0.45vw 0.9vw rgba( 0, 0, 0, 0.25 );
 }
