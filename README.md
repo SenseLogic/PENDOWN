@@ -14,10 +14,10 @@ Its tags can be dynamically redefined and styled with any CSS property or HTML a
 
 ## Rationale
 
-While HTML tags are fine to define the structure and semantics of a documents, their verbosity can make them inconvenient 
-when writing the actual text content of a page.
+While HTML tags are fine to define the structure and semantics of a document, their verbosity can make them inconvenient 
+to write its text.
 
-The classical solution for this problem is generally to use a HTML preprocessor to be able to use a more concise syntax.
+The classical solution for this problem is generally to use a HTML preprocessor which uses a more concise syntax.
     
 On one hand, there are redactional preprocessors like Markdown or Creole, which allow to write a webpage content
 in plain text, without requiring any prior HTML knowledge at all.
@@ -654,6 +654,11 @@ Large :
 Custom :
 
 [[image_5.jpg:50vw,50%]]
+
+Remote :
+
+[[https\://upload.wikimedia.org/wikipedia/commons/b/bb/Ifaty_beach_Madagascar.jpg:40]]
+[[https\://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg:36]]
 
 Effects :
 

@@ -1568,6 +1568,7 @@
 
     EscapeSpecialCharacters°(° code_token_array °);°
 
+    color_prefix_array °=° ²null²°;°
     color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°ShortComment °]° °=° ²"\°"²°;°
     color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°LongComment °]° °=° ²"\°"²°;°
     color_prefix_array°[° ⁰CODE_TOKEN_TYPE⁰°.°String °]° °=° ²"\²"²°;°
