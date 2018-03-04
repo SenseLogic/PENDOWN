@@ -2273,7 +2273,9 @@
             <span class="gray">{</span>
                 size <span class="gray">~=</span> character<span class="gray">;</span>
             <span class="gray">}</span>
-            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">':'</span> <span class="gray">)</span>
+            <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> character <span class="gray">==</span> <span class="red">':'</span>
+                      <span class="gray">&&</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">&lt;</span> text<span class="gray">.</span>length
+                      <span class="gray">&&</span> text<span class="gray">.</span>charAt<span class="gray">(</span> character_index <span class="gray">+</span> <span class="red">1</span> <span class="gray">)</span> <span class="gray">!=</span> <span class="red">'/'</span> <span class="gray">)</span>
             <span class="gray">{</span>
                 size_is_parsed <span class="gray">=</span> <span class="red">true</span><span class="gray">;</span>
             <span class="gray">}</span>

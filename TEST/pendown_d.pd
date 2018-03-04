@@ -2271,7 +2271,9 @@
             °{°
                 size °~=° character°;°
             °}°
-            ¹else¹ ¹if¹ °(° character °==° ²':'² °)°
+            ¹else¹ ¹if¹ °(° character °==° ²':'²
+                      °&&° character_index °+° ²1² °&lt;° text°.°length
+                      °&&° text°.°charAt°(° character_index °+° ²1² °)° °\!=° ²'/'² °)°
             °{°
                 size_is_parsed °=° ²true²°;°
             °}°

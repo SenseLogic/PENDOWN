@@ -2064,7 +2064,9 @@ function GetTokenArray(
             {
                 size += character;
             }
-            else if ( character === ':' )
+            else if ( character === ':'
+                      && character_index + 1 < text.length
+                      && text.charAt( character_index + 1 ) !== '/' )
             {
                 size_is_parsed = true;
             }
