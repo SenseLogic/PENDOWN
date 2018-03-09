@@ -1,69 +1,56 @@
-SetInputFolder
-    ../
-SetOutputFolder
-    /tmp/
-
---
+SetInputFolder ../
+SetOutputFolder /tmp/
 
 ReadFiles
     pendown.d
     pendown.js
-ReplaceTabulations
-RemoveLastSpaces
+ReplaceTabulations 0 $
+RemoveLastSpaces 0 $
 WriteFiles
 
---
+SetFolder /tmp/
 
-SetFolder
-    /tmp/
-
---
-
-ReadFiles
-    pendown.d
-ReplaceUnquotedText
+ReadFiles pendown.d
+ReplaceUnquotedText 0 $
     ` ==`
     ` ===`
-ReplaceUnquotedText
+ReplaceUnquotedText 0 $
     ` !=`
     ` !==`
-ReplaceUnquotedText
+ReplaceUnquotedText 0 $
     ` ~ `
     ` + `
-ReplaceUnquotedText
+ReplaceUnquotedText 0 $
     ` ~=`
     ` +=`
-ReplaceUnquotedText
+ReplaceUnquotedText 0 $
     ` !is null`
     ` !== null`
-ReplaceUnquotedText
+ReplaceUnquotedText 0 $
     ` is null`
     ` === null`
-ReplaceUnquotedText
+ReplaceUnquotedText 0 $
     `.to!dstring()`
     ``
-ReplaceUnquotedText
+ReplaceUnquotedText 0 $
     `.to!string()`
     ``
-ReplaceUnquotedText
+ReplaceUnquotedText 0 $
     `.to!long()`
     ``
-ReplaceUnquotedText
+ReplaceUnquotedText 0 $
     `.to!double()`
     ``
-ReplaceUnquotedText
+ReplaceUnquotedText 0 $
     `.to!double()`
     ``
-ReplaceExpression
+ReplaceExpression 0 $
     `replace\\( (.+?), (.+?) \\)`
     `split( $1 ).join( $2 )`
 WriteFiles
 
---
-
-ReadFiles
-    pendown.js
-ReplaceUnquotedText
+ReadFiles pendown.js
+ReplaceUnquotedText 0 $
     `.charCodeAt( 0 )`
     ``
 WriteFiles
