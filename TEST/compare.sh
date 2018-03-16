@@ -2,5 +2,5 @@
 set -x
 rm /tmp/pendown.js
 rm /tmp/pendown.d
-../../PATCHUP/patchup --verbose compare.patchup
+../../BATCHED/batched --verbose compare.batched
 meld /tmp/pendown.js /tmp/pendown.d
