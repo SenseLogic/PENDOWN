@@ -241,7 +241,7 @@ Open the `SAMPLE/sample.html` file in a modern web browser like `Firefox` or `Ch
 
 Here is its actual content, which can be edited with any plain text editor like `Geany` or `Notepad++`.
 
-As you can see, no HTML tags where needed to write this text :
+As you can see, no HTML tags were needed to write this text :
 
 ```html
 <meta charset="utf8"/>
