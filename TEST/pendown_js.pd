@@ -19,8 +19,6 @@
     along with Pendown.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 */°
 
-°// == GLOBAL°
-
 °// -\- TYPES°
 
 ¹function¹ ⁰LANGUAGE⁰°(°
@@ -3044,7 +3042,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     ModifierMap°[° ²"\⁸"² °]° °=° ²"white"²°;°
     ModifierMap°[° ²"\⁹"² °]° °=° ²"green"²°;°
 
-    TagArray °=° °[];°    
+    TagArray °=° °[];°
 °}°
 
 °// ~\~°

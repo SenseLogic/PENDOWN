@@ -19,8 +19,6 @@
     along with Pendown.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 */°
 
-°// == LOCAL°
-
 °// -\- IMPORTS°
 
 ¹import¹ core°.°stdc°.°stdlib °:° exit°;°
@@ -29,8 +27,6 @@
 ¹import¹ std°.°file °:° readText°,° write°;°
 ¹import¹ std°.°stdio °:° writeln°;°
 ¹import¹ std°.°²string² °:° endsWith°,° indexOf°,° join°,° lastIndexOf°,° replace°,° split°,° startsWith°,° strip°,° toLower°,° toUpper°;°
-
-°// == GLOBAL°
 
 °// -\- TYPES°
 
@@ -3268,7 +3264,7 @@
     ModifierMap°[° ²"\⁸"² °]° °=° ²"white"²°;°
     ModifierMap°[° ²"\⁹"² °]° °=° ²"green"²°;°
 
-    TagArray °=° °[];°    
+    TagArray °=° °[];°
 °}°
 
 °// ~\~°

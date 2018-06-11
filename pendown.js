@@ -18,8 +18,6 @@
     along with Pendown.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// == GLOBAL
-
 // -- TYPES
 
 function LANGUAGE(
@@ -3043,7 +3041,7 @@ function InitializeDocument(
     ModifierMap[ "⁸" ] = "white";
     ModifierMap[ "⁹" ] = "green";
 
-    TagArray = [];    
+    TagArray = [];
 }
 
 // ~~
