@@ -18,8 +18,6 @@
     along with Pendown.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// == LOCAL
-
 // -- IMPORTS
 
 import core.stdc.stdlib : exit;
@@ -28,8 +26,6 @@ import std.conv : to;
 import std.file : readText, write;
 import std.stdio : writeln;
 import std.string : endsWith, indexOf, join, lastIndexOf, replace, split, startsWith, strip, toLower, toUpper;
-
-// == GLOBAL
 
 // -- TYPES
 
@@ -3267,7 +3263,7 @@ void InitializeDocument(
     ModifierMap[ "⁸" ] = "white";
     ModifierMap[ "⁹" ] = "green";
 
-    TagArray = [];    
+    TagArray = [];
 }
 
 // ~~
