@@ -1772,32 +1772,32 @@ TOKEN[] GetTokenArray(
     )
 {
     bool
-        it_is_in_a,
-        it_is_in_b,
-        it_is_in_blockquote,
-        it_is_in_black_span,
-        it_is_in_blue_span,
-        it_is_in_box_div,
-        it_is_in_center_div,
-        it_is_in_cyan_span,
-        it_is_in_frame_div,
-        it_is_in_gray_span,
-        it_is_in_green_span,
-        it_is_in_i,
-        it_is_in_left_div,
-        it_is_in_mark_span,
-        it_is_in_orange_span,
-        it_is_in_pink_span,
-        it_is_in_pre,
-        it_is_in_red_span,
-        it_is_in_right_div,
-        it_is_in_strike,
-        it_is_in_sup,
-        it_is_in_sub,
-        it_is_in_u,
-        it_is_in_violet_span,
-        it_is_in_white_span,
-        it_is_in_yellow_span,
+        character_is_in_a,
+        character_is_in_b,
+        character_is_in_blockquote,
+        character_is_in_black_span,
+        character_is_in_blue_span,
+        character_is_in_box_div,
+        character_is_in_center_div,
+        character_is_in_cyan_span,
+        character_is_in_frame_div,
+        character_is_in_gray_span,
+        character_is_in_green_span,
+        character_is_in_i,
+        character_is_in_left_div,
+        character_is_in_mark_span,
+        character_is_in_orange_span,
+        character_is_in_pink_span,
+        character_is_in_pre,
+        character_is_in_red_span,
+        character_is_in_right_div,
+        character_is_in_strike,
+        character_is_in_sup,
+        character_is_in_sub,
+        character_is_in_u,
+        character_is_in_violet_span,
+        character_is_in_white_span,
+        character_is_in_yellow_span,
         token_starts_line;
     dstring
         attributes,
@@ -2379,32 +2379,32 @@ TOKEN[] GetTokenArray(
 
     closing_tag = "";
 
-    it_is_in_pre = false;
-    it_is_in_blockquote = false;
-    it_is_in_frame_div = false;
-    it_is_in_box_div = false;
-    it_is_in_mark_span = false;
-    it_is_in_u = false;
-    it_is_in_left_div = false;
-    it_is_in_center_div = false;
-    it_is_in_right_div = false;
-    it_is_in_b = false;
-    it_is_in_i = false;
-    it_is_in_sup = false;
-    it_is_in_sub = false;
-    it_is_in_strike = false;
-    it_is_in_gray_span = false;
-    it_is_in_orange_span = false;
-    it_is_in_pink_span = false;
-    it_is_in_red_span = false;
-    it_is_in_blue_span = false;
-    it_is_in_violet_span = false;
-    it_is_in_cyan_span = false;
-    it_is_in_black_span = false;
-    it_is_in_yellow_span = false;
-    it_is_in_white_span = false;
-    it_is_in_green_span = false;
-    it_is_in_a = false;
+    character_is_in_pre = false;
+    character_is_in_blockquote = false;
+    character_is_in_frame_div = false;
+    character_is_in_box_div = false;
+    character_is_in_mark_span = false;
+    character_is_in_u = false;
+    character_is_in_left_div = false;
+    character_is_in_center_div = false;
+    character_is_in_right_div = false;
+    character_is_in_b = false;
+    character_is_in_i = false;
+    character_is_in_sup = false;
+    character_is_in_sub = false;
+    character_is_in_strike = false;
+    character_is_in_gray_span = false;
+    character_is_in_orange_span = false;
+    character_is_in_pink_span = false;
+    character_is_in_red_span = false;
+    character_is_in_blue_span = false;
+    character_is_in_violet_span = false;
+    character_is_in_cyan_span = false;
+    character_is_in_black_span = false;
+    character_is_in_yellow_span = false;
+    character_is_in_white_span = false;
+    character_is_in_green_span = false;
+    character_is_in_a = false;
 
     table_count = 0;
     character_index = 0;
@@ -2532,9 +2532,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( ":::", "", "" ) )
         {
-            it_is_in_pre = !it_is_in_pre;
+            character_is_in_pre = !character_is_in_pre;
 
-            if ( it_is_in_pre )
+            if ( character_is_in_pre )
             {
                 token.Text = "<pre" ~ attributes ~ ">";
             }
@@ -2545,9 +2545,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( ">>>", "", "" ) )
         {
-            it_is_in_blockquote = !it_is_in_blockquote;
+            character_is_in_blockquote = !character_is_in_blockquote;
 
-            if ( it_is_in_blockquote )
+            if ( character_is_in_blockquote )
             {
                 token.Text = "<blockquote" ~ attributes ~ ">";
             }
@@ -2558,9 +2558,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "+++", "frame", "" ) )
         {
-            it_is_in_frame_div = !it_is_in_frame_div;
+            character_is_in_frame_div = !character_is_in_frame_div;
 
-            if ( it_is_in_frame_div )
+            if ( character_is_in_frame_div )
             {
                 token.Text = "<div" ~ attributes ~ ">";
             }
@@ -2571,9 +2571,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "###", "box", "" ) )
         {
-            it_is_in_box_div = !it_is_in_box_div;
+            character_is_in_box_div = !character_is_in_box_div;
 
-            if ( it_is_in_box_div )
+            if ( character_is_in_box_div )
             {
                 token.Text = "<div" ~ attributes ~ ">";
             }
@@ -2592,9 +2592,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "##", "mark", "" ) )
         {
-            it_is_in_mark_span = !it_is_in_mark_span;
+            character_is_in_mark_span = !character_is_in_mark_span;
 
-            if ( it_is_in_mark_span )
+            if ( character_is_in_mark_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2605,9 +2605,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "__", "", "" ) )
         {
-            it_is_in_u = !it_is_in_u;
+            character_is_in_u = !character_is_in_u;
 
-            if ( it_is_in_u )
+            if ( character_is_in_u )
             {
                 token.Text = "<u" ~ attributes ~ ">";
             }
@@ -2626,9 +2626,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "<<", "left", "" ) )
         {
-            it_is_in_left_div = !it_is_in_left_div;
+            character_is_in_left_div = !character_is_in_left_div;
 
-            if ( it_is_in_left_div )
+            if ( character_is_in_left_div )
             {
                 token.Text = "<div" ~ attributes ~ ">";
             }
@@ -2639,9 +2639,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "$$", "center", "" ) )
         {
-            it_is_in_center_div = !it_is_in_center_div;
+            character_is_in_center_div = !character_is_in_center_div;
 
-            if ( it_is_in_center_div )
+            if ( character_is_in_center_div )
             {
                 token.Text = "<div" ~ attributes ~ ">";
             }
@@ -2652,9 +2652,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( ">>", "right", "" ) )
         {
-            it_is_in_right_div = !it_is_in_right_div;
+            character_is_in_right_div = !character_is_in_right_div;
 
-            if ( it_is_in_right_div )
+            if ( character_is_in_right_div )
             {
                 token.Text = "<div" ~ attributes ~ ">";
             }
@@ -2665,9 +2665,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "**", "", "" ) )
         {
-            it_is_in_b = !it_is_in_b;
+            character_is_in_b = !character_is_in_b;
 
-            if ( it_is_in_b )
+            if ( character_is_in_b )
             {
                 token.Text = "<b" ~ attributes ~ ">";
             }
@@ -2678,9 +2678,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "%%", "", "" ) )
         {
-            it_is_in_i = !it_is_in_i;
+            character_is_in_i = !character_is_in_i;
 
-            if ( it_is_in_i )
+            if ( character_is_in_i )
             {
                 token.Text = "<i" ~ attributes ~ ">";
             }
@@ -2691,9 +2691,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "^^", "", "" ) )
         {
-            it_is_in_sup = !it_is_in_sup;
+            character_is_in_sup = !character_is_in_sup;
 
-            if ( it_is_in_sup )
+            if ( character_is_in_sup )
             {
                 token.Text = "<sup" ~ attributes ~ ">";
             }
@@ -2704,9 +2704,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( ",,", "", "" ) )
         {
-            it_is_in_sub = !it_is_in_sub;
+            character_is_in_sub = !character_is_in_sub;
 
-            if ( it_is_in_sub )
+            if ( character_is_in_sub )
             {
                 token.Text = "<sub" ~ attributes ~ ">";
             }
@@ -2717,9 +2717,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "~~", "", "" ) )
         {
-            it_is_in_strike = !it_is_in_strike;
+            character_is_in_strike = !character_is_in_strike;
 
-            if ( it_is_in_strike )
+            if ( character_is_in_strike )
             {
                 token.Text = "<strike" ~ attributes ~ ">";
             }
@@ -2730,9 +2730,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "°", "°", "" ) )
         {
-            it_is_in_gray_span = !it_is_in_gray_span;
+            character_is_in_gray_span = !character_is_in_gray_span;
 
-            if ( it_is_in_gray_span )
+            if ( character_is_in_gray_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2743,9 +2743,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "⁰", "⁰", "" ) )
         {
-            it_is_in_orange_span = !it_is_in_orange_span;
+            character_is_in_orange_span = !character_is_in_orange_span;
 
-            if ( it_is_in_orange_span )
+            if ( character_is_in_orange_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2756,9 +2756,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "¹", "¹", "" ) )
         {
-            it_is_in_pink_span = !it_is_in_pink_span;
+            character_is_in_pink_span = !character_is_in_pink_span;
 
-            if ( it_is_in_pink_span )
+            if ( character_is_in_pink_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2769,9 +2769,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "²", "²", "" ) )
         {
-            it_is_in_red_span = !it_is_in_red_span;
+            character_is_in_red_span = !character_is_in_red_span;
 
-            if ( it_is_in_red_span )
+            if ( character_is_in_red_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2782,9 +2782,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "³", "³", "" ) )
         {
-            it_is_in_blue_span = !it_is_in_blue_span;
+            character_is_in_blue_span = !character_is_in_blue_span;
 
-            if ( it_is_in_blue_span )
+            if ( character_is_in_blue_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2795,9 +2795,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "⁴", "⁴", "" ) )
         {
-            it_is_in_violet_span = !it_is_in_violet_span;
+            character_is_in_violet_span = !character_is_in_violet_span;
 
-            if ( it_is_in_violet_span )
+            if ( character_is_in_violet_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2808,9 +2808,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "⁵", "⁵", "" ) )
         {
-            it_is_in_cyan_span = !it_is_in_cyan_span;
+            character_is_in_cyan_span = !character_is_in_cyan_span;
 
-            if ( it_is_in_cyan_span )
+            if ( character_is_in_cyan_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2821,9 +2821,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "⁶", "⁶", "" ) )
         {
-            it_is_in_black_span = !it_is_in_black_span;
+            character_is_in_black_span = !character_is_in_black_span;
 
-            if ( it_is_in_black_span )
+            if ( character_is_in_black_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2834,9 +2834,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "⁷", "⁷", "" ) )
         {
-            it_is_in_yellow_span = !it_is_in_yellow_span;
+            character_is_in_yellow_span = !character_is_in_yellow_span;
 
-            if ( it_is_in_yellow_span )
+            if ( character_is_in_yellow_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2847,9 +2847,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "⁸", "⁸", "" ) )
         {
-            it_is_in_white_span = !it_is_in_white_span;
+            character_is_in_white_span = !character_is_in_white_span;
 
-            if ( it_is_in_white_span )
+            if ( character_is_in_white_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2860,9 +2860,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "⁹", "⁹", "" ) )
         {
-            it_is_in_green_span = !it_is_in_green_span;
+            character_is_in_green_span = !character_is_in_green_span;
 
-            if ( it_is_in_green_span )
+            if ( character_is_in_green_span )
             {
                 token.Text = "<span" ~ attributes ~ ">";
             }
@@ -2885,9 +2885,9 @@ TOKEN[] GetTokenArray(
         }
         else if ( ParseTag( "@@", "", "" ) )
         {
-            it_is_in_a = !it_is_in_a;
+            character_is_in_a = !character_is_in_a;
 
-            if ( it_is_in_a )
+            if ( character_is_in_a )
             {
                 token.Text = "<a" ~ attributes ~ " href=\"";
 
@@ -2905,7 +2905,7 @@ TOKEN[] GetTokenArray(
                     }
                     else if ( text.slice( character_index, character_index + 2 ) == "@@" )
                     {
-                        it_is_in_a = false;
+                        character_is_in_a = false;
 
                         token.Text ~= url ~ "\">" ~ url ~ "</a>";
 
@@ -3012,7 +3012,7 @@ void MakeLists(
     )
 {
     bool
-        it_is_in_pre;
+        character_is_in_pre;
     dstring
         tag,
         tag_token_text;
@@ -3028,7 +3028,7 @@ void MakeLists(
 
     tag_array = [];
 
-    it_is_in_pre = false;
+    character_is_in_pre = false;
 
     for ( token_index = 0;
           token_index < token_array.length;
@@ -3036,18 +3036,18 @@ void MakeLists(
     {
         token = token_array[ token_index ];
 
-        if ( it_is_in_pre )
+        if ( character_is_in_pre )
         {
             if ( token.Text == "</pre>" )
             {
-                it_is_in_pre = false;
+                character_is_in_pre = false;
             }
         }
         else
         {
             if ( token.Text == "<pre>" )
             {
-                it_is_in_pre = true;
+                character_is_in_pre = true;
             }
             else if ( token.StartsLine )
             {
@@ -3140,7 +3140,7 @@ void MakeParagraphs(
     )
 {
     bool
-        it_is_in_pre;
+        character_is_in_pre;
     long
         token_index;
     TOKEN
@@ -3150,7 +3150,7 @@ void MakeParagraphs(
     token.Text = "<p>";
     token_array.splice( 0, 0, token );
 
-    it_is_in_pre = false;
+    character_is_in_pre = false;
 
     for ( token_index = 0;
           token_index < token_array.length;
@@ -3158,11 +3158,11 @@ void MakeParagraphs(
     {
         token = token_array[ token_index ];
 
-        if ( it_is_in_pre )
+        if ( character_is_in_pre )
         {
             if ( token.Text == "</pre>" )
             {
-                it_is_in_pre = false;
+                character_is_in_pre = false;
             }
         }
         else
@@ -3170,7 +3170,7 @@ void MakeParagraphs(
             if ( token.Text == "<pre>"
                  || token.Text.startsWith( "<pre " ) )
             {
-                it_is_in_pre = true;
+                character_is_in_pre = true;
             }
             else if ( token.StartsLine
                       && token.Text == "\n" )
