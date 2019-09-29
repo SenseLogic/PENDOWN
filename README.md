@@ -14,22 +14,22 @@ Its tags can be dynamically redefined and styled with any CSS property or HTML a
 
 ## Rationale
 
-While HTML tags are fine to define the structure and semantics of a document, their verbosity can make them inconvenient 
+While HTML tags are fine to define the structure and semantics of a document, their verbosity can make them inconvenient
 to write its text.
 
 The classical solution for this problem is generally to use a HTML preprocessor with a more concise syntax.
-    
+
 On one hand, there are redactional preprocessors like Markdown or Creole, which allow to write a webpage content
 in plain text, without requiring any prior HTML knowledge at all.
 
-That's nice, but unfortunately the text presentation can't be freely changed on a case by case basis, unless we resign ourselves to 
+That's nice, but unfortunately the text presentation can't be freely changed on a case by case basis, unless we resign ourselves to
 use standard HTML tags where we want to diverge from the predefined CSS stylesheet.
 
-On the other hand, there are templating preprocessors like Jade or Slim, which have absolutely no limitations at all, 
+On the other hand, there are templating preprocessors like Jade or Slim, which have absolutely no limitations at all,
 as they are actually complete alternatives to HTML.
 
 They are very useful to build HTML pages for a dynamic website, but not really convenient to just write textual content.
-    
+
 Pendown tries to fill that gap, by providing an advanced redactional preprocessor which directly integrates
 powerful style customization features.
 
@@ -44,7 +44,7 @@ Pendown was designed according to the following main goals :
     *    create new tags and override the predefined tags.
 *   Provide both manual and automatic syntax highlighting.
 
-Here are a few sample tags : 
+Here are a few sample tags :
 
 ```
 ! Heading 1
@@ -159,9 +159,9 @@ A tag without definition is removed.
 New tags are created in the same way.
 
 ```
-{{^!%%% <progress max="100"$></progress>\}} 
+{{^!%%% <progress max="100"$></progress>\}}
 
-Progress : %%%^&value="40"\ 
+Progress : %%%^&value="40"\
 ```
 
 The same tag can be used to open or close a block, by defining it several times.
@@ -222,13 +222,13 @@ Include both files in your HTML file, and write your Pendown text inside one or 
 <link rel="stylesheet" href="pendown.css">
 <xmp>
 ! This is the title
-    
+
 Put your **Pendown** text here :)
 </xmp>
 <script src="pendown.js"></script>
 ```
 
-All the Pendown tags contained in those blocks will automatically be converted to HTML when the file is opened 
+All the Pendown tags contained in those blocks will automatically be converted to HTML when the file is opened
 in a web browser.
 
 Just make sure that the relative paths towards `pendown.css` and `pendown.js` are right.
@@ -686,9 +686,9 @@ You can use any CSS id, class or property you need.
 
 !! Extensibility
 
-{{^!%%% <progress max="100"$></progress>\}} 
+{{^!%%% <progress max="100"$></progress>\}}
 
-Progress : %%%^&value="40"\ 
+Progress : %%%^&value="40"\
 
 {{^!$$$ <del$>,!$$$ </del>\}}
 
@@ -749,7 +749,7 @@ It's available as a single file application implemented in the D language.
 
 ### Installation
 
-Install the [DMD 2 compiler](https://dlang.org/download.html) appropriate to your system (Linux, Windows or macOS).
+Install the [DMD 2 compiler](https://dlang.org/download.html) (choosing the MinGW setup option on Windows).
 
 Then build the executable with the following command line :
 
@@ -775,8 +775,8 @@ pendown [options] input_file output_file
 --tabulation 4 : set the text tabulation space count
 --indentation 4 : set the list indentation space count
 --page 21 29.7 2 1 1 1 : resize the images for a LibreOffice Writer document of this page width, height, left margin, right margin, top margin and bottom margin
---path PENDOWN_FOLDER/ : set the path of the imported Pendown files 
-``` 
+--path PENDOWN_FOLDER/ : set the path of the imported Pendown files
+```
 
 ### Examples
 
