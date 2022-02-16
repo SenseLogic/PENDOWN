@@ -754,7 +754,7 @@ Install the [DMD 2 compiler](https://dlang.org/download.html) (using the MinGW s
 Then build the executable with the following command line :
 
 ```bash
-dmd -m64 pendown.d
+dmd -O -inline -m64 pendown.d
 ```
 
 ### Command line
