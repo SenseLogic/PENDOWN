@@ -2284,6 +2284,14 @@ function GetTokenArray(
         {
             token.Text = "<br" + attributes + "/>";
         }
+        else if ( ParseTag( "(((", "", "" ) )
+        {
+            token.Text = "<kbd" + attributes + ">";
+        }
+        else if ( ParseTag( ")))", "", "" ) )
+        {
+            token.Text = "</kbd>";
+        }
         else if ( ParseTag( "[[[", "", "" ) )
         {
             ++table_count;
