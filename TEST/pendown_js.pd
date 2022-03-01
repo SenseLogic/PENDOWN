@@ -2285,6 +2285,14 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             token°.°Text °=° ²"&lt;br"² °+° attributes °+° ²"/&gt;"²°;°
         °}°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"((("²°,° ²""²°,° ²""² °)° °)°
+        °{°
+            token°.°Text °=° ²"&lt;kbd"² °+° attributes °+° ²"&gt;"²°;°
+        °}°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²")))"²°,° ²""²°,° ²""² °)° °)°
+        °{°
+            token°.°Text °=° ²"&lt;/kbd&gt;"²°;°
+        °}°
         ¹else¹ ¹if¹ °(° ParseTag°(° ²"[\[\["²°,° ²""²°,° ²""² °)° °)°
         °{°
             °+\+°table_count°;°

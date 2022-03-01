@@ -2501,6 +2501,14 @@
         <span class="gray">{</span>
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;br"</span> <span class="gray">~</span> attributes <span class="gray">~</span> <span class="red">"/&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"<kbd>"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
+        <span class="gray">{</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;kbd"</span> <span class="gray">~</span> attributes <span class="gray">~</span> <span class="red">"&gt;"</span><span class="gray">;</span>
+        <span class="gray">}</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"</kbd>"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
+        <span class="gray">{</span>
+            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/kbd&gt;"</span><span class="gray">;</span>
+        <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"[[["</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
             <span class="gray">++</span>table_count<span class="gray">;</span>
