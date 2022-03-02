@@ -357,6 +357,12 @@ __^~f00\underlined__
 ⁹green⁹
 }}}
 
+!! Key
+
+Hit (((Ctrl))) + (((Alt))) + (((Del))).
+
+Click on (((File))) &gt; (((Save As))) &gt; (((PNG))).
+
 !! Code
 
 :::
