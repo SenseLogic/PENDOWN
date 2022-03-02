@@ -43,6 +43,20 @@ pre,
     font-family : "Consolas", monospace;
 }
 
+kbd,
+.key
+{
+    margin-right: 0.2rem;
+    border: 0.05rem solid #BBB;
+    border-radius: 0.2rem;
+    padding: 0.01rem 0.4rem;
+
+    background-color: #EEE;
+    box-shadow: 0 0.1rem 0.1rem rgba( 0, 0, 0, 0.2 ), 0 0.1rem 0 0 rgba( 255, 255, 255, 0.7 ) inset;
+
+    font-family : "Consolas", monospace;
+}
+
 h1,
 .title-1
 {
@@ -77,22 +91,6 @@ h6,
 .title-6
 {
     font-size : 1rem;
-}
-
-kbd,
-.key
-{
-    margin-right: 0.2rem;
-    border: 0.1rem solid #888;
-    border-radius: 0.2rem;
-    padding: 0.15rem 0.4rem;
-
-    background-color: #FDFDFD;
-    box-shadow: 0.05rem 0.05rem #888;
-
-    line-height: 1.8;
-    font-family : "Consolas", monospace;
-    font-weight: 400;
 }
 
 .nano
