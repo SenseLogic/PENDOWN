@@ -1,6 +1,3 @@
-<meta charset="utf8"/>
-<link rel="stylesheet" href="../pendown.css">
-<xmp>
 **Pendown** tags are automatically converted into **HTML** tags when the file is opened in a web browser.
 
 ---
@@ -466,5 +463,3 @@ $$$^~00f\ This text has been deleted. $$$
 !! HTML
 
 ²Pendown tags² can be mixed with <span style="color:green">HTML tags</span>.
-</xmp>
-<script src="../pendown.js"></script>

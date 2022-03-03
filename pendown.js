@@ -1615,6 +1615,7 @@ function GetTokenArray(
         character_is_in_violet_span,
         character_is_in_white_span,
         character_is_in_yellow_span,
+        key_count_array,
         table_count,
         token,
         token_array,
@@ -2193,6 +2194,7 @@ function GetTokenArray(
     character_is_in_a = false;
 
     table_count = 0;
+    key_count_array = [ 0 ];
     character_index = 0;
 
     while ( character_index < text.length )
@@ -2284,39 +2286,61 @@ function GetTokenArray(
         {
             token.Text = "<br" + attributes + "/>";
         }
-        else if ( ParseTag( "(((", "", "" ) )
-        {
-            token.Text = "<kbd" + attributes + ">";
-        }
-        else if ( ParseTag( ")))", "", "" ) )
-        {
-            token.Text = "</kbd>";
-        }
         else if ( ParseTag( "[[[", "", "" ) )
         {
             ++table_count;
 
+            if ( table_count < key_count_array.length )
+            {
+                key_count_array[ table_count ] = 0;
+            }
+            else
+            {
+                key_count_array.push( 0 );
+            }
+
             token.Text = "<table" + attributes + "><tbody>";
         }
-        else if ( table_count > 0
-                  && ParseTag( "((", "", "" ) )
+        else if ( ParseTag( "((", "", "" ) )
         {
-            token.Text = "<tr><td" + attributes + ">";
+            if ( table_count > 0
+                 && key_count_array[ table_count ] == 0 )
+            {
+                token.Text = "<tr><td" + attributes + ">";
+            }
+            else
+            {
+                token.Text = "<kbd" + attributes + ">";
+            }
+
+            ++key_count_array[ table_count ];
         }
         else if ( table_count > 0
                   && ParseTag( "|", "", "" ) )
         {
             token.Text = "</td><td" + attributes + ">";
         }
-        else if ( table_count > 0
-                  && ParseTag( "))", "", "" ) )
+        else if ( ParseTag( "))", "", "" ) )
         {
-            token.Text = "</td></tr>";
+            --key_count_array[ table_count ];
+
+            if ( table_count > 0
+                 && key_count_array[ table_count ] == 0 )
+            {
+                token.Text = "</td></tr>";
+            }
+            else
+            {
+                token.Text = "</kbd>";
+            }
         }
         else if ( table_count > 0
                   && ParseTag( "]]]", "", "" ) )
         {
-            --table_count;
+            if ( table_count > 0 )
+            {
+                --table_count;
+            }
 
             token.Text = "</tbody></table>";
         }

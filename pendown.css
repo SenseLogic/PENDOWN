@@ -34,26 +34,27 @@ body
 body,
 .sans-serif
 {
-    font-family : "Comic Sans MS", sans-serif;
+    font-family : sans-serif;
 }
 
 pre,
 .monospace
 {
-    font-family : "Consolas", monospace;
+    font-family : monospace;
 }
 
 kbd,
 .key
 {
+    margin-right: 0.01rem;
     border: 0.05rem solid #BBB;
     border-radius: 0.2rem;
-    padding: 0.01rem 0.4rem;
+    padding: 0.3rem 0.4rem 0.1rem 0.4rem;
 
     background-color: #EEE;
     box-shadow: 0 0.1rem 0.1rem rgba( 0, 0, 0, 0.2 ), 0 0.1rem 0 0 rgba( 255, 255, 255, 0.7 ) inset;
 
-    font-family : "Consolas", monospace;
+    font-size: 1.2em;
 }
 
 h1,
@@ -230,6 +231,26 @@ h6,
 .size_10, .size_10 *
 {
     font-size : 10vw;
+}
+
+.line_height_1
+{
+    line-height: 1;
+}
+
+.line_height_1_5
+{
+    line-height: 1.5;
+}
+
+.line_height_2
+{
+    line-height: 2;
+}
+
+.line_height_2_5
+{
+    line-height: 2.5;
 }
 
 .compact, .compact *

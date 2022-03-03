@@ -1,8 +1,8 @@
 #!/bin/sh
 set -x
-../pendown --process --style --path ../ test.pd test.html
-../pendown --process --style --page 21 29.7 2 1 1 1 --path ../ test.pd test_writer.html
-../pendown --script --style --path ../ test.pd test_script.html
+../pendown --process --style --path ../ ../SAMPLE/sample.pd ../SAMPLE/sample_default.html
+../pendown --process --style --page 21 29.7 2 1 1 1 --path ../ ../SAMPLE/sample.pd ../SAMPLE/sample_writer.html
+../pendown --script --style --path ../ ../SAMPLE/sample.pd ../SAMPLE/sample_script.html
 ../pendown --colorize --process --style --path ../ ../pendown.d pendown_d.html
 ../pendown --colorize --process --style --path ../ ../pendown.js pendown_js.html
 ../pendown --colorize --script --style --path ../ ../pendown.d pendown_d_script.html

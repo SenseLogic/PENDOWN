@@ -61,6 +61,7 @@ Here are a few sample tags :
 ~~strikethrough~~
 __underlined__
 ##highlighted##
+(( key ))
 
 {{ span }}
 {{{ div }}}
@@ -68,7 +69,6 @@ __underlined__
 +++ frame +++
 >>> quote >>>
 ::: pre :::
-((( key )))
 
 [[[
 (( Monday | Tuesday | Wednesday ))
@@ -359,9 +359,9 @@ __^~f00\underlined__
 
 !! Key
 
-Hit (((Ctrl))) + (((Alt))) + (((Del))).
+Hit ((Ctrl)) + ((Alt)) + ((Del)).
 
-Click on (((File))) &gt; (((Save As))) &gt; (((PNG))).
+Click on ((File)) &gt; ((Save As)) &gt; ((PNG)).
 
 !! Code
 
@@ -739,10 +739,6 @@ Check that the Pendown file extension is ".html".
 Check that your text is between the `<xmp>` and `</xmp>` tags.
 
 Check that the relative paths to "pendown.css" and "pendown.js" are correct.
-
-> The Pendown page doesn't use the Comic Sans MS or Consolas font as in the "sample.png" image.
-
-Check that both fonts are properly installed on your system.
 
 > The Pendown page doens't show the page breaks in the browser.
 

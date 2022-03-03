@@ -1618,6 +1618,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         character_is_in_violet_span<span class="gray">,</span>
         character_is_in_white_span<span class="gray">,</span>
         character_is_in_yellow_span<span class="gray">,</span>
+        key_count_array<span class="gray">,</span>
         table_count<span class="gray">,</span>
         token<span class="gray">,</span>
         token_array<span class="gray">,</span>
@@ -2196,6 +2197,7 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
     character_is_in_a <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
 
     table_count <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
+    key_count_array <span class="gray">=</span> <span class="gray">[</span> <span class="red">0</span> <span class="gray">];</span>
     character_index <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
 
     <span class="pink">while</span> <span class="gray">(</span> character_index <span class="gray">&lt;</span> text<span class="gray">.</span>length <span class="gray">)</span>
@@ -2287,39 +2289,61 @@ String<span class="gray">.</span>prototype<span class="gray">.</span>toUpper <sp
         <span class="gray">{</span>
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;br"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"/&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"<kbd>"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;kbd"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
-        <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"</kbd>"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
-        <span class="gray">{</span>
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/kbd&gt;"</span><span class="gray">;</span>
-        <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"[[["</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
             <span class="gray">++</span>table_count<span class="gray">;</span>
 
+            <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&lt;</span> key_count_array<span class="gray">.</span>length <span class="gray">)</span>
+            <span class="gray">{</span>
+                key_count_array<span class="gray">[</span> table_count <span class="gray">]</span> <span class="gray">=</span> <span class="red">0</span><span class="gray">;</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span>
+            <span class="gray">{</span>
+                key_count_array<span class="gray">.</span>push<span class="gray">(</span> <span class="red">0</span> <span class="gray">);</span>
+            <span class="gray">}</span>
+
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;table"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;&lt;tbody&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span>
-                  <span class="gray">&&</span> ParseTag<span class="gray">(</span> <span class="red">"(("</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"<kbd>"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;tr&gt;&lt;td"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
+            <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span>
+                 <span class="gray">&&</span> key_count_array<span class="gray">[</span> table_count <span class="gray">]</span> <span class="gray">==</span> <span class="red">0</span> <span class="gray">)</span>
+            <span class="gray">{</span>
+                token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;tr&gt;&lt;td"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span>
+            <span class="gray">{</span>
+                token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;kbd"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
+            <span class="gray">}</span>
+
+            <span class="gray">++</span>key_count_array<span class="gray">[</span> table_count <span class="gray">];</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span>
                   <span class="gray">&&</span> ParseTag<span class="gray">(</span> <span class="red">"|"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/td&gt;&lt;td"</span> <span class="gray">+</span> attributes <span class="gray">+</span> <span class="red">"&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>
-        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span>
-                  <span class="gray">&&</span> ParseTag<span class="gray">(</span> <span class="red">"))"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"</kbd>"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/td&gt;&lt;/tr&gt;"</span><span class="gray">;</span>
+            <span class="gray">--</span>key_count_array<span class="gray">[</span> table_count <span class="gray">];</span>
+
+            <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span>
+                 <span class="gray">&&</span> key_count_array<span class="gray">[</span> table_count <span class="gray">]</span> <span class="gray">==</span> <span class="red">0</span> <span class="gray">)</span>
+            <span class="gray">{</span>
+                token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/td&gt;&lt;/tr&gt;"</span><span class="gray">;</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span>
+            <span class="gray">{</span>
+                token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/kbd&gt;"</span><span class="gray">;</span>
+            <span class="gray">}</span>
         <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span>
                   <span class="gray">&&</span> ParseTag<span class="gray">(</span> <span class="red">"]]]"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
-            <span class="gray">--</span>table_count<span class="gray">;</span>
+            <span class="pink">if</span> <span class="gray">(</span> table_count <span class="gray">&gt;</span> <span class="red">0</span> <span class="gray">)</span>
+            <span class="gray">{</span>
+                <span class="gray">--</span>table_count<span class="gray">;</span>
+            <span class="gray">}</span>
 
             token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/tbody&gt;&lt;/table&gt;"</span><span class="gray">;</span>
         <span class="gray">}</span>

@@ -1616,6 +1616,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         character_is_in_violet_span°,°
         character_is_in_white_span°,°
         character_is_in_yellow_span°,°
+        key_count_array°,°
         table_count°,°
         token°,°
         token_array°,°
@@ -2194,6 +2195,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     character_is_in_a °=° ²false²°;°
 
     table_count °=° ²0²°;°
+    key_count_array °=° °[° ²0² °];°
     character_index °=° ²0²°;°
 
     ¹while¹ °(° character_index °&lt;° text°.°length °)°
@@ -2285,39 +2287,61 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °{°
             token°.°Text °=° ²"&lt;br"² °+° attributes °+° ²"/&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° ParseTag°(° ²"((("²°,° ²""²°,° ²""² °)° °)°
-        °{°
-            token°.°Text °=° ²"&lt;kbd"² °+° attributes °+° ²"&gt;"²°;°
-        °}°
-        ¹else¹ ¹if¹ °(° ParseTag°(° ²")))"²°,° ²""²°,° ²""² °)° °)°
-        °{°
-            token°.°Text °=° ²"&lt;/kbd&gt;"²°;°
-        °}°
         ¹else¹ ¹if¹ °(° ParseTag°(° ²"[\[\["²°,° ²""²°,° ²""² °)° °)°
         °{°
             °+\+°table_count°;°
 
+            ¹if¹ °(° table_count °&lt;° key_count_array°.°length °)°
+            °{°
+                key_count_array°[° table_count °]° °=° ²0²°;°
+            °}°
+            ¹else¹
+            °{°
+                key_count_array°.°push°(° ²0² °);°
+            °}°
+
             token°.°Text °=° ²"&lt;table"² °+° attributes °+° ²"&gt;&lt;tbody&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° table_count °&gt;° ²0²
-                  °&&° ParseTag°(° ²"(("²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"(("²°,° ²""²°,° ²""² °)° °)°
         °{°
-            token°.°Text °=° ²"&lt;tr&gt;&lt;td"² °+° attributes °+° ²"&gt;"²°;°
+            ¹if¹ °(° table_count °&gt;° ²0²
+                 °&&° key_count_array°[° table_count °]° °==° ²0² °)°
+            °{°
+                token°.°Text °=° ²"&lt;tr&gt;&lt;td"² °+° attributes °+° ²"&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;kbd"² °+° attributes °+° ²"&gt;"²°;°
+            °}°
+
+            °+\+°key_count_array°[° table_count °];°
         °}°
         ¹else¹ ¹if¹ °(° table_count °&gt;° ²0²
                   °&&° ParseTag°(° ²"|"²°,° ²""²°,° ²""² °)° °)°
         °{°
             token°.°Text °=° ²"&lt;/td&gt;&lt;td"² °+° attributes °+° ²"&gt;"²°;°
         °}°
-        ¹else¹ ¹if¹ °(° table_count °&gt;° ²0²
-                  °&&° ParseTag°(° ²"))"²°,° ²""²°,° ²""² °)° °)°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"))"²°,° ²""²°,° ²""² °)° °)°
         °{°
-            token°.°Text °=° ²"&lt;/td&gt;&lt;/tr&gt;"²°;°
+            °-\-°key_count_array°[° table_count °];°
+
+            ¹if¹ °(° table_count °&gt;° ²0²
+                 °&&° key_count_array°[° table_count °]° °==° ²0² °)°
+            °{°
+                token°.°Text °=° ²"&lt;/td&gt;&lt;/tr&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/kbd&gt;"²°;°
+            °}°
         °}°
         ¹else¹ ¹if¹ °(° table_count °&gt;° ²0²
                   °&&° ParseTag°(° ²"]\]\]"²°,° ²""²°,° ²""² °)° °)°
         °{°
-            °-\-°table_count°;°
+            ¹if¹ °(° table_count °&gt;° ²0² °)°
+            °{°
+                °-\-°table_count°;°
+            °}°
 
             token°.°Text °=° ²"&lt;/tbody&gt;&lt;/table&gt;"²°;°
         °}°
