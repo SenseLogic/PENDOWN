@@ -61,7 +61,7 @@ Here are a few sample tags :
 ~~strikethrough~~
 __underlined__
 ##highlighted##
-(( key ))
+((key))
 
 {{ span }}
 {{{ div }}}
@@ -585,6 +585,11 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
     ((^white_fill,pastel_gray\ white ))
     ]]]
 ))
+]]]
+
+[[[^line_height_2\
+(( ((Ctrl)) | + | ((Del)) ))
+(( ((Shift)) | + | ((Enter)) ))
 ]]]
 
 !! List
