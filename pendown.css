@@ -48,12 +48,13 @@ kbd,
 .key
 {
     margin-right: 0.05rem;
-    border: 0.1rem solid #888;
+    border: 0.1rem solid currentColor;
     border-radius: 0.2rem;
-    padding: 0.15rem 0.4rem;
+    padding: 0.1rem 0.25rem;
 
     font-family: sans-serif;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 h1,
