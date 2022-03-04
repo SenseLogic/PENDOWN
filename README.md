@@ -61,7 +61,7 @@ Here are a few sample tags :
 ~~strikethrough~~
 __underlined__
 ##highlighted##
-((key))
+((framed))
 
 {{ span }}
 {{{ div }}}
