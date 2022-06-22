@@ -981,6 +981,10 @@ function GetFormat(
     {
         return url.slice( dot_character_index + 1 );
     }
+    // Is the image embedded into the document?
+    else if ( url.indexOf( "data:image/" ) > -1 ){
+        return url.slice( url.indexOf( '/' ) + 1, url.indexOf( ";" ) )
+    }
     else
     {
         return "";
@@ -2063,7 +2067,7 @@ function GetTokenArray(
             {
                 size += character;
             }
-            else if ( character === ':'
+            else if ( character === '`'
                       && character_index + 1 < text.length
                       && text.charAt( character_index + 1 ) !== '/' )
             {
