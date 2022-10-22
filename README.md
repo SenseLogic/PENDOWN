@@ -61,6 +61,7 @@ Here are a few sample tags :
 ~~strikethrough~~
 __underlined__
 ##highlighted##
+´´monospaced´´
 ((framed))
 
 {{ span }}
@@ -68,7 +69,7 @@ __underlined__
 ### box ###
 +++ frame +++
 >>> quote >>>
-::: pre :::
+::: code :::
 
 [[[
 (( Monday | Tuesday | Wednesday ))
@@ -356,6 +357,8 @@ __^~f00\underlined__
 
 ⁹green⁹
 }}}
+
+Hit ´´Ctrl´´ + ´´Alt´´ + ´´Del´´.
 
 Hit ((Ctrl)) + ((Alt)) + ((Del)).
 

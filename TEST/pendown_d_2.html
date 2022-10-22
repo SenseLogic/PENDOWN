@@ -1789,6 +1789,7 @@
         character_is_in_i<span class="gray">,</span>
         character_is_in_left_div<span class="gray">,</span>
         character_is_in_mark_span<span class="gray">,</span>
+        character_is_in_code_span<span class="gray">,</span>
         character_is_in_orange_span<span class="gray">,</span>
         character_is_in_pink_span<span class="gray">,</span>
         character_is_in_pre<span class="gray">,</span>
@@ -2389,6 +2390,7 @@
     character_is_in_frame_div <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     character_is_in_box_div <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     character_is_in_mark_span <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
+    character_is_in_code_span <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     character_is_in_u <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     character_is_in_left_div <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
     character_is_in_center_div <span class="gray">=</span> <span class="red">false</span><span class="gray">;</span>
@@ -2631,6 +2633,19 @@
             character_is_in_mark_span <span class="gray">=</span> <span class="gray">!</span>character_is_in_mark_span<span class="gray">;</span>
 
             <span class="pink">if</span> <span class="gray">(</span> character_is_in_mark_span <span class="gray">)</span>
+            <span class="gray">{</span>
+                token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">~</span> attributes <span class="gray">~</span> <span class="red">"&gt;"</span><span class="gray">;</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span>
+            <span class="gray">{</span>
+                token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/span&gt;"</span><span class="gray">;</span>
+            <span class="gray">}</span>
+        <span class="gray">}</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"<span class="code">"</span><span class="gray">,</span> <span class="red">"code"</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
+        <span class="gray">{</span>
+            character_is_in_code_span <span class="gray">=</span> <span class="gray">!</span>character_is_in_code_span<span class="gray">;</span>
+
+            <span class="pink">if</span> <span class="gray">(</span> character_is_in_code_span <span class="gray">)</span>
             <span class="gray">{</span>
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;span"</span> <span class="gray">~</span> attributes <span class="gray">~</span> <span class="red">"&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>

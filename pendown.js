@@ -1603,6 +1603,7 @@ function GetTokenArray(
         character_is_in_i,
         character_is_in_left_div,
         character_is_in_mark_span,
+        character_is_in_code_span,
         character_is_in_orange_span,
         character_is_in_pink_span,
         character_is_in_pre,
@@ -2171,6 +2172,7 @@ function GetTokenArray(
     character_is_in_frame_div = false;
     character_is_in_box_div = false;
     character_is_in_mark_span = false;
+    character_is_in_code_span = false;
     character_is_in_u = false;
     character_is_in_left_div = false;
     character_is_in_center_div = false;
@@ -2413,6 +2415,19 @@ function GetTokenArray(
             character_is_in_mark_span = !character_is_in_mark_span;
 
             if ( character_is_in_mark_span )
+            {
+                token.Text = "<span" + attributes + ">";
+            }
+            else
+            {
+                token.Text = "</span>";
+            }
+        }
+        else if ( ParseTag( "´´", "code", "" ) )
+        {
+            character_is_in_code_span = !character_is_in_code_span;
+
+            if ( character_is_in_code_span )
             {
                 token.Text = "<span" + attributes + ">";
             }
