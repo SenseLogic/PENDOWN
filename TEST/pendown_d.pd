@@ -1148,7 +1148,14 @@
     ²long²
         dot_character_index°;°
 
-    dot_character_index °=° url°.°lastIndexOf°(° ²'.'² °);°
+    ¹if¹ °(° url°.°startsWith°(° ²'\#'² °)° °)°
+    °{°
+        dot_character_index °=° url°.°lastIndexOf°(° ²'='² °);°
+    °}°
+    ¹else¹
+    °{°
+        dot_character_index °=° url°.°lastIndexOf°(° ²'.'² °);°
+    °}°
 
     ¹if¹ °(° dot_character_index °&gt;=° ²0² °)°
     °{°
@@ -1176,6 +1183,23 @@
         °||° format °==° ²"png"²
         °||° format °==° ²"svg"²
         °);°
+°}°
+
+°// ~\~°
+
+²dstring² GetImageSource°(°
+    ²dstring² url°,°
+    ²dstring² format
+    °)°
+°{°
+    ¹if¹ °(° url°.°startsWith°(° ²'\#'² °)° °)°
+    °{°
+        ¹return¹ ²"data:image/"² °~° format °~° ²";base64,"² °~° url°[° ²1² °..° url°.°length °-° format°.°length °];°
+    °}°
+    ¹else¹
+    °{°
+        ¹return¹ url°;°
+    °}°
 °}°
 
 °// ~\~°
@@ -2358,7 +2382,7 @@
                 ²"&lt;img"²
                 °~° GetAttributes°(° ²"height:"² °~° height °~° ²";width:"² °~° width °)°
                 °~° ²" src=\\""²
-                °~° url
+                °~° GetImageSource°(° url°,° format °)°
                 °~° ²"\\"/&gt;"²
                 °);°
         °}°

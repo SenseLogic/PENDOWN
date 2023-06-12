@@ -1150,7 +1150,14 @@
     <span class="red">long</span>
         dot_character_index<span class="gray">;</span>
 
-    dot_character_index <span class="gray">=</span> url<span class="gray">.</span>lastIndexOf<span class="gray">(</span> <span class="red">'.'</span> <span class="gray">);</span>
+    <span class="pink">if</span> <span class="gray">(</span> url<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'#'</span> <span class="gray">)</span> <span class="gray">)</span>
+    <span class="gray">{</span>
+        dot_character_index <span class="gray">=</span> url<span class="gray">.</span>lastIndexOf<span class="gray">(</span> <span class="red">'='</span> <span class="gray">);</span>
+    <span class="gray">}</span>
+    <span class="pink">else</span>
+    <span class="gray">{</span>
+        dot_character_index <span class="gray">=</span> url<span class="gray">.</span>lastIndexOf<span class="gray">(</span> <span class="red">'.'</span> <span class="gray">);</span>
+    <span class="gray">}</span>
 
     <span class="pink">if</span> <span class="gray">(</span> dot_character_index <span class="gray">&gt;=</span> <span class="red">0</span> <span class="gray">)</span>
     <span class="gray">{</span>
@@ -1178,6 +1185,23 @@
         <span class="gray">||</span> format <span class="gray">==</span> <span class="red">"png"</span>
         <span class="gray">||</span> format <span class="gray">==</span> <span class="red">"svg"</span>
         <span class="gray">);</span>
+<span class="gray">}</span>
+
+<span class="gray">// ~~</span>
+
+<span class="red">dstring</span> GetImageSource<span class="gray">(</span>
+    <span class="red">dstring</span> url<span class="gray">,</span>
+    <span class="red">dstring</span> format
+    <span class="gray">)</span>
+<span class="gray">{</span>
+    <span class="pink">if</span> <span class="gray">(</span> url<span class="gray">.</span>startsWith<span class="gray">(</span> <span class="red">'#'</span> <span class="gray">)</span> <span class="gray">)</span>
+    <span class="gray">{</span>
+        <span class="pink">return</span> <span class="red">"data:image/"</span> <span class="gray">~</span> format <span class="gray">~</span> <span class="red">";base64,"</span> <span class="gray">~</span> url<span class="gray">[</span> <span class="red">1</span> <span class="gray">..</span> url<span class="gray">.</span>length <span class="gray">-</span> format<span class="gray">.</span>length <span class="gray">];</span>
+    <span class="gray">}</span>
+    <span class="pink">else</span>
+    <span class="gray">{</span>
+        <span class="pink">return</span> url<span class="gray">;</span>
+    <span class="gray">}</span>
 <span class="gray">}</span>
 
 <span class="gray">// ~~</span>
@@ -2360,7 +2384,7 @@
                 <span class="red">"&lt;img"</span>
                 <span class="gray">~</span> GetAttributes<span class="gray">(</span> <span class="red">"height:"</span> <span class="gray">~</span> height <span class="gray">~</span> <span class="red">";width:"</span> <span class="gray">~</span> width <span class="gray">)</span>
                 <span class="gray">~</span> <span class="red">" src=\""</span>
-                <span class="gray">~</span> url
+                <span class="gray">~</span> GetImageSource<span class="gray">(</span> url<span class="gray">,</span> format <span class="gray">)</span>
                 <span class="gray">~</span> <span class="red">"\"/&gt;"</span>
                 <span class="gray">);</span>
         <span class="gray">}</span>

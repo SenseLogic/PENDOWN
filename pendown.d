@@ -1186,9 +1186,9 @@ bool IsImageFormat(
 
 // ~~
 
-function GetImageSource(
-    url,
-    format
+dstring GetImageSource(
+    dstring url,
+    dstring format
     )
 {
     if ( url.startsWith( '#' ) )

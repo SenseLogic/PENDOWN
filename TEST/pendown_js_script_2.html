@@ -979,7 +979,14 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
     ¹var¹
         dot_character_index°;°
 
-    dot_character_index °=° url°.°lastIndexOf°(° ²'.'² °);°
+    ¹if¹ °(° url°.°startsWith°(° ²'\#'² °)° °)°
+    °{°
+        dot_character_index °=° url°.°lastIndexOf°(° ²'='² °);°
+    °}°
+    ¹else¹
+    °{°
+        dot_character_index °=° url°.°lastIndexOf°(° ²'.'² °);°
+    °}°
 
     ¹if¹ °(° dot_character_index °&gt;=° ²0² °)°
     °{°
@@ -1007,6 +1014,23 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
         °||° format °==° ²"png"²
         °||° format °==° ²"svg"²
         °);°
+°}°
+
+°// ~\~°
+
+¹function¹ GetImageSource°(°
+    url°,°
+    format
+    °)°
+°{°
+    ¹if¹ °(° url°.°startsWith°(° ²'\#'² °)° °)°
+    °{°
+        ¹return¹ ²"data:image/"² °+° format °+° ²";base64,"² °+° url°.°substring°(° ²1²°,° url°.°length °-° format°.°length °);°
+    °}°
+    ¹else¹
+    °{°
+        ¹return¹ url°;°
+    °}°
 °}°
 
 °// ~\~°
@@ -2146,7 +2170,7 @@ String°.°prototype°.°toUpper °=° ¹function¹°()°
                 ²"&lt;img"²
                 °+° GetAttributes°(° ²"height:"² °+° height °+° ²";width:"² °+° width °)°
                 °+° ²" src=\\""²
-                °+° url
+                °+° GetImageSource°(° url°,° format °)°
                 °+° ²"\\"/&gt;"²
                 °);°
         °}°
