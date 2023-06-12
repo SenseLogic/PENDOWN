@@ -975,7 +975,14 @@ function GetFormat(
     var
         dot_character_index;
 
-    dot_character_index = url.lastIndexOf( '.' );
+    if ( url.startsWith( '#' ) )
+    {
+        dot_character_index = url.lastIndexOf( '=' );
+    }
+    else
+    {
+        dot_character_index = url.lastIndexOf( '.' );
+    }
 
     if ( dot_character_index >= 0 )
     {
@@ -1003,6 +1010,23 @@ function IsImageFormat(
         || format == "png"
         || format == "svg"
         );
+}
+
+// ~~
+
+function GetImageSource(
+    url,
+    format
+    )
+{
+    if ( url.startsWith( '#' ) )
+    {
+        return "data:image/" + format + ";base64," + url.substring( 1, url.length - format.length );
+    }
+    else
+    {
+        return url;
+    }
 }
 
 // ~~
@@ -2142,7 +2166,7 @@ function GetTokenArray(
                 "<img"
                 + GetAttributes( "height:" + height + ";width:" + width )
                 + " src=\""
-                + url
+                + GetImageSource( url, format )
                 + "\"/>"
                 );
         }
