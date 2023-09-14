@@ -2602,6 +2602,19 @@ TOKEN[] GetTokenArray(
                 token.Text = "</pre>";
             }
         }
+        else if ( ParseTag( "???", "", "" ) )
+        {
+            character_is_in_pre = !character_is_in_pre;
+
+            if ( character_is_in_pre )
+            {
+                token.Text = "<xmp" ~ attributes ~ ">";
+            }
+            else
+            {
+                token.Text = "</xmp>";
+            }
+        }
         else if ( ParseTag( ">>>", "", "" ) )
         {
             character_is_in_blockquote = !character_is_in_blockquote;

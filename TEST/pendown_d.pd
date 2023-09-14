@@ -2603,6 +2603,19 @@
                 token°.°Text °=° ²"&lt;/pre&gt;"²°;°
             °}°
         °}°
+        ¹else¹ ¹if¹ °(° ParseTag°(° ²"???"²°,° ²""²°,° ²""² °)° °)°
+        °{°
+            character_is_in_pre °=° °\!°character_is_in_pre°;°
+
+            ¹if¹ °(° character_is_in_pre °)°
+            °{°
+                token°.°Text °=° ²"&lt;xmp"² °~° attributes °~° ²"&gt;"²°;°
+            °}°
+            ¹else¹
+            °{°
+                token°.°Text °=° ²"&lt;/xmp&gt;"²°;°
+            °}°
+        °}°
         ¹else¹ ¹if¹ °(° ParseTag°(° ²"&gt;&gt;&gt;"²°,° ²""²°,° ²""² °)° °)°
         °{°
             character_is_in_blockquote °=° °\!°character_is_in_blockquote°;°

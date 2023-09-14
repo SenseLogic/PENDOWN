@@ -65,6 +65,8 @@ __^~f00\underlined__
 
 ##^#0f02\highlighted##
 
+´´monospaced´´
+
 {{^$6f42c1\colored}}
 
 {{^$0cc\colored}}
@@ -142,6 +144,13 @@ int main()
     return 0;
 }
 :::
+
+???
+<tags>
+    <are completely/>
+    <ignored here/>
+</tags>
+???
 
 !! Block
 

@@ -2605,6 +2605,19 @@
                 token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/pre&gt;"</span><span class="gray">;</span>
             <span class="gray">}</span>
         <span class="gray">}</span>
+        <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"</xmp>"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
+        <span class="gray">{</span>
+            character_is_in_pre <span class="gray">=</span> <span class="gray">!</span>character_is_in_pre<span class="gray">;</span>
+
+            <span class="pink">if</span> <span class="gray">(</span> character_is_in_pre <span class="gray">)</span>
+            <span class="gray">{</span>
+                token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;xmp"</span> <span class="gray">~</span> attributes <span class="gray">~</span> <span class="red">"&gt;"</span><span class="gray">;</span>
+            <span class="gray">}</span>
+            <span class="pink">else</span>
+            <span class="gray">{</span>
+                token<span class="gray">.</span>Text <span class="gray">=</span> <span class="red">"&lt;/xmp&gt;"</span><span class="gray">;</span>
+            <span class="gray">}</span>
+        <span class="gray">}</span>
         <span class="pink">else</span> <span class="pink">if</span> <span class="gray">(</span> ParseTag<span class="gray">(</span> <span class="red">"&gt;&gt;&gt;"</span><span class="gray">,</span> <span class="red">""</span><span class="gray">,</span> <span class="red">""</span> <span class="gray">)</span> <span class="gray">)</span>
         <span class="gray">{</span>
             character_is_in_blockquote <span class="gray">=</span> <span class="gray">!</span>character_is_in_blockquote<span class="gray">;</span>
@@ -3558,5 +3571,5 @@
         Abort<span class="gray">(</span> <span class="red">"Invalid arguments : "</span> <span class="gray">~</span> argument_array<span class="gray">.</span>to<span class="gray">!</span><span class="red">string</span><span class="gray">()</span> <span class="gray">);</span>
     <span class="gray">}</span>
 <span class="gray">}</span>
-</pre>
+<pre>
 </p>
