@@ -280,7 +280,7 @@ This is printed on a new page.
 
 !! Escape
 
-¨_¨_
+¬_¬_
 
 `** <b>not bold</b> **`
 
@@ -704,7 +704,7 @@ Effects :
 
 !! Styling
 
-{{{¨?id,big,padding=1rem,border-style=dotted,background-color=rgb(128¨,128¨,128¨,0.2),$00c,center¨
+{{{¨?id,big,padding=1rem,border-style=dotted,background-color=rgb(128¬,128¬,128¬,0.2),$00c,center¨
 You can use any CSS id, class or property you need.
 }}}
 
