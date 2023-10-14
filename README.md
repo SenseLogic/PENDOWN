@@ -103,9 +103,9 @@ __underlined__
 Pendown tags can be followed by one or several lists of style modifiers :
 
 ```
-{{^big,red,yellow_fill\ A big red text with a yellow background }}
+{{¨big,red,yellow_fill¨ A big red text with a yellow background }}
 
-{{^@2.5,$00f,#eee,black_outline\ A big blue text with a gray background and a black outline }}
+{{¨@2.5,$00f,#eee,black_outline¨ A big blue text with a gray background and a black outline }}
 ```
 
 These modifiers can be of several kinds :
@@ -124,15 +124,15 @@ These modifiers can be of several kinds :
 Modifier lists can be named, so that they can be reused multiple times in the document :
 
 ```
-{{^blue,italic:gangnam\ A blue text in italics }}
+{{¨blue,italic:gangnam¨ A blue text in italics }}
 
-!^gangnam\ This title also uses the gangnam style.
+!¨gangnam¨ This title also uses the gangnam style.
 ```
 
 In a modifier list, special characters can be escaped with the caret character :
 
 ```
-{{^&onclick="alert('^\^\^,^:^^')"\ Click me! }}
+{{¨&onclick="alert('^^^^¨,¨:^^')"¨ Click me! }}
 ```
 
 ## Extensibility
@@ -140,18 +140,18 @@ In a modifier list, special characters can be escaped with the caret character :
 The modifier list of a predefined color tag can also be redefined :
 
 ```
-{{^#ffd,$f87:²\}}
+{{¨#ffd,$f87:²¨}}
 This is a ²salmon text on a yellow background².
-{{^red:²\}}
+{{¨red:²¨}}
 But this ²text is red².
 ```
 
 Moreover, the special modifier `!` allows to override the definition of any predefined tag.
 
 ```
-{{^![[ <del$>,!]] </del>\}}
+{{¨![[ <del$>,!]] </del>¨}}
 [[ This is not an image. ]]
-{{^![[,!]]\}}
+{{¨![[,!]]¨}}
 ```
 
 The dollar sign in the definition will be replaced by the actual tag attributes.
@@ -161,17 +161,17 @@ A tag without definition is removed.
 New tags are created in the same way.
 
 ```
-{{^!%%% <progress max="100"$></progress>\}}
+{{¨!%%% <progress max="100"$></progress>¨}}
 
-Progress : %%%^&value="40"\
+Progress : %%%¨&value="40"¨
 ```
 
 The same tag can be used to open or close a block, by defining it several times.
 
 ```
-{{^!$$$ <del$>,!$$$ </del>\}}
+{{¨!$$$ <del$>,!$$$ </del>¨}}
 
-$$$^~00f\ This text has been deleted. $$$
+$$$¨~00f¨ This text has been deleted. $$$
 ```
 
 Custom tags are recognized in their definition order, before predefined tags.
@@ -181,7 +181,7 @@ Custom tags are recognized in their definition order, before predefined tags.
 Pendown can automatically add colors to C-like code snippets, by specifying their language through a dedicated modifier :
 
 ```
-:::^cpp\
+:::¨cpp¨
 // Colorized source code
 
 #include <iostream>
@@ -280,7 +280,7 @@ This is printed on a new page.
 
 !! Escape
 
-\_\_
+¨_¨_
 
 `** <b>not bold</b> **`
 
@@ -304,39 +304,39 @@ $$center$$
 
 ~~strikethrough~~
 
-~~^~f00\strikethrough~~
+~~¨~f00¨strikethrough~~
 
 __underlined__
 
-__^~f00\underlined__
+__¨~f00¨underlined__
 
 ##highlighted##
 
-##^#fce\highlighted##
+##¨#fce¨highlighted##
 
-##^#0f02\highlighted##
+##¨#0f02¨highlighted##
 
 ´´monospaced´´
 
-{{^$6f42c1\colored}}
+{{¨$6f42c1¨colored}}
 
-{{^$0cc\colored}}
+{{¨$0cc¨colored}}
 
-{{^$f4f,@1.25\colored}}
+{{¨$f4f,@1.25¨colored}}
 
-{{^$80f,large:violet_large\colored}}
+{{¨$80f,large:violet_large¨colored}}
 
-{{^violet_large,bold\colored}}
+{{¨violet_large,bold¨colored}}
 
-{{^cyan\colored}}
+{{¨cyan¨colored}}
 
-{{^pink,@1.25\colored}}
+{{¨pink,@1.25¨colored}}
 
-{{^blue,large:blue_large\colored}}
+{{¨blue,large:blue_large¨colored}}
 
-{{^blue_large,bold\colored}}
+{{¨blue_large,bold¨colored}}
 
-{{{^black_outline,large,bold\
+{{{¨black_outline,large,bold¨
 °gray°
 
 ⁰orange⁰
@@ -381,7 +381,7 @@ Click on ((File)) &gt; ((Save As)) &gt; ((PNG)).
 ³}³
 :::
 
-:::^cpp\
+:::¨cpp¨
 // Colorized source code
 
 #include <iostream>
@@ -405,19 +405,19 @@ int main()
 
 !! Block
 
-{{{^pastel_gray_fill\
+{{{¨pastel_gray_fill¨
 Block
 }}}
 
-{{{^pastel_gray_fill,black\
+{{{¨pastel_gray_fill,black¨
 Block
 }}}
 
-{{{^#cef\
+{{{¨#cef¨
 Block
 }}}
 
-{{{^#cef,$000\
+{{{¨#cef,$000¨
 Block
 }}}
 
@@ -427,15 +427,15 @@ Block
 Box
 ###
 
-###^black\
+###¨black¨
 Box
 ###
 
-###^#cef\
+###¨#cef¨
 Box
 ###
 
-###^#cef,$000\
+###¨#cef,$000¨
 Box
 ###
 
@@ -445,15 +445,15 @@ Box
 Frame
 +++
 
-+++^red_border\
++++¨red_border¨
 Frame
 +++
 
-+++^+f00,#ffd\
++++¨+f00,#ffd¨
 Frame
 +++
 
-+++^+f00,#ffd,$000\
++++¨+f00,#ffd,$000¨
 Frame
 +++
 
@@ -463,21 +463,21 @@ Frame
 Quote
 >>>
 
->>>^+f00\
+>>>¨+f00¨
 Quote
 >>>
 
->>>^+f00,#ffd\
+>>>¨+f00,#ffd¨
 Quote
 >>>
 
->>>^+f00,#ffd,$000\
+>>>¨+f00,#ffd,$000¨
 Quote
 >>>
 
 !! Column
 
-+++^column_2\
++++¨column_2¨
 Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh.
 Qan siqwi' tuj muvwi' wogh yor 'o'megh be'etor boqha''egh lodni'pu' jij laq lol lo' law' mevyap.
 
@@ -500,9 +500,9 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
 (( Banana | 1      | 2       | 3         ))
 ]]]
 
-{{^orange,bold:²\}}
-[[[^orange_border,tiny_border,padding,black:table\
-((^orange_fill,white,bold,center:title\^=2\ Subject pronouns ))
+{{¨orange,bold:²¨}}
+[[[¨orange_border,tiny_border,padding,black:table¨
+((¨orange_fill,white,bold,center:title^^=2¨ Subject pronouns ))
 (( ²yo² | I ))
 (( ²tú² | you ))
 (( ²él², ²ella², ²usted² | he, she, %%you%% ))
@@ -511,8 +511,8 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
 (( ²ellos², ²ellas², ²ustedes² | they, %%you%% ))
 ]]]
 
-[[[^table\
-((^no_top_left_border\ |^title\ -AR§cantar |^title\ -ER§comer |^title\ -IR§vivir ))
+[[[¨table¨
+((¨no_top_left_border¨ |¨title¨ -AR§cantar |¨title¨ -ER§comer |¨title¨ -IR§vivir ))
 (( °(yo)° | cant²o² | com²o² | viv²o² ))
 (( °(tú)° | cant²as² | com²es² | viv²es² ))
 (( °(él,ella,usted)° | cant²a² | com²e² | viv²e² ))
@@ -520,10 +520,10 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
 (( °(vosotros,-as)° | cant²áis² | com²éis² | viv²ís² ))
 (( °(ellos,-as,uds)° | cant²an² | com²en² | viv²en² ))
 ]]]
-{{^red:²\}}
+{{¨red:²¨}}
 
-[[[^width_5_6,border,light_gray_border,padding\
-((^width_20\
+[[[¨width_5_6,border,light_gray_border,padding¨
+((¨width_20¨
     Batlh biqsip 'ugh chang'eng chuy duran lung dir ghogh habli' jer lor motlh.§
     Qan siqwi' tuj muvwi' wogh yor 'o'megh be'etor boqha''egh lodni'pu' jij laq lol lo' law' mevyap.
 |
@@ -531,73 +531,73 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
     Ghitlhwi' jer loghqam me'nal nav habli' notqa' podmoh qaywi' qin qi'tu' red ril siqwi' tagh tahqeq.§
     Tiqnagh lemdu' 'och 'orghen rojmab 'urwi' bop chevwi' tlhoy' der mara nuh bey' peghmey vittlhegh.§
     Qa'meh quv qep'it qid qin ros saqjan serrum tahqeq tatlh toq van yu'egh 'aqtu' em.
-|^width_20\
+|¨width_20¨
     Naq pach pujwi' qanwi' qutluch qi'lop ron rutlh say'qu'moh tennusnal tlhej.§
     Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos chohwi' janluq.
 ))
 ]]]
 
-[[[^width_100,no_padding\
+[[[¨width_100,no_padding¨
 ((
-    [[[^width_100,padding,small:table\
-    ((^black_fill,dark_gray\ black ))
+    [[[¨width_100,padding,small:table¨
+    ((¨black_fill,dark_gray¨ black ))
     ]]]
 |
-    [[[^table\
-    ((^dark_gray_fill,gray\ dark gray ))
-    ((^dark_orange_fill,orange\ dark orange ))
-    ((^dark_red_fill,red\ dark red ))
-    ((^dark_pink_fill,pink\ dark pink ))
-    ((^dark_violet_fill,violet\ dark violet ))
-    ((^dark_blue_fill,blue\ dark blue ))
-    ((^dark_cyan_fill,cyan\ dark cyan ))
-    ((^dark_green_fill,green\ dark green ))
-    ((^dark_yellow_fill,yellow\ dark yellow ))
+    [[[¨table¨
+    ((¨dark_gray_fill,gray¨ dark gray ))
+    ((¨dark_orange_fill,orange¨ dark orange ))
+    ((¨dark_red_fill,red¨ dark red ))
+    ((¨dark_pink_fill,pink¨ dark pink ))
+    ((¨dark_violet_fill,violet¨ dark violet ))
+    ((¨dark_blue_fill,blue¨ dark blue ))
+    ((¨dark_cyan_fill,cyan¨ dark cyan ))
+    ((¨dark_green_fill,green¨ dark green ))
+    ((¨dark_yellow_fill,yellow¨ dark yellow ))
     ]]]
 |
-    [[[^table\
-    ((^gray_fill,light_gray\ gray ))
-    ((^orange_fill,light_orange\ orange ))
-    ((^red_fill,light_red\ red ))
-    ((^pink_fill,light_pink\ pink ))
-    ((^violet_fill,light_violet\ violet ))
-    ((^blue_fill,light_blue\ blue ))
-    ((^cyan_fill,light_cyan\ cyan ))
-    ((^green_fill,light_green\ green ))
-    ((^yellow_fill,white\ yellow ))
+    [[[¨table¨
+    ((¨gray_fill,light_gray¨ gray ))
+    ((¨orange_fill,light_orange¨ orange ))
+    ((¨red_fill,light_red¨ red ))
+    ((¨pink_fill,light_pink¨ pink ))
+    ((¨violet_fill,light_violet¨ violet ))
+    ((¨blue_fill,light_blue¨ blue ))
+    ((¨cyan_fill,light_cyan¨ cyan ))
+    ((¨green_fill,light_green¨ green ))
+    ((¨yellow_fill,white¨ yellow ))
     ]]]
 |
-    [[[^table\
-    ((^light_gray_fill,pastel_gray\ light gray ))
-    ((^light_orange_fill,pastel_orange\ light orange ))
-    ((^light_red_fill,pastel_red\ light red ))
-    ((^light_pink_fill,pastel_pink\ light pink ))
-    ((^light_violet_fill,pastel_violet\ light violet ))
-    ((^light_blue_fill,pastel_blue\ light blue ))
-    ((^light_cyan_fill,pastel_cyan\ light cyan ))
-    ((^light_green_fill,pastel_green\ light green ))
-    ((^light_yellow_fill,white\ light yellow ))
+    [[[¨table¨
+    ((¨light_gray_fill,pastel_gray¨ light gray ))
+    ((¨light_orange_fill,pastel_orange¨ light orange ))
+    ((¨light_red_fill,pastel_red¨ light red ))
+    ((¨light_pink_fill,pastel_pink¨ light pink ))
+    ((¨light_violet_fill,pastel_violet¨ light violet ))
+    ((¨light_blue_fill,pastel_blue¨ light blue ))
+    ((¨light_cyan_fill,pastel_cyan¨ light cyan ))
+    ((¨light_green_fill,pastel_green¨ light green ))
+    ((¨light_yellow_fill,white¨ light yellow ))
     ]]]
 |
-    [[[^table\
-    ((^pastel_gray_fill,white\ pastel gray ))
-    ((^pastel_orange_fill,white\ pastel orange ))
-    ((^pastel_red_fill,white\ pastel red ))
-    ((^pastel_pink_fill,white\ pastel pink ))
-    ((^pastel_violet_fill,white\ pastel violet ))
-    ((^pastel_blue_fill,white\ pastel blue ))
-    ((^pastel_cyan_fill,white\ pastel cyan ))
-    ((^pastel_green_fill,white\ pastel green ))
-    ((^pastel_yellow_fill,white\ pastel yellow ))
+    [[[¨table¨
+    ((¨pastel_gray_fill,white¨ pastel gray ))
+    ((¨pastel_orange_fill,white¨ pastel orange ))
+    ((¨pastel_red_fill,white¨ pastel red ))
+    ((¨pastel_pink_fill,white¨ pastel pink ))
+    ((¨pastel_violet_fill,white¨ pastel violet ))
+    ((¨pastel_blue_fill,white¨ pastel blue ))
+    ((¨pastel_cyan_fill,white¨ pastel cyan ))
+    ((¨pastel_green_fill,white¨ pastel green ))
+    ((¨pastel_yellow_fill,white¨ pastel yellow ))
     ]]]
 |
-    [[[^table\
-    ((^white_fill,pastel_gray\ white ))
+    [[[¨table¨
+    ((¨white_fill,pastel_gray¨ white ))
     ]]]
 ))
 ]]]
 
-[[[^line_height_2\
+[[[¨line_height_2¨
 (( ((Ctrl)) | + | ((Del)) ))
 (( ((Shift)) | + | ((Enter)) ))
 ]]]
@@ -626,7 +626,7 @@ Four spaces per level.
 *   List§
     ...
 
-{{{^dash\
+{{{¨dash¨
 *   List
 *   List
     *   Sub-list
@@ -688,41 +688,41 @@ Remote :
 
 Effects :
 
-[[^shadow_3\image_6.jpg:20]] [[^shadow_6\image_6.jpg:20]] [[^shadow_9\image_6.jpg:20]] [[^shadow_-6\image_6.jpg:20]]
+[[¨shadow_3¨image_6.jpg:20]] [[¨shadow_6¨image_6.jpg:20]] [[¨shadow_9¨image_6.jpg:20]] [[¨shadow_-6¨image_6.jpg:20]]
 
-[[^round_10\image_6.jpg:20]] [[^round_20\image_6.jpg:20]] [[^round_50\image_6.jpg:20]] [[^opacity_50\image_6.jpg:20]]
+[[¨round_10¨image_6.jpg:20]] [[¨round_20¨image_6.jpg:20]] [[¨round_50¨image_6.jpg:20]] [[¨opacity_50¨image_6.jpg:20]]
 
-[[^blur_1\image_6.jpg:20]] [[^lightness_130\image_6.jpg:20]] [[^contrast_180\image_6.jpg:20]] [[^saturation_200\image_6.jpg:20]]
+[[¨blur_1¨image_6.jpg:20]] [[¨lightness_130¨image_6.jpg:20]] [[¨contrast_180¨image_6.jpg:20]] [[¨saturation_200¨image_6.jpg:20]]
 
-[[^hue_180\image_6.jpg:20]] [[^inverse_100\image_6.jpg:20]] [[^gray_100\image_6.jpg:20]] [[^sepia_100\image_6.jpg:20]]
+[[¨hue_180¨image_6.jpg:20]] [[¨inverse_100¨image_6.jpg:20]] [[¨gray_100¨image_6.jpg:20]] [[¨sepia_100¨image_6.jpg:20]]
 
 !! Video
 
-[[^&autoplay,&loop,&muted,&controls\video.mp4:20]]
+[[¨&autoplay,&loop,&muted,&controls¨video.mp4:20]]
 
-[[^&controls,lightness_130\video.mp4:40]]
+[[¨&controls,lightness_130¨video.mp4:40]]
 
 !! Styling
 
-{{{^?id,big,padding=1rem,border-style=dotted,background-color=rgb(128^,128^,128^,0.2),$00c,center\
+{{{¨?id,big,padding=1rem,border-style=dotted,background-color=rgb(128¨,128¨,128¨,0.2),$00c,center¨
 You can use any CSS id, class or property you need.
 }}}
 
-{{^&onclick="alert('^\^\^,^:^^')"\ Click me! }}
+{{¨&onclick="alert('^^^^¨,¨:^^')"¨ Click me! }}
 
 !! Extensibility
 
-{{^!%%% <progress max="100"$></progress>\}}
+{{¨!%%% <progress max="100"$></progress>¨}}
 
-Progress : %%%^&value="40"\
+Progress : %%%¨&value="40"¨
 
-{{^!$$$ <del$>,!$$$ </del>\}}
+{{¨!$$$ <del$>,!$$$ </del>¨}}
 
-$$$^~00f\ This text has been deleted. $$$
+$$$¨~00f¨ This text has been deleted. $$$
 
-{{^![[ <del$>,!]] </del>\}}
+{{¨![[ <del$>,!]] </del>¨}}
 [[ This is not an image. ]]
-{{^![[,!]]\}}
+{{¨![[,!]]¨}}
 
 !! HTML
 
@@ -846,7 +846,7 @@ Converts a D source code file to a HTML file which imports the Pendown script an
 
 ## Version
 
-3.0
+4.0
 
 ## Author
 

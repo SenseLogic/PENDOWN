@@ -1,5 +1,10 @@
 # Changes
 
+## v4.0
+
+*   Class definition syntax : `¨class1,class2,class3:definition¨`
+*   Escape syntax : `¨¨`
+
 ## v3.0
 
 *   Class definition syntax : `^class1,class2,class3:definition\`

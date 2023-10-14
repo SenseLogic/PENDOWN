@@ -1361,11 +1361,11 @@ function EscapeSpecialCharacters(
             }
             else
             {
-                if ( "\\`°⁰¹²³⁴⁵⁶⁷⁸⁹!#@".indexOf( character ) >= 0
-                     || ( "+-$*%^,~_{}[]:".indexOf( character ) >= 0
+                if ( "¬`´°⁰¹²³⁴⁵⁶⁷⁸⁹!#@§".indexOf( character ) >= 0
+                     || ( "+-$*%^,~_{}[]():".indexOf( character ) >= 0
                           && character === prior_character ) )
                 {
-                    code_token_text += '\\';
+                    code_token_text += '¬';
                 }
 
                 code_token_text += character;
@@ -1490,20 +1490,20 @@ function GetPreprocessedText(
         }
         else if ( line.startsWith( ":::" ) )
         {
-            if ( line.startsWith( ":::^c\\" )
-                 || line.startsWith( ":::^h\\" )
-                 || line.startsWith( ":::^cpp\\" )
-                 || line.startsWith( ":::^hpp\\" )
-                 || line.startsWith( ":::^cxx\\" )
-                 || line.startsWith( ":::^hxx\\" )
-                 || line.startsWith( ":::^cs\\" )
-                 || line.startsWith( ":::^d\\" )
-                 || line.startsWith( ":::^java\\" )
-                 || line.startsWith( ":::^js\\" )
-                 || line.startsWith( ":::^ts\\" ) )
+            if ( line.startsWith( ":::¨c¨" )
+                 || line.startsWith( ":::¨h¨" )
+                 || line.startsWith( ":::¨cpp¨" )
+                 || line.startsWith( ":::¨hpp¨" )
+                 || line.startsWith( ":::¨cxx¨" )
+                 || line.startsWith( ":::¨hxx¨" )
+                 || line.startsWith( ":::¨cs¨" )
+                 || line.startsWith( ":::¨d¨" )
+                 || line.startsWith( ":::¨java¨" )
+                 || line.startsWith( ":::¨js¨" )
+                 || line.startsWith( ":::¨ts¨" ) )
             {
-                file_extension = line.split( '\\' )[ 0 ].slice( 4 );
-                style = line.slice( line.indexOf( '\\' ) + 1 );
+                file_extension = line.split( '¨' )[ 1 ];
+                style = line.slice( line.slice( 4 ).indexOf( '¨' ) + 5 );
 
                 code_text = "";
 
@@ -1741,7 +1741,7 @@ function GetTokenArray(
         modifier_list_is_valid = true;
 
         while ( character_index < text.length
-                && text.charAt( character_index ) === '^'
+                && text.charAt( character_index ) === '¨'
                 && modifier_list_is_valid )
         {
             modifier_list_is_valid = false;
@@ -1756,7 +1756,7 @@ function GetTokenArray(
             {
                 character = text.charAt( modifier_character_index );
 
-                if ( character === '\\' )
+                if ( character === '¨' )
                 {
                     if ( added_modifiers !== "" )
                     {
@@ -1789,7 +1789,7 @@ function GetTokenArray(
                 {
                     added_modifiers += '\f';
                 }
-                else if ( character === '^'
+                else if ( character === '¬'
                           && modifier_character_index + 1 < text.length )
                 {
                     ++modifier_character_index;
@@ -1979,7 +1979,7 @@ function GetTokenArray(
                 modifier_list_is_valid = true;
 
                 while ( tag_character_index < text.length
-                        && text.charAt( tag_character_index ) === '^'
+                        && text.charAt( tag_character_index ) === '¨'
                         && modifier_list_is_valid )
                 {
                     modifier_list_is_valid = false;
@@ -1990,14 +1990,14 @@ function GetTokenArray(
                     {
                         character = text.charAt( modifier_character_index );
 
-                        if ( character === '\\' )
+                        if ( character === '¨' )
                         {
                             tag_character_index = modifier_character_index + 1;
                             modifier_list_is_valid = true;
 
                             break;
                         }
-                        else if ( character === '^'
+                        else if ( character === '¬'
                                   && modifier_character_index + 1 < text.length )
                         {
                             ++modifier_character_index;
@@ -2096,7 +2096,7 @@ function GetTokenArray(
             }
             else
             {
-                if ( character === '\\'
+                if ( character === '¬'
                      && character_index + 1 < text.length )
                 {
                     ++character_index;
@@ -2229,7 +2229,7 @@ function GetTokenArray(
         token.StartsLine = token_starts_line;
         token_starts_line = false;
 
-        if ( text.charAt( character_index ) === '\\'
+        if ( text.charAt( character_index ) === '¬'
              && character_index + 1 < text.length )
         {
             token.Text = text.charAt( character_index + 1 );
