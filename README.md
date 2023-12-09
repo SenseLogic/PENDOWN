@@ -129,10 +129,10 @@ Modifier lists can be named, so that they can be reused multiple times in the do
 !¨gangnam¨ This title also uses the gangnam style.
 ```
 
-In a modifier list, special characters can be escaped with the caret character :
+In a modifier list, special characters can be escaped with the "not" character :
 
 ```
-{{¨&onclick="alert('^^^^¨,¨:^^')"¨ Click me! }}
+{{¨&onclick="alert('¬,¬:')"¨ Click me! }}
 ```
 
 ## Extensibility
@@ -502,7 +502,7 @@ Denibya'ngan ghay'cha' janluq dugh hu je lotlhmoq tlhoy' sas valqis ghubdaq hos 
 
 {{¨orange,bold:²¨}}
 [[[¨orange_border,tiny_border,padding,black:table¨
-((¨orange_fill,white,bold,center:title^^=2¨ Subject pronouns ))
+((¨orange_fill,white,bold,center:title¨¨=2¨ Subject pronouns ))
 (( ²yo² | I ))
 (( ²tú² | you ))
 (( ²él², ²ella², ²usted² | he, she, %%you%% ))
@@ -708,7 +708,7 @@ Effects :
 You can use any CSS id, class or property you need.
 }}}
 
-{{¨&onclick="alert('^^^^¨,¨:^^')"¨ Click me! }}
+{{¨&onclick="alert('¬,¬:')"¨ Click me! }}
 
 !! Extensibility
 
